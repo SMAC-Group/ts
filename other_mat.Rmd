@@ -1,0 +1,158 @@
+
+# Other material
+
+## Portmanteau test
+
+In this section we give a brief introduction to Portmanteau tests used in time
+series analysis. In linear regression, we always need to do a diagnostic test for
+residuals after building our model, to check whether our assumptions are 
+satisfied. If there is no evidence to reject any of the assumptions, we can say
+that the linear model we built is adequate. Otherwise, if the linear model is not
+adequate, some modifications or transformations need to be done either for the
+previous model or for the data. This rule also applies to time series modeling.
+In time series analysis, a wide variety of Portmanteau tests can be used to 
+check the white noise residuals assumption. We will introduce two of them as 
+follows, which are based on the ACF of residuals, in order to illustrate some 
+of ideas behind these kinds of tests.
+
+Dating back to 1970, Box and Pierce proposed the well-known Box-Pierce test
+statistic with the following form:
+  
+  $$Q_{BP} = n\sum_{h =1}^m \hat{\rho}_h^2,$$
+  
+  where the empirical autocorrelation of residuals at lag $h$ is defined
+as $\hat{\rho}_h = \frac{\hat{\gamma}(h)}{\hat{\gamma}(0)}$. It is obvious that
+under the alternative hypothesis, $\hat{\rho}_h$ would be deviate from $0$, thus a
+large $Q_{BP}$ gives us the evidence to reject the null. Under the null
+hypothesis that the residuals are white noise (or equivalently the time series 
+are adequate), it can be shown that when $n \to \infty$, we have
+
+$$Q_{BP} \overset{\mathcal{D}}{\to} \chi^2_{m - m^{\prime}},$$
+where $m^{\prime}$ is the number of parameters in the time series model.
+
+## Proof
+We can write the autocorrelation $\bm{\rho} = \left(\rho(1), \rho(2), \dots, \rho(m)\right)^T$, and the sample autocorrelation $\bm{\hat{\rho}} = \left(\hat{\rho}(1), \hat{\rho}(2), \dots, \hat{\rho}(m)\right)^T$.
+
+According to Theorem A.7 in the textbook, under the data generating process $X_t = W_t + \mu$, where $\mu < \infty$ and $(W_t)$ is a strong white noise process with variance $\sigma^2$ and finite fourth moment (i.e. $\mathbb{E} [W_t^4] < \infty$), we have 
+$$\sqrt{n} \left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right) \overset{\mathcal{D}}{\to} V,$$
+  where the $(p,q)^{th}$ element of $V$ is
+$$v_{pq} = \sum_{u=1}^{\infty}\left[ \rho(u+p) + \rho(u-p) - 2\rho(p)\rho(u) \right] \times \left[ \rho(u+p) + \rho(u-p) - 2\rho(p)\rho(u) \right].$$
+  And since $V$ is a positive definite covariance matrix, it follows that
+$$\sqrt{n} V^{-\frac{1}{2}}\left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right) \overset{\mathcal{D}}{\to} \mathcal{N}(\mathbf{0}, I),$$
+  and also
+$$n \left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right)^T V^{-1} \left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right) \overset{\mathcal{D}}{\to} \chi^2_m,$$
+  Since under the null, $\mathbf{\rho} = \mathbf{0}$, we have 
+$$v_{pq} = 
+  \begin{cases}
+0, \; p \neq q\\
+1, \; p = q
+\end{cases}
+.$$
+  
+  Thus, it's easy to show that the Box and Pierce test statistic 
+$$Q_{BP} = n\sum_{h =1}^m \hat{\rho}_h^2,$$
+under that data generating process would follow a $\chi^2$ distribution 
+with $m$ degree of freedom.
+
+Before, we supposed that we knew $\mu$ in our data generating process exactly,
+and hence no unknown parameter needed be estimated. Now, suppose $\mu$ is
+unknown and contains $m^{\prime}$ number of unknown parameters which we have 
+to estimate. As we know, if our model for $\mu$ is correctly specified and
+those $m^{\prime}$ unknown parameters are appropriately estimated, then the 
+underlying model of the residules of the fitted model would be $W_t$ as before,
+but the $m^{\prime}$ number of true parameters are replaced by their estimators.
+Then $Q_{BP}$ will still asymptotically follows $\chi^2$ but
+with $m - m^{\prime}$ degree of freedom. $\;\;\;\;\;\;\;\; \blacksquare$
+
+
+Then on 1978, Ljung and Box improved Box-Pierce test by standardizing
+each $\hat{\rho}_h$ by its asymptotic variance. The Ljung and Box test
+statistic is
+
+$$Q_{LB} = n\sum_{h =1}^m \frac{n+2}{n-h}\hat{\rho}_h^2.$$
+
+It can also be shown that $Q_{LB} \overset{\mathcal{D}}{\to} \chi^2_{m - m^{\prime}}$ under
+the null. However, compared to $Q_{BP}$, the distribution of $Q_{BP}$ under the
+null is closer to $\chi^2_{m - m^{\prime}}$, when $n$ is finite.
+
+In the above two examples, the test statistic contains a user specified
+parameter $m$. And for different $m$, the power of the test would be different.
+Thus, much work has gone into either finding an approach for selecting the optimal $m$, 
+or finding a new test statistic without user specified parameters. Moreover, testing 
+white noise can also be done by checking PACF, or by checking spectral density in the
+frequency domain. Therefore, these differing approaches have lead to many different 
+Portmanteau tests.
+
+Take for an example the following use of a Portmanteau test to show the 
+distribution of test statistics under the null:
+
+```{r dist_null_portmanteau, cache = TRUE}
+
+# set seed
+set.seed(1345)
+
+# Specify models
+model = WN(sigma2 = 1) # WN
+
+B = 1000 # number of parametric bootstrap
+BP.obs = rep(NA, B)
+LB.obs = rep(NA, B)
+
+for (j in seq_len(B)){
+x = gen_gts(1000, model)
+BP.obs[j] = Box.test(x, lag = 10, "Box-Pierce", fitdf = 0)$statistic
+LB.obs[j] = Box.test(x, lag = 10, "Ljung-Box", fitdf = 0)$statistic
+}
+
+sim_results = data.frame(sim = c(BP.obs, LB.obs),
+simtype = c(rep("Box-Pierce",B), rep("Ljung-Box",B)))
+
+ggplot(data = sim_results, aes(x = sim)) + 
+geom_histogram(aes(y = ..density.., fill = simtype),
+binwidth = 1, color = "black") +
+stat_function(fun = dchisq, args = list(df = 10)) +
+facet_wrap( ~ simtype) + ylim(0, 0.12) + 
+labs(fill = "Statistic", title = "Histogram of the Observed Test Statistics",
+y = "Density", x = "Observed Test Statistic")
+```
+
+From the histogram, we can see that under the null the distribution of both BP
+and LB are close to a Chi-square distribution, but LP is slightly better.
+
+Consider the following simulation that shows how the test depends on specified $m$
+and displays the distribution of P-values under different alternatives.
+
+```{r alternatives_port, cache = TRUE}
+# Set seed
+set.seed(1234)
+
+# Specify models
+model1 = WN(sigma2 = 1)                         # WN
+model2 = AR(phi = 0.3, sigma2 = 1)              # AR(1)
+model3 = AR(phi = c(rep(0,9), 0.3), sigma2 = 1) # seasonal AR(10)
+
+B = 1000 # number of parametric bootstrap
+LB.pvalue = matrix(NA, nrow = B, ncol = 6)
+
+for (i in 1:3){
+for (j in seq_len(B)){
+x = gen_gts(1000, get(paste0("model", i)))
+LB.pvalue[j,2*i-1] = Box.test(x, lag = 1, "Ljung-Box", fitdf = 0)$p.value
+LB.pvalue[j,2*i] = Box.test(x, lag = 10, "Ljung-Box", fitdf = 0)$p.value
+}
+}
+
+para_1 = data.frame(lag = 1, LB.pvalue[, c(1,3,5)])
+para_2 = data.frame(lag = 2, LB.pvalue[, c(2,4,6)])
+para = rbind(para_1, para_2)
+
+colnames(para)[2:4] = c("WN", "AR(1)", "Seasonal AR(10)")
+
+library(reshape2)
+para.melt = melt(para, id.vars = "lag")
+
+ggplot(data = para.melt, aes(x=variable, y=value)) + 
+geom_boxplot(aes(fill=factor(lag))) + facet_wrap( ~ variable, scales="free") +
+ggtitle("Simulated P-value") +
+scale_fill_hue(name="Specified m", breaks = c(1,2) , labels = c("m=1", "m=10"))
+```

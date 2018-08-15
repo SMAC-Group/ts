@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Applied Time Series Analysis with R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Applied Time Series Analysis with R">
+  <meta name="generator" content="bookdown 0.1.16 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Applied Time Series Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="SMAC-Group/app_ts" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Applied Time Series Analysis with R" />
+  
+  
+  
+
+<meta name="author" content="Stéphane Guerrier, Robert Molinari and Haotian Xu">
+
+  
+<meta name="date" content="2018-08-04">
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="prev" href="basic-elements-of-time-series.html">
+<link rel="next" href="r-markdown.html">
+
+<script src="assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="about-this-book.html"><a href="about-this-book.html"><i class="fa fa-check"></i><b>1.1</b> About This Book</a></li>
+<li class="chapter" data-level="1.2" data-path="contents.html"><a href="contents.html"><i class="fa fa-check"></i><b>1.2</b> Contents</a></li>
+<li class="chapter" data-level="1.3" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.3</b> Bibliographic Note</a></li>
+<li class="chapter" data-level="1.4" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>1.4</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.5" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i><b>1.5</b> License</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-deterministic-component"><i class="fa fa-check"></i><b>2.1.1</b> The deterministic component</a></li>
+<li class="chapter" data-level="2.1.2" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-random-component"><i class="fa fa-check"></i><b>2.1.2</b> The random component</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>2.2</b> R Markdown</a></li>
+<li class="chapter" data-level="2.3" data-path="including-plots.html"><a href="including-plots.html"><i class="fa fa-check"></i><b>2.3</b> Including Plots</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Time Series Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="the-wold-decomposition" class="section level2">
+<h2><span class="header-section-number">2.1</span> The Wold Decomposition</h2>
+<p>The previous discussion highlighted how a time series can be decomposed into a deterministic component and a random component. Leaving aside technical rigour, this characteristic of time series was put forward in Wold’s Decomposition Theorem who postulated that a time series <span class="math inline">\((Y_t)\)</span> (where <span class="math inline">\(t = 1,...,n\)</span> represents the time index) can be very generically represented as follows:</p>
+<p><span class="math display">\[Y_t = D_t + R_t,\]</span></p>
+<p>where <span class="math inline">\(D_t\)</span> represents the deterministic part that can be modelled through the standard modelling techniques (e.g. linear regression) and <span class="math inline">\(R_t\)</span> that, restricting ourselves to a general class of processes, represents the random part that requires the analytical and modelling approaches that will be tackled in this book.</p>
+<div id="the-deterministic-component" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> The deterministic component</h3>
+<p>Before shifting our focus to the random component of time series, we will first just briefly underline the main features that should be taken into account for the deterministic component. The first feature that should be analysed is the <em>trend</em> that characterises the time series, more specifically the behaviour of the variable of interest as a specific function of time (as the global temperature time series seen earlier). Let us consider another example of time series based on real data, i.e. the quarterly earnings of Johnson &amp; Johnson between 1960 and 1980 represented below.</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>As can be seen from the plot, the earnings appear to grow over time, therefore we can imagine fitting a line to this data to describe its behaviour (see red line below).</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Although the line captures a part of the behaviour, it is quite clear that the trend of the time series is not linear. It could therefore be more appropriate to define another function of time to describe it and, consequently, we add a quadratic term of time to obtain the following fit.</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>We can see now that the quadratic function of time allows to better fit the observed time series and closely follow the observations. However, there still appears to be a pattern in the data that isn’t captured by this quadratic model. This pattern appears to be repeated over time: peaks and valleys that seem to occur at regular intervals along the time series. This behaviour is known as <em>seasonality</em> which, in this case, can be explained by the effect of a specific quarter on the behaviour of the earnings. Indeed, it is reasonable to assume that the seasons have impacts on different variables measured over time (e.g. temperatures, earnings linked to sales that vary with seasons, etc.). Let us therefore take the quarters as an explanatory variable and add it to the previous quadratic model (see fit below).</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>This final fit appears to well describe the behaviour of the earnings. Hence, <em>trend</em> and <em>seasonality</em> are the main features that characterize the deterministic component of a time series. However, as discussed earlier, these deterministic components often don’t explain all of the observed time series since there is often a random component characterizing data measured over time. Not considering the latter component can have considerable impacts on the inference procedures (as seen earlier) and it is therefore important to adequately analyse them (see next section).</p>
+</div>
+<div id="the-random-component" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> The random component</h3>
+<p>From this section onwards we will refer to <em>time series as being solely the random component</em> in the Wold Decomposition. Keeping this in mind, a <em>time series</em> is a particular kind of <em>stochastic process</em> which, generally speaking, is a collection of random variables indexed by a set of numbers. Not surprisingly, the index of reference for a time series is given by <em>time</em> and, consequently, a time series is a collection of random variables indexed (or “measured”) over time such as, for example, the daily price of a financial asset or the monthly average temperature in a given location. In terms of notation, a time series is often represented as</p>
+<p><span class="math display">\[\left(X_1, X_2, ..., X_n \right) \;\;\; \text{ or } \;\;\; \left(X_t\right)_{t = 1,...,n}.\]</span></p>
+<p>The time index <span class="math inline">\(t\)</span> is contained within either the set of reals, <span class="math inline">\(\mathbb{R}\)</span>, or integers, <span class="math inline">\(\mathbb{N}\)</span>. When <span class="math inline">\(t \in \mathbb{R}\)</span>, the time series becomes a <em>continuous-time</em> stochastic process such a Brownian motion, a model used to represent the random movement of particles within a suspended liquid or gas. However, within this book, we will limit ourselves to the cases where <span class="math inline">\(t \in \mathbb{N}\)</span>, better known as <em>discrete-time</em> processes. <em>Discrete-time</em> processes are measured sequentially at fixed and equally spaced intervals in time. This implies that we will uphold two general assumptions for the time series considered in this book:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(t\)</span> is not random, e.g. the time at which each observation is measured is known, and</li>
+<li>the time between two consecutive observations is constant.</li>
+</ol>
+<p>Having specified this, this book will also focus Moreover, a time series can also be represented by a probability model for a set of observations. For example, one of the fundamental probability models used in time series analysis is called the <em>white noise</em> model and is defined as</p>
+<p><span class="math display">\[X_t \mathop \sim \limits^{iid} N(0, \sigma^2).\]</span></p>
+<p>This statement simply means that <span class="math inline">\((X_t)\)</span> is normally distributed and independent over time. Ideally, this is the type of process that we would want to observe once we have performed a statistical modelling procedure. However, despite it appearing to be an excessively simple model to be considered for time series, it is actually a crucial component to construct a wide range of more complex time series models (see Chapter XXX). Unlike the white noise process, time series are typically <em>not</em> independent over time. If we suppose that the temperature in State College is unusually low today, then it is reasonable to assume that tomorrow’s temperature will also be low. Indeed, such a behaviour would suggest the existence of a dependency over time. The time series methods we will discuss in this text consists of parametric models used to characterize (or at least approximate) the joint distribution of <span class="math inline">\((X_t)\)</span>. Often, time series models can be decomposed into two components, the first of which is what we call a <em>signal</em>, say <span class="math inline">\((Y_t)\)</span>, and the second component is a <em>noise</em>, say <span class="math inline">\((W_t)\)</span>, leading to the model</p>
+<p><span class="math display">\[X_t = Y_t + W_t.\]</span></p>
+<p>Typically, we have <span class="math inline">\(\mathbb{E}[Y_t] \neq 0\)</span> while <span class="math inline">\(\mathbb{E}[W_t] = 0\)</span> (although we may have <span class="math inline">\(\mathbb{E}[W_t | W_{t-1}, ..., W_1] \neq 0\)</span>). Such models impose some parametric structure which represents a convenient and flexible way of studying time series as well as a means to evaluate <em>future</em> values of the series through forecasting. As we will see, predicting future values is one of the main aspects of time series analysis. However, making predictions is often a daunting task or as famously stated by Nils Bohr:</p>
+<blockquote>
+<p>“<em>Prediction is very difficult, especially about the future.</em>”</p>
+</blockquote>
+<p>There are plenty of examples of predictions that turned out to be completely erroneous. For example, three days before the 1929 crash, Irving Fisher, Professor of Economics at Yale University, famously predicted:</p>
+<blockquote>
+<p>“<em>Stock prices have reached what looks like a permanently high plateau</em>”.</p>
+</blockquote>
+<p>Another example is given by Thomas Watson, president of IBM, who said in 1943:</p>
+<blockquote>
+<p>“<em>I think there is a world market for maybe five computers.</em>”</p>
+</blockquote>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="basic-elements-of-time-series.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r-markdown.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
