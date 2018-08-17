@@ -1,5 +1,5 @@
-# ts
-"An Introduction to Time Series Analysis" is a text developed to give readers a general overview of the main aspects that characterise time series and the most common tools used for their analysis. 
+# An Introduction to Time Series Analysis
+This text is **currently under development** to give readers a general overview of the main aspects that characterise time series and the most common tools used for their analysis. In particular, it is being used as a support for the STAT-463 class at Penn State University.
 
 The book gives an overview of the practical settings in which time series analysis is of primary importance. Through the use of real-life examples and simulations, the book then proceeds to introducing the more formal definitions that are necessary to understand the problems behind time series analysis and the solutions that are available to those who are interested in performing such an analysis.
 
