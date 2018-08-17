@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Applied Time Series Analysis with R</title>
+  <meta name="description" content="Applied Time Series Analysis with R">
+  <meta name="generator" content="bookdown 0.7.10 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Applied Time Series Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="SMAC-Group/app_ts" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Applied Time Series Analysis with R" />
+  
+  
+  
+
+<meta name="author" content="Stéphane Guerrier, Roberto Molinari and Haotian Xu">
+
+
+<meta name="date" content="2018-08-17">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="prev" href="basicmodels.html">
+<link rel="next" href="representations-of-time-series.html">
+<script src="assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="about-this-book.html"><a href="about-this-book.html"><i class="fa fa-check"></i><b>1.1</b> About This Book</a></li>
+<li class="chapter" data-level="1.2" data-path="contents.html"><a href="contents.html"><i class="fa fa-check"></i><b>1.2</b> Contents</a></li>
+<li class="chapter" data-level="1.3" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.3</b> Bibliographic Note</a></li>
+<li class="chapter" data-level="1.4" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>1.4</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.5" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i><b>1.5</b> License</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The deterministic component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The random component (Noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="basicmodels.html"><a href="basicmodels.html"><i class="fa fa-check"></i><b>2.2</b> Basic Time Series Models</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="basicmodels.html"><a href="basicmodels.html#wn"><i class="fa fa-check"></i><b>2.2.1</b> White Noise</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basicmodels.html"><a href="basicmodels.html#rw"><i class="fa fa-check"></i><b>2.2.2</b> Random Walk</a></li>
+<li class="chapter" data-level="2.2.3" data-path="basicmodels.html"><a href="basicmodels.html#ar1"><i class="fa fa-check"></i><b>2.2.3</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.2.4" data-path="basicmodels.html"><a href="basicmodels.html#ma1"><i class="fa fa-check"></i><b>2.2.4</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.2.5" data-path="basicmodels.html"><a href="basicmodels.html#drift"><i class="fa fa-check"></i><b>2.2.5</b> Linear Drift</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="lts.html"><a href="lts.html"><i class="fa fa-check"></i><b>2.3</b> Composite Stochastic Processes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="representations-of-time-series.html"><a href="representations-of-time-series.html"><i class="fa fa-check"></i><b>3</b> Representations of Time Series</a><ul>
+<li class="chapter" data-level="3.1" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html#a-fundamental-representation"><i class="fa fa-check"></i><b>3.1.1</b> A Fundamental Representation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html#admissible-autocorrelation-functions"><i class="fa fa-check"></i><b>3.1.2</b> Admissible Autocorrelation Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html"><i class="fa fa-check"></i><b>3.2</b> Estimation of Moments</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#estimation-of-the-mean-function"><i class="fa fa-check"></i><b>3.2.1</b> Estimation of the Mean Function</a></li>
+<li class="chapter" data-level="3.2.2" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-autocovariance-and-autocorrelation-functions"><i class="fa fa-check"></i><b>3.2.2</b> Sample Autocovariance and Autocorrelation Functions</a></li>
+<li class="chapter" data-level="3.2.3" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#robustness-issues"><i class="fa fa-check"></i><b>3.2.3</b> Robustness Issues</a></li>
+<li class="chapter" data-level="3.2.4" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-cross-covariance-and-cross-correlation-functions"><i class="fa fa-check"></i><b>3.2.4</b> Sample Cross-Covariance and Cross-Correlation Functions</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Time Series Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lts" class="section level2">
+<h2><span class="header-section-number">2.3</span> Composite Stochastic Processes</h2>
+<p>A composite stochastic process can be defined as the sum of underlying
+(or latent) stochastic processes. In this text, we will use the term
+<em>latent time series</em> as a synomym for composite stochastic processes.
+A simple example of such a process is given by</p>
+<p><span class="math display">\[\begin{aligned}
+Y_t &amp;= Y_{t-1} + W_t + \delta\\
+X_t &amp;= Y_t + Z_t,
+\end{aligned}\]</span></p>
+<p>where <span class="math inline">\(W_t\)</span> and <span class="math inline">\(Z_t\)</span> are two independent Gaussian white noise processes.
+This model is often used as a first tool to approximate the number of
+individuals in the context ecological population dynamics.
+For example, suppose we want to study the population of Chamois in the Swiss Alps.
+Let <span class="math inline">\(Y_t\)</span> denote the “true” number of individuals in this population at time <span class="math inline">\(t\)</span>.
+It is reasonable that <span class="math inline">\(Y_t\)</span> is (approximately) the population at the previous
+time <span class="math inline">\(t-1\)</span> (e.g the previous year) plus a random variation and a drift.
+This random variation is due to the natural randomness in ecological population
+dynamics and reflects changes such as the number of predators, the abundance
+of food, or weather conditions.
+On the other hand, ecological <em>drift</em> is often of particular interest for ecologists as
+it can be used to determine the “long” term trends of the population
+(e.g. if the population is increasing, decreasing, or stable).
+Of course, <span class="math inline">\(Y_t\)</span> (the number of individauls) is typically unknown and we observe
+a noisy version of it, denoted as <span class="math inline">\(X_t\)</span>.
+This process corresponds to the true population plus a measurement error since
+some individuals may not be observed while others may have been counted several
+times.
+Interestingly, this process can clearly be expressed as a
+<em>latent time series model</em> (or composite stochastic process) as follows:</p>
+<p><span class="math display">\[\begin{aligned}
+R_t &amp;= R_{t-1} + W_t \\
+S_t &amp;= \delta t \\
+X_t &amp;= R_t + S_t + Z_t,
+\end{aligned}\]</span></p>
+<p>where <span class="math inline">\(R_t\)</span>, <span class="math inline">\(S_t\)</span> and <span class="math inline">\(Z_t\)</span> denote, respectively, a random walk,
+a drift, and a white noise. The code below can be used to simulate such data:</p>
+<pre class="sourceCode r"><code class="sourceCode r">n =<span class="st"> </span><span class="dv">1000</span>                                <span class="co"># process length</span>
+delta =<span class="st"> </span><span class="fl">0.005</span>                           <span class="co"># delta parameter (drift)</span>
+sigma2 =<span class="st"> </span><span class="dv">10</span>                             <span class="co"># variance parameter (white noise)</span>
+gamma2 =<span class="st"> </span><span class="fl">0.1</span>                            <span class="co"># innovation variance (random walk)</span>
+model =<span class="st"> </span><span class="kw">WN</span>(<span class="dt">sigma2 =</span> sigma2) <span class="op">+</span><span class="st"> </span><span class="kw">RW</span>(<span class="dt">gamma2 =</span> gamma2) <span class="op">+</span><span class="st"> </span><span class="kw">DR</span>(<span class="dt">omega =</span> delta)
+Xt =<span class="st"> </span><span class="kw">gen_lts</span>(n, model)
+<span class="kw">plot</span>(Xt)</code></pre>
+<p><img src="ds_files/figure-html/example_composite-1.png" width="672" /></p>
+<p>In the above graph, the first three plots represent the latent (unobserved)
+processes (i.e. white noise, random walk, and drift) and the last one represents
+the sum of the three (i.e. <span class="math inline">\((X_t)\)</span>).</p>
+<p>Let us consider a real example where these latent processes are useful to
+describe (and predict) the behavior of economic variables such as Personal
+Saving Rates (PSR). A process that is used for these settings is the
+“random-walk-plus-noise” model, meaning that the data can be explained by a
+random walk process in addition to which we observe some other process (e.g.
+a white noise model, an autoregressive model such as an AR(1), etc.). The PSR
+taken from the Federal Reserve of St. Louis from January 1, 1959, to May 1,
+2015, is presented in the following plot:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load savingrt dataset</span>
+<span class="kw">data</span>(<span class="st">&quot;savingrt&quot;</span>)
+<span class="co"># Simulate based on data</span>
+savingrt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.vector</span>(savingrt), <span class="dt">start =</span> <span class="dv">1959</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">unit_ts =</span> <span class="st">&quot;%&quot;</span>, 
+            <span class="dt">name_ts =</span> <span class="st">&quot;Saving Rates&quot;</span>, <span class="dt">data_name =</span> <span class="st">&quot;US Personal Saving Rates&quot;</span>)
+<span class="co"># Plot savingrt simulation</span>
+<span class="kw">plot</span>(savingrt)</code></pre>
+<p><img src="ds_files/figure-html/example_PSR-1.png" width="672" /></p>
+<p>It can be observed that the mean of this process seems to vary over time,
+suggesting that a random walk can indeed be considered as a possible model
+to explain this data. In addition, aside from some “spikes” and occasional
+sudden changes, the observations appear to gradually change from one time point
+to the other, suggesting that some other form of dependence between them could
+exist.</p>
+
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="basicmodels.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="representations-of-time-series.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Applied Time Series Analysis with R</title>
+  <meta name="description" content="Applied Time Series Analysis with R">
+  <meta name="generator" content="bookdown 0.7.10 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Applied Time Series Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="SMAC-Group/app_ts" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Applied Time Series Analysis with R" />
+  
+  
+  
+
+<meta name="author" content="Stéphane Guerrier, Roberto Molinari and Haotian Xu">
+
+
+<meta name="date" content="2018-08-17">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="prev" href="representations-of-time-series.html">
+<link rel="next" href="estimation-of-moments.html">
+<script src="assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="about-this-book.html"><a href="about-this-book.html"><i class="fa fa-check"></i><b>1.1</b> About This Book</a></li>
+<li class="chapter" data-level="1.2" data-path="contents.html"><a href="contents.html"><i class="fa fa-check"></i><b>1.2</b> Contents</a></li>
+<li class="chapter" data-level="1.3" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.3</b> Bibliographic Note</a></li>
+<li class="chapter" data-level="1.4" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>1.4</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.5" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i><b>1.5</b> License</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The deterministic component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The random component (Noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="basicmodels.html"><a href="basicmodels.html"><i class="fa fa-check"></i><b>2.2</b> Basic Time Series Models</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="basicmodels.html"><a href="basicmodels.html#wn"><i class="fa fa-check"></i><b>2.2.1</b> White Noise</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basicmodels.html"><a href="basicmodels.html#rw"><i class="fa fa-check"></i><b>2.2.2</b> Random Walk</a></li>
+<li class="chapter" data-level="2.2.3" data-path="basicmodels.html"><a href="basicmodels.html#ar1"><i class="fa fa-check"></i><b>2.2.3</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.2.4" data-path="basicmodels.html"><a href="basicmodels.html#ma1"><i class="fa fa-check"></i><b>2.2.4</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.2.5" data-path="basicmodels.html"><a href="basicmodels.html#drift"><i class="fa fa-check"></i><b>2.2.5</b> Linear Drift</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="lts.html"><a href="lts.html"><i class="fa fa-check"></i><b>2.3</b> Composite Stochastic Processes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="representations-of-time-series.html"><a href="representations-of-time-series.html"><i class="fa fa-check"></i><b>3</b> Representations of Time Series</a><ul>
+<li class="chapter" data-level="3.1" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html#a-fundamental-representation"><i class="fa fa-check"></i><b>3.1.1</b> A Fundamental Representation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html#admissible-autocorrelation-functions"><i class="fa fa-check"></i><b>3.1.2</b> Admissible Autocorrelation Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html"><i class="fa fa-check"></i><b>3.2</b> Estimation of Moments</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#estimation-of-the-mean-function"><i class="fa fa-check"></i><b>3.2.1</b> Estimation of the Mean Function</a></li>
+<li class="chapter" data-level="3.2.2" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-autocovariance-and-autocorrelation-functions"><i class="fa fa-check"></i><b>3.2.2</b> Sample Autocovariance and Autocorrelation Functions</a></li>
+<li class="chapter" data-level="3.2.3" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#robustness-issues"><i class="fa fa-check"></i><b>3.2.3</b> Robustness Issues</a></li>
+<li class="chapter" data-level="3.2.4" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-cross-covariance-and-cross-correlation-functions"><i class="fa fa-check"></i><b>3.2.4</b> Sample Cross-Covariance and Cross-Correlation Functions</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Time Series Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="the-autocorrelation-and-autocovariance-functions" class="section level2">
+<h2><span class="header-section-number">3.1</span> The Autocorrelation and Autocovariance Functions</h2>
+
+<div class="definition">
+<p><span id="def:acvf" class="definition"><strong>Definition 3.1  </strong></span>The <em>autocovariance function</em> of a series <span class="math inline">\((X_t)\)</span> is defined as</p>
+<span class="math display">\[{\gamma_x}\left( {t,t+h} \right) = \text{cov} \left( {{X_t},{X_{t+h}}} \right),\]</span>
+</div>
+
+<p>where the definition of covariance is given by:</p>
+<p><span class="math display">\[
+    \text{cov} \left( {{X_t},{X_{t+h}}} \right) = \mathbb{E}\left[ {{X_t}{X_{t+h}}} \right] - \mathbb{E}\left[ {{X_t}} \right]\mathbb{E}\left[ {{X_{t+h}}} \right].
+    \]</span></p>
+<p>Similarly, the above expectations are defined to be:</p>
+<p><span class="math display">\[\begin{aligned}
+     \mathbb{E}\left[ {{X_t}} \right] &amp;= \int\limits_{ - \infty }^\infty  {x \cdot {f_t}\left( x \right)dx},  \\
+     \mathbb{E}\left[ {{X_t}{X_{t+h}}} \right] &amp;= \int\limits_{ - \infty }^\infty  {\int\limits_{ - \infty }^\infty  {{x_1}{x_2} \cdot f_{t,t+h}\left( {{x_1},{x_2}} \right)d{x_1}d{x_2}} } ,
+     \end{aligned} \]</span></p>
+<p>where <span class="math inline">\({f_t}\left( x \right)\)</span> and <span class="math inline">\(f_{t,t+h}\left( {{x_1},{x_2}} \right)\)</span> denote,
+respectively, the density of <span class="math inline">\(X_t\)</span> and the joint density of the
+pair <span class="math inline">\((X_t, X_{t+h})\)</span>. For the notation, it should be clear that <span class="math inline">\(X_t\)</span> is assumed to be a continous random variable. Since we generally consider stochastic processes with
+constant zero mean, we often have</p>
+<p><span class="math display">\[{\gamma_x}\left( {t,t+h} \right) = \mathbb{E}\left[X_t X_{t+h} \right]. \]</span></p>
+<p>In addition, we normally drop the subscript referring to the time
+series (i.e. <span class="math inline">\(x\)</span> in this case) if it is clear from the context which time
+series the autocovariance refers to. For example, we generally
+use <span class="math inline">\({\gamma}\left( {t,t+h} \right)\)</span> instead
+of <span class="math inline">\({\gamma_x}\left( {t,t+h} \right)\)</span>. Moreover, the notation is even further
+simplified when the covariance of <span class="math inline">\(X_t\)</span> and <span class="math inline">\(X_{t+h}\)</span> is the same as that
+of <span class="math inline">\(X_{t+j}\)</span> and <span class="math inline">\(X_{t+h+j}\)</span> (for all <span class="math inline">\(j\)</span>), i.e. the covariance depends only
+on the time between observations and not on the specific time <span class="math inline">\(t\)</span>. This is an
+important property called <em>stationarity</em>, which will be discussed in the next
+section. In this case, we simply use to following notation:
+<span class="math display">\[\gamma \left( {h} \right) = \text{cov} \left( X_t , X_{t+h} \right). \]</span></p>
+<p>This notation will generally be used throughout the text and implies
+certain properties (i.e. stationarity) on the process <span class="math inline">\((X_t)\)</span>.
+Several remarks can be made on the autocovariance:</p>
+<ol style="list-style-type: decimal">
+<li>The autocovariance function is <em>symmetric</em>.
+That is, <span class="math inline">\({\gamma}\left( {h} \right) = {\gamma}\left( -h \right)\)</span>
+since <span class="math inline">\(\text{cov} \left( {{X_t},{X_{t+h}}} \right) = \text{cov} \left( X_{t+h},X_{t} \right)\)</span>.</li>
+<li>The autocovariance function “contains” the variance of the process
+as <span class="math inline">\(\text{var} \left( X_{t} \right) = {\gamma}\left( 0 \right)\)</span>.</li>
+<li>We have that <span class="math inline">\(|\gamma(h)| \leq \gamma(0)\)</span> for all <span class="math inline">\(h\)</span>. The proof of this
+inequality is direct and follows from the Cauchy-Schwarz inequality, i.e.
+<span class="math display">\[ \begin{aligned}
+  \left(|\gamma(h)| \right)^2 &amp;= \gamma(h)^2 = \left(\mathbb{E}\left[\left(X_t - \mathbb{E}[X_t] \right)\left(X_{t+h} - \mathbb{E}[X_{t+h}] \right)\right]\right)^2\\
+  &amp;\leq \mathbb{E}\left[\left(X_t - \mathbb{E}[X_t] \right)^2 \right] \mathbb{E}\left[\left(X_{t+h} - \mathbb{E}[X_{t+h}] \right)^2 \right] =  \gamma(0)^2. 
+  \end{aligned}
+  \]</span></li>
+<li>Just as any covariance, <span class="math inline">\({\gamma}\left( {h} \right)\)</span> is “scale dependent”
+since <span class="math inline">\({\gamma}\left( {h} \right) \in \mathbb{R}\)</span>,
+or <span class="math inline">\(-\infty \le {\gamma}\left( {h} \right) \le +\infty\)</span>. We therefore have:</li>
+</ol>
+<ul>
+<li>if <span class="math inline">\(\left| {\gamma}\left( {h} \right) \right|\)</span> is “close” to zero,
+then <span class="math inline">\(X_t\)</span> and <span class="math inline">\(X_{t+h}\)</span> are “weakly” (linearly) dependent;</li>
+<li>if <span class="math inline">\(\left| {\gamma}\left( {h} \right) \right|\)</span> is “far” from zero,
+then the two random variable present a “strong” (linear) dependence.
+However it is generally difficult to asses what “close” and “far” from
+zero means in this case.</li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li><span class="math inline">\({\gamma}\left( {h} \right)=0\)</span> does not imply that <span class="math inline">\(X_t\)</span> and <span class="math inline">\(X_{t+h}\)</span> are
+independent but simply <span class="math inline">\(X_t\)</span> and <span class="math inline">\(X_{t+h}\)</span> are uncorrelated.
+The independence is only implied by <span class="math inline">\({\gamma}\left( {h} \right)=0\)</span> in
+the jointly Gaussian case.</li>
+</ol>
+<p>As hinted in the introduction, an important related statistic is the correlation
+of <span class="math inline">\(X_t\)</span> with <span class="math inline">\(X_{t+h}\)</span> or <em>autocorrelation</em>, which is defined as</p>
+<p><span class="math display">\[\rho \left(  h \right) = \text{corr}\left( {{X_t},{X_{t + h}}} \right) = \frac{{\text{cov}\left( {{X_t},{X_{t + h}}} \right)}}{{{\sigma _{{X_t}}}{\sigma _{{X_{t + h}}}}}} = \frac{\gamma(h) }{\gamma(0)}.\]</span></p>
+<p>Similarly to <span class="math inline">\(\gamma(h)\)</span>, it is important to note that the above notation
+implies that the autocorrelation function is only a function of the
+lag <span class="math inline">\(h\)</span> between observations. Thus, autocovariances and autocorrelations are one
+possible way to describe the joint distribution of a time series. Indeed, the
+correlation of <span class="math inline">\(X_t\)</span> with <span class="math inline">\(X_{t+1}\)</span> is an obvious measure of how <em>persistent</em> a
+time series is.</p>
+<p>Remember that just as with any correlation:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\rho \left( h \right)\)</span> is “scale free” so it is much easier to interpret
+than <span class="math inline">\(\gamma(h)\)</span>.</li>
+<li><span class="math inline">\(|\rho \left( h \right)| \leq 1\)</span> since <span class="math inline">\(|\gamma(h)| \leq \gamma(0)\)</span>.</li>
+<li><strong>Causation and correlation are two very different things!</strong></li>
+</ol>
+<div id="a-fundamental-representation" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> A Fundamental Representation</h3>
+<p>Autocovariances and autocorrelations also turn out to be very useful tools as
+they are one of the <em>fundamental representations</em> of time series. Indeed, if we
+consider a zero mean normally distributed process, it is clear that its joint
+distribution is fully characterized by the
+autocovariances <span class="math inline">\(\mathbb{E}[X_t X_{t+h}]\)</span> (since the joint probability density
+only depends of these covariances). Once we know the autocovariances we
+know <em>everything</em> there is to know about the process and therefore:</p>
+<p><em>if two processes have the same autocovariance function, then they are the
+same process.</em></p>
+</div>
+<div id="admissible-autocorrelation-functions" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Admissible Autocorrelation Functions</h3>
+<p>Since the autocorrelation is related to a fundamental representation of time
+series, it implies that one might be able to define a stochastic process by
+picking a set of autocorrelation values (assuming for example
+that <span class="math inline">\(\text{var}(X_t) = 1\)</span>). However, it turns out that not every collection of
+numbers, say <span class="math inline">\(\{\rho_1, \rho_2, ...\}\)</span>, can represent the autocorrelation of a
+process. Indeed, two conditions are required to ensure the validity of an
+autocorrelation sequence:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\operatorname{max}_j \; | \rho_j| \leq 1\)</span>.</li>
+<li><span class="math inline">\(\text{var} \left[\sum_{j = 0}^\infty \alpha_j X_{t-j} \right] \geq 0 \;\)</span> for all <span class="math inline">\(\{\alpha_0, \alpha_1, ...\}\)</span>.</li>
+</ol>
+<p>The first condition is obvious and simply reflects the fact
+that <span class="math inline">\(|\rho \left( h \right)| \leq 1\)</span> but the second is far more difficult to
+verify. To further our understanding of the latter we let <span class="math inline">\(\alpha_j = 0\)</span> for <span class="math inline">\(j &gt; 1\)</span>,
+then condition two implies that</p>
+<p><span class="math display">\[\text{var} \left[ \alpha_0 X_{t} + \alpha_1 X_{t-1}  \right] = \gamma_0 \begin{bmatrix}
+   \alpha_0 &amp; \alpha_1
+   \end{bmatrix}   \begin{bmatrix}
+   1 &amp; \rho_1\\
+   \rho_1 &amp; 1
+   \end{bmatrix} \begin{bmatrix}
+   \alpha_0 \\
+   \alpha_1
+   \end{bmatrix} \geq 0. \]</span></p>
+<p>Thus, the matrix</p>
+<p><span class="math display">\[ \boldsymbol{A}_1 = \begin{bmatrix}
+  1 &amp; \rho_1\\
+  \rho_1 &amp; 1
+  \end{bmatrix} \]</span></p>
+<p>must be positive semi-definite. Taking the determinant we have</p>
+<p><span class="math display">\[\operatorname{det} \left(\boldsymbol{A}_1\right) = 1 - \rho_1^2 \]</span></p>
+<p>implying that the condition <span class="math inline">\(|\rho_1| \leq 1\)</span> must be respected.
+Now, let <span class="math inline">\(\alpha_j = 0\)</span> for <span class="math inline">\(j &gt; 2\)</span>, then we must verify that:</p>
+<p><span class="math display">\[\text{var} \left[ \alpha_0 X_{t} + \alpha_1 X_{t-1}  + \alpha_2 X_{t-2} \right] = \gamma_0 \begin{bmatrix}
+     \alpha_0 &amp; \alpha_1 &amp;\alpha_2
+     \end{bmatrix}   \begin{bmatrix}
+     1 &amp; \rho_1 &amp; \rho_2\\
+     \rho_1 &amp; 1 &amp; \rho_1 \\
+     \rho_2 &amp; \rho_1 &amp; 1
+     \end{bmatrix} \begin{bmatrix}
+     \alpha_0 \\
+     \alpha_1 \\
+     \alpha_2
+     \end{bmatrix} \geq 0. \]</span></p>
+<p>Again, this implies that the matrix</p>
+<p><span class="math display">\[ \boldsymbol{A}_2 = \begin{bmatrix}
+  1 &amp; \rho_1 &amp; \rho_2\\
+  \rho_1 &amp; 1 &amp; \rho_1 \\
+  \rho_2 &amp; \rho_1 &amp; 1
+  \end{bmatrix} \]</span></p>
+<p>must be positive semi-definite and it is easy to verify that</p>
+<p><span class="math display">\[\operatorname{det} \left(\boldsymbol{A}_2\right) = \left(1 - \rho_2 \right)\left(- 2 \rho_1^2 + \rho_2 + 1\right). \]</span></p>
+<p>Thus, this implies that</p>
+<p><span class="math display">\[\begin{aligned} &amp;- 2 \rho_1^2 + \rho_2 + 1 \geq 0 \Rightarrow 1 \geq \rho_2 \geq 2 \rho_1^2 - 1 \\
+   &amp;\Rightarrow 1 - \rho_1^2 \geq \rho_2 - \rho_1^2 \geq -(1 - \rho_1^2)\\
+   &amp;\Rightarrow 1 \geq \frac{\rho_2 - \rho_1^2 }{1 - \rho_1^2} \geq -1.
+   \end{aligned}\]</span></p>
+<p>Therefore, <span class="math inline">\(\rho_1\)</span> and <span class="math inline">\(\rho_2\)</span> must lie in a parabolic shaped region defined
+by the above inequalities as illustrated in Figure <a href="the-autocorrelation-and-autocovariance-functions.html#fig:admissibility">3.2</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:admissibility"></span>
+<img src="ds_files/figure-html/admissibility-1.png" alt="Admissible autocorrelation functions" width="672" />
+<p class="caption">
+Figure 3.2: Admissible autocorrelation functions
+</p>
+</div>
+<p>From our derivation, it is clear that the restrictions on the autocorrelation are
+very complicated, thereby justifying the need for other forms of fundamental
+representation which we will explore later in this text. Before moving on to
+the estimation of the autocorrelation and autocovariance functions, we must
+first discuss the stationarity of <span class="math inline">\((X_t)\)</span>, which will provide a convenient
+framework in which <span class="math inline">\(\gamma(h)\)</span> and <span class="math inline">\(\rho(h)\)</span> can be used (rather that <span class="math inline">\(\gamma(t,t+h)\)</span>
+for example) and (easily) estimated.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="representations-of-time-series.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="estimation-of-moments.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
