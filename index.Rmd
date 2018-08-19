@@ -110,6 +110,8 @@ This is a tip for the reader when following or developing something based on thi
 ```
 
 
+Using the same convention as in @friedman2001elements, the symbol `r emo::ji("scream")` indicates a technically difficult section which may be skipped without interrupting the flow of the discussion.
+
 ## Bibliographic Note 
 
 This is not the first (or the last) book that has been written on time series analysis. Indeed, this can be seen as a book that brings together and reorganizes information and material from other sources structuring and tailoring it to a course in basic time series analysis. The main and excellent references (which are far from being an exhaustive review of literature) that can be used to have a more in-depth view of different aspects treated in this book are @cochrane2005time, @hamilton1994time and @shumway2010time.

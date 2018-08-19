@@ -102,12 +102,13 @@ RW2dimension = function(steps = 100, probs = c(0.25, 0.5, 0.75),
 
 # Basic Elements of Time Series 
 
-```{remark}
+```{block2,  type='rmdimportant'}
 To make use of the R code within this chapter you will need to install (if not already done) and load the following libraries:
-  - simts
-  - gmwm
+  - [simts](http://simts.smac-group.com/)
   - astsa
 ```
+
+:blush:
 
 We can start the discussion on the basic elements of time series by using a practical example from real data made available through the R software. The data represent the global mean land–ocean temperature shifts from 1880 to 2015 (with base index being the average temperatures from 1951 to 1980) and this time series is represented in the plot below.
 
