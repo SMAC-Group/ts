@@ -25,7 +25,7 @@ favicon: "favicon.ico"
 
 # Preface
 
-Welcome to Applied Time Series Analysis with `R` 
+Welcome to Applied Time Series Analysis with `R`.
 
 
 ## About This Book
@@ -40,42 +40,42 @@ many errors. As Montesquieu puts it:
 > fussent passagères, et les livres les immortalisent.*"
 >
 
-## Contents
+<!-- ## Contents -->
 
-This book is structured as follows:
+<!-- This book is structured as follows: -->
 
-- Basic Elements of Time Series
-    - Wold representation deterministic + random
-    - Examples of deterministic components (trend + seasonality)
-    - Random components: basic time series models
-- Fundamental Representations
-    - Conditions for fundamental representations (e.g. gaussian)
-    - AutoCovariance and AutoCorrelation Functions
-    - Estimators: Empirical ACF
-    - Spectral Density and WV
-- Stationarity of Time Series
-    - Stationarity vs Non-Stationarity
-    - Linear operators and processes
-    - Weak and Strong Stationarity
-- SARIMA Models
-    - AR(p) Models
-    - MA(q) Models
-    - ARMA(p,q) Models
-    - ARIMA(p,d,q) Models
-    - SARIMA(p,d,q)(P,D,Q) Models
-- Descriptive Analysis
-    - Raw Data
-    - ACF plots
-    - Identifying models
-    - Other representations: SDF and WV
-- Inference
-    - Estimation
-    - Inference
-    - Model Selection
-- Advanced Topics
-    - GARCH
-    - State-Space Models
-    - Multivariate (VAR) Models
+<!-- - Basic Elements of Time Series -->
+<!--     - Wold representation deterministic + random -->
+<!--     - Examples of deterministic components (trend + seasonality) -->
+<!--     - Random components: basic time series models -->
+<!-- - Fundamental Representations -->
+<!--     - Conditions for fundamental representations (e.g. gaussian) -->
+<!--     - AutoCovariance and AutoCorrelation Functions -->
+<!--     - Estimators: Empirical ACF -->
+<!--     - Spectral Density and WV -->
+<!-- - Stationarity of Time Series -->
+<!--     - Stationarity vs Non-Stationarity -->
+<!--     - Linear operators and processes -->
+<!--     - Weak and Strong Stationarity -->
+<!-- - SARIMA Models -->
+<!--     - AR(p) Models -->
+<!--     - MA(q) Models -->
+<!--     - ARMA(p,q) Models -->
+<!--     - ARIMA(p,d,q) Models -->
+<!--     - SARIMA(p,d,q)(P,D,Q) Models -->
+<!-- - Descriptive Analysis -->
+<!--     - Raw Data -->
+<!--     - ACF plots -->
+<!--     - Identifying models -->
+<!--     - Other representations: SDF and WV -->
+<!-- - Inference -->
+<!--     - Estimation -->
+<!--     - Inference -->
+<!--     - Model Selection -->
+<!-- - Advanced Topics -->
+<!--     - GARCH -->
+<!--     - State-Space Models -->
+<!--     - Multivariate (VAR) Models -->
 
 ## Bibliographic Note 
 
@@ -88,21 +88,18 @@ This text is heavily inspired by the following three execellent references:
 
 ## Acknowledgements
 
-The text has been developed in the open and has benefited greatly from many
-people being able to alert the authors to problematic areas. We are greatful
-for the corrections, suggestions, or requests ofclarity from the following:
+The text has benefited greatly from the contributions of many people who have provided extremely useful comments, suggestions and corrections. These are:
 
 - [Ziying Wang](https://github.com/zionward)
 - [Haoxian Zhong](https://github.com/Lyle-Haoxian)
 - [Zhihan Xiong](https://www.linkedin.com/in/zhihan-xiong-988152114)
 - [Nathanael Claussen](https://github.com/Nathanael-Claussen)
 - [Justin Lee](https:://github.com/munsheet)
+
+The authors are particularly grateful to James Balamuta who introduced them to the use of the different tools provided by the RStudio environment and greatly contributed to an earlier version of this book:
 - [James Balamuta](https::/github.com/coatless)
 
 
 ## License 
 
 ![This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).](images/license/cc.png)
-
-This book is aimed at providing the procedures (and relative statistical theory) to allow the reader to appropriately analyse a time series 
-

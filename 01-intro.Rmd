@@ -477,10 +477,10 @@ familiar form as follows:
 Therefore, a (linear) drift corresponds to a simple linear model with slope $\omega$ and intercept $c$.
 
 ```{remark, label="drift"}
-You may argue that the definition of this model is not useful it constitutes a simple linear model. However this model is often accompanied by other time series models (as the ones presented)
+You may argue that the definition of this model is not useful since it constitutes a simple linear model. However this model is often accompanied by other time series models (such as the ones presented earlier) and its estimation can be greatly improved when considered in conjunction with the other models.
 ```
 
-A drift can simply be generated using the code below:
+Given its simple form, a linear drift can simply be generated using the code below:
 
 ```{r example_Drift, fig.height = 4, fig.width = 7, cache=TRUE}
 n = 100                               # process length
@@ -489,13 +489,12 @@ Xt = gen_gts(n, DR(omega = omega))
 plot(Xt)
 ```
 
+This time series model is widely used in different areas of signal analysis where mechanical systems and measuring devices can be characterized by this type of behaviour.
+
 
 ## Composite Stochastic Processes {#lts}
 
-A composite stochastic process can be defined as the sum of underlying 
-(or latent) stochastic processes. In this text, we will use the term
-*latent time series* as a synomym for composite stochastic processes.
-A simple example of such a process is given by
+In the previous paragraphs we defined and briefly discussed the basic time series models that can individually be used to describe and predict a wide range of phenomena in a variety of fields of application. However, their capability of capturing and explaining the different behaviours of phenomena through time becomes even larger when they are combined to form so-called *composite models* (or composite processes). A composite (stochastic) process can be defined as the sum of underlying (or latent) stochastic processes. In this text, we will use the term *latent time series* as a synomym for composite stochastic processes. A simple example of such a process is given by
 
 \[\begin{aligned}
 Y_t &= Y_{t-1} + W_t + \delta\\
