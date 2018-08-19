@@ -3,10 +3,10 @@ bookdown::gitbook:
   config:
     toc:
       before: |
-        <li><a href="./">A Minimal Book Example</a></li>
+        <li><a href="./">Applied Time Series Analysis with R</a></li>
       after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-    edit: https://github.com/rstudio/bookdown-demo/edit/master/%s
+        <li><a href="https://github.com/SMAC-Group/ts" target="blank">Published with bookdown</a></li>
+    edit: https://github.com/SMAC-Group/ts/edit/master/%s
     download: ["pdf", "epub"]
 bookdown::pdf_book:
   includes:
