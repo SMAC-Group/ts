@@ -115,6 +115,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -127,6 +128,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Statistical Programming Methods</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
 <li class="chapter" data-level="1.1" data-path="about-this-book.html"><a href="about-this-book.html"><i class="fa fa-check"></i><b>1.1</b> About This Book</a></li>
 <li class="chapter" data-level="1.2" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
@@ -159,6 +163,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.4" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-cross-covariance-and-cross-correlation-functions"><i class="fa fa-check"></i><b>3.2.4</b> Sample Cross-Covariance and Cross-Correlation Functions</a></li>
 </ul></li>
 </ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -227,7 +234,7 @@ this process is a weak white noise since we have:</p>
 sigma2 =<span class="st"> </span><span class="dv">1</span>                             <span class="co"># process variance</span>
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> sigma2))
 <span class="kw">plot</span>(Xt)</code></pre>
-<p><img src="ds_files/figure-html/example_WN-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/example_WN-1.png" width="672" /></p>
 <p>This model can be found in different applied settings and is often accompanied by some of the models presented in the following paragraphs.</p>
 </div>
 <div id="rw" class="section level3">
@@ -240,9 +247,9 @@ next step can either be to your left, your right, forward or backward
 represented below:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">5</span>)
 <span class="kw">RW2dimension</span>(<span class="dt">steps =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">2</span>)</code></pre>
-<p><img src="ds_files/figure-html/RW2d-1.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="ts_files/figure-html/RW2d-1.png" width="528" style="display: block; margin: auto;" /></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">RW2dimension</span>(<span class="dt">steps =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">4</span>)</code></pre>
-<p><img src="ds_files/figure-html/RW2d-2.png" width="528" style="display: block; margin: auto;" /></p>
+<p><img src="ts_files/figure-html/RW2d-2.png" width="528" style="display: block; margin: auto;" /></p>
 <p>Such processes inspired Karl Pearson’s famous quote that</p>
 <blockquote>
 <p>“<em>the most likely place to find a drunken walker is somewhere near his starting point.</em>”</p>
@@ -261,7 +268,7 @@ represented below:</p>
 gamma2 =<span class="st"> </span><span class="dv">1</span>                             <span class="co"># innovation variance</span>
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">RW</span>(<span class="dt">gamma2 =</span> gamma2))
 <span class="kw">plot</span>(Xt)</code></pre>
-<p><img src="ds_files/figure-html/example_RW-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/example_RW-1.png" width="672" /></p>
 <p>The random walk model is often used to explain phenomena in many different areas one of which is finance where stock prices follow these kind of processes.</p>
 </div>
 <div id="ar1" class="section level3">
@@ -308,7 +315,7 @@ phi =<span class="st"> </span><span class="fl">0.5</span>                       
 sigma2 =<span class="st"> </span><span class="dv">1</span>                            <span class="co"># innovation variance</span>
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">AR1</span>(<span class="dt">phi =</span> phi, <span class="dt">sigma2 =</span> sigma2))
 <span class="kw">plot</span>(Xt)</code></pre>
-<p><img src="ds_files/figure-html/example_AR1-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/example_AR1-1.png" width="672" /></p>
 <p>The AR(1) model is one of the most popular and commonly used models in many practical settings going from biology where it is used to explain the evolution of gene expressions to economics where it is used to model macroeconomic trends.</p>
 </div>
 <div id="ma1" class="section level3">
@@ -326,7 +333,7 @@ sigma2 =<span class="st"> </span><span class="dv">1</span>                      
 theta =<span class="st"> </span><span class="fl">0.5</span>                           <span class="co"># theta parameter</span>
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">MA1</span>(<span class="dt">theta =</span> theta, <span class="dt">sigma2 =</span> sigma2))
 <span class="kw">plot</span>(Xt)</code></pre>
-<p><img src="ds_files/figure-html/example_MA1-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/example_MA1-1.png" width="672" /></p>
 <p>The use of this model is widespread, especially combined with the AR(1) model, and can be found in fields such as engineering where it is often used for signal processing.</p>
 </div>
 <div id="drift" class="section level3">
@@ -352,7 +359,7 @@ familiar form as follows:</p>
 omega =<span class="st"> </span><span class="fl">0.5</span>                           <span class="co"># slope parameter</span>
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">DR</span>(<span class="dt">omega =</span> omega))
 <span class="kw">plot</span>(Xt)</code></pre>
-<p><img src="ds_files/figure-html/example_Drift-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/example_Drift-1.png" width="672" /></p>
 <p>This time series model is widely used in different areas of signal analysis where mechanical systems and measuring devices can be characterized by this type of behaviour.</p>
 </div>
 </div>
@@ -392,10 +399,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": null,
-"text": null
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-intro.Rmd",
+"text": "Edit"
 },
-"download": null,
+"download": ["ts.pdf", "ts.epub"],
 "toc": {
 "collapse": "subsection"
 },

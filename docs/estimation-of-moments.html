@@ -115,6 +115,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -127,6 +128,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Statistical Programming Methods</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
 <li class="chapter" data-level="1.1" data-path="about-this-book.html"><a href="about-this-book.html"><i class="fa fa-check"></i><b>1.1</b> About This Book</a></li>
 <li class="chapter" data-level="1.2" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
@@ -159,6 +163,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.4" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-cross-covariance-and-cross-correlation-functions"><i class="fa fa-check"></i><b>3.2.4</b> Sample Cross-Covariance and Cross-Correlation Functions</a></li>
 </ul></li>
 </ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -330,7 +337,7 @@ var.approx =<span class="st"> </span><span class="dv">1</span><span class="op">/
 <span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Theoretical variance&quot;</span>,<span class="st">&quot;Bootstrap variance&quot;</span>,<span class="st">&quot;Approximate variance&quot;</span>), 
        <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;deepskyblue4&quot;</span>,<span class="st">&quot;firebrick3&quot;</span>,<span class="st">&quot;springgreen4&quot;</span>), <span class="dt">lty =</span> <span class="dv">1</span>,
        <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,<span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">box.col =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">cex =</span> <span class="fl">1.2</span>)</code></pre>
-<p><img src="ds_files/figure-html/estimXbar-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/estimXbar-1.png" width="672" /></p>
 <p>It can be observed that the variance of <span class="math inline">\(\bar{X}\)</span> typically increases with
 <span class="math inline">\(\phi\)</span>. As expected when <span class="math inline">\(\phi = 0\)</span>, we have <span class="math inline">\(\text{var}(\bar{X}) = 1/n\)</span> — in
 this case the process is a white noise. Moreover, the bootstrap approach
@@ -359,7 +366,7 @@ acf_Xt =<span class="st"> </span><span class="kw">ACF</span>(Xt)
 
 <span class="co"># Plot autocorrelation</span>
 <span class="kw">plot</span>(acf_Xt, <span class="dt">show.ci =</span> <span class="ot">FALSE</span>)</code></pre>
-<p><img src="ds_files/figure-html/basicACF-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/basicACF-1.png" width="672" /></p>
 <p>In this example, the true autocorrelation is equal to zero at any
 lag <span class="math inline">\(h \neq 0\)</span>, but obviously the estimated autocorrelations are random variables
 and are not equal to their true values. It would therefore be useful to have
@@ -382,7 +389,7 @@ confidence interval). Returning to our previous example and adding confidence
 bands to the previous graph, we obtain:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Plot autocorrelation with confidence bands </span>
 <span class="kw">plot</span>(acf_Xt)</code></pre>
-<p><img src="ds_files/figure-html/basicACF2-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/basicACF2-1.png" width="672" /></p>
 <p>It can now be observed that most peaks lie within the
 interval <span class="math inline">\(\pm 2/\sqrt{T}\)</span> suggesting that the true data generating process
 is uncorrelated.</p>
@@ -411,7 +418,7 @@ GSPC.ret =<span class="st"> </span><span class="kw">ClCl</span>(GSPC)
 <pre><code>## Warning in plot.xts(GSPC, main = &quot; &quot;, ylab = &quot;Index level&quot;): only the
 ## univariate series will be plotted</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(GSPC.ret, <span class="dt">main =</span> <span class="st">&quot; &quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Daily returns&quot;</span>)</code></pre>
-<p><img src="ds_files/figure-html/GSPC-1.png" width="768" /></p>
+<p><img src="ts_files/figure-html/GSPC-1.png" width="768" /></p>
 <p>From these graphs, it is clear that the returns are not identically distributed
 as the variance seems to vary with time, and clusters with either high or low
 volatility can be observed. These characteristics of financial time series is
@@ -423,7 +430,7 @@ the empirical autocorrelation.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sp500 =<span class="st"> </span><span class="kw">na.omit</span>(GSPC.ret)
 <span class="kw">names</span>(sp500) =<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;S&amp;P 500 (1990-01-01 - &quot;</span>,<span class="kw">Sys.Date</span>(),<span class="st">&quot;)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
 <span class="kw">plot</span>(<span class="kw">ACF</span>(sp500))</code></pre>
-<p><img src="ds_files/figure-html/GSPCacf-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/GSPCacf-1.png" width="672" /></p>
 <p>As expected, the autocorrelation is small but it might be reasonable to believe
 that this sequence is not purely uncorrelated.</p>
 <p>Unfortunately, Theorem 1 is based on an asymptotic argument and since the
@@ -476,7 +483,7 @@ result =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot"
   yy =<span class="st"> </span><span class="kw">dnorm</span>(xx,<span class="dv">0</span>,<span class="dv">1</span>)
   <span class="kw">lines</span>(xx,yy, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
 }</code></pre>
-<p><img src="ds_files/figure-html/simulationACF-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/simulationACF-1.png" width="672" /></p>
 <p>As expected, it can clearly be observed that the asymptotic approximation is
 quite poor when <span class="math inline">\(n = 5\)</span> but as the sample size increases the approximation
 improves and is very close when, for example, <span class="math inline">\(n = 300\)</span>. This simulation could
@@ -621,10 +628,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": null,
-"text": null
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-fundamental_rep.Rmd",
+"text": "Edit"
 },
-"download": null,
+"download": ["ts.pdf", "ts.epub"],
 "toc": {
 "collapse": "subsection"
 },

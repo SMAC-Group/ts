@@ -115,6 +115,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -127,6 +128,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Statistical Programming Methods</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
 <li class="chapter" data-level="1.1" data-path="about-this-book.html"><a href="about-this-book.html"><i class="fa fa-check"></i><b>1.1</b> About This Book</a></li>
 <li class="chapter" data-level="1.2" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
@@ -159,6 +163,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.4" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-cross-covariance-and-cross-correlation-functions"><i class="fa fa-check"></i><b>3.2.4</b> Sample Cross-Covariance and Cross-Correlation Functions</a></li>
 </ul></li>
 </ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -205,13 +212,13 @@ Professor of Economics at Yale University, famously predicted:</p>
 <div id="the-deterministic-component-signal" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> The deterministic component (Signal)</h3>
 <p>Before shifting our focus to the random component of time series, we will first just briefly underline the main features that should be taken into account for the deterministic component. The first feature that should be analysed is the <em>trend</em> that characterises the time series, more specifically the behaviour of the variable of interest as a specific function of time (as the global temperature time series seen earlier). Let us consider another example of time series based on real data, i.e. the quarterly earnings of Johnson &amp; Johnson between 1960 and 1980 represented below.</p>
-<p><img src="ds_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>As can be seen from the plot, the earnings appear to grow over time, therefore we can imagine fitting a line to this data to describe its behaviour (see red line below).</p>
-<p><img src="ds_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>Although the line captures a part of the behaviour, it is quite clear that the trend of the time series is not linear. It could therefore be more appropriate to define another function of time to describe it and, consequently, we add a quadratic term of time to obtain the following fit.</p>
-<p><img src="ds_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>We can see now that the quadratic function of time allows to better fit the observed time series and closely follow the observations. However, there still appears to be a pattern in the data that isn’t captured by this quadratic model. This pattern appears to be repeated over time: peaks and valleys that seem to occur at regular intervals along the time series. This behaviour is known as <em>seasonality</em> which, in this case, can be explained by the effect of a specific quarter on the behaviour of the earnings. Indeed, it is reasonable to assume that the seasons have impacts on different variables measured over time (e.g. temperatures, earnings linked to sales that vary with seasons, etc.). Let us therefore take the quarters as an explanatory variable and add it to the previous quadratic model (see fit below).</p>
-<p><img src="ds_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>This final fit appears to well describe the behaviour of the earnings. Hence, <em>trend</em> and <em>seasonality</em> are the main features that characterize the deterministic component of a time series. However, as discussed earlier, these deterministic components often don’t explain all of the observed time series since there is often a random component characterizing data measured over time. Not considering the latter component can have considerable impacts on the inference procedures (as seen earlier) and it is therefore important to adequately analyse them (see next section).</p>
 </div>
 <div id="the-random-component-noise" class="section level3">
@@ -269,10 +276,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": null,
-"text": null
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-intro.Rmd",
+"text": "Edit"
 },
-"download": null,
+"download": ["ts.pdf", "ts.epub"],
 "toc": {
 "collapse": "subsection"
 },

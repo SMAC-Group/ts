@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Applied Time Series Analysis with R</title>
+  <meta name="description" content="Applied Time Series Analysis with R">
+  <meta name="generator" content="bookdown 0.7.10 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Applied Time Series Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="SMAC-Group/app_ts" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Applied Time Series Analysis with R" />
+  
+  
+  
+
+<meta name="author" content="Stéphane Guerrier, Roberto Molinari and Haotian Xu">
+
+
+<meta name="date" content="2018-08-19">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="prev" href="the-wold-decomposition.html">
+<link rel="next" href="lts.html">
+<script src="assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="about-this-book.html"><a href="about-this-book.html"><i class="fa fa-check"></i><b>1.1</b> About This Book</a></li>
+<li class="chapter" data-level="1.2" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
+<li class="chapter" data-level="1.3" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.4" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i><b>1.4</b> License</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The deterministic component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The random component (Noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="basicmodels.html"><a href="basicmodels.html"><i class="fa fa-check"></i><b>2.2</b> Basic Time Series Models</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="basicmodels.html"><a href="basicmodels.html#wn"><i class="fa fa-check"></i><b>2.2.1</b> White Noise</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basicmodels.html"><a href="basicmodels.html#rw"><i class="fa fa-check"></i><b>2.2.2</b> Random Walk</a></li>
+<li class="chapter" data-level="2.2.3" data-path="basicmodels.html"><a href="basicmodels.html#ar1"><i class="fa fa-check"></i><b>2.2.3</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.2.4" data-path="basicmodels.html"><a href="basicmodels.html#ma1"><i class="fa fa-check"></i><b>2.2.4</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.2.5" data-path="basicmodels.html"><a href="basicmodels.html#drift"><i class="fa fa-check"></i><b>2.2.5</b> Linear Drift</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="lts.html"><a href="lts.html"><i class="fa fa-check"></i><b>2.3</b> Composite Stochastic Processes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="representations-of-time-series.html"><a href="representations-of-time-series.html"><i class="fa fa-check"></i><b>3</b> Representations of Time Series</a><ul>
+<li class="chapter" data-level="3.1" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html#a-fundamental-representation"><i class="fa fa-check"></i><b>3.1.1</b> A Fundamental Representation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html#admissible-autocorrelation-functions"><i class="fa fa-check"></i><b>3.1.2</b> Admissible Autocorrelation Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html"><i class="fa fa-check"></i><b>3.2</b> Estimation of Moments</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#estimation-of-the-mean-function"><i class="fa fa-check"></i><b>3.2.1</b> Estimation of the Mean Function</a></li>
+<li class="chapter" data-level="3.2.2" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-autocovariance-and-autocorrelation-functions"><i class="fa fa-check"></i><b>3.2.2</b> Sample Autocovariance and Autocorrelation Functions</a></li>
+<li class="chapter" data-level="3.2.3" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#robustness-issues"><i class="fa fa-check"></i><b>3.2.3</b> Robustness Issues</a></li>
+<li class="chapter" data-level="3.2.4" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-cross-covariance-and-cross-correlation-functions"><i class="fa fa-check"></i><b>3.2.4</b> Sample Cross-Covariance and Cross-Correlation Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Time Series Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="basicmodels" class="section level2">
+<h2><span class="header-section-number">2.2</span> Basic Time Series Models</h2>
+<p>In this section, we introduce some simple time series models that consitute the building blocks for the more complex and flexible classes of time series commonly used in practice. Before doing so it is useful to define <span class="math inline">\(\Omega_t\)</span> as all the information available up to time
+<span class="math inline">\(t-1\)</span>, i.e.</p>
+<p><span class="math display">\[\Omega_t = \left(X_{t-1}, X_{t-2}, ..., X_0 \right).\]</span></p>
+<p>As we will see further on, this compact notation is quite useful.</p>
+<div id="wn" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> White Noise</h3>
+<p>As we saw earlier, the white noise model is the building block for most time series models and, to better specify the notation used throughout this book, this model is defined as</p>
+<p><span class="math display">\[{W_t}\mathop \sim \limits^{iid} N\left( {0,\sigma _w^2} \right).\]</span></p>
+<p>This definition implies that:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\mathbb{E}[W_t | \Omega_t] = 0\)</span> for all <span class="math inline">\(t\)</span>,</li>
+<li><span class="math inline">\(\text{cov}\left(W_t, W_{t-h} \right) = \boldsymbol{1}_{h = 0} \; \sigma^2\)</span> for
+all <span class="math inline">\(t, h\)</span>.</li>
+</ol>
+<p>More specifically, <span class="math inline">\(h \in \mathbb{N}^+\)</span> is the time difference between lagged variables. Therefore, in this process there is an absence of temporal (or serial) correlation and it is homoskedastic (i.e. it has a constant variance). Going into further details, white noise can be categorzied into two sorts of processes: <em>weak</em> and <em>strong</em>. The process <span class="math inline">\((W_t)\)</span> is
+a <em>weak</em> white noise if</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\mathbb{E}[W_t] = 0\)</span> for all <span class="math inline">\(t\)</span>,</li>
+<li><span class="math inline">\(\text{var}\left(W_t\right) = \sigma_w^2\)</span> for all <span class="math inline">\(t\)</span>,</li>
+<li><span class="math inline">\(\text{cov} \left(W_t, W_{t-h}\right) = 0\)</span> for all <span class="math inline">\(t\)</span> and for all <span class="math inline">\(h \neq 0\)</span>.</li>
+</ol>
+<p>Note that this definition does not imply that <span class="math inline">\(W_t\)</span> and <span class="math inline">\(W_{t-h}\)</span> are independent (for <span class="math inline">\(h \neq 0\)</span>) but simply uncorrelated. However, the notion of independence is used to define a <em>strong</em> white noise as</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\mathbb{E}[W_t] = 0\)</span> and <span class="math inline">\(\text{var}(W_t) = \sigma^2 &lt; \infty\)</span>, for all <span class="math inline">\(t\)</span>,</li>
+<li><span class="math inline">\(F(W_t) = F(W_{t-h})\)</span> for all <span class="math inline">\(t,h\)</span> (where <span class="math inline">\(F(W_t)\)</span> denotes the marginal distribution of <span class="math inline">\(W_t\)</span>),</li>
+<li><span class="math inline">\(W_t\)</span> and <span class="math inline">\(W_{t-h}\)</span> are independent for all <span class="math inline">\(t\)</span> and for all <span class="math inline">\(h \neq 0\)</span>.</li>
+</ol>
+<p>It is clear from these definitions that if a process is a strong white noise it is also a weak white noise. However, the converse is not true as shown in the following example:</p>
+
+<div class="example">
+<p><span id="exm:weaknotstrong" class="example"><strong>Example 2.1  </strong></span>
+Let <span class="math inline">\(Y_t \mathop \sim F_{t+2}\)</span>, where <span class="math inline">\(F_{t+2}\)</span> denotes
+a Student distribution with <span class="math inline">\(t+2\)</span> degrees of freedom. Assuming the
+sequence <span class="math inline">\((Y_1, \ldots, Y_n)\)</span> to be independent, we
+let <span class="math inline">\(X_t = \sqrt{\frac{t}{t+2}} Y_t\)</span>. Then, the process <span class="math inline">\((X_t)\)</span> is obviously
+not a strong white noise as the distribution of <span class="math inline">\(X_t\)</span> changes with <span class="math inline">\(t\)</span>. However
+this process is a weak white noise since we have:</p>
+<ul>
+<li><span class="math inline">\(\mathbb{E}[X_t] = \sqrt{\frac{t}{t+2}} \mathbb{E}[Y_t] = 0\)</span> for all <span class="math inline">\(t\)</span>.</li>
+<li><span class="math inline">\(\text{var}(X_t) = \frac{t}{t+2} \text{var}(Y_t) = \frac{t}{t+2} \frac{t+2}{t} = 1\)</span> for all <span class="math inline">\(t\)</span>.</li>
+<li><span class="math inline">\(\text{cov}(X_t, X_{t+h}) = 0\)</span> (by independence), for all <span class="math inline">\(t\)</span>, and for all <span class="math inline">\(h \neq 0\)</span>.</li>
+</ul>
+</div>
+
+<p>This distinction is therefore important and will be extremely relevant when discussing the concept of “stationarity” further on in this book. In general, the white noise model is assumed to be Gaussian in many practical cases and the code below presents an example of how to simulate a Gaussian white noise process.</p>
+<pre class="sourceCode r"><code class="sourceCode r">n =<span class="st"> </span><span class="dv">1000</span>                               <span class="co"># process length</span>
+sigma2 =<span class="st"> </span><span class="dv">1</span>                             <span class="co"># process variance</span>
+Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> sigma2))
+<span class="kw">plot</span>(Xt)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/example_WN-1.png" width="672" /></p>
+<p>This model can be found in different applied settings and is often accompanied by some of the models presented in the following paragraphs.</p>
+</div>
+<div id="rw" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Random Walk</h3>
+<p>The term <em>random walk</em> was first introduced by Karl Pearson in the early
+nineteen-hundreds and a wide range of random walk models have been defined over the years. For example, one of the simplest forms of a random walk process can be
+explained as follows: suppose that you are walking on campus and your
+next step can either be to your left, your right, forward or backward
+(each with equal probability). Two realizations of such processes are
+represented below:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">5</span>)
+<span class="kw">RW2dimension</span>(<span class="dt">steps =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">2</span>)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/RW2d-1.png" width="528" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">RW2dimension</span>(<span class="dt">steps =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">4</span>)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/RW2d-2.png" width="528" style="display: block; margin: auto;" /></p>
+<p>Such processes inspired Karl Pearson’s famous quote that</p>
+<blockquote>
+<p>“<em>the most likely place to find a drunken walker is somewhere near his starting point.</em>”</p>
+</blockquote>
+<p>Empirical evidence of this phenomenon is not too hard to find on a Friday or Saturday night. In this text, we only consider one very specific form of random walk, namely the Gaussian random walk which can be defined as:</p>
+<p><span class="math display">\[X_t = X_{t-1} + W_t,\]</span></p>
+<p>where <span class="math inline">\(W_t\)</span> is a Gaussian white noise process with initial condition <span class="math inline">\(X_0 = c\)</span> (typically <span class="math inline">\(c = 0\)</span>.) This process can be expressed differently by <em>backsubstitution</em> as follows:</p>
+<p><span class="math display">\[\begin{aligned}
+  {X_t} &amp;= {X_{t - 1}} + {W_t} \\
+   &amp;= \left( {{X_{t - 2}} + {W_{t - 1}}} \right) + {W_t} \\
+   &amp;= \vdots \\
+  {X_t} &amp;= \sum\limits_{i = 1}^t {{W_i}} + X_0 =  \sum\limits_{i = 1}^t {{W_i}} + c \\ 
+\end{aligned} \]</span></p>
+<p>A random variable following a random walk can therefore be expressed as the cumulated sum of all the random variables that precede it. The code below presents an example of how to simulate a such process.</p>
+<pre class="sourceCode r"><code class="sourceCode r">n =<span class="st"> </span><span class="dv">1000</span>                               <span class="co"># process length</span>
+gamma2 =<span class="st"> </span><span class="dv">1</span>                             <span class="co"># innovation variance</span>
+Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">RW</span>(<span class="dt">gamma2 =</span> gamma2))
+<span class="kw">plot</span>(Xt)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/example_RW-1.png" width="672" /></p>
+<p>The random walk model is often used to explain phenomena in many different areas one of which is finance where stock prices follow these kind of processes.</p>
+</div>
+<div id="ar1" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> First-Order Autoregressive Model</h3>
+<p>A first-order autoregressive model or AR(1) is a generalization of both
+the white noise and the random walk processes which are both special
+cases of an AR(1). A (Gaussian) AR(1) process can be defined as</p>
+<p><span class="math display">\[{X_t} = {\phi}{X_{t - 1}} + {W_t},\]</span></p>
+<p>where <span class="math inline">\(W_t\)</span> is a Gaussian white noise. Clearly, an AR(1) with <span class="math inline">\(\phi = 0\)</span> is
+a Gaussian white noise and when <span class="math inline">\(\phi = 1\)</span> the process becomes a random walk.</p>
+
+<div class="remark">
+<p> <span class="remark"><em>Remark. </em></span> An AR(1) is in fact a linear combination of past realisations of
+a white noise <span class="math inline">\(W_t\)</span> process. Indeed, we have</p>
+<p><span class="math display">\[\begin{aligned}
+ {X_t} &amp;= {\phi_t}{X_{t - 1}} + {W_t} 
+   = {\phi}\left( {{\phi}{X_{t - 2}} + {W_{t - 1}}} \right) + {W_t} \\
+   &amp;= \phi^2{X_{t - 2}} + {\phi}{W_{t - 1}} + {W_t} 
+   = {\phi^t}{X_0} + \sum\limits_{i = 0}^{t - 1} {\phi^i{W_{t - i}}}.
+\end{aligned}\]</span></p>
+<p>Under the assumption of infinite past (i.e. <span class="math inline">\(t \in \mathbb{Z}\)</span>) and <span class="math inline">\(|\phi| &lt; 1\)</span>,
+we obtain</p>
+<p><span class="math display">\[X_t = \sum\limits_{i = 0}^{\infty} {\phi^i {W_{t - i}}},\]</span></p>
+since <span class="math inline">\(\operatorname{lim}_{i \to \infty} \; {\phi^i}{X_{t-i}} = 0\)</span>.
+</div>
+
+<p>From the conclusion of the above the remark, you may have noticed how we assume that the considered time series have zero expectation. The following remark justifies this assumption.</p>
+
+<div class="remark">
+<p> <span class="remark"><em>Remark. </em></span> We generally assume that an AR(1), as well as other time series
+models, have zero mean. The reason for this assumption is only to simplfy the
+notation but it is easy to consider, for example, an AR(1) process around an
+arbitrary mean <span class="math inline">\(\mu\)</span>, i.e.</p>
+<p><span class="math display">\[\left(X_t - \mu\right) = \phi \left(X_{t-1} - \mu \right) + W_t,\]</span></p>
+<p>which is of course equivalent to</p>
+<p><span class="math display">\[X_t = \left(1 - \phi \right) \mu + \phi X_{t-1} + W_t.\]</span></p>
+Thus, we will generally only work with zero mean processes since adding means
+is simple.
+</div>
+
+<p>As for the previously presented models, we provide the code that gives an example of how an AR(1) can be simulated.</p>
+<pre class="sourceCode r"><code class="sourceCode r">n =<span class="st"> </span><span class="dv">1000</span>                              <span class="co"># process length</span>
+phi =<span class="st"> </span><span class="fl">0.5</span>                             <span class="co"># phi parameter</span>
+sigma2 =<span class="st"> </span><span class="dv">1</span>                            <span class="co"># innovation variance</span>
+Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">AR1</span>(<span class="dt">phi =</span> phi, <span class="dt">sigma2 =</span> sigma2))
+<span class="kw">plot</span>(Xt)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/example_AR1-1.png" width="672" /></p>
+<p>The AR(1) model is one of the most popular and commonly used models in many practical settings going from biology where it is used to explain the evolution of gene expressions to economics where it is used to model macroeconomic trends.</p>
+</div>
+<div id="ma1" class="section level3">
+<h3><span class="header-section-number">2.2.4</span> Moving Average Process of Order 1</h3>
+<p>As seen in the previous example, an AR(1) can be expressed as a linear
+combination of all past observations of the white noise process <span class="math inline">\((W_t)\)</span>. In a similar manner we can (in some sense) describe the moving average process of order 1 or MA(1) as a “truncated”
+version of an AR(1). This model is defined as</p>
+<span class="math display">\[\begin{equation} 
+  X_t = \theta W_{t-1} + W_t,
+\end{equation}\]</span>
+<p>where (again) <span class="math inline">\(W_t\)</span> denotes a Gaussian white noise process. As we will see further on, as for the AR(1) model, this model can also be represented as a linear combination of past observations but it has different characteristics which can capture different types of dynamics in various practical cases.</p>
+<p>An example on how to generate an MA(1) is given below:</p>
+<pre class="sourceCode r"><code class="sourceCode r">n =<span class="st"> </span><span class="dv">1000</span>                              <span class="co"># process length</span>
+sigma2 =<span class="st"> </span><span class="dv">1</span>                            <span class="co"># innovation variance</span>
+theta =<span class="st"> </span><span class="fl">0.5</span>                           <span class="co"># theta parameter</span>
+Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">MA1</span>(<span class="dt">theta =</span> theta, <span class="dt">sigma2 =</span> sigma2))
+<span class="kw">plot</span>(Xt)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/example_MA1-1.png" width="672" /></p>
+<p>The use of this model is widespread, especially combined with the AR(1) model, and can be found in fields such as engineering where it is often used for signal processing.</p>
+</div>
+<div id="drift" class="section level3">
+<h3><span class="header-section-number">2.2.5</span> Linear Drift</h3>
+<p>A linear drift is a very simple deterministic time series model which can be
+expressed as</p>
+<p><span class="math display">\[X_t = X_{t-1} + \omega, \]</span></p>
+<p>where <span class="math inline">\(\omega\)</span> is a constant and with the initial condition <span class="math inline">\(X_0 = c\)</span>, where <span class="math inline">\(c\)</span> is an
+arbitrary constant (typically <span class="math inline">\(c = 0\)</span>). This process can be expressed in a more
+familiar form as follows:</p>
+<p><span class="math display">\[
+  {X_t} = {X_{t - 1}} + \omega 
+   = \left( {{X_{t - 2}} + \omega} \right) + \omega 
+   = t{\omega} + c  \]</span></p>
+<p>Therefore, a (linear) drift corresponds to a simple linear model with slope <span class="math inline">\(\omega\)</span> and intercept <span class="math inline">\(c\)</span>.</p>
+
+<div class="remark">
+ <span class="remark"><em>Remark. </em></span> You may argue that the definition of this model is not useful since it constitutes a simple linear model. However this model is often accompanied by other time series models (such as the ones presented earlier) and its estimation can be greatly improved when considered in conjunction with the other models.
+</div>
+
+<p>Given its simple form, a linear drift can simply be generated using the code below:</p>
+<pre class="sourceCode r"><code class="sourceCode r">n =<span class="st"> </span><span class="dv">100</span>                               <span class="co"># process length</span>
+omega =<span class="st"> </span><span class="fl">0.5</span>                           <span class="co"># slope parameter</span>
+Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">DR</span>(<span class="dt">omega =</span> omega))
+<span class="kw">plot</span>(Xt)</code></pre>
+<p><img src="bookdown-demo_files/figure-html/example_Drift-1.png" width="672" /></p>
+<p>This time series model is widely used in different areas of signal analysis where mechanical systems and measuring devices can be characterized by this type of behaviour.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="the-wold-decomposition.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lts.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-intro.Rmd",
+"text": "Edit"
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

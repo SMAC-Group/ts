@@ -115,6 +115,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -127,6 +128,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Statistical Programming Methods</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
 <li class="chapter" data-level="1.1" data-path="about-this-book.html"><a href="about-this-book.html"><i class="fa fa-check"></i><b>1.1</b> About This Book</a></li>
 <li class="chapter" data-level="1.2" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
@@ -159,6 +163,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.4" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-cross-covariance-and-cross-correlation-functions"><i class="fa fa-check"></i><b>3.2.4</b> Sample Cross-Covariance and Cross-Correlation Functions</a></li>
 </ul></li>
 </ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -215,7 +222,7 @@ gamma2 =<span class="st"> </span><span class="fl">0.1</span>                    
 model =<span class="st"> </span><span class="kw">WN</span>(<span class="dt">sigma2 =</span> sigma2) <span class="op">+</span><span class="st"> </span><span class="kw">RW</span>(<span class="dt">gamma2 =</span> gamma2) <span class="op">+</span><span class="st"> </span><span class="kw">DR</span>(<span class="dt">omega =</span> delta)
 Xt =<span class="st"> </span><span class="kw">gen_lts</span>(n, model)
 <span class="kw">plot</span>(Xt)</code></pre>
-<p><img src="ds_files/figure-html/example_composite-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/example_composite-1.png" width="672" /></p>
 <p>In the above graph, the first three plots represent the latent (unobserved)
 processes (i.e. white noise, random walk, and drift) and the last one represents
 the sum of the three (i.e. <span class="math inline">\((X_t)\)</span>).</p>
@@ -234,7 +241,7 @@ savingrt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">
             <span class="dt">name_ts =</span> <span class="st">&quot;Saving Rates&quot;</span>, <span class="dt">data_name =</span> <span class="st">&quot;US Personal Saving Rates&quot;</span>)
 <span class="co"># Plot savingrt simulation</span>
 <span class="kw">plot</span>(savingrt)</code></pre>
-<p><img src="ds_files/figure-html/example_PSR-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/example_PSR-1.png" width="672" /></p>
 <p>It can be observed that the mean of this process seems to vary over time,
 suggesting that a random walk can indeed be considered as a possible model
 to explain this data. In addition, aside from some “spikes” and occasional
@@ -280,10 +287,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": null,
-"text": null
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-intro.Rmd",
+"text": "Edit"
 },
-"download": null,
+"download": ["ts.pdf", "ts.epub"],
 "toc": {
 "collapse": "subsection"
 },

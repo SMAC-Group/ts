@@ -1,5 +1,5 @@
-book_filename: "ds"
-output_dir: "docs"
+book_filename: "bookdown-demo"
 language:
   ui:
-chapter_name: "Chapter "
+    chapter_name: "Chapter "
+delete_merged_file: true

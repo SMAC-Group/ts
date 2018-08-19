@@ -115,6 +115,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -127,6 +128,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Statistical Programming Methods</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
 <li class="chapter" data-level="1.1" data-path="about-this-book.html"><a href="about-this-book.html"><i class="fa fa-check"></i><b>1.1</b> About This Book</a></li>
 <li class="chapter" data-level="1.2" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
@@ -159,6 +163,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.4" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-cross-covariance-and-cross-correlation-functions"><i class="fa fa-check"></i><b>3.2.4</b> Sample Cross-Covariance and Cross-Correlation Functions</a></li>
 </ul></li>
 </ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -179,9 +186,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="basic-elements-of-time-series" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Basic Elements of Time Series</h1>
 <p>We can start the discussion on the basic elements of time series by using a practical example from real data made available through the R software. The data represent the global mean land–ocean temperature shifts from 1880 to 2015 (with base index being the average temperatures from 1951 to 1980) and this time series is represented in the plot below.</p>
-<p><img src="ds_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>These data have been used as a support in favour of the argument that the global temperatures are increasing and that global warming has occured over the last half of the twentieth century. The first approach that one would take is to try and measure the average increase by fitting a (linear) model and testing if the (positive) slope is significant. In order to do so, we would require the residuals from the fitted model to independently and identically distributed (iid). Let us fit a model with the years (time) as explanatory variable and check the residuals from this fit.</p>
-<p><img src="ds_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>It can be seen from the upper left plot that the trend appears to be removed and, if looking at the residuals as one would usually do in a (linear) regression framework, the residual plots seem to suggest that the modelling has done a relatively good job since no particular pattern seems to emerge and their distribution is quite close to being Gaussian.</p>
 <p>However, is it possible to conclude from the plots that the data are <em>iid</em>? More specifically, can we assume that the residuals are independent? This is a fundamental question in order for inference procedures to be carried out in an appropriate manner and to limit false conclusions. Let us provide an example through a simulated data set where we know that there is an upward trend through time (i.e. the slope <span class="math inline">\(\beta = 0.01\)</span>) and our goal would be to show that this trend exists. Considering this, we simulate two cases where, in the first, the residuals are actually Gaussian iid while, in the second, the residuals are Gaussian but are dependent over time. The first case is shown below.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">9</span>)
@@ -304,10 +311,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": null,
-"text": null
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-intro.Rmd",
+"text": "Edit"
 },
-"download": null,
+"download": ["ts.pdf", "ts.epub"],
 "toc": {
 "collapse": "subsection"
 },
