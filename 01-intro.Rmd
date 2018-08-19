@@ -102,10 +102,24 @@ RW2dimension = function(steps = 100, probs = c(0.25, 0.5, 0.75),
 
 # Basic Elements of Time Series 
 
+```{remark}
+To make use of the R code within this chapter you will need to install (if not already done) and load the following libraries:
+  - simts
+  - gmwm
+  - astsa
+```
+
 We can start the discussion on the basic elements of time series by using a practical example from real data made available through the R software. The data represent the global mean land–ocean temperature shifts from 1880 to 2015 (with base index being the average temperatures from 1951 to 1980) and this time series is represented in the plot below.
 
 ```{r, echo=FALSE}
-plot(globtemp, type="l", ylab="Global Temperature Deviations")
+# Load data
+data(globtemp, package = "astsa")
+
+# Construct gts object
+globtemp = gts(globtemp, start = 1951, freq = 1, unit_ts = "C", name_ts = "Global Temperature Deviations", data_name = "Evolution of Global Temperatures")
+
+# Plot time series
+plot(globtemp)
 ```
 
 These data have been used as a support in favour of the argument that the global temperatures are increasing and that global warming has occured over the last half of the twentieth century. The first approach that one would take is to try and measure the average increase by fitting a (linear) model and testing if the (positive) slope is significant. In order to do so, we would require the residuals from the fitted model to independently and identically distributed (iid). Let us fit a model with the years (time) as explanatory variable and check the residuals from this fit.
@@ -125,7 +139,7 @@ qqline(resids)
 
 It can be seen from the upper left plot that the trend appears to be removed and, if looking at the residuals as one would usually do in a (linear) regression framework, the residual plots seem to suggest that the modelling has done a relatively good job since no particular pattern seems to emerge and their distribution is quite close to being Gaussian.
 
-However, is it possible to conclude from the plots that the data are *iid*? More specifically, can we assume that the residuals are independent? This is a fundamental question in order for inference procedures to be carried out in an appropriate manner and to limit false conclusions. Let us provide an example through a simulated data set where we know that there is an upward trend through time (i.e. the slope $\beta = 0.01$) and our goal would be to show that this trend exists. Considering this, we simulate two cases where, in the first, the residuals are actually Gaussian iid while, in the second, the residuals are Gaussian but are dependent over time. The first case is shown below.
+However, is it possible to conclude from the plots that the data are *iid*? More specifically, can we assume that the residuals are independent? This is a fundamental question in order for inference procedures to be carried out in an appropriate manner and to limit false conclusions. Let us provide an example through a simulated data set where we know that there is an upward trend through time (i.e. the slope $\beta = 0.01$) and our goal would be to show that this trend exists. Considering this, we simulate two cases where, in the first, the residuals are actually Gaussian iid while, in the second, the residuals are Gaussian but are dependent over time. The results of regression in these two cases are shown below.
 
 ```{r}
 set.seed(9)
@@ -148,7 +162,7 @@ fit.dep <- lm(y.dep ~ time)
 summary(fit.dep)
 ```
 
-As can be seen, the estimated slope ($\approx$ `r round(fit.ind$coefficients[2], 3)`) is close to the true slope (0.01) and is significant (i.e. the p-value is smaller than the common rejection level 0.05). Hence, from this inference procedure we can conclude that the slope is significant and is roughly equal to 0.01 (which corresponds to the truth). However, let us explore the same analysis when the residuals are not independent.
+As can be seen, in the first case the estimated slope ($\approx$ `r round(fit.ind$coefficients[2], 3)`) is close to the true slope (0.01) and is significant (i.e. the p-value is smaller than the common rejection level 0.05). Hence, from this inference procedure we can conclude that the slope is significant and is roughly equal to 0.01 (which corresponds to the truth). However, let check the same analysis when the residuals are not independent (the second case).
 
 ```{r}
 set.seed(9)
@@ -209,33 +223,40 @@ Let us now briefly discuss the two components of a time series.
 Before shifting our focus to the random component of time series, we will first just briefly underline the main features that should be taken into account for the deterministic component. The first feature that should be analysed is the *trend* that characterises the time series, more specifically the behaviour of the variable of interest as a specific function of time (as the global temperature time series seen earlier). Let us consider another example of time series based on real data, i.e. the quarterly earnings of Johnson & Johnson between 1960 and 1980 represented below.
 
 ```{r, echo=FALSE}
-plot(jj, type="l", ylab="Quarterly Earnings per Share")
+# Load data
+data(jj, package = "astsa")
+
+# Construct gts object
+jj <- gts(jj, start = 1960, freq = 4, unit_ts = "$", name_ts = "Quarterly Earnings per Share", data_name = "Johnson & Johnson Quarterly Earnings")
+
+# Plot time series
+plot(jj)
 ```
 
 As can be seen from the plot, the earnings appear to grow over time, therefore we can imagine fitting a line to this data to describe its behaviour (see red line below).
 
 ```{r, echo=FALSE}
-time_jj <- 1:84
-quarters <- as.factor(rep(1:4, 21))
+time_jj <- gts_time(jj)
+quarters <- rep(1:4, 21) 
 fit_jj1 <- lm(as.vector(jj) ~ time_jj)
-plot(time_jj, as.vector(jj), type="l", xlab="Quarters", ylab="Quarterly Earnings per Share")
-abline(fit_jj1, col = "red")
+plot(jj)
+lines(time_jj, predict(fit_jj1), col = "red")
 ```
 
 Although the line captures a part of the behaviour, it is quite clear that the trend of the time series is not linear. It could therefore be more appropriate to define another function of time to describe it and, consequently, we add a quadratic term of time to obtain the following fit.
 
 ```{r, echo=FALSE}
 fit_jj2 <- gam(as.vector(jj) ~ s(time_jj))
-plot(time_jj, as.vector(jj), type="l", xlab="Quarters", ylab="Quarterly Earnings per Share")
-lines(time_jj, fit_jj2$fitted.values, col = "red")
+plot(jj)
+lines(time_jj, predict(fit_jj2), col = "red")
 ```
 
 We can see now that the quadratic function of time allows to better fit the observed time series and closely follow the observations. However, there still appears to be a pattern in the data that isn't captured by this quadratic model. This pattern appears to be repeated over time: peaks and valleys that seem to occur at regular intervals along the time series. This behaviour is known as *seasonality* which, in this case, can be explained by the effect of a specific quarter on the behaviour of the earnings. Indeed, it is reasonable to assume that the seasons have impacts on different variables measured over time (e.g. temperatures, earnings linked to sales that vary with seasons, etc.). Let us therefore take the quarters as an explanatory variable and add it to the previous quadratic model (see fit below).
 
 ```{r, echo=FALSE}
 fit_jj3 <- gam(as.vector(jj) ~ quarters + s(time_jj))
-plot(time_jj, as.vector(jj), type="l", xlab="Quarters", ylab="Quarterly Earnings per Share")
-lines(time_jj, fit_jj3$fitted.values, col = "red")
+plot(jj)
+lines(time_jj, predict(fit_jj3), col = "red")
 ```
 
 This final fit appears to well describe the behaviour of the earnings. Hence, *trend* and *seasonality* are the main features that characterize the deterministic component of a time series. However, as discussed earlier, these deterministic components often don't explain all of the observed time series since there is often a random component characterizing data measured over time. Not considering the latter component can have considerable impacts on the inference procedures (as seen earlier) and it is therefore important to adequately analyse them (see next section).
@@ -261,9 +282,209 @@ This book will also focus on certain representations of time series based on par
 
 This statement simply means that $(X_t)$ is normally distributed and independent over time. Ideally, this is the type of process that we would want to observe once we have performed a statistical modelling procedure. However, despite it appearing to be an excessively simple model to be considered for time series, it is actually a crucial component to construct a wide range of more complex time series models (see Chapter 2). Indeed, unlike the white noise process, time series are typically *not* independent over time. For example, if we suppose that the temperature in State College is unusually low on a given dat, then it is reasonable to assume that temperature the day after will also be low.
 
-With this in mind, let us present the basic parametric models that are used to build even more complex models to describe and predict the behaviour of a time series.
+With this in mind, let us now give a quick overview of the information that can be retrieved on a time series from a simple descriptive representation.
 
-## Basic Time Series Models {#basicmodels}
+
+#### Exploratory Data Analysis for Time Series {#eda}
+
+When dealing with relatively small time series (e.g. a few thousands), it is
+often useful to look at a graph of the original data. A graph can be
+an informative tool for "detecting" some features of a time series such as trends and
+the presence of outliers. This is indeed what was done in the previous paragraphs when analysing the global temperature data or the Johnson & Johnson data.
+
+To go more in depth with respect to the previous paragraphs, a trend is typically assumed to be present in a time series when the data exhibit some form of long term increase or decrease or combination of increases or decreases. Such trends could be linear or non-linear and represent
+an important part of the "signal" of a model (as seen for the Johnson & Johnson time series). Here are a few examples of
+non-linear trends:
+
+1. **Seasonal trends** (periodic): These are the cyclical patterns which repeat
+after a fixed/regular time period. This could be due to business cycles
+(e.g. bust/recession, recovery).
+    
+2. **Non-seasonal trends** (periodic): These patterns cannot be associated to
+seasonal variation and can for example be due to an external variable such as,
+for example, the impact of economic indicators on stock returns. Note that such
+trends are often hard to detect based on a graphical analysis of the data.
+    
+3. **"Other" trends**: These trends have typically no regular patterns and are
+over a segment of time, known as a "window", that change the statistical
+properties of a time series. A common example of such trends is given by the
+vibrations observed before, during and after an earthquake.
+
+Moreover, when observing "raw" time series data it is also interesting to
+evaluate if some of the following phenomena occur:
+
+1. **Change in Mean:** Does the mean of the process shift over time?
+2. **Change in Variance:** Does the variance of the process evolve with time?
+3. **Change in State:** Does the time series appear to change between "states"
+   having distinct statistical properties?
+4. **Outliers** Does the time series contain some "extreme" observations? 
+   (Note that this is typically difficult to assess visually.)
+
+```{example, label="earthquake"}
+In the figure below, we present an example of displacement recorded
+during an earthquake as well as an explosion.
+```
+
+```{r example_EQ, fig.height = 4, fig.width = 7, cache = TRUE}
+data(EQ5, package = "astsa")
+data(EXP6, package = "astsa")
+
+# Construct gts object
+eq5 <- gts(EQ5, start = 0, freq = 1, unit_ts = "p/s", name_ts = "Earthquake Arrival Phases", data_name = "Earthquake Arrival Phases")
+exp6 <- gts(EXP6, start = 0, freq = 1, unit_ts = "p/s", name_ts = "Explosion Arrival Phases", data_name = "Explosion Arrival Phases")
+
+# Plot time series
+plot(eq5)
+plot(exp6)
+```
+
+From the graph, it can be observed that the statistical properties of the time
+series appear to change over time. For instance, the variance of the time series
+shifts at around $t = 1150$ for both series.
+The shift in variance also opens "windows" where there appear to be distinct
+states. In the case of the explosion data, this is particularly relevant around
+$t = 50, \cdots, 250$ and then again from $t = 1200, \cdots, 1500$. Even within
+these windows, there are "spikes" that could be considered as outliers most
+notably around $t = 1200$ in the explosion series.
+
+Extreme observations or outliers are commonly observed in real time series data, this is illustrated in the following example. 
+
+```{example, label="precipitation"}
+We consider here a data set coming from the domain of hydrology. The data 
+concerns monthly precipitation (in mm) over a certain period of time (1907 to
+1972) and is interesting for scientists in order to study water cycles. The
+data are presented in the graph below:
+```
+
+```{r example_hydro, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE, warning = FALSE}
+# Load hydro dataset
+data("hydro")
+
+# Simulate based on data
+hydro = gts(as.vector(hydro), start = 1907, freq = 12, unit_ts = "in.", 
+            name_ts = "Precipitation", data_name = "Hydrology data")
+
+# Plot hydro 
+plot(hydro)
+```
+
+Next, we consider an example coming from high-frequency finance to illustrate
+the limitations our current framework.
+
+The figure below presents the returns or price innovations
+(i.e. the changes in price from one observation to the
+next) for Starbuck's stock on July 1, 2011 for about 150 seconds (left
+panel) and about 400 minutes (right panel). 
+
+```{r example_Starbucks, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE}
+# TO DO add Duke's code here!
+```
+
+It can be observed on the left panel that observations are not equally spaced.
+Indeed, in high-frequency data the intervals between two points are typically not
+constant and are, even worse, random variables. This implies that the time when
+a new observation will be available is in general unknown. On the right panel,
+one can observe that the variability of the data seems to change during the
+course of the trading day. Such a phenomenon is well known in the finance
+community since a lot of variation occurs at the start (and the end) of the 
+day while the middle of the day is associated with small changes. 
+Moreover, clear extreme observations can also be noted in this graph at
+around 11:00.
+
+Finally, let us consider the limitations of a direct graphical representation of
+a time series when the sample size is large. Indeed, due to visual limitations,
+a direct plotting of the data will probably result in an uninformative
+aggregation of points between which it is unable to distinguish anything. This is
+illustrated in the following example.
+
+We consider here the data coming from the calibration procedure of
+an Inertial Measurement Unit (IMU) which, in general terms, is used to enhance
+navigation precision or reconstruct three dimensional movements:
+
+```{r, echo = FALSE}
+knitr::include_url("https://www.youtube.com/watch?v=htoBvSq8jLA")
+```
+
+These sensors are used in a very wide range of applications such as robotics, virtual reality, 
+vehicle stability control, human and animal motion capture and so forth:
+
+```{r, echo = FALSE}
+knitr::include_url("https://www.youtube.com/watch?v=g4tgtPA54_Y")
+```
+
+The signals coming from these instruments are measured at
+high frequencies over a long time and are often characterized by linear trends
+and numerous underlying stochastic processes.
+
+The code below retrieves some data from an IMU and plots it directly:
+
+```{r example_IMU, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE, dev='png'}
+# Load IMU data
+data(imu6, package = "imudata")
+
+# Construct gst object
+Xt = gts(imu6[,1], data_name = "Gyroscope data", unit_time = "hour", 
+         freq = 100*60*60, name_ts = "Angular rate", 
+         unit_ts = bquote(rad^2/s^2))
+
+# Plot time series
+plot(Xt)
+```
+
+Although a linear trend and other processes are present in this signal
+(time series), it is practically impossible to understand or guess anything
+from the plot.
+
+Having discussed these representations (and the relative issues with these representations) let us present the basic parametric models that are used to build even more complex models to describe and predict the behaviour of a time series.
+
+## Modelling Time Series {#basicmodels}
+
+Before discussing the basic time series models used to describe and forecast, we briefly discuss the concept of dependence within time series.
+
+### Dependence within Time Series
+
+As mentioned earlier, it is straightforward to assume that observations measured through time are dependent on each other (in that observations at time $t$ have some form of impact on observations at time $t+1$ or beyond). Due to this characteristic, one of the main interests in time series is prediction where, if $(X_t)_{t=1,\ldots,T}$ is an identically distributed but not independent sequence, we often want to know the value of ${X}_{T+h}$ for $h > 0$ (i.e. an estimator of $\mathbb{E}[X_{T+h}| X_T,...]$). In order to tackle this challenge, we first need to understand the dependence between $X_{1},\ldots,X_{T}$ and, even before this, we have to formally define what **independence** is.
+
+```{definition, IndepEvents, name = "Independence of Events"}
+Two events $A$ and $B$ are independent if 
+\begin{align*}
+\mathbb{P}(A \cap B) = \mathbb{P}(A)\mathbb{P}(B),
+\end{align*}
+with $\mathbb{P}(A)$ denoting the probability of event $A$ occuring and $\mathbb{P}(A \cap B)$ denoting the joint probability (i.e. the probability that events $A$ and $B$ occur jointly). In general, $A_{1},\ldots,A_{n}$ are independent if 
+\begin{align*}
+\mathbb{P}(A_1 \ldots A_n) = \mathbb{P}(A_1) \ldots \mathbb{P}(A_n) \;\; \forall \; A_i \in S, \;\; i=1,\ldots,n
+\end{align*}
+where $S$ is the sample space.
+```
+<br>
+
+```{definition, IndepRV, name = "Independence of Random Variables"}
+Two random variables $X$ and $Y$ with Cumulative Distribution Functions (CDF) $F_X(x)$ and $F_Y(y)$, respectively, are independent if and only if their joint CDF $F_{X,Y}(x,y)$ is such that 
+\begin{align*}
+F_{X,Y}(x,y) = F_{X}(x) F_{Y}(y).
+\end{align*}
+In general, random variables $X_1, \ldots, X_n$ with CDF $F_{X_1}(x_1), \ldots, F_{X_n}(x_n)$ are respectively independent if and only if their joint CDF $F_{X_1, \ldots, X_n}(x_1, \ldots, x_n)$ is such that
+\begin{align*}
+F_{X_1,\ldots,X_n}(x_1,\ldots,x_n) = F_{X_1}(x_1) \ldots F_{X_n}(x_n).
+\end{align*}
+```
+<br>
+
+```{definition, iid, name = "iid sequence"}
+The sequence $X_{1},X_{2},\ldots,X_{T}$ is said to be independent and identically distributed (i.e. iid) if and only if
+\begin{align*}
+\mathbb{P}(X_{i}<x) = \mathbb{P}(X_{j}<x) \;\; \forall x \in \mathbb{R}, \forall i,j \in \{1,\ldots,T\},
+\end{align*}
+and
+\begin{align*}
+\mathbb{P}(X_{1}<x_{1},X_{2}<x_{2},\ldots,X_{T}<x_{T})=\mathbb{P}(X_{1}<x_1) \ldots \mathbb{P}(X_{T}<x_T) \;\; \forall T\geq2, x_1, \ldots, x_T \in \mathbb{R}.
+\end{align*}
+```
+<br>
+
+The basic idea behind the above definitions of independence is the fact that the probability of an event regarding variable $X_i$ remains unaltered no matter what occurs for variable $X_j$ (for $i \neq j$).
+
+### Basic Time Series Models
 
 In this section, we introduce some simple time series models that consitute the building blocks for the more complex and flexible classes of time series commonly used in practice. Before doing so it is useful to define $\Omega_t$ as all the information available up to time
 $t-1$, i.e.
