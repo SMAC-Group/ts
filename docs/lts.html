@@ -25,7 +25,7 @@
 <meta name="author" content="Stéphane Guerrier, Roberto Molinari and Haotian Xu">
 
 
-<meta name="date" content="2018-08-17">
+<meta name="date" content="2018-08-19">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -129,10 +129,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
 <li class="chapter" data-level="1.1" data-path="about-this-book.html"><a href="about-this-book.html"><i class="fa fa-check"></i><b>1.1</b> About This Book</a></li>
-<li class="chapter" data-level="1.2" data-path="contents.html"><a href="contents.html"><i class="fa fa-check"></i><b>1.2</b> Contents</a></li>
-<li class="chapter" data-level="1.3" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.3</b> Bibliographic Note</a></li>
-<li class="chapter" data-level="1.4" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>1.4</b> Acknowledgements</a></li>
-<li class="chapter" data-level="1.5" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i><b>1.5</b> License</a></li>
+<li class="chapter" data-level="1.2" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
+<li class="chapter" data-level="1.3" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.4" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i><b>1.4</b> License</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
 <li class="chapter" data-level="2.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
@@ -179,22 +178,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="lts" class="section level2">
 <h2><span class="header-section-number">2.3</span> Composite Stochastic Processes</h2>
-<p>A composite stochastic process can be defined as the sum of underlying
-(or latent) stochastic processes. In this text, we will use the term
-<em>latent time series</em> as a synomym for composite stochastic processes.
-A simple example of such a process is given by</p>
+<p>In the previous paragraphs we defined and briefly discussed the basic time series models that can individually be used to describe and predict a wide range of phenomena in a variety of fields of application. However, their capability of capturing and explaining the different behaviours of phenomena through time increases considerably when they are combined to form so-called <em>composite models</em> (or composite processes). A composite (stochastic) process can be defined as the sum of underlying (or latent) time series models and in the rest of this book we will use the term <em>latent time series models</em> to refer to these kinds of models. A simple example of such a model is given by</p>
 <p><span class="math display">\[\begin{aligned}
 Y_t &amp;= Y_{t-1} + W_t + \delta\\
 X_t &amp;= Y_t + Z_t,
 \end{aligned}\]</span></p>
 <p>where <span class="math inline">\(W_t\)</span> and <span class="math inline">\(Z_t\)</span> are two independent Gaussian white noise processes.
-This model is often used as a first tool to approximate the number of
+This model is often used as a first basis to approximate the number of
 individuals in the context ecological population dynamics.
 For example, suppose we want to study the population of Chamois in the Swiss Alps.
 Let <span class="math inline">\(Y_t\)</span> denote the “true” number of individuals in this population at time <span class="math inline">\(t\)</span>.
-It is reasonable that <span class="math inline">\(Y_t\)</span> is (approximately) the population at the previous
-time <span class="math inline">\(t-1\)</span> (e.g the previous year) plus a random variation and a drift.
-This random variation is due to the natural randomness in ecological population
+It is reasonable to assume that the number of individuals at time <span class="math inline">\(t\)</span> (<span class="math inline">\(Y_t\)</span>) is (approximately) the population at the previous time <span class="math inline">\(t-1\)</span> (e.g the previous year) plus a random variation and a drift. This random variation is due to the natural randomness in ecological population
 dynamics and reflects changes such as the number of predators, the abundance
 of food, or weather conditions.
 On the other hand, ecological <em>drift</em> is often of particular interest for ecologists as
