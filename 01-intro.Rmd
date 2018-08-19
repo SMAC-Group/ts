@@ -494,7 +494,7 @@ This time series model is widely used in different areas of signal analysis wher
 
 ## Composite Stochastic Processes {#lts}
 
-In the previous paragraphs we defined and briefly discussed the basic time series models that can individually be used to describe and predict a wide range of phenomena in a variety of fields of application. However, their capability of capturing and explaining the different behaviours of phenomena through time becomes even larger when they are combined to form so-called *composite models* (or composite processes). A composite (stochastic) process can be defined as the sum of underlying (or latent) stochastic processes. In this text, we will use the term *latent time series* as a synomym for composite stochastic processes. A simple example of such a process is given by
+In the previous paragraphs we defined and briefly discussed the basic time series models that can individually be used to describe and predict a wide range of phenomena in a variety of fields of application. However, their capability of capturing and explaining the different behaviours of phenomena through time increases considerably when they are combined to form so-called *composite models* (or composite processes). A composite (stochastic) process can be defined as the sum of underlying (or latent) time series models and in the rest of this book we will use the term *latent time series models* to refer to these kinds of models. A simple example of such a model is given by
 
 \[\begin{aligned}
 Y_t &= Y_{t-1} + W_t + \delta\\
@@ -502,13 +502,11 @@ X_t &= Y_t + Z_t,
 \end{aligned}\]
 
 where $W_t$ and $Z_t$ are two independent Gaussian white noise processes. 
-This model is often used as a first tool to approximate the number of
+This model is often used as a first basis to approximate the number of
 individuals in the context ecological population dynamics. 
 For example, suppose we want to study the population of Chamois in the Swiss Alps.
 Let $Y_t$ denote the "true" number of individuals in this population at time $t$.
-It is reasonable that $Y_t$ is (approximately) the population at the previous
-time $t-1$ (e.g the previous year) plus a random variation and a drift. 
-This random variation is due to the natural randomness in ecological population
+It is reasonable to assume that the number of individuals at time $t$ ($Y_t$) is (approximately) the population at the previous time $t-1$ (e.g the previous year) plus a random variation and a drift. This random variation is due to the natural randomness in ecological population
 dynamics and reflects changes such as the number of predators, the abundance
 of food, or weather conditions.
 On the other hand, ecological *drift* is often of particular interest for ecologists as 
