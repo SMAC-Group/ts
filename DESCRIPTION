@@ -1,0 +1,23 @@
+Package: SCIS
+Title: ADD TITLE
+Version: 0.0.1
+Authors@R: c(
+  person("Stephane", "Guerrier" , "stef.guerrier@gmail.com", c("aut","cre")),
+  person("Gaetan", "Bakalli" , c("aut")),
+  person("Mucyo", "Karemera" , c("aut")),
+  person("Roberto", "Molinari" , c("aut")),
+  person("Ahmed", "Radi", c("aut")),
+  person("Haotian", "Xu",  c("aut")),
+  person("Yuming", "Zhang", c("aut"))
+  )
+Depends: R (>= 3.3.0)
+URL: https://github.com/SMAC-Group/SCIS
+Imports:
+  rsconnect,
+  bookdown,
+  simts,
+  imudata
+  av
+Remotes: SMAC-Group/simts, 
+  SMAC-Group/av,
+  SMAC-Group/imudata

@@ -1,36 +1,23 @@
 --- 
 title: "Applied Time Series Analysis with R"
 author: "Stéphane Guerrier, Roberto Molinari and Haotian Xu"
-date: "`r Sys.Date()`"
+date: "`r format(Sys.time(), '%B %d %Y')`"
 site: bookdown::bookdown_site
-output:
-  bookdown::gitbook:
-    lib_dir: assets
-    split_by: section
-    config:
-      toolbar:
-        position: static
-  bookdown::pdf_book:
-    keep_tex: yes
-  bookdown::html_book:
-    css: toc.css
+output: bookdown::gitbook
 documentclass: book
 bibliography: [book.bib, packages.bib]
-biblio-style: "acm"
+biblio-style: apalike
 link-citations: yes
-github-repo: SMAC-Group/app_ts
+github-repo: SMAC-Group/ts
 description: ""
 favicon: "favicon.ico"
 ---
 
+# (PART) Foundation {-}
+
 # Preface
 
-Welcome to Applied Time Series Analysis with `R`.
-
-
-## About This Book
-
-This book is intended as a support for the course of 463 (Applied Time Series). It contains an overview of the basic procedures to adequately approach a time series analysis with insight to more advanced analysis of time series. It firstly introduces the basic concepts and theory to appropriately use the applied tools that are presented in the second (and main) part of the book. In the latter part the reader will learn how to use descriptive analysis to identify the important characteristics of a time serues and then employ modelling and inference techniques (made available through R funtions) that allow to describe a time series and make predictions. The last part of the book will give introductory notions on more advanced analysis of time series where the reader will achieve a basic understanding of the tools available to anayse more complex characteristic of time series. 
+Welcome to Applied Time Series Analysis with `R`. This book is intended as a support for the course of STAT 463 (Applied Time Series) given at Penn State. It contains an overview of the basic procedures to adequately approach a time series analysis with insight to more advanced analysis of time series. It firstly introduces the basic concepts and theory to appropriately use the applied tools that are presented in the second (and main) part of the book. In the latter part the reader will learn how to use descriptive analysis to identify the important characteristics of a time serues and then employ modelling and inference techniques (made available through `R` funtions) that allow to describe a time series and make predictions. The last part of the book will give introductory notions on more advanced analysis of time series where the reader will achieve a basic understanding of the tools available to anayse more complex characteristic of time series. 
 
 This document is under active development and as a result is likely to contains
 many errors. As Montesquieu puts it:
@@ -39,6 +26,10 @@ many errors. As Montesquieu puts it:
 > "*La nature semblait avoir sagement pourvu à ce que les sottises des hommes 
 > fussent passagères, et les livres les immortalisent.*"
 >
+
+```{block2,  type='rmdimportant'}
+This document is **under development** and it is therefore preferable to always access the text online to be sure you are using the most up-to-date version. Due to its current development, you may encounter errors ranging from broken code to typos or poorly explained topics. If you do, please let us know! Simply add an issue to the GitHub repository used for this document (which can be accessed here https://github.com/SMAC-Group/ts/issues) and we will make the changes as soon as possible. In addition, if you know RMarkdown and are familiar with GitHub, make a pull request and fix an issue yourself.
+```
 
 <!-- ## Contents -->
 
@@ -77,14 +68,51 @@ many errors. As Montesquieu puts it:
 <!--     - State-Space Models -->
 <!--     - Multivariate (VAR) Models -->
 
+
+## Conventions
+
+Throughout this book, `R` code will be typeset using a `monospace` font which is syntax highlighted. For example:
+
+```{r, eval = FALSE}
+a = pi
+b = 0.5
+sin(a*b)
+```
+
+Similarly, `R` output lines (that usally appear in your Console) will begin with `##` and will not be syntax highlighted. The output of the above example is the following:
+
+```{r, echo = FALSE}
+a = pi
+b = 0.5
+sin(a*b)
+```
+
+Aside from `R` code and its outputs, this book will also insert some boxes that will draw the reader's attention to  important, curious, or otherwise informative details. An example of these boxes was seen at the beginning of this introduction where an important aspect was pointed out to the reader regarding the "under construction" nature of this book. Therefore the following boxes and symbols can be used to represent information of different nature:
+
+```{block2,  type='rmdimportant'}
+This is an important piece of information.
+```
+
+```{block2, type='rmdnote'}
+This is some additional information that could be useful to the reader.
+```
+
+```{block2, type='rmdcaution'}
+This is something that the reader should pay caution to but should not create major problems if not considered. 
+```
+
+```{block2, type='rmdwarning'}
+This is a warning which should be heeded by the reader to avoid problems of different nature.
+```
+
+```{block2, type='rmdtip'}
+This is a tip for the reader when following or developing something based on this book.
+```
+
+
 ## Bibliographic Note 
 
-This text is heavily inspired by the following three execellent references:
-
-1. "*Time Series Analysis and Its Applications*", Fourth Edition, Robert H. Shumway & David S. Stoffer.
-2. "*Time Series for Macroeconomics and Finance*", John H. Cochrane.
-3. "*Cours de Séries Temporelles: Théorie et Applications*", Volume 1, Arthur Charpentier.
-
+This is not the first (or the last) book that has been written on time series analysis. Indeed, this can be seen as a book that brings together and reorganizes information and material from other sources structuring and tailoring it to a course in basic time series analysis. The main and excellent references (which are far from being an exhaustive review of literature) that can be used to have a more in-depth view of different aspects treated in this book are @cochrane2005time, @hamilton1994time and @shumway2010time.
 
 ## Acknowledgements
 
@@ -97,9 +125,13 @@ The text has benefited greatly from the contributions of many people who have pr
 - [Justin Lee](https:://github.com/munsheet)
 
 The authors are particularly grateful to James Balamuta who introduced them to the use of the different tools provided by the RStudio environment and greatly contributed to an earlier version of this book:
+
 - [James Balamuta](https::/github.com/coatless)
 
 
 ## License 
 
-![This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).](images/license/cc.png)
+You can redistribute it and/or modify this book under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA) 4.0 License.
+
+<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="images/licence.png" align="left" width="200"/></a>
+<br><br><br>
