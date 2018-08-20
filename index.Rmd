@@ -19,6 +19,7 @@ favicon: "favicon.ico"
 
 Welcome to Applied Time Series Analysis with `R`. This book is intended as a support for the course of STAT 463 (Applied Time Series) given at Penn State University. It contains an overview of the basic procedures to adequately approach a time series analysis with insight to more advanced analysis of time series. It firstly introduces the basic concepts and theory to appropriately use the applied tools that are presented in the second (and main) part of the book. In the latter part the reader will learn how to use descriptive analysis to identify the important characteristics of a time serues and then employ modelling and inference techniques (made available through `R` funtions) that allow to describe a time series and make predictions. The last part of the book will give introductory notions on more advanced analysis of time series where the reader will achieve a basic understanding of the tools available to anayse more complex characteristic of time series. 
 
+<!--
 This document is under active development and as a result is likely to contains
 many errors. As Montesquieu puts it:
 
@@ -26,6 +27,8 @@ many errors. As Montesquieu puts it:
 > "*La nature semblait avoir sagement pourvu à ce que les sottises des hommes 
 > fussent passagères, et les livres les immortalisent.*"
 >
+
+-->
 
 ```{block2,  type='rmdimportant'}
 This document is **under development** and it is therefore preferable to always access the text online to be sure you are using the most up-to-date version. Due to its current development, you may encounter errors ranging from broken code to typos or poorly explained topics. If you do, please let us know! Simply add an issue to the GitHub repository used for this document (which can be accessed here https://github.com/SMAC-Group/ts/issues) and we will make the changes as soon as possible. In addition, if you know RMarkdown and are familiar with GitHub, make a pull request and fix an issue yourself.
