@@ -6,7 +6,7 @@ site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
 bibliography: [book.bib, packages.bib]
-biblio-style: apalike
+biblio-style: "acm"
 link-citations: yes
 github-repo: SMAC-Group/ts
 description: ""
@@ -109,7 +109,6 @@ This is a warning which should be heeded by the reader to avoid problems of diff
 This is a tip for the reader when following or developing something based on this book.
 ```
 
-
 Using the same convention as in @friedman2001elements, the symbol `r emo::ji("scream")` indicates a technically difficult section which may be skipped without interrupting the flow of the discussion.
 
 ## Bibliographic Note 
@@ -137,5 +136,3 @@ You can redistribute it and/or modify this book under the terms of the Creative 
 
 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="images/licence.png" align="left" width="200"/></a>
 <br><br><br>
-
-## References
