@@ -54,7 +54,7 @@ These data have been used as a support in favour of the argument that the global
 $$
 X_t = f(t) + \varepsilon_t,
 $$
-where $X_t$ denotes the global temperatures deviation, $f(\cdot)$ is a "smooth" function such that $\mathbb{E}[X_t] - f(t) = 0$ for all $t$. In general, $\varepsilon_t$ is assumed to follow a normal distribution for simplicity. The goal in this context would therefore be to evaluate if $f(t)$ (or a suitable estimator of this function) is an increasing function. In order to do so, we would require the residuals from the fitted model to be independently and identically distributed (iid). Let us fit a (nonparametric) model with the years (time) as explanatory variable using the code below:
+where $X_t$ denotes the global temperatures deviation and $f(\cdot)$ is a "smooth" function such that $\mathbb{E}[X_t] - f(t) = 0$ for all $t$. In general, $\varepsilon_t$ is assumed to follow a normal distribution for simplicity. The goal in this context would therefore be to evaluate if $f(t)$ (or a suitable estimator of this function) is an increasing function. In order to do so, we would require the residuals from the fitted model to be independently and identically distributed (iid). Let us fit a (nonparametric) model with the years (time) as explanatory variable using the code below:
 
 ```{r fitGam}
 time = gts_time(globtemp)
@@ -69,12 +69,12 @@ simple_diag_plot(globtemp, fit)
 
 It can be seen from the upper left plot that the trend appears to be removed and, if looking at the residuals as one would usually do in a regression framework, the residual plots seem to suggest that the modelling has done a relatively good job since no particular pattern seems to emerge and their distribution is quite close to being Gaussian.
 
-However, is it possible to conclude from the plots that the data are *iid* (i.e. independent and identically distributed)? More specifically, can we assume that the residuals are independent? This is a fundamental question in order for inference procedures to be carried out in an appropriate manner and to limit false conclusions. Let us provide an example through a simulated data set where we know that there is an upward trend through time and our goal would be to show that this trend exists. In order to so we consider a simple model where $f(t)$ has a simple parametric form, i.e. $f(t) = \beta \cdot t$ and we employed the following data generating process:
+However, is it possible to conclude from the plots that the data are *iid* (i.e. independent and identically distributed)? More specifically, can we assume that the residuals are independent? This is a fundamental question in order for inference procedures to be carried out in an appropriate manner and to limit false conclusions. Let us provide an example through a simulated data set where we know that there is an upward trend through time and our goal would be to show that this trend exists. In order to do so we consider a simple model where $f(t)$ has a simple parametric form, i.e. $f(t) = \beta \cdot t$ and we employ the following data generating process:
 
 $$X_t = \beta \cdot t + Y_t,$$
 where
 $$Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \varepsilon_t,$$
-and where $\varepsilon_t \sim \mathcal{N}(0, \sigma^2)$. Intuitively, $Y_t$ is not an *iid* sequence of random variables except in the case where $\phi_1 = \phi_2 = 0$. In the following chapters we shall see that this intuition is correct and that this model is known as an AR(2) model. Considering this, we simulate two cases where, in the first, the residuals are actually Gaussian *iid* while, in the second, the residuals are Gaussian but are dependent over time. The parameters employed in both cases are $\beta = 5 \cdot 10^{-3}$ and $\sigma^2 = 1$ but in the first case we used $\phi_1 = \phi_2 = 0$ while in the latter $\phi_1 = 0.8897$, $\phi_2 = -0.4858$. In both cases, we perform the hypothesis test:
+and where $\varepsilon_t \sim \mathcal{N}(0, \sigma^2)$. Intuitively, $Y_t$ is not an *iid* sequence of random variables except in the case where $\phi_1 = \phi_2 = 0$. In the following chapters we shall see that this intuition is correct and that this model is known as an AR(2) model. Considering this, we simulate two cases where, in the first, the residuals are actually *iid* Gaussian while, in the second, the residuals are Gaussian but are dependent over time. The parameters employed in both cases are $\beta = 5 \cdot 10^{-3}$ and $\sigma^2 = 1$ but in the first case we used $\phi_1 = \phi_2 = 0$ (i.e. *iid* residuals) while in the latter $\phi_1 = 0.8897$, $\phi_2 = -0.4858$. In both cases, we perform the hypothesis test:
 
 $$
 \begin{aligned}
@@ -119,15 +119,15 @@ The "summary" of our model on the first dataset is given by
 summary(model1)
 ```
 
-As can be seen, in the first case the estimated slope ($\approx$ `r round(model1$coefficients[1], 3)`) is close to the true slope (0.005) and is significant (i.e. the p-value is smaller than the common rejection level 0.05) since the p-value of the above mentioned test is given by `r round(summary(model1)$coefficients[4]/2, 4)`. Hence, from this inference procedure we can conclude at the 5% significance level that the slope is significantly larger than zero and is roughly equal to `r round(model1$coefficients[1], 3)` (which cis relatively close to the truth). However, let check the same analysis when the residuals are not independent (the second case) by examining its "summary"
+As can be seen, in the first case the estimated slope ($\approx$ `r round(model1$coefficients[1], 3)`) is close to the true slope (0.005) and is significant (i.e. the p-value is smaller than the common rejection level 0.05) since the p-value of the above mentioned test is given by `r round(summary(model1)$coefficients[4]/2, 4)`. Hence, from this inference procedure we can conclude at the 5% significance level that the slope is significantly larger than zero and is roughly equal to `r round(model1$coefficients[1], 3)` (which cis relatively close to the truth). However, let us perform the same analysis when the residuals are not independent (the second case) by examining its "summary":
 
 ```{r}
 summary(model2)
 ```
 
-In this case we can observe that the p-value of the above mentionned test is given by `r round(summary(model2)$coefficients[4]/2, 4)` and is therefore greater than the arbitrary value of 0.05. Consequently, we don't have evidance to conclude that the slope coeficient is larger than zero (i.e. we fail to reject H$_0$) although it is in reality. Therefore, the inference procedures can be misleading when not taking into account other possible significant variables or, in this case, forms of dependence that can hide true underlying effects.
+In this case we can observe that the p-value of the above mentioned test is given by `r round(summary(model2)$coefficients[4]/2, 4)` and is therefore greater than the arbitrary value of 0.05. Consequently, we don't have evidence to conclude that the slope coefficient is larger than zero (i.e. we fail to reject H$_0$) although it is actually so in reality. Therefore, the inference procedures can be misleading when not taking into account other possible significant variables or, in this case, forms of dependence that can hide true underlying effects.
 
-The above examples therefore highlight how the approach to analysing time series does not only rely on finding an appropriate model that describes the evolution of a variable as a function of time (which is deterministic). Indeed, one main of the focus of time series analysis consists in modelling the dependence structure that describes how random variables impact each other as a function of time. In other words, a time series is a collection of random variables whose interaction and dependence structure is indexed by time.
+The above examples therefore highlight how the approach to analysing time series does not only rely on finding an appropriate model that describes the evolution of a variable as a function of time (which is deterministic). Indeed, one of the main focuses of time series analysis consists in modelling the dependence structure that describes how random variables impact each other as a function of time. In other words, a time series is a collection of random variables whose interaction and dependence structure is indexed by time.
 
 ## The Wold Decomposition
 
@@ -167,7 +167,7 @@ Let us now briefly discuss the two components of a time series.
 
 ### The deterministic component (Signal)
 
-Before shifting our focus to the random component of time series, we will first just briefly underline the main features that should be taken into account for the deterministic component. The first feature that should be analysed is the *trend* that characterises the time series, more specifically the behaviour of the variable of interest as a specific function of time (as the global temperature time series seen earlier). Let us consider another example of time series based on real data, i.e. the quarterly earnings of Johnson & Johnson between 1960 and 1980 represented below.
+Before shifting our focus to the random component of time series, we will first just underline the main features that should be taken into account for the deterministic component. The first feature that should be analysed is the *trend* that characterises the time series, more specifically the behaviour of the variable of interest as a specific function of time (as the global temperature time series seen earlier). Let us consider another example of time series based on real data, i.e. the quarterly earnings of Johnson & Johnson between 1960 and 1980 represented below.
 
 ```{r, echo=FALSE}
 # Load data
@@ -390,7 +390,7 @@ Before discussing the basic time series models used to describe and forecast, we
 
 ### Dependence within Time Series
 
-As mentioned earlier, it is straightforward to assume that observations measured through time are dependent on each other (in that observations at time $t$ have some form of impact on observations at time $t+1$ or beyond). Due to this characteristic, one of the main interests in time series is prediction where, if $(X_t)_{t=1,\ldots,T}$ is an identically distributed but not independent sequence, we often want to know the value of ${X}_{T+h}$ for $h > 0$ (i.e. an estimator of $\mathbb{E}[X_{T+h}| X_T,...]$). In order to tackle this challenge, we first need to understand the dependence between $X_{1},\ldots,X_{T}$ and, even before this, we have to formally define what **independence** is.
+As mentioned earlier, it is straightforward to assume that observations measured through time are dependent on each other (in that observations at time $t$ have some form of impact on observations at time $t+1$ or beyond). Due to this characteristic, one of the main interests in time series is prediction where, if $(X_t)_{t=1,\ldots,T}$ is an identically distributed but not independent sequence, we often want to know the value of ${X}_{T+h}$ for $h > 0$ (i.e. an estimator of $\mathbb{E}[X_{T+h}| X_T,...]$). In order to tackle this issue, we first need to understand the dependence between $X_{1},\ldots,X_{T}$ and, even before this, we have to formally define what **independence** is.
 
 ```{definition, IndepEvents, name = "Independence of Events"}
 Two events $A$ and $B$ are independent if 
@@ -429,7 +429,7 @@ and
 ```
 <br>
 
-The basic idea behind the above definitions of independence is the fact that the probability of an event regarding variable $X_i$ remains unaltered no matter what occurs for variable $X_j$ (for $i \neq j$).
+The basic idea behind the above definitions of independence is the fact that the probability of an event regarding variable $X_i$ remains unaltered no matter what occurs for variable $X_j$ (for $i \neq j$). However, for time series, this is often not the case and $X_t$ often has some impact on $X_{t+h}$ for some $h$ (not too large). In order to explain (and predict) the impact of an observation on future observations, a series of models have been adopted through the years thereby providing a comprehensive framework to explain dependence through time. The following paragraphs introduce some of these basic models.
 
 ### Basic Time Series Models
 
