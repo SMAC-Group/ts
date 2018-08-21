@@ -25,7 +25,7 @@
 <meta name="author" content="Stéphane Guerrier, Roberto Molinari and Haotian Xu">
 
 
-<meta name="date" content="2018-08-19">
+<meta name="date" content="2018-08-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -142,12 +142,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.1.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The deterministic component (Signal)</a></li>
 <li class="chapter" data-level="2.1.2" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The random component (Noise)</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="basicmodels.html"><a href="basicmodels.html"><i class="fa fa-check"></i><b>2.2</b> Basic Time Series Models</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="basicmodels.html"><a href="basicmodels.html#wn"><i class="fa fa-check"></i><b>2.2.1</b> White Noise</a></li>
-<li class="chapter" data-level="2.2.2" data-path="basicmodels.html"><a href="basicmodels.html#rw"><i class="fa fa-check"></i><b>2.2.2</b> Random Walk</a></li>
-<li class="chapter" data-level="2.2.3" data-path="basicmodels.html"><a href="basicmodels.html#ar1"><i class="fa fa-check"></i><b>2.2.3</b> First-Order Autoregressive Model</a></li>
-<li class="chapter" data-level="2.2.4" data-path="basicmodels.html"><a href="basicmodels.html#ma1"><i class="fa fa-check"></i><b>2.2.4</b> Moving Average Process of Order 1</a></li>
-<li class="chapter" data-level="2.2.5" data-path="basicmodels.html"><a href="basicmodels.html#drift"><i class="fa fa-check"></i><b>2.2.5</b> Linear Drift</a></li>
+<li class="chapter" data-level="2.2" data-path="basicmodels.html"><a href="basicmodels.html"><i class="fa fa-check"></i><b>2.2</b> Modelling Time Series</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="basicmodels.html"><a href="basicmodels.html#dependence-within-time-series"><i class="fa fa-check"></i><b>2.2.1</b> Dependence within Time Series</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basicmodels.html"><a href="basicmodels.html#basic-time-series-models"><i class="fa fa-check"></i><b>2.2.2</b> Basic Time Series Models</a></li>
+<li class="chapter" data-level="2.2.3" data-path="basicmodels.html"><a href="basicmodels.html#wn"><i class="fa fa-check"></i><b>2.2.3</b> White Noise</a></li>
+<li class="chapter" data-level="2.2.4" data-path="basicmodels.html"><a href="basicmodels.html#rw"><i class="fa fa-check"></i><b>2.2.4</b> Random Walk</a></li>
+<li class="chapter" data-level="2.2.5" data-path="basicmodels.html"><a href="basicmodels.html#ar1"><i class="fa fa-check"></i><b>2.2.5</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.2.6" data-path="basicmodels.html"><a href="basicmodels.html#ma1"><i class="fa fa-check"></i><b>2.2.6</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.2.7" data-path="basicmodels.html"><a href="basicmodels.html#drift"><i class="fa fa-check"></i><b>2.2.7</b> Linear Drift</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="lts.html"><a href="lts.html"><i class="fa fa-check"></i><b>2.3</b> Composite Stochastic Processes</a></li>
 </ul></li>
@@ -185,6 +187,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="representations-of-time-series" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Representations of Time Series</h1>
+<blockquote>
+<p>“<em>One of the first things taught in introductory statistics textbooks is that correlation is not causation. It is also one of the first things forgotten.</em>” – Thomas Sowell</p>
+</blockquote>
 <p>In this chapter we will discuss and formalize how knowledge about <span class="math inline">\(X_{t-1}\)</span> (or
 more generally about all the information from the past, <span class="math inline">\(\Omega_t\)</span>) can provide
 us with some information about the properties of <span class="math inline">\(X_t\)</span>. In particular, we will

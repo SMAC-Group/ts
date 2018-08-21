@@ -1,8 +1,5 @@
-# Representations of Time Series
 
->
-> "*One of the first things taught in introductory statistics textbooks is that correlation is not causation. It is also one of the first things forgotten.*" – Thomas Sowell
->
+# Representations of Time Series
 
 In this chapter we will discuss and formalize how knowledge about $X_{t-1}$ (or
 more generally about all the information from the past, $\Omega_t$) can provide 
