@@ -32,7 +32,7 @@
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
-<link rel="next" href="references.html">
+<link rel="next" href="basic-elements-of-time-series.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -137,6 +137,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i><b>1.4</b> License</a></li>
 </ul></li>
+<li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-wold-decomposition"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The Deterministic Component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The Random Component (Noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#basicmodels"><i class="fa fa-check"></i><b>2.2</b> Modelling Time Series</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#dependence-within-time-series"><i class="fa fa-check"></i><b>2.2.1</b> Dependence within Time Series</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#basic-time-series-models"><i class="fa fa-check"></i><b>2.2.2</b> Basic Time Series Models</a></li>
+<li class="chapter" data-level="2.2.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#wn"><i class="fa fa-check"></i><b>2.2.3</b> White Noise</a></li>
+<li class="chapter" data-level="2.2.4" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#rw"><i class="fa fa-check"></i><b>2.2.4</b> Random Walk</a></li>
+<li class="chapter" data-level="2.2.5" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ar1"><i class="fa fa-check"></i><b>2.2.5</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.2.6" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ma1"><i class="fa fa-check"></i><b>2.2.6</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.2.7" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#drift"><i class="fa fa-check"></i><b>2.2.7</b> Linear Drift</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#lts"><i class="fa fa-check"></i><b>2.3</b> Composite Stochastic Processes</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/SMAC-Group/ts" target="blank">Published with bookdown</a></li>
@@ -161,11 +177,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Applied Time Series Analysis with R</h1>
 <p class="author"><em>Stéphane Guerrier, Roberto Molinari and Haotian Xu</em></p>
-<p class="date"><em>August 20 2018</em></p>
+<p class="date"><em>August 21 2018</em></p>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>Welcome to Applied Time Series Analysis with <code>R</code>. This book is intended as a support for the course of STAT 463 (Applied Time Series) given at Penn State University. It contains an overview of the basic procedures to adequately approach a time series analysis with insight to more advanced analysis of time series. It firstly introduces the basic concepts and theory to appropriately use the applied tools that are presented in the second (and main) part of the book. In the latter part the reader will learn how to use descriptive analysis to identify the important characteristics of a time serues and then employ modelling and inference techniques (made available through <code>R</code> funtions) that allow to describe a time series and make predictions. The last part of the book will give introductory notions on more advanced analysis of time series where the reader will achieve a basic understanding of the tools available to anayse more complex characteristic of time series.</p>
+<p>Welcome to “Applied Time Series Analysis with <code>R</code>”. This book is intended as a support for the course of STAT 463 (Applied Time Series Analysis) given at Penn State University. It contains an overview of the basic procedures to adequately approach a time series analysis with insight to more advanced analysis of time series. It firstly introduces the basic concepts and theory to appropriately use the applied tools that are presented in the second (and main) part of the book. In the latter part the reader will learn how to use descriptive analysis to identify the important characteristics of a time series and then employ modelling and inference techniques (made available through <code>R</code> funtions) that allow to describe a time series and make predictions. The last part of the book will give introductory notions on more advanced analysis of time series where the reader will achieve a basic understanding of the tools available to analyse more complex characteristics of time series.</p>
 <!--
 This document is under active development and as a result is likely to contains
 many errors. As Montesquieu puts it:
@@ -223,7 +239,7 @@ b =<span class="st"> </span><span class="fl">0.5</span>
 <span class="kw">sin</span>(a<span class="op">*</span>b)</code></pre>
 <p>Similarly, <code>R</code> output lines (that usally appear in your Console) will begin with <code>##</code> and will not be syntax highlighted. The output of the above example is the following:</p>
 <pre><code>## [1] 1</code></pre>
-<p>Aside from <code>R</code> code and its outputs, this book will also insert some boxes that will draw the reader’s attention to important, curious, or otherwise informative details. An example of these boxes was seen at the beginning of this introduction where an important aspect was pointed out to the reader regarding the “under construction” nature of this book. Therefore the following boxes and symbols can be used to represent information of different nature:</p>
+<p>Aside from <code>R</code> code and its outputs, this book will also insert some boxes that will draw the reader’s attention to important, curious or otherwise informative details. An example of these boxes was seen at the beginning of this introduction where an important aspect was pointed out to the reader regarding the “under construction” nature of this book. Therefore the following boxes and symbols can be used to represent information of different nature:</p>
 
 <div class="rmdimportant">
 This is an important piece of information.
@@ -299,7 +315,7 @@ This is a tip for the reader when following or developing something based on thi
         </div>
       </div>
 
-<a href="references.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="basic-elements-of-time-series.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -340,6 +356,19 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
