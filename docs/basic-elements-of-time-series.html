@@ -139,7 +139,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
 <li class="chapter" data-level="2.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-wold-decomposition"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
-<li class="chapter" data-level="2.1.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The deterministic component (Signal)</a></li>
+<li class="chapter" data-level="2.1.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The Deterministic Component (Signal)</a></li>
 <li class="chapter" data-level="2.1.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The random component (Noise)</a></li>
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#basicmodels"><i class="fa fa-check"></i><b>2.2</b> Modelling Time Series</a><ul>
@@ -194,7 +194,15 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <span class="kw">library</span>(mgcv)
 <span class="kw">library</span>(simts)</code></pre>
 <p>We can start the discussion on the basic elements of time series by using a practical example from real data made available through the <code>R</code> software. The data represent the global mean land–ocean temperature shifts from 1880 to 2015 (with base index being the average temperatures from 1951 to 1980) and this time series is represented in the plot below.</p>
-<p><img src="ts_files/figure-html/glotempExample-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load data</span>
+<span class="kw">data</span>(globtemp, <span class="dt">package =</span> <span class="st">&quot;astsa&quot;</span>)
+
+<span class="co"># Construct gts object</span>
+globtemp =<span class="st"> </span><span class="kw">gts</span>(globtemp, <span class="dt">start =</span> <span class="dv">1880</span>, <span class="dt">freq =</span> <span class="dv">1</span>, <span class="dt">unit_ts =</span> <span class="st">&quot;C&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Global Temperature Deviations&quot;</span>, <span class="dt">data_name =</span> <span class="st">&quot;Evolution of Global Temperatures&quot;</span>)
+
+<span class="co"># Plot time series</span>
+<span class="kw">plot</span>(globtemp)</code></pre>
+<p><img src="ts_files/figure-html/glotempExample-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>These data have been used as a support in favour of the argument that the global temperatures are increasing and that global warming has occured over the last half of the twentieth century. The first approach that one would take is to try and measure the average increase by fitting a model having the form:</p>
 <p><span class="math display">\[
 X_t = f(t) + \varepsilon_t,
@@ -204,7 +212,7 @@ where <span class="math inline">\(X_t\)</span> denotes the global temperatures d
 fit =<span class="st"> </span><span class="kw">gam</span>(globtemp <span class="op">~</span><span class="st"> </span><span class="kw">s</span>(time))</code></pre>
 <p>and check the residuals from this model using:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">simple_diag_plot</span>(globtemp, fit)</code></pre>
-<p><img src="ts_files/figure-html/gamresid-1.png" width="624" /></p>
+<p><img src="ts_files/figure-html/gamresid-1.png" width="624" style="display: block; margin: auto;" /></p>
 <p>It can be seen from the upper left plot that the trend appears to be removed and, if looking at the residuals as one would usually do in a regression framework, the residual plots seem to suggest that the modelling has done a relatively good job since no particular pattern seems to emerge and their distribution is quite close to being Gaussian.</p>
 <p>However, is it possible to conclude from the plots that the data are <em>iid</em> (i.e. independent and identically distributed)? More specifically, can we assume that the residuals are independent? This is a fundamental question in order for inference procedures to be carried out in an appropriate manner and to limit false conclusions. Let us provide an example through a simulated data set where we know that there is an upward trend through time and our goal would be to show that this trend exists. In order to so we consider a simple model where <span class="math inline">\(f(t)\)</span> has a simple parametric form, i.e. <span class="math inline">\(f(t) = \beta \cdot t\)</span> and we employed the following data generating process:</p>
 <p><span class="math display">\[X_t = \beta \cdot t + Y_t,\]</span>
@@ -309,15 +317,23 @@ Professor of Economics at Yale University, famously predicted:</p>
 </blockquote>
 <p>Let us now briefly discuss the two components of a time series.</p>
 <div id="the-deterministic-component-signal" class="section level3">
-<h3><span class="header-section-number">2.1.1</span> The deterministic component (Signal)</h3>
+<h3><span class="header-section-number">2.1.1</span> The Deterministic Component (Signal)</h3>
 <p>Before shifting our focus to the random component of time series, we will first just briefly underline the main features that should be taken into account for the deterministic component. The first feature that should be analysed is the <em>trend</em> that characterises the time series, more specifically the behaviour of the variable of interest as a specific function of time (as the global temperature time series seen earlier). Let us consider another example of time series based on real data, i.e. the quarterly earnings of Johnson &amp; Johnson between 1960 and 1980 represented below.</p>
-<p><img src="ts_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load data</span>
+<span class="kw">data</span>(jj, <span class="dt">package =</span> <span class="st">&quot;astsa&quot;</span>)
+
+<span class="co"># Construct gts object</span>
+jj &lt;-<span class="st"> </span><span class="kw">gts</span>(jj, <span class="dt">start =</span> <span class="dv">1960</span>, <span class="dt">freq =</span> <span class="dv">4</span>, <span class="dt">unit_ts =</span> <span class="st">&quot;$&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Quarterly Earnings per Share&quot;</span>, <span class="dt">data_name =</span> <span class="st">&quot;Johnson &amp; Johnson Quarterly Earnings&quot;</span>)
+
+<span class="co"># Plot time series</span>
+<span class="kw">plot</span>(jj)</code></pre>
+<p><img src="ts_files/figure-html/jjexample-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>As can be seen from the plot, the earnings appear to grow over time, therefore we can imagine fitting a line to this data to describe its behaviour (see red line below).</p>
-<p><img src="ts_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>Although the line captures a part of the behaviour, it is quite clear that the trend of the time series is not linear. It could therefore be more appropriate to define another function of time to describe it and, consequently, we add a quadratic term of time to obtain the following fit.</p>
-<p><img src="ts_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>We can see now that the quadratic function of time allows to better fit the observed time series and closely follow the observations. However, there still appears to be a pattern in the data that isn’t captured by this quadratic model. This pattern appears to be repeated over time: peaks and valleys that seem to occur at regular intervals along the time series. This behaviour is known as <em>seasonality</em> which, in this case, can be explained by the effect of a specific quarter on the behaviour of the earnings. Indeed, it is reasonable to assume that the seasons have impacts on different variables measured over time (e.g. temperatures, earnings linked to sales that vary with seasons, etc.). Let us therefore take the quarters as an explanatory variable and add it to the previous quadratic model (see fit below).</p>
-<p><img src="ts_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>This final fit appears to well describe the behaviour of the earnings. Hence, <em>trend</em> and <em>seasonality</em> are the main features that characterize the deterministic component of a time series. However, as discussed earlier, these deterministic components often don’t explain all of the observed time series since there is often a random component characterizing data measured over time. Not considering the latter component can have considerable impacts on the inference procedures (as seen earlier) and it is therefore important to adequately analyse them (see next section).</p>
 </div>
 <div id="the-random-component-noise" class="section level3">
@@ -439,11 +455,11 @@ illustrated in the following example.</p>
 <p>We consider here the data coming from the calibration procedure of
 an Inertial Measurement Unit (IMU) which, in general terms, is used to enhance
 navigation precision or reconstruct three dimensional movements:</p>
-<iframe src="https://www.youtube.com/watch?v=htoBvSq8jLA" width="672" height="400px">
+<iframe src="https://www.youtube.com/embed/htoBvSq8jLA" width="672" height="400px">
 </iframe>
 <p>These sensors are used in a very wide range of applications such as robotics, virtual reality,
 vehicle stability control, human and animal motion capture and so forth:</p>
-<iframe src="https://www.youtube.com/watch?v=g4tgtPA54_Y" width="672" height="400px">
+<iframe src="https://www.youtube.com/embed/g4tgtPA54_Y" width="672" height="400px">
 </iframe>
 <p>The signals coming from these instruments are measured at
 high frequencies over a long time and are often characterized by linear trends

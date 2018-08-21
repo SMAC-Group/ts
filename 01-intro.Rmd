@@ -38,7 +38,7 @@ library(simts)
 
 We can start the discussion on the basic elements of time series by using a practical example from real data made available through the `R` software. The data represent the global mean land–ocean temperature shifts from 1880 to 2015 (with base index being the average temperatures from 1951 to 1980) and this time series is represented in the plot below.
 
-```{r glotempExample, fig.height = 4.5, fig.width = 7, cache = TRUE, echo = FALSE, fig.align='center'}
+```{r glotempExample, fig.height = 4.5, fig.width = 7, cache = TRUE, fig.align='center'}
 # Load data
 data(globtemp, package = "astsa")
 
@@ -165,11 +165,11 @@ Another example is given by Thomas Watson, president of IBM, who said in 1943:
 
 Let us now briefly discuss the two components of a time series.
 
-### The deterministic component (Signal)
+### The Deterministic Component (Signal)
 
 Before shifting our focus to the random component of time series, we will first just briefly underline the main features that should be taken into account for the deterministic component. The first feature that should be analysed is the *trend* that characterises the time series, more specifically the behaviour of the variable of interest as a specific function of time (as the global temperature time series seen earlier). Let us consider another example of time series based on real data, i.e. the quarterly earnings of Johnson & Johnson between 1960 and 1980 represented below.
 
-```{r, echo=FALSE}
+```{r jjexample, fig.height = 4.5, fig.width = 7, cache = TRUE, fig.align='center'}
 # Load data
 data(jj, package = "astsa")
 
@@ -348,15 +348,15 @@ We consider here the data coming from the calibration procedure of
 an Inertial Measurement Unit (IMU) which, in general terms, is used to enhance
 navigation precision or reconstruct three dimensional movements:
 
-```{r, echo = FALSE}
-knitr::include_url("https://www.youtube.com/watch?v=htoBvSq8jLA")
+```{r, echo = FALSE, fig.align='center'}
+knitr::include_url("https://www.youtube.com/embed/htoBvSq8jLA")
 ```
 
 These sensors are used in a very wide range of applications such as robotics, virtual reality, 
 vehicle stability control, human and animal motion capture and so forth:
 
-```{r, echo = FALSE}
-knitr::include_url("https://www.youtube.com/watch?v=g4tgtPA54_Y")
+```{r, echo = FALSE, fig.align='center'}
+knitr::include_url("https://www.youtube.com/embed/g4tgtPA54_Y")
 ```
 
 The signals coming from these instruments are measured at
