@@ -167,27 +167,31 @@ Let us now briefly discuss the two components of a time series.
 
 ### The Deterministic Component (Signal)
 
-Before shifting our focus to the random component of time series, we will first just underline the main features that should be taken into account for the deterministic component. The first feature that should be analysed is the *trend* that characterises the time series, more specifically the behaviour of the variable of interest as a specific function of time (as the global temperature time series seen earlier). Let us consider another example of time series based on real data, i.e. the quarterly earnings of Johnson & Johnson between 1960 and 1980 represented below.
+Before shifting our focus to the random component of time series, we will first just underline the main features that should be taken into account for the deterministic component. The first feature that should be analysed is the *trend* that characterises the time series, more specifically the behaviour of the variable of interest as a specific function of time (as the global temperature time series seen earlier). Let us consider another example borrowed from @shumway2010time of time series based on real data, i.e. the quarterly earnings of Johnson & Johnson between 1960 and 1980 represented below.
 
 ```{r jjexample, fig.height = 4.5, fig.width = 7, cache = TRUE, fig.align='center'}
 # Load data
 data(jj, package = "astsa")
 
 # Construct gts object
-jj <- gts(jj, start = 1960, freq = 4, unit_ts = "$", name_ts = "Quarterly Earnings per Share", data_name = "Johnson & Johnson Quarterly Earnings")
+jj = gts(jj, start = 1960, freq = 4, unit_ts = "$", name_ts = "Quarterly Earnings per Share", data_name = "Johnson & Johnson Quarterly Earnings")
 
 # Plot time series
 plot(jj)
 ```
 
-As can be seen from the plot, the earnings appear to grow over time, therefore we can imagine fitting a line to this data to describe its behaviour (see red line below).
+As can be seen from the plot, the earnings appear to grow over time, therefore we can imagine fitting a straight line to this data to describe its behaviour:
 
-```{r, echo=FALSE}
-time_jj <- gts_time(jj)
-quarters <- rep(1:4, 21) 
-fit_jj1 <- lm(as.vector(jj) ~ time_jj)
+```{r jjexample2, fig.height = 4.5, fig.width = 7, cache = TRUE, fig.align='center'}
+# Fit linear regression
+time_jj = gts_time(jj)
+fit_jj1 = lm(as.vector(jj) ~ time_jj)
+
+# Plot results and add regression line
 plot(jj)
 lines(time_jj, predict(fit_jj1), col = "red")
+legend("bottomright", c("Time series", "Regression line"), 
+       col = c("blue4", "red"), bty = "n", lwd = 1)
 ```
 
 Although the line captures a part of the behaviour, it is quite clear that the trend of the time series is not linear. It could therefore be more appropriate to define another function of time to describe it and, consequently, we add a quadratic term of time to obtain the following fit.
@@ -201,6 +205,7 @@ lines(time_jj, predict(fit_jj2), col = "red")
 We can see now that the quadratic function of time allows to better fit the observed time series and closely follow the observations. However, there still appears to be a pattern in the data that isn't captured by this quadratic model. This pattern appears to be repeated over time: peaks and valleys that seem to occur at regular intervals along the time series. This behaviour is known as *seasonality* which, in this case, can be explained by the effect of a specific quarter on the behaviour of the earnings. Indeed, it is reasonable to assume that the seasons have impacts on different variables measured over time (e.g. temperatures, earnings linked to sales that vary with seasons, etc.). Let us therefore take the quarters as an explanatory variable and add it to the previous quadratic model (see fit below).
 
 ```{r, echo=FALSE}
+quarters = rep(1:4, 21) 
 fit_jj3 <- gam(as.vector(jj) ~ quarters + s(time_jj))
 plot(jj)
 lines(time_jj, predict(fit_jj3), col = "red")
