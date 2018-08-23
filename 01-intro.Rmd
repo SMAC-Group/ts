@@ -20,7 +20,7 @@ To make use of the R code within this chapter you will need to install (if not a
   - [astsa](https://cran.r-project.org/web/packages/astsa/index.html).
   - [mgcv](https://cran.r-project.org/web/packages/mgcv/index.html)
   
-These library can be install as follows:
+These libraries can be install as follows:
 ```
 
 ```{r, eval=FALSE}
@@ -54,7 +54,7 @@ These data have been used as a support in favour of the argument that the global
 $$
 X_t = f(t) + \varepsilon_t,
 $$
-where $X_t$ denotes the global temperatures deviation and $f(\cdot)$ is a "smooth" function such that $\mathbb{E}[X_t] - f(t) = 0$ for all $t$. In general, $\varepsilon_t$ is assumed to follow a normal distribution for simplicity. The goal in this context would therefore be to evaluate if $f(t)$ (or a suitable estimator of this function) is an increasing function. In order to do so, we would require the residuals from the fitted model to be independently and identically distributed (iid). Let us fit a (nonparametric) model with the years (time) as explanatory variable using the code below:
+where $X_t$ denotes the global temperatures deviation and $f(\cdot)$ is a "smooth" function such that $\mathbb{E}[X_t] - f(t) = 0$ for all $t$. In general, $\varepsilon_t$ is assumed to follow a normal distribution for simplicity. The goal in this context would therefore be to evaluate if $f(t)$ (or a suitable estimator of this function) is an increasing function (especially over the last decades). In order to do so, we would require the residuals from the fitted model to be independently and identically distributed (iid). Let us fit a (nonparametric) model with the years (time) as explanatory variable using the code below:
 
 ```{r fitGam}
 time = gts_time(globtemp)
@@ -74,7 +74,7 @@ However, is it possible to conclude from the plots that the data are *iid* (i.e.
 $$X_t = \beta \cdot t + Y_t,$$
 where
 $$Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \varepsilon_t,$$
-and where $\varepsilon_t \sim \mathcal{N}(0, \sigma^2)$. Intuitively, $Y_t$ is not an *iid* sequence of random variables except in the case where $\phi_1 = \phi_2 = 0$. In the following chapters we shall see that this intuition is correct and that this model is known as an AR(2) model. Considering this, we simulate two cases where, in the first, the residuals are actually *iid* Gaussian while, in the second, the residuals are Gaussian but are dependent over time. The parameters employed in both cases are $\beta = 5 \cdot 10^{-3}$ and $\sigma^2 = 1$ but in the first case we used $\phi_1 = \phi_2 = 0$ (i.e. *iid* residuals) while in the latter $\phi_1 = 0.8897$, $\phi_2 = -0.4858$. In both cases, we perform the hypothesis test:
+and where $\varepsilon_t \sim \mathcal{N}(0, \sigma^2)$. Intuitively, $Y_t$ is not an *iid* sequence of random variables except in the case where $\phi_1 = \phi_2 = 0$. In the following chapters we shall see that this intuition is correct and that this model is known as an AR(2) model. Considering this, we simulate two cases where, in the first, the residuals are actually *iid* Gaussian while, in the second, the residuals are Gaussian but are dependent over time. In the first case, the only parameters that explain $X_t$ are $\beta = 5 \cdot 10^{-3}$ and $\sigma^2 = 1$ since the residuals $Y_t$ are *iid* (i.e. $\phi_1 = \phi_2 = 0$). In the second case however, aside from the mentioned parameters we also have $\phi_1 = 0.8897$, $\phi_2 = -0.4858$. In both cases, we perform the hypothesis test:
 
 $$
 \begin{aligned}
