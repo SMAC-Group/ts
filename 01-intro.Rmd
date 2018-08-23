@@ -3,6 +3,7 @@ library(astsa)
 library(mgcv)
 library(simts)
 library(imudata)
+library(timeDate)
 ```
 
 ```{r introduction_code, echo = FALSE, warning=FALSE, message=FALSE}
@@ -272,8 +273,6 @@ legend("bottomright", c("Time series", "Regression line"),
 simple_diag_plot(jj, fit_jj3)
 ```
 
-ADD SOMETHING ON INCREASING VARIANCE?? + DOES NOT COMPLETELY FIX THE PROBLEM OF SEASONALITY.
-
 This final fit appears to well describe the behaviour of the earnings although there still appears to be a problem of heteroskedasticity (i.e. change in variance) and random seasonality (both of which will be treated further on in this text). Hence, *trend* and *seasonality* are the main features that characterize the deterministic component of a time series. However, as discussed earlier, these deterministic components often don't explain all of the observed time series since there is often a random component characterizing data measured over time. Not considering the latter component can have considerable impacts on the inference procedures (as seen earlier) and it is therefore important to adequately analyse them (see next section).
 
 ### The Random Component (Noise)
@@ -391,7 +390,20 @@ next) for Starbuck's stock on July 1, 2011 for about 150 seconds (left
 panel) and about 400 minutes (right panel). 
 
 ```{r example_Starbucks, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE, fig.align='center'}
-# TO DO add Duke's code here!
+
+# Load "high-frequency" Starbucks returns for July 01 2011
+data(sbux.xts, package = "highfrequency")
+
+# Plot returns
+par(mfrow = c(1,2))
+
+plot(gts(sbux.xts[1:89]), 
+     main = "Starbucks: 150 Seconds", 
+     ylab = "Returns") 
+
+plot(gts(sbux.xts), 
+     main = "Starbucks: 400 Minutes", 
+     ylab = "Returns")
 ```
 
 It can be observed on the left panel that observations are not equally spaced.

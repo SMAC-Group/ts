@@ -340,7 +340,6 @@ X_t = \alpha + \beta_1 t + \beta_2 t^2 + \sum_{i = 1}^4 \gamma_i I_{t \in \mathc
 <p><img src="01-intro_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">simple_diag_plot</span>(jj, fit_jj3)</code></pre></div>
 <p><img src="01-intro_files/figure-html/lmresid3-1.png" width="624" style="display: block; margin: auto;" /></p>
-<p>ADD SOMETHING ON INCREASING VARIANCE?? + DOES NOT COMPLETELY FIX THE PROBLEM OF SEASONALITY.</p>
 <p>This final fit appears to well describe the behaviour of the earnings although there still appears to be a problem of heteroskedasticity (i.e. change in variance) and random seasonality (both of which will be treated further on in this text). Hence, <em>trend</em> and <em>seasonality</em> are the main features that characterize the deterministic component of a time series. However, as discussed earlier, these deterministic components often don’t explain all of the observed time series since there is often a random component characterizing data measured over time. Not considering the latter component can have considerable impacts on the inference procedures (as seen earlier) and it is therefore important to adequately analyse them (see next section).</p>
 </div>
 <div id="the-random-component-noise" class="section level3">
@@ -408,7 +407,20 @@ hydro =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.
 <p><img src="01-intro_files/figure-html/example_hydro-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We can see how most observations lie below 2mm but there appear to be different observations that go beyond this and appear to be larger than the others. These could be possible outliers that can greatly affect the estimation procedure if not taken adequately into account.</p>
 <p>Next, we consider an example coming from high-frequency finance. The figure below presents the returns or price innovations (i.e. the changes in price from one observation to the next) for Starbuck’s stock on July 1, 2011 for about 150 seconds (left panel) and about 400 minutes (right panel).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># TO DO add Duke&#39;s code here!</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load &quot;high-frequency&quot; Starbucks returns for July 01 2011</span>
+<span class="kw">data</span>(sbux.xts, <span class="dt">package =</span> <span class="st">&quot;highfrequency&quot;</span>)
+
+<span class="co"># Plot returns</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+
+<span class="kw">plot</span>(<span class="kw">gts</span>(sbux.xts[<span class="dv">1</span><span class="op">:</span><span class="dv">89</span>]), 
+     <span class="dt">main =</span> <span class="st">&quot;Starbucks: 150 Seconds&quot;</span>, 
+     <span class="dt">ylab =</span> <span class="st">&quot;Returns&quot;</span>) 
+
+<span class="kw">plot</span>(<span class="kw">gts</span>(sbux.xts), 
+     <span class="dt">main =</span> <span class="st">&quot;Starbucks: 400 Minutes&quot;</span>, 
+     <span class="dt">ylab =</span> <span class="st">&quot;Returns&quot;</span>)</code></pre></div>
+<p><img src="01-intro_files/figure-html/example_Starbucks-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>It can be observed on the left panel that observations are not equally spaced. Indeed, in high-frequency data the intervals between two points are typically not constant and are, even worse, random variables. This implies that the time when a new observation will be available is in general unknown. On the right panel, one can observe that the variability of the data seems to change during the course of the trading day. Such a phenomenon is well known in the finance community since a lot of variation occurs at the start (and the end) of the day while the middle of the day is associated with small changes. Moreover, clear extreme observations can also be noted in this graph at around 11:00.</p>
 
 <div class="example">
@@ -425,7 +437,7 @@ We consider here the data coming from the calibration procedure of an Inertial M
 <p>The code below retrieves some data from an IMU and plots it directly:</p>
 
 <div class="rmdimportant">
-To access the IMU time series represented below you must install the imudata package which can be found at this <a href="https://github.com/SMAC-Group/imudata">link</a>
+To access the IMU time series represented below you must install the imudata package which can be found at this <a href="https://github.com/SMAC-Group/imudata">link</a>.
 </div>
 
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load IMU data</span>
@@ -439,8 +451,7 @@ Xt =<span class="st"> </span><span class="kw">gts</span>(imu6[,<span class="dv">
 <span class="co"># Plot time series</span>
 <span class="kw">plot</span>(Xt)</code></pre></div>
 <p><img src="01-intro_files/figure-html/example_IMU-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Although a linear trend and other processes are present in this signal (time series), it is practically impossible to understand or guess anything from the plot.</p>
-<p>Having discussed these representations (and the relative issues with these representations) let us present the basic parametric models that are used to build even more complex models to describe and predict the behaviour of a time series.</p>
+<p>Although a linear trend and other processes are present in this signal (time series), it is practically impossible to understand or guess anything from the plot. For this reason, other types of representations are available to understand the behaviour of a time series and will be discussed in the next chapter. Having discussed these representations (and the relative issues with these representations) let us present the basic parametric models that are used to build even more complex models to describe and predict the behaviour of a time series.</p>
 </div>
 </div>
 </div>
@@ -547,7 +558,7 @@ Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw"
 <blockquote>
 <p>“<em>the most likely place to find a drunken walker is somewhere near his starting point.</em>”</p>
 </blockquote>
-<p>Empirical evidence of this phenomenon is not too hard to find on a Friday or Saturday night. This two dimensional process may easily be extended in three dimension and an example of a simulation of such process is presented in the animation below:</p>
+<p>Empirical evidence of this phenomenon is not too hard to find on a Friday or Saturday night. This two-dimensional process may easily be extended to three dimensions and a simulated example of such a process is presented in the animation below:</p>
 <center>
 <img src="asset/rw3.gif" />
 </center>
@@ -671,7 +682,6 @@ Xt =<span class="st"> </span><span class="kw">gen_lts</span>(n, model)
 <span class="kw">plot</span>(Xt)</code></pre></div>
 <p><img src="01-intro_files/figure-html/example_composite-1.png" width="672" /></p>
 <p>In the above graph, the first three plots represent the latent (unobserved) processes (i.e. white noise, random walk, and drift) and the last one represents the sum of the three (i.e. <span class="math inline">\((X_t)\)</span>).</p>
-<p>ADD AS EXAMPLE HERE???</p>
 <p>Let us consider a real example where these latent processes are useful to describe (and predict) the behavior of economic variables such as Personal Saving Rates (PSR). A process that is used for these settings is the “random-walk-plus-noise” model, meaning that the data can be explained by a random walk process in addition to which we observe some other process (e.g. a white noise model, an autoregressive model such as an AR(1), etc.). The PSR taken from the Federal Reserve of St. Louis from January 1, 1959, to May 1, 2015, is presented in the following plot:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load savingrt dataset</span>
 <span class="kw">data</span>(<span class="st">&quot;savingrt&quot;</span>)
