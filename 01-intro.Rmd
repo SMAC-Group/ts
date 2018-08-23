@@ -5,7 +5,7 @@ library(simts)
 library(imudata)
 ```
 
-```{r introduction_code, echo = FALSE, cache = FALSE, warning=FALSE, message=FALSE}
+```{r introduction_code, echo = FALSE, warning=FALSE, message=FALSE}
 library(astsa)
 library(imudata)
 library(simts)
@@ -13,12 +13,16 @@ library(simts)
 
 # Basic Elements of Time Series 
 
+>
+> "*Prévoir consiste à projeter dans l’avenir ce qu’on a perçu dans le passé.*" – Henri Bergson
+>
+
 ```{block2,  type='rmdimportant'}
 To make use of the R code within this chapter you will need to install (if not already done) and load the following libraries:
 
   - [simts](http://simts.smac-group.com/);
-  - [astsa](https://cran.r-project.org/web/packages/astsa/index.html).
-  - [mgcv](https://cran.r-project.org/web/packages/mgcv/index.html)
+  - [astsa](https://cran.r-project.org/web/packages/astsa/index.html);
+  - [mgcv](https://cran.r-project.org/web/packages/mgcv/index.html).
   
 These libraries can be install as follows:
 ```
@@ -38,7 +42,7 @@ library(simts)
 
 We can start the discussion on the basic elements of time series by using a practical example from real data made available through the `R` software. The data represent the global mean land–ocean temperature shifts from 1880 to 2015 (with base index being the average temperatures from 1951 to 1980) and this time series is represented in the plot below.
 
-```{r glotempExample, fig.height = 4.5, fig.width = 7, cache = TRUE, echo = FALSE, fig.align='center'}
+```{r glotempExample, fig.height = 4.5, fig.width = 7, cache = TRUE, fig.align='center'}
 # Load data
 data(globtemp, package = "astsa")
 
@@ -63,8 +67,8 @@ fit = gam(globtemp ~ s(time))
 
 and check the residuals from this model using:
  
-```{r gamresid, fig.height = 6, fig.width = 6.5, fig.align='center'}
-simple_diag_plot(globtemp, fit)
+```{r gamresid, fig.height = 5.5, fig.width = 6.5, fig.align='center'}
+simts::simple_diag_plot(globtemp, fit)
 ```
 
 It can be seen from the upper left plot that the trend appears to be removed and, if looking at the residuals as one would usually do in a regression framework, the residual plots seem to suggest that the modelling has done a relatively good job since no particular pattern seems to emerge and their distribution is quite close to being Gaussian.
@@ -127,7 +131,11 @@ summary(model2)
 
 In this case we can observe that the p-value of the above mentioned test is given by `r round(summary(model2)$coefficients[4]/2, 4)` and is therefore greater than the arbitrary value of 0.05. Consequently, we don't have evidence to conclude that the slope coefficient is larger than zero (i.e. we fail to reject H$_0$) although it is actually so in reality. Therefore, the inference procedures can be misleading when not taking into account other possible significant variables or, in this case, forms of dependence that can hide true underlying effects.
 
+I WOULD ADD SOMETHING HERE ABOUT THE FACT THAT THIS IS A SIMPLE INDICATION AND SHOUD BE REPLIACATE TO TAKE A CONCLUSION.
+
 The above examples therefore highlight how the approach to analysing time series does not only rely on finding an appropriate model that describes the evolution of a variable as a function of time (which is deterministic). Indeed, one of the main focuses of time series analysis consists in modelling the dependence structure that describes how random variables impact each other as a function of time. In other words, a time series is a collection of random variables whose interaction and dependence structure is indexed by time.
+
+ADD SOMETHING HERE ABOUT THE OTHER GOAL OF TIME SERIES WHICH IS FORECASTING
 
 ## The Wold Decomposition
 
@@ -165,50 +173,113 @@ Another example is given by Thomas Watson, president of IBM, who said in 1943:
 
 Let us now briefly discuss the two components of a time series.
 
-### The deterministic component (Signal)
+### The Deterministic Component (Signal)
 
-Before shifting our focus to the random component of time series, we will first just underline the main features that should be taken into account for the deterministic component. The first feature that should be analysed is the *trend* that characterises the time series, more specifically the behaviour of the variable of interest as a specific function of time (as the global temperature time series seen earlier). Let us consider another example of time series based on real data, i.e. the quarterly earnings of Johnson & Johnson between 1960 and 1980 represented below.
+Before shifting our focus to the random component of time series, we will first just underline the main features that should be taken into account for the deterministic component. The first feature that should be analysed is the *trend* that characterises the time series, more specifically the behaviour of the variable of interest as a specific function of time (as the global temperature time series seen earlier). Let us consider another example borrowed from @shumway2010time of time series based on real data, i.e. the quarterly earnings of Johnson & Johnson between 1960 and 1980 represented below.
 
-```{r, echo=FALSE}
+```{r jjexample, fig.height = 4.5, fig.width = 7, cache = TRUE, fig.align='center'}
 # Load data
 data(jj, package = "astsa")
 
 # Construct gts object
-jj <- gts(jj, start = 1960, freq = 4, unit_ts = "$", name_ts = "Quarterly Earnings per Share", data_name = "Johnson & Johnson Quarterly Earnings")
+jj = gts(jj, start = 1960, freq = 4, unit_ts = "$", name_ts = "Quarterly Earnings per Share", data_name = "Johnson & Johnson Quarterly Earnings")
 
 # Plot time series
 plot(jj)
 ```
 
-As can be seen from the plot, the earnings appear to grow over time, therefore we can imagine fitting a line to this data to describe its behaviour (see red line below).
+As can be seen from the plot, the earnings appear to grow over time, therefore we can imagine fitting a straight line to this data to describe its behaviour by considering the following model:
 
-```{r, echo=FALSE}
-time_jj <- gts_time(jj)
-quarters <- rep(1:4, 21) 
-fit_jj1 <- lm(as.vector(jj) ~ time_jj)
+\begin{equation} 
+X_t = \alpha + \beta t + \varepsilon_t,
+(\#eq:modeljjexample)
+\end{equation} 
+
+where $\varepsilon_t$ is iid Gaussian. The results are presented in the graph below:
+
+```{r jjexample2, fig.height = 4.5, fig.width = 7, cache = TRUE, fig.align='center'}
+# Fit linear regression
+time_jj = gts_time(jj)
+fit_jj1 = lm(as.vector(jj) ~ time_jj)
+
+# Plot results and add regression line
 plot(jj)
 lines(time_jj, predict(fit_jj1), col = "red")
+legend("bottomright", c("Time series", "Regression line"), 
+       col = c("blue4", "red"), bty = "n", lwd = 1)
 ```
 
-Although the line captures a part of the behaviour, it is quite clear that the trend of the time series is not linear. It could therefore be more appropriate to define another function of time to describe it and, consequently, we add a quadratic term of time to obtain the following fit.
+Although the line captures a part of the behaviour, it is quite clear that the trend of the time series is not linear as can be observed from the diagnotic plot below:
 
-```{r, echo=FALSE}
-fit_jj2 <- gam(as.vector(jj) ~ s(time_jj))
+```{r lmresid, fig.height = 5.5, fig.width = 6.5, fig.align='center'}
+simple_diag_plot(jj, fit_jj1)
+```
+
+It could therefore be more appropriate to define another function of time to describe it and, consequently, we add a quadratic term of time to obtain the following fit. Therefore, the model considered in \@ref(eq:modeljjexample) becomes:
+
+\begin{equation} 
+X_t = \alpha + \beta_1 t + \beta_2 t^2 + \varepsilon_t,
+(\#eq:modeljjexample2)
+\end{equation} 
+
+The results of this regression is presented on the graphs below:
+
+```{r, echo=FALSE, fig.height = 4.5, fig.width = 7, cache = TRUE, fig.align='center'}
+fit_jj2 <- lm(as.vector(jj) ~ time_jj + I(time_jj^2))
 plot(jj)
 lines(time_jj, predict(fit_jj2), col = "red")
+legend("bottomright", c("Time series", "Regression line"), 
+       col = c("blue4", "red"), bty = "n", lwd = 1)
 ```
 
-We can see now that the quadratic function of time allows to better fit the observed time series and closely follow the observations. However, there still appears to be a pattern in the data that isn't captured by this quadratic model. This pattern appears to be repeated over time: peaks and valleys that seem to occur at regular intervals along the time series. This behaviour is known as *seasonality* which, in this case, can be explained by the effect of a specific quarter on the behaviour of the earnings. Indeed, it is reasonable to assume that the seasons have impacts on different variables measured over time (e.g. temperatures, earnings linked to sales that vary with seasons, etc.). Let us therefore take the quarters as an explanatory variable and add it to the previous quadratic model (see fit below).
+```{r lmresid2, fig.height = 5.5, fig.width = 6.5, fig.align='center'}
+simple_diag_plot(jj, fit_jj2)
+```
 
-```{r, echo=FALSE}
+We can see now that the quadratic function of time allows to better fit the observed time series and closely follow the observations. However, there still appears to be a pattern in the data that isn't captured by this quadratic model. This pattern appears to be repeated over time: peaks and valleys that seem to occur at regular intervals along the time series. This behaviour is known as *seasonality* which, in this case, can be explained by the effect of a specific quarter on the behaviour of the earnings. Indeed, it is reasonable to assume that the seasons have impacts on different variables measured over time (e.g. temperatures, earnings linked to sales that vary with seasons, etc.). Let us therefore take the quarters as an explanatory variable and add it to the model considered in \@ref(eq:modeljjexample2), which becomes:
+
+\begin{equation} 
+X_t = \alpha + \beta_1 t + \beta_2 t^2 + \sum_{i = 1}^4 \gamma_i I_{t \in \mathcal{A}_i} + \varepsilon_t,
+(\#eq:modeljjexample3)
+\end{equation}
+
+where
+
+\begin{equation*}
+  I_{t \in \mathcal{A}} \equiv \left\{
+	\begin{array}{ll}
+		1  & \mbox{if } t \in \mathcal{A} \\
+		0 & \mbox{if } t \not\in \mathcal{A}
+	\end{array}
+\right. ,
+\end{equation*}
+
+and where
+
+$$
+\mathcal{A}_i \equiv \left\{x \in \mathbb{N} | x = i \; \text{mod} \;  4\right\}.
+$$
+
+The results are presented below:
+
+```{r, echo=FALSE, fig.align='center'}
+quarters = rep(1:4, 21) 
 fit_jj3 <- gam(as.vector(jj) ~ quarters + s(time_jj))
 plot(jj)
 lines(time_jj, predict(fit_jj3), col = "red")
+legend("bottomright", c("Time series", "Regression line"), 
+       col = c("blue4", "red"), bty = "n", lwd = 1)
 ```
+
+```{r lmresid3, fig.height = 5.5, fig.width = 6.5, fig.align='center'}
+simple_diag_plot(jj, fit_jj3)
+```
+
+ADD SOMETHING ON INCREASING VARIANCE?? + DOES NOT COMPLETELY FIX THE PROBLEM OF SEASONALITY.
 
 This final fit appears to well describe the behaviour of the earnings. Hence, *trend* and *seasonality* are the main features that characterize the deterministic component of a time series. However, as discussed earlier, these deterministic components often don't explain all of the observed time series since there is often a random component characterizing data measured over time. Not considering the latter component can have considerable impacts on the inference procedures (as seen earlier) and it is therefore important to adequately analyse them (see next section).
 
-### The random component (Noise)
+### The Random Component (Noise)
 
 From this section onwards we will refer to *time series as being solely the random noise component*. Keeping this in mind, a *time series* is a particular kind of *stochastic process* which, generally speaking, is a collection of random variables indexed by a set of numbers. Not surprisingly, the index of reference for a time series is given by *time* and, consequently, a time series is a collection of random variables indexed (or "measured") over time such as, for example, the daily price of a financial asset or the monthly average temperature in a given location. In terms of notation, a time series is often represented as
 
@@ -217,7 +288,7 @@ From this section onwards we will refer to *time series as being solely the rand
 The time index $t$ is contained within either the set of reals, $\mathbb{R}$, or
 integers, $\mathbb{N}$. When $t \in \mathbb{R}$, the time series becomes a
 *continuous-time* stochastic process such a Brownian motion, a model used to
-represent the random movement of particles within a suspended liquid or gas. However, within this book, we will limit ourselves to the cases where $t \in \mathbb{N}$, better known as *discrete-time* processes. *Discrete-time* processes are measured sequentially at fixed
+represent the random movement of particles within a suspended liquid or gas. However, within this book, we will limit ourselves to the cases where $t \in \mathbb{N}$, better known as *discrete-time* processes. Discrete-time processes are measured sequentially at fixed
 and equally spaced intervals in time. This implies that we will uphold two general assumptions for the time series considered in this book:
 
 1. $t$ is not random, e.g. the time at which each observation is measured is known, and
@@ -227,14 +298,14 @@ This book will also focus on certain representations of time series based on par
 
 \[X_t \mathop \sim \limits^{iid} N(0, \sigma^2).\]
 
-This statement simply means that $(X_t)$ is normally distributed and independent over time. Ideally, this is the type of process that we would want to observe once we have performed a statistical modelling procedure. However, despite it appearing to be an excessively simple model to be considered for time series, it is actually a crucial component to construct a wide range of more complex time series models (see Chapter 2). Indeed, unlike the white noise process, time series are typically *not* independent over time. For example, if we suppose that the temperature in State College is unusually low on a given dat, then it is reasonable to assume that temperature the day after will also be low.
+This statement simply means that $(X_t)$ is normally distributed and independent over time. Ideally, this is the type of process that we would want to observe once we have performed a statistical modelling procedure. However, despite it appearing to be an excessively simple model to be considered for time series, it is actually a crucial component to construct a wide range of more complex time series models (see Chapter 3). Indeed, unlike the white noise process, time series are typically *not* independent over time. For example, if we suppose that the temperature in State College is unusually low on a given day, then it is reasonable to assume that temperature the day after will also be low.
 
 With this in mind, let us now give a quick overview of the information that can be retrieved on a time series from a simple descriptive representation.
 
 
 #### Exploratory Data Analysis for Time Series {#eda}
 
-When dealing with relatively small time series (e.g. a few thousands), it is
+When dealing with relatively small time series (e.g. a few thousands or less), it is
 often useful to look at a graph of the original data. A graph can be
 an informative tool for "detecting" some features of a time series such as trends and
 the presence of outliers. This is indeed what was done in the previous paragraphs when analysing the global temperature data or the Johnson & Johnson data.
@@ -272,7 +343,7 @@ In the figure below, we present an example of displacement recorded
 during an earthquake as well as an explosion.
 ```
 
-```{r example_EQ, fig.height = 4, fig.width = 7, cache = TRUE}
+```{r example_EQ, fig.height = 4, fig.width = 7, cache = TRUE, fig.align='center'}
 data(EQ5, package = "astsa")
 data(EXP6, package = "astsa")
 
@@ -303,7 +374,7 @@ concerns monthly precipitation (in mm) over a certain period of time (1907 to
 data are presented in the graph below:
 ```
 
-```{r example_hydro, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE, warning = FALSE}
+```{r example_hydro, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE, warning = FALSE, fig.align='center'}
 # Load hydro dataset
 data("hydro")
 
@@ -323,7 +394,7 @@ The figure below presents the returns or price innovations
 next) for Starbuck's stock on July 1, 2011 for about 150 seconds (left
 panel) and about 400 minutes (right panel). 
 
-```{r example_Starbucks, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE}
+```{r example_Starbucks, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE, fig.align='center'}
 # TO DO add Duke's code here!
 ```
 
@@ -338,6 +409,7 @@ day while the middle of the day is associated with small changes.
 Moreover, clear extreme observations can also be noted in this graph at
 around 11:00.
 
+```{example, label="imu"}
 Finally, let us consider the limitations of a direct graphical representation of
 a time series when the sample size is large. Indeed, due to visual limitations,
 a direct plotting of the data will probably result in an uninformative
@@ -347,16 +419,17 @@ illustrated in the following example.
 We consider here the data coming from the calibration procedure of
 an Inertial Measurement Unit (IMU) which, in general terms, is used to enhance
 navigation precision or reconstruct three dimensional movements:
+```
 
-```{r, echo = FALSE}
-knitr::include_url("https://www.youtube.com/watch?v=htoBvSq8jLA")
+```{r, echo = FALSE, fig.align='center'}
+knitr::include_url("https://www.youtube.com/embed/htoBvSq8jLA")
 ```
 
 These sensors are used in a very wide range of applications such as robotics, virtual reality, 
 vehicle stability control, human and animal motion capture and so forth:
 
-```{r, echo = FALSE}
-knitr::include_url("https://www.youtube.com/watch?v=g4tgtPA54_Y")
+```{r, echo = FALSE, fig.align='center'}
+knitr::include_url("https://www.youtube.com/embed/g4tgtPA54_Y")
 ```
 
 The signals coming from these instruments are measured at
@@ -365,7 +438,10 @@ and numerous underlying stochastic processes.
 
 The code below retrieves some data from an IMU and plots it directly:
 
-```{r example_IMU, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE, dev='png'}
+
+ADD A BOX THAT IMUDATA PACKAGE IS NEEDED??
+
+```{r example_IMU, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE, dev='png', fig.align='center'}
 # Load IMU data
 data(imu6, package = "imudata")
 
@@ -436,7 +512,7 @@ The basic idea behind the above definitions of independence is the fact that the
 In this section, we introduce some simple time series models that consitute the building blocks for the more complex and flexible classes of time series commonly used in practice. Before doing so it is useful to define $\Omega_t$ as all the information available up to time
 $t-1$, i.e.
 
-\[\Omega_t = \left(X_{t-1}, X_{t-2}, ..., X_0 \right).\]
+\[\Omega_t \equiv \left(X_{t-1}, X_{t-2}, ..., X_0 \right).\]
 
 As we will see further on, this compact notation is quite useful.
 
@@ -515,7 +591,14 @@ Such processes inspired Karl Pearson's famous quote that
 > "*the most likely place to find a drunken walker is somewhere near his starting point.*"
 > 
 
-Empirical evidence of this phenomenon is not too hard to find on a Friday or Saturday night. In this text, we only consider one very specific form of random walk, namely the Gaussian random walk which can be defined as:
+Empirical evidence of this phenomenon is not too hard to find on a Friday or Saturday night. This two dimensional process may easily be extended in three dimension and an example of a simulation of such process is presented in the animation below:
+
+<center>
+![](asset/rw3.gif)
+</center>
+
+
+In this text, we only consider one very specific form of random walk, namely the Gaussian random walk which can be defined as:
 
 $$X_t = X_{t-1} + W_t,$$
 
@@ -537,7 +620,7 @@ Xt = gen_gts(n, RW(gamma2 = gamma2))
 plot(Xt)
 ```
 
-The random walk model is often used to explain phenomena in many different areas one of which is finance where stock prices follow these kind of processes.
+The random walk model is often used to explain phenomena in many different areas one of which is finance where stock prices follow these kind of processes. 
 
 
 ### First-Order Autoregressive Model {#ar1}
@@ -551,7 +634,7 @@ cases of an AR(1). A (Gaussian) AR(1) process can be defined as
 where $W_t$ is a Gaussian white noise. Clearly, an AR(1) with $\phi = 0$ is
 a Gaussian white noise and when $\phi = 1$ the process becomes a random walk.
 
-```{remark, label="ar1realizations"}
+```{exercise, ar1realizations}
 An AR(1) is in fact a linear combination of past realisations of
 a white noise $W_t$ process. Indeed, we have
 
@@ -572,7 +655,7 @@ since $\operatorname{lim}_{i \to \infty} \; {\phi^i}{X_{t-i}} = 0$.
 
 From the conclusion of the above the remark, you may have noticed how we assume that the considered time series have zero expectation. The following remark justifies this assumption.
 
-```{remark, label="ar1mean"}
+```{exercise, ar1mean}
 We generally assume that an AR(1), as well as other time series
 models, have zero mean. The reason for this assumption is only to simplfy the
 notation but it is easy to consider, for example, an AR(1) process around an
@@ -599,7 +682,7 @@ plot(Xt)
 ```
 
 The AR(1) model is one of the most popular and commonly used models in many practical settings going from biology where it is used to explain the evolution of gene expressions to economics where it is used to model macroeconomic trends.
-
+ 
 
 ### Moving Average Process of Order 1 {#ma1}
 
@@ -640,11 +723,11 @@ familiar form as follows:
 \[
   {X_t} = {X_{t - 1}} + \omega 
    = \left( {{X_{t - 2}} + \omega} \right) + \omega 
-   = t{\omega} + c  \]
+   = t{\omega} + c . \]
 
 Therefore, a (linear) drift corresponds to a simple linear model with slope $\omega$ and intercept $c$.
 
-```{remark, label="drift"}
+```{exercise, remdrift}
 You may argue that the definition of this model is not useful since it constitutes a simple linear model. However this model is often accompanied by other time series models (such as the ones presented earlier) and its estimation can be greatly improved when considered in conjunction with the other models.
 ```
 
@@ -710,6 +793,8 @@ plot(Xt)
 In the above graph, the first three plots represent the latent (unobserved)
 processes (i.e. white noise, random walk, and drift) and the last one represents
 the sum of the three (i.e. $(X_t)$).
+
+ADD AS EXAMPLE HERE???
 
 Let us consider a real example where these latent processes are useful to
 describe (and predict) the behavior of economic variables such as Personal 
