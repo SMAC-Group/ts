@@ -1,5 +1,13 @@
+```{r, echo=FALSE, include=FALSE}
+library(astsa)
+library(mgcv)
+library(simts)
+library(imudata)
+library(timeDate)
+library(gmwm)
+```
 
-# Representations of Time Series
+# Fundamental Properties of Time Series
 
 In this chapter we will discuss and formalize how knowledge about $X_{t-1}$ (or
 more generally about all the information from the past, $\Omega_t$) can provide 
@@ -17,10 +25,9 @@ context as it allows (among other things) to assume that
 \[\text{corr} \left(X_t, X_{t+h}\right) = \text{corr} \left(X_{t+j}, X_{t+h+j}\right), \;\;\; \text{for all $j$},\]
 
 implying that the autocorrelation (or autocovariance) is only a function of the
-lag between observations, rather than time itself. These first of these two concepts (i.e. 
-autocorrelation and stationarity) will be discussed in this chapter while stationarity will be discussed in the following one. Before 
+lag between observations, rather than time itself. We will first discuss the concept of autocorrelation in time series, then we will discuss stationarity which will then allow us to adequately define and study estimators of the autocorrelation functions. Before 
 moving on, it is helpful to remember that correlation (or autocorrelation) is
-only appropriate to measure a very specific kind of dependence, i.e. the linear
+only appropriate to measure a very specific kind of dependence, i.e. linear
 dependence. There are many other forms of dependence as illustrated in the
 bottom panels of the graph below, which all have a (true) zero correlation:
 
@@ -35,6 +42,9 @@ material discussed in this chapter.
  
 ## The Autocorrelation and Autocovariance Functions 
 
+We will introduce the autocorrelation function by first defining the **autocovariance function**.
+
+
 ```{definition, label="acvf"}
 The *autocovariance function* of a series $(X_t)$ is defined as 
 
@@ -47,7 +57,7 @@ where the definition of covariance is given by:
     \text{cov} \left( {{X_t},{X_{t+h}}} \right) = \mathbb{E}\left[ {{X_t}{X_{t+h}}} \right] - \mathbb{E}\left[ {{X_t}} \right]\mathbb{E}\left[ {{X_{t+h}}} \right].
     \]
 
-Similarly, the above expectations are defined to be:
+Similarly, the above expectations are defined as:
   
   \[\begin{aligned}
      \mathbb{E}\left[ {{X_t}} \right] &= \int\limits_{ - \infty }^\infty  {x \cdot {f_t}\left( x \right)dx},  \\
@@ -56,26 +66,21 @@ Similarly, the above expectations are defined to be:
 
 where ${f_t}\left( x \right)$ and $f_{t,t+h}\left( {{x_1},{x_2}} \right)$ denote,
 respectively, the density of $X_t$ and the joint density of the 
-pair $(X_t, X_{t+h})$. For the notation, it should be clear that $X_t$ is assumed to be a continous random variable. Since we generally consider stochastic processes with
-constant zero mean, we often have
+pair $(X_t, X_{t+h})$. Considering the notation used above, it should be clear that $X_t$ is assumed to be a continous random variable. Since we generally consider stochastic processes with constant zero mean, we often have
 
 \[{\gamma_x}\left( {t,t+h} \right) = \mathbb{E}\left[X_t X_{t+h} \right]. \]
 
-In addition, we normally drop the subscript referring to the time
-series (i.e. $x$ in this case) if it is clear from the context which time
-series the autocovariance refers to. For example, we generally 
-use ${\gamma}\left( {t,t+h} \right)$ instead
-of ${\gamma_x}\left( {t,t+h} \right)$. Moreover, the notation is even further
-simplified when the covariance of $X_t$ and $X_{t+h}$ is the same as that
-of $X_{t+j}$ and $X_{t+h+j}$ (for all $j$), i.e. the covariance depends only 
+In addition, in the context of this book we will normally drop the subscript referring to the time series (i.e. $x$ in this case) if it is clear from the context which time
+series the autocovariance refers to. For example, we generally use ${\gamma}\left( {t,t+h} \right)$ instead of ${\gamma_x}\left( {t,t+h} \right)$. Moreover, the notation is even further simplified when the covariance of $X_t$ and $X_{t+h}$ is the same as that of $X_{t+j}$ and $X_{t+h+j}$ (for all $j$), i.e. the covariance depends only 
 on the time between observations and not on the specific time $t$. This is an 
 important property called *stationarity*, which will be discussed in the next
 section. In this case, we simply use to following notation:
+
   \[\gamma \left( {h} \right) = \text{cov} \left( X_t , X_{t+h} \right). \]
 
-This notation will generally be used throughout the text and implies 
-certain properties (i.e. stationarity) on the process $(X_t)$. 
-Several remarks can be made on the autocovariance:
+This is the definition of autocovariance that will be used from this point onwards and therefore this notation will generally be used throughout the text thereby implying 
+certain properties for the process $(X_t)$ (i.e. stationarity) . 
+With this in mind, several remarks can be made on the autocovariance function:
   
   1. The autocovariance function is *symmetric*. 
 That is, ${\gamma}\left( {h} \right) = {\gamma}\left( -h \right)$ 
@@ -128,16 +133,14 @@ Autocovariances and autocorrelations also turn out to be very useful tools as
 they are one of the *fundamental representations* of time series. Indeed, if we
 consider a zero mean normally distributed process, it is clear that its joint
 distribution is fully characterized by the 
-autocovariances $\mathbb{E}[X_t X_{t+h}]$ (since the joint probability density
-                                           only depends of these covariances). Once we know the autocovariances we
+autocovariances $\mathbb{E}[X_t X_{t+h}]$ (since the joint probability density only depends of these covariances). Once we know the autocovariances we
 know *everything* there is to know about the process and therefore:
   
-*if two processes have the same autocovariance function, then they are the 
-same process.*
+> if two processes have the same autocovariance function, then they are the same process.
   
 ### Admissible Autocorrelation Functions
   
-Since the autocorrelation is related to a fundamental representation of time
+Since the autocorrelation function is one of the fundamental representations of time
 series, it implies that one might be able to define a stochastic process by 
 picking a set of autocorrelation values (assuming for example
                                          that $\text{var}(X_t) = 1$). However, it turns out that not every collection of
@@ -145,13 +148,12 @@ numbers, say $\{\rho_1, \rho_2, ...\}$, can represent the autocorrelation of a
 process. Indeed, two conditions are required to ensure the validity of an
 autocorrelation sequence:
   
-1. $\operatorname{max}_j \; | \rho_j| \leq 1$.
+1. $\operatorname{max}_j \; \left| \rho_j \right| \leq 1$.
 2. $\text{var} \left[\sum_{j = 0}^\infty \alpha_j X_{t-j} \right] \geq 0 \;$ for all $\{\alpha_0, \alpha_1, ...\}$.
 
 The first condition is obvious and simply reflects the fact 
 that $|\rho \left( h \right)| \leq 1$ but the second is far more difficult to
-verify. To further our understanding of the latter we let $\alpha_j = 0$ for $j > 1$,
-then condition two implies that
+verify. To further our understanding of the latter we let $\alpha_j = 0$ for $j > 1$ and see that in this case the second condition implies that
 
 \[\text{var} \left[ \alpha_0 X_{t} + \alpha_1 X_{t-1}  \right] = \gamma_0 \begin{bmatrix}
    \alpha_0 & \alpha_1
@@ -243,9 +245,268 @@ first discuss the stationarity of $(X_t)$, which will provide a convenient
 framework in which $\gamma(h)$ and $\rho(h)$ can be used (rather that $\gamma(t,t+h)$ 
 for example) and (easily) estimated.
 
+## Stationarity {#stationary}
 
+There are two kinds of stationarity that are commonly used. They are defined 
+as follows:
   
-## Estimation of Moments
+```{definition, label="strongstationarity"}
+A process $(X_t)$ is *strongly stationary* or *strictly stationary* if the joint probability distribution of $(X_{t-h}, ..., X_t, ..., X_{t+h})$ is independent of $t$ for all $h$.
+```
+
+```{definition, label="weakstationarity"}
+A process $(X_t)$ is *weakly stationary*, *covariance stationary* or *second order stationary* if $\mathbb{E}[X_t]$ and $\mathbb{E}[X_t^2]$ are finite and $\mathbb{E}[X_t X_{t-h}]$ depends only on $h$ and not on $t$.
+```
+
+These types of stationarity are *not equivalent* and the presence of one kind 
+of stationarity does not imply the other. That is, a time series can be strongly
+stationary but not weakly stationary and vice versa. In some cases, a time 
+series can be both strongly and weakly stationary and this occurs, for 
+example, in the (jointly) Gaussian case. Stationarity of $(X_t)$ matters
+because *it provides the framework in which averaging dependent data makes
+sense*, thereby allowing us to easily obtain estimates for certain quantities
+such as autocorrelation.
+
+Several remarks and comments can be made on these definitions:
+  
+- As mentioned earlier, strong stationarity *does not imply* weak stationarity. 
+
+```{example, label="strongnotweak"}
+an $iid$ Cauchy process is strongly but not weakly stationary.
+```
+
+- Weak stationarity *does not imply* strong stationarity. 
+
+```{example, label="weaksplit"}
+Consider the following weak white noise process:
+  \begin{equation*}
+X_t = \begin{cases}
+U_{t}      & \quad \text{if } t \in \{2k:\, k\in \mathbb{Z} \}, \\
+V_{t}      & \quad \text{if } t \in \{2k+1:\, k\in \mathbb{Z} \},\\
+\end{cases}
+\end{equation*}
+where ${U_t} \mathop \sim \limits^{iid} N\left( {1,1} \right)$ and ${V_t}\mathop \sim \limits^{iid} \mathcal{E}\left( 1 \right)$ is a weakly stationary process that is *not* strongly stationary.
+```
+
+- Strong stationarity combined with bounded values of $\mathbb{E}[X_t]$ 
+  and $\mathbb{E}[X_t^2]$ *implies* weak stationarity.
+- Weak stationarity combined with normally distributed processes *implies* 
+  strong stationarity.
+
+### Assessing Weak Stationarity of Time Series Models
+
+It is important to understand how to verify if a postulated model is (weakly)
+stationary. In order to do so, we must ensure that our model satisfies the
+following three properties:
+  
+1. $\mathbb{E}\left[X_t \right] = \mu_t = \mu < \infty$,
+2. $\text{var}\left[X_t \right] = \sigma^2_t = \sigma^2 < \infty$,
+3. $\text{cov}\left(X_t, X_{t+h} \right) = \gamma \left(h\right)$ (i.e. the autocovariance only depends on $h$ and not on $t$).
+
+In the following examples, we evaluate the stationarity of the processes
+introduced in Section \@ref(basicmodels).
+
+```{example, label="gwn", name = "Gaussian White Noise"} 
+It is easy to verify that this process is stationary. Indeed, we have:
+  
+1. $\mathbb{E}\left[ {{X_t}} \right] = 0$,
+2. $\gamma(0) = \sigma^2 < \infty$,  
+3. $\gamma(h) = 0$ for $|h| > 0$.
+
+```
+
+```{example, label="srw", name = "Random Walk"}
+To evaluate the stationarity of this process, we first derive its properties:
+
+1. We begin by calculating the expectation of the process:
+\[
+  \mathbb{E}\left[ {{X_t}} \right] = \mathbb{E}\left[ {{X_{t - 1}} + {W_t}} \right]
+  = \mathbb{E}\left[ {\sum\limits_{i = 1}^t {{W_i}}  + {X_0}} \right] 
+  = \mathbb{E}\left[ {\sum\limits_{i = 1}^t {{W_i}} } \right] + {c} 
+  = c.  \] 
+
+Observe that the mean obtained is constant since it depends only on the value
+of the first term in the sequence.
+
+2. Next, after finding the mean to be constant, we calculate the variance to check stationarity:
+  \[\begin{aligned}
+     \text{var}\left( {{X_t}} \right) &= \text{var}\left( {\sum\limits_{i = 1}^t {{W_t}}  + {X_0}} \right) 
+     = \text{var}\left( {\sum\limits_{i = 1}^t {{W_i}} } \right) + \underbrace {\text{var}\left( {{X_0}} \right)}_{= 0} \\
+     &= \sum\limits_{i = 1}^t {\text{var}\left( {{W_i}} \right)} 
+     = t \sigma_w^2,
+     \end{aligned}\] 
+where $\sigma_w^2 = \text{var}(W_t)$. Therefore, the variance depends on time $t$, contradicting our
+second property. Moreover, we have:
+  \[\mathop {\lim }\limits_{t \to \infty } \; \text{var}\left(X_t\right) = \infty.\]
+This process is therefore not weakly stationary.
+
+3. Regarding the autocovariance of a random walk, we have:
+  \[\begin{aligned}
+     \gamma \left( h \right) &= \text{cov}\left( {{X_t},{X_{t + h}}} \right) 
+     = \text{cov}\left( {\sum\limits_{i = 1}^t {{W_i}} ,\sum\limits_{j = 1}^{t + h} {{W_j}} } \right) 
+     = \text{cov}\left( {\sum\limits_{i = 1}^t {{W_i}} ,\sum\limits_{j = 1}^t {{W_j}} } \right)\\ 
+     &= \min \left( {t,t + h} \right)\sigma _w^2
+     = \left( {t + \min \left( {0,h} \right)} \right)\sigma _w^2,
+     \end{aligned} \]
+which further illustrates the non-stationarity of this process.
+
+Moreover, the autocorrelation of this process is given by
+
+\[\rho (h) = \frac{t + \min \left( {0,h} \right)}{\sqrt{t}\sqrt{t+h}},\]
+
+implying (for a fixed $h$) that
+
+\[\mathop {\lim }\limits_{t \to \infty } \; \rho(h) = 1.\]
+```
+
+In the following simulated example, we illustrate the non-stationary feature of
+such a process:
+  
+```{r RWsim, cache = TRUE, fig.cap = "Two hundred simulated random walks.", fig.align='center', fig.height = 5, fig.width = 7}
+# Number of simulated processes
+B = 200
+
+# Length of random walks
+n = 1000
+
+# Output matrix
+out = matrix(NA,B,n)
+
+# Set seed for reproducibility
+set.seed(6182)
+
+# Simulate Data
+for (i in seq_len(B)){
+  # Simulate random walk
+  Xt = gen_gts(n, RW(gamma = 1))
+  
+  # Store process
+  out[i,] = Xt
+}
+
+# Plot random walks
+plot(NA, xlim = c(1,n), ylim = range(out), xlab = "Time", ylab = " ")
+grid()
+color = sample(topo.colors(B, alpha = 0.5))
+grid()
+for (i in seq_len(B)){
+  lines(out[i,], col = color[i])
+}
+
+# Add 95% confidence region
+lines(1:n, 1.96*sqrt(1:n), col = 2, lwd = 2, lty = 2)
+lines(1:n, -1.96*sqrt(1:n), col = 2, lwd = 2, lty = 2)
+```
+
+In the plot above, two hundred simulated random walks are plotted along with
+theoretical 95% confidence intervals (red-dashed lines). The relationship
+between time and variance can clearly be observed (i.e. the variance of the 
+process increases with the time).
+
+```{example, label="exma1", name = "Moving Average of Order 1"}
+
+Similarly to our previous examples, we attempt to verify the stationary 
+properties for the MA(1) model defined in the previous chapter:
+  
+1. \[ 
+    \mathbb{E}\left[ {{X_t}} \right] = \mathbb{E}\left[ {{\theta_1}{W_{t - 1}} + {W_t}} \right] 
+    = {\theta_1} \mathbb{E} \left[ {{W_{t - 1}}} \right] + \mathbb{E}\left[ {{W_t}} \right] 
+    = 0. \] 
+2. \[\text{var} \left( {{X_t}} \right) = \theta_1^2 \text{var} \left( W_{t - 1}\right) + \text{var} \left( W_{t}\right) = \left(1 + \theta^2 \right) \sigma^2_w.\]  
+3. Regarding the autocovariance, we have 
+\[\begin{aligned}
+   \text{cov}\left( {{X_t},{X_{t + h}}} \right) &= \mathbb{E}\left[ {\left( {{X_t} - \mathbb{E}\left[ {{X_t}} \right]} \right)\left( {{X_{t + h}} - \mathbb{E}\left[ {{X_{t + h}}} \right]} \right)} \right] = \mathbb{E}\left[ {{X_t}{X_{t + h}}} \right] \\
+   &= \mathbb{E}\left[ {\left( {{\theta}{W_{t - 1}} + {W_t}} \right)\left( {{\theta }{W_{t + h - 1}} + {W_{t + h}}} \right)} \right] \\
+   &= \mathbb{E}\left[ {\theta^2{W_{t - 1}}{W_{t + h - 1}} + \theta {W_t}{W_{t + h}} + {\theta}{W_{t - 1}}{W_{t + h}} + {W_t}{W_{t + h}}} \right]. \\
+   \end{aligned} \] 
+It is easy to see that $\mathbb{E}\left[ {{W_t}{W_{t + h}}} \right] = {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}\sigma _w^2$ and therefore, we obtain
+\[\text{cov} \left( {{X_t},{X_{t + h}}} \right) = \left( {\theta^2{ \boldsymbol{1}_{\left\{ {h = 0} \right\}}} + {\theta}{\boldsymbol{1}_{\left\{ {h = 1} \right\}}} + {\theta}{\boldsymbol{1}_{\left\{ {h =  - 1} \right\}}} + {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}} \right)\sigma _w^2\] 
+implying the following autocovariance function:
+  \[\gamma \left( h \right) = \left\{ {\begin{array}{*{20}{c}}
+    {\left( {\theta^2 + 1} \right)\sigma _w^2}&{h = 0} \\ 
+    {{\theta}\sigma _w^2}&{\left| h \right| = 1} \\ 
+    0&{\left| h \right| > 1} 
+    \end{array}} \right. .\]
+Therefore, an MA(1) process is weakly stationary since both the mean and variance are constant over time and its covariance function is only a function of the lag $(h)$. Finally, we can easily obtain the autocorrelation for this process, which is given by
+$$\rho \left( h \right) = \left\{ {\begin{array}{*{20}{c}}
+  1&{h = 0} \\ 
+  {\frac{{{\theta}\sigma _w^2}}{{\left( {\theta^2 + 1} \right)\sigma _w^2}} = \frac{{{\theta}}}{{\theta^2 + 1}}}&{\left| h \right| = 1} \\ 
+  0&{\left| h \right| > 1} 
+  \end{array}} \right. .$$
+    Interestingly, we can note that $|\rho(1)| \leq 0.5$.
+```
+
+```{example, label="exar1", name = "Autoregressive of Order 1"}
+  As another example, we shall verify the stationary properties for the AR(1)
+  model defined in the previous chapter.
+  
+  Using the *backsubstitution* technique, we can rearrange an AR(1) process so 
+  that it is written in a more compact form, i.e.
+  
+  \[\begin{aligned}
+     {X_t} & =  {\phi }{X_{t - 1}} + {W_t} = \phi \left[ {\phi {X_{t - 2}} + {W_{t - 1}}} \right] + {W_t} 
+     =  {\phi ^2}{X_{t - 2}} + \phi {W_{t - 1}} + {W_t}  \\
+     &  \vdots  \\
+     & =  {\phi ^k}{X_{t-k}} + \sum\limits_{j = 0}^{k - 1} {{\phi ^j}{W_{t - j}}} .
+     \end{aligned} \]
+  
+  By taking the limit in $k$ (which is perfectly valid as we 
+                              assume $t \in \mathbb{Z}$) and assuming $|\phi|<1$, we obtain
+  
+  \[\begin{aligned}
+     X_t = \mathop {\lim }\limits_{k \to \infty} \; {X_t}  =  \sum\limits_{j = 0}^{\infty} {{\phi ^j}{W_{t - j}}} 
+     \end{aligned} \]
+  
+  and therefore such process can be interpreted as a linear combination of the 
+  white noise $(W_t)$ and corresponds (as we will observe later on) to an MA($\infty$). 
+  In addition, the requirement $\left| \phi  \right| < 1$ turns out to be 
+  extremely useful as the above formula is related to a **geometric series**, which
+  would diverge if $\phi \geq 1$. Indeed, remember that
+  an infinite (converging) geometric series is given by
+  
+  \[\sum\limits_{k = 0}^\infty  \, a{{r^k}}  = \frac{a}{{1 - r}}, \; {\text{ if }}\left| r \right| < 1.\]
+  
+  <!--
+    The origin of the requirement comes from needing to ensure that the characteristic polynomial solution for an AR1 lies outside of the unit circle. Subsequently, stability enables the process to be stationary. If $\phi  \ge 1$, the process would not converge. Under the requirement, the process can represented as a
+  -->
+    
+With this setup, we demonstrate how crucial this property is by calculating each of the requirements of a stationary process.
+  
+  1. First, we will check if the mean is stationary. 
+  In this case, we opt to use limits to derive the expectation
+  \[\begin{aligned}
+     \mathbb{E}\left[ {{X_t}} \right] &= \mathop {\lim }\limits_{k \to \infty } \mathbb{E}\left[ {{\phi^k}{X_{t-k}} + \sum\limits_{j = 0}^{k - 1} {\phi^j{W_{t - j}}} } \right] \\
+     &= \mathop {\lim }\limits_{k \to \infty } \, \underbrace {{\phi ^k}{\mathbb{E}[X_{t-k}]}}_{= 0} + \mathop {\lim }\limits_{k \to \infty } \, \sum\limits_{j = 0}^{k - 1} {\phi^j\underbrace {\mathbb{E}\left[ {{W_{t - j}}} \right]}_{ = 0}}
+     = 0.
+     \end{aligned} \] As expected, the mean is zero and, hence, the first criteria for weak stationarity is satisfied. 
+  2. Next, we opt to determine the variance of the process
+  \[\begin{aligned}
+     \text{var}\left( {{X_t}} \right) &= \mathop {\lim }\limits_{k \to \infty } \text{var}\left( {{\phi^k}{X_{t-k}} + \sum\limits_{j = 0}^{k - 1} {\phi^j{W_{t - j}}} } \right)
+     = \mathop {\lim }\limits_{k \to \infty } \sum\limits_{j = 0}^{k - 1} {\phi ^{2j} \text{var}\left( {{W_{t - j}}} \right)}  \\
+     &= \mathop {\lim }\limits_{k \to \infty } \sum\limits_{j = 0}^{k - 1} \sigma _W^2 \, {\phi ^{2j}}  =  
+       \underbrace {\frac{\sigma _W^2}{{1 - {\phi ^2}}}.}_{\begin{subarray}{l} 
+         {\text{Geom. Serie}} 
+         \end{subarray}}
+     \end{aligned} \] Once again, the above result only holds because we are able to use the geometric series convergence as a result of $\left| \phi  \right| < 1$.
+  3. Finally, we consider the autocovariance of an AR(1). For $h > 0$, we have
+  \[\gamma \left( h \right) =  \text{cov}\left( {{X_t},{X_{t + h}}} \right) = \phi \text{cov}\left( {{X_t},{X_{t + h - 1}}} \right) = \phi \, \gamma \left( h-1 \right).\]
+  Therefore, using the symmetry of autocovariance, we find that
+  \[\gamma \left( h \right) = \phi^{|h|} \, \gamma(0).\]
+  
+  Both the mean and variance do not depend on time. In addition, the autocovariance function can be viewed as a function dependent entirely on lags and, thus, the AR(1) process is weakly stationary if $\left| \phi  \right| < 1$.  Lastly, we can obtain the autocorrelation for this process. Indeed, for $h > 0$, we have
+  
+  \[\rho \left( h \right) = \frac{{\gamma \left( h \right)}}{{\gamma \left( 0 \right)}} = \frac{{\phi \gamma \left( {h - 1} \right)}}{{\gamma \left( 0 \right)}} = \phi \rho \left( {h - 1} \right).\]
+  
+  After fully simplifying, we obtain
+  
+  \[\rho \left( h \right) = {\phi^{|h|}}.\]
+  
+  Thus, the autocorrelation function for an AR(1) exhibits a _geometric decay_,
+  meaning, the smaller the $|\phi|$, the faster the autocorrelation reaches zero. 
+  If $|\phi|$ is close to 1, then the decay rate is slower.
+```
+  
+## Estimation of Moments (Stationary Processes)
   
 In this section, we discuss how moments and related quantities of stationary
 process can be estimated. Informally speaking, the use of "averages" is 
