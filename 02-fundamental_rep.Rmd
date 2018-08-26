@@ -460,8 +460,8 @@ $$\rho \left( h \right) = \left\{ {\begin{array}{*{20}{c}}
   and therefore such process can be interpreted as a linear combination of the 
   white noise $(W_t)$ and corresponds (as we will observe later on) to an MA($\infty$). 
   In addition, the requirement $\left| \phi  \right| < 1$ turns out to be 
-  extremely useful as the above formula is related to a **geometric series**, which
-  would diverge if $\phi \geq 1$. Indeed, remember that
+  extremely useful as the above formula is related to a **geometric series** which
+  would diverge if $\phi \geq 1$ (for example when $\phi = 1$ we have a random walk). Indeed, remember that
   an infinite (converging) geometric series is given by
   
   \[\sum\limits_{k = 0}^\infty  \, a{{r^k}}  = \frac{a}{{1 - r}}, \; {\text{ if }}\left| r \right| < 1.\]
@@ -473,37 +473,36 @@ $$\rho \left( h \right) = \left\{ {\begin{array}{*{20}{c}}
 With this setup, we demonstrate how crucial this property is by calculating each of the requirements of a stationary process.
   
   1. First, we will check if the mean is stationary. 
-  In this case, we opt to use limits to derive the expectation
+  In this case, we choose to use limits in order to derive the expectation
   \[\begin{aligned}
      \mathbb{E}\left[ {{X_t}} \right] &= \mathop {\lim }\limits_{k \to \infty } \mathbb{E}\left[ {{\phi^k}{X_{t-k}} + \sum\limits_{j = 0}^{k - 1} {\phi^j{W_{t - j}}} } \right] \\
      &= \mathop {\lim }\limits_{k \to \infty } \, \underbrace {{\phi ^k}{\mathbb{E}[X_{t-k}]}}_{= 0} + \mathop {\lim }\limits_{k \to \infty } \, \sum\limits_{j = 0}^{k - 1} {\phi^j\underbrace {\mathbb{E}\left[ {{W_{t - j}}} \right]}_{ = 0}}
      = 0.
-     \end{aligned} \] As expected, the mean is zero and, hence, the first criteria for weak stationarity is satisfied. 
-  2. Next, we opt to determine the variance of the process
+     \end{aligned} \] As expected, the mean is zero and, hence, the first criterion for weak stationarity is satisfied. 
+  2. Next, we determine the variance of the process
   \[\begin{aligned}
      \text{var}\left( {{X_t}} \right) &= \mathop {\lim }\limits_{k \to \infty } \text{var}\left( {{\phi^k}{X_{t-k}} + \sum\limits_{j = 0}^{k - 1} {\phi^j{W_{t - j}}} } \right)
      = \mathop {\lim }\limits_{k \to \infty } \sum\limits_{j = 0}^{k - 1} {\phi ^{2j} \text{var}\left( {{W_{t - j}}} \right)}  \\
      &= \mathop {\lim }\limits_{k \to \infty } \sum\limits_{j = 0}^{k - 1} \sigma _W^2 \, {\phi ^{2j}}  =  
        \underbrace {\frac{\sigma _W^2}{{1 - {\phi ^2}}}.}_{\begin{subarray}{l} 
-         {\text{Geom. Serie}} 
+         {\text{Geom. Series}} 
          \end{subarray}}
-     \end{aligned} \] Once again, the above result only holds because we are able to use the geometric series convergence as a result of $\left| \phi  \right| < 1$.
+     \end{aligned} \] Once again, the above result only holds because we are able to use the convergence of the geometric series as a result of $\left| \phi  \right| < 1$.
   3. Finally, we consider the autocovariance of an AR(1). For $h > 0$, we have
   \[\gamma \left( h \right) =  \text{cov}\left( {{X_t},{X_{t + h}}} \right) = \phi \text{cov}\left( {{X_t},{X_{t + h - 1}}} \right) = \phi \, \gamma \left( h-1 \right).\]
   Therefore, using the symmetry of autocovariance, we find that
   \[\gamma \left( h \right) = \phi^{|h|} \, \gamma(0).\]
   
-  Both the mean and variance do not depend on time. In addition, the autocovariance function can be viewed as a function dependent entirely on lags and, thus, the AR(1) process is weakly stationary if $\left| \phi  \right| < 1$.  Lastly, we can obtain the autocorrelation for this process. Indeed, for $h > 0$, we have
+  Both the mean and variance do not depend on time. In addition, the autocovariance function can be viewed as a function that only depends on the time lag $h$ and, thus, the AR(1) process is weakly stationary if $\left| \phi  \right| < 1$.  Lastly, we can obtain the autocorrelation for this process. Indeed, for $h > 0$, we have
   
   \[\rho \left( h \right) = \frac{{\gamma \left( h \right)}}{{\gamma \left( 0 \right)}} = \frac{{\phi \gamma \left( {h - 1} \right)}}{{\gamma \left( 0 \right)}} = \phi \rho \left( {h - 1} \right).\]
   
-  After fully simplifying, we obtain
+  After simplifying, we obtain
   
   \[\rho \left( h \right) = {\phi^{|h|}}.\]
   
   Thus, the autocorrelation function for an AR(1) exhibits a _geometric decay_,
-  meaning, the smaller the $|\phi|$, the faster the autocorrelation reaches zero. 
-  If $|\phi|$ is close to 1, then the decay rate is slower.
+  meaning that as $|\phi|$ gets smaller the autocorrelation reaches zero at a faster rate (on the contrary, if $|\phi|$ is close to 1 then the decay rate is slower).
 ```
   
 ## Estimation of Moments (Stationary Processes)

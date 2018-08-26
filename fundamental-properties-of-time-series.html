@@ -447,26 +447,26 @@ Figure 1.3: Two hundred simulated random walks.
 <p><span class="math display">\[\begin{aligned}
      X_t = \mathop {\lim }\limits_{k \to \infty} \; {X_t}  =  \sum\limits_{j = 0}^{\infty} {{\phi ^j}{W_{t - j}}} 
      \end{aligned} \]</span></p>
-<p>and therefore such process can be interpreted as a linear combination of the white noise <span class="math inline">\((W_t)\)</span> and corresponds (as we will observe later on) to an MA(<span class="math inline">\(\infty\)</span>). In addition, the requirement <span class="math inline">\(\left| \phi \right| &lt; 1\)</span> turns out to be extremely useful as the above formula is related to a <strong>geometric series</strong>, which would diverge if <span class="math inline">\(\phi \geq 1\)</span>. Indeed, remember that an infinite (converging) geometric series is given by</p>
+<p>and therefore such process can be interpreted as a linear combination of the white noise <span class="math inline">\((W_t)\)</span> and corresponds (as we will observe later on) to an MA(<span class="math inline">\(\infty\)</span>). In addition, the requirement <span class="math inline">\(\left| \phi \right| &lt; 1\)</span> turns out to be extremely useful as the above formula is related to a <strong>geometric series</strong> which would diverge if <span class="math inline">\(\phi \geq 1\)</span> (for example when <span class="math inline">\(\phi = 1\)</span> we have a random walk). Indeed, remember that an infinite (converging) geometric series is given by</p>
 <p><span class="math display">\[\sum\limits_{k = 0}^\infty  \, a{{r^k}}  = \frac{a}{{1 - r}}, \; {\text{ if }}\left| r \right| &lt; 1.\]</span></p>
 <p><!--
     The origin of the requirement comes from needing to ensure that the characteristic polynomial solution for an AR1 lies outside of the unit circle. Subsequently, stability enables the process to be stationary. If $\phi  \ge 1$, the process would not converge. Under the requirement, the process can represented as a
   --></p>
 <p>With this setup, we demonstrate how crucial this property is by calculating each of the requirements of a stationary process.</p>
 <ol style="list-style-type: decimal">
-<li>First, we will check if the mean is stationary. In this case, we opt to use limits to derive the expectation <span class="math display">\[\begin{aligned}
+<li>First, we will check if the mean is stationary. In this case, we choose to use limits in order to derive the expectation <span class="math display">\[\begin{aligned}
  \mathbb{E}\left[ {{X_t}} \right] &amp;= \mathop {\lim }\limits_{k \to \infty } \mathbb{E}\left[ {{\phi^k}{X_{t-k}} + \sum\limits_{j = 0}^{k - 1} {\phi^j{W_{t - j}}} } \right] \\
  &amp;= \mathop {\lim }\limits_{k \to \infty } \, \underbrace {{\phi ^k}{\mathbb{E}[X_{t-k}]}}_{= 0} + \mathop {\lim }\limits_{k \to \infty } \, \sum\limits_{j = 0}^{k - 1} {\phi^j\underbrace {\mathbb{E}\left[ {{W_{t - j}}} \right]}_{ = 0}}
  = 0.
- \end{aligned} \]</span> As expected, the mean is zero and, hence, the first criteria for weak stationarity is satisfied.</li>
-<li>Next, we opt to determine the variance of the process <span class="math display">\[\begin{aligned}
+ \end{aligned} \]</span> As expected, the mean is zero and, hence, the first criterion for weak stationarity is satisfied.</li>
+<li>Next, we determine the variance of the process <span class="math display">\[\begin{aligned}
  \text{var}\left( {{X_t}} \right) &amp;= \mathop {\lim }\limits_{k \to \infty } \text{var}\left( {{\phi^k}{X_{t-k}} + \sum\limits_{j = 0}^{k - 1} {\phi^j{W_{t - j}}} } \right)
  = \mathop {\lim }\limits_{k \to \infty } \sum\limits_{j = 0}^{k - 1} {\phi ^{2j} \text{var}\left( {{W_{t - j}}} \right)}  \\
  &amp;= \mathop {\lim }\limits_{k \to \infty } \sum\limits_{j = 0}^{k - 1} \sigma _W^2 \, {\phi ^{2j}}  =  
    \underbrace {\frac{\sigma _W^2}{{1 - {\phi ^2}}}.}_{\begin{subarray}{l} 
-     {\text{Geom. Serie}} 
+     {\text{Geom. Series}} 
      \end{subarray}}
- \end{aligned} \]</span> Once again, the above result only holds because we are able to use the geometric series convergence as a result of <span class="math inline">\(\left| \phi \right| &lt; 1\)</span>.</li>
+ \end{aligned} \]</span> Once again, the above result only holds because we are able to use the convergence of the geometric series as a result of <span class="math inline">\(\left| \phi \right| &lt; 1\)</span>.</li>
 <li>Finally, we consider the autocovariance of an AR(1). For <span class="math inline">\(h &gt; 0\)</span>, we have <span class="math display">\[\gamma \left( h \right) =  \text{cov}\left( {{X_t},{X_{t + h}}} \right) = \phi \text{cov}\left( {{X_t},{X_{t + h - 1}}} \right) = \phi \, \gamma \left( h-1 \right).\]</span> Therefore, using the symmetry of autocovariance, we find that <span class="math display">\[\gamma \left( h \right) = \phi^{|h|} \, \gamma(0).\]</span></li>
 </ol>
 <p>Both the mean and variance do not depend on time. In addition, the autocovariance function can be viewed as a function dependent entirely on lags and, thus, the AR(1) process is weakly stationary if <span class="math inline">\(\left| \phi \right| &lt; 1\)</span>. Lastly, we can obtain the autocorrelation for this process. Indeed, for <span class="math inline">\(h &gt; 0\)</span>, we have</p>
