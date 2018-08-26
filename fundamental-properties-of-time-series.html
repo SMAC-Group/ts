@@ -147,6 +147,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <!--bookdown:title:start-->
 <div id="fundamental-properties-of-time-series" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Fundamental Properties of Time Series</h1>
+
+<div class="rmdimportant">
+<p>To make use of the R code within this chapter you will need to install (if not already done) and load the following libraries:</p>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/quantmod/index.html">quantmod</a>;</li>
+<li><a href="http://simts.smac-group.com/">simts</a>;</li>
+<li><a href="https://cran.r-project.org/web/packages/astsa/index.html">astsa</a>.
+</div>
+</li>
+</ul>
 <p>In this chapter we will discuss and formalize how knowledge about <span class="math inline">\(X_{t-1}\)</span> (or more generally about all the information from the past, <span class="math inline">\(\Omega_t\)</span>) can provide us with some information about the properties of <span class="math inline">\(X_t\)</span>. In particular, we will consider the correlation (or covariance) of <span class="math inline">\(X_t\)</span> at different times such as <span class="math inline">\(\text{corr} \left(X_t, X_{t+h}\right)\)</span>. This “form” of correlation (covariance) is called the <em>autocorrelation</em> (<em>autocovariance</em>) and is a very useful tool in time series analysis. However, if we do not assume that a time series is characterized by a certain form of “stability”, it would be rather difficult to estimate <span class="math inline">\(\text{corr} \left(X_t, X_{t+h}\right)\)</span> as this quantity would depend on both <span class="math inline">\(t\)</span> and <span class="math inline">\(h\)</span> leading to more parameters to estimate than observations available. Therefore, the concept of <em>stationarity</em> is convenient in this context as it allows (among other things) to assume that</p>
 <p><span class="math display">\[\text{corr} \left(X_t, X_{t+h}\right) = \text{corr} \left(X_{t+j}, X_{t+h+j}\right), \;\;\; \text{for all $j$},\]</span></p>
 <p>implying that the autocorrelation (or autocovariance) is only a function of the lag between observations, rather than time itself. We will first discuss the concept of autocorrelation in time series, then we will discuss stationarity which will then allow us to adequately define and study estimators of the autocorrelation functions. Before moving on, it is helpful to remember that correlation (or autocorrelation) is only appropriate to measure a very specific kind of dependence, i.e. linear dependence. There are many other forms of dependence as illustrated in the bottom panels of the graph below, which all have a (true) zero correlation:</p>
@@ -469,11 +479,11 @@ Figure 1.3: Two hundred simulated random walks.
  \end{aligned} \]</span> Once again, the above result only holds because we are able to use the convergence of the geometric series as a result of <span class="math inline">\(\left| \phi \right| &lt; 1\)</span>.</li>
 <li>Finally, we consider the autocovariance of an AR(1). For <span class="math inline">\(h &gt; 0\)</span>, we have <span class="math display">\[\gamma \left( h \right) =  \text{cov}\left( {{X_t},{X_{t + h}}} \right) = \phi \text{cov}\left( {{X_t},{X_{t + h - 1}}} \right) = \phi \, \gamma \left( h-1 \right).\]</span> Therefore, using the symmetry of autocovariance, we find that <span class="math display">\[\gamma \left( h \right) = \phi^{|h|} \, \gamma(0).\]</span></li>
 </ol>
-<p>Both the mean and variance do not depend on time. In addition, the autocovariance function can be viewed as a function dependent entirely on lags and, thus, the AR(1) process is weakly stationary if <span class="math inline">\(\left| \phi \right| &lt; 1\)</span>. Lastly, we can obtain the autocorrelation for this process. Indeed, for <span class="math inline">\(h &gt; 0\)</span>, we have</p>
+<p>Both the mean and variance do not depend on time. In addition, the autocovariance function can be viewed as a function that only depends on the time lag <span class="math inline">\(h\)</span> and, thus, the AR(1) process is weakly stationary if <span class="math inline">\(\left| \phi \right| &lt; 1\)</span>. Lastly, we can obtain the autocorrelation for this process. Indeed, for <span class="math inline">\(h &gt; 0\)</span>, we have</p>
 <p><span class="math display">\[\rho \left( h \right) = \frac{{\gamma \left( h \right)}}{{\gamma \left( 0 \right)}} = \frac{{\phi \gamma \left( {h - 1} \right)}}{{\gamma \left( 0 \right)}} = \phi \rho \left( {h - 1} \right).\]</span></p>
-<p>After fully simplifying, we obtain</p>
+<p>After simplifying, we obtain</p>
 <p><span class="math display">\[\rho \left( h \right) = {\phi^{|h|}}.\]</span></p>
-Thus, the autocorrelation function for an AR(1) exhibits a <em>geometric decay</em>, meaning, the smaller the <span class="math inline">\(|\phi|\)</span>, the faster the autocorrelation reaches zero. If <span class="math inline">\(|\phi|\)</span> is close to 1, then the decay rate is slower.
+Thus, the autocorrelation function for an AR(1) exhibits a <em>geometric decay</em>, meaning that as <span class="math inline">\(|\phi|\)</span> gets smaller the autocorrelation reaches zero at a faster rate (on the contrary, if <span class="math inline">\(|\phi|\)</span> is close to 1 then the decay rate is slower).
 </div>
 
 </div>
@@ -547,10 +557,16 @@ Alternatively, simulation methods can also be employed. For example, a possible 
 </div>
 
 
-<div class="theorem">
-<span id="thm:parabootstrap" class="theorem"><strong>Theorem 1.1 </strong></span>1. Simulate a new sample under the postulated model, i.e. <span class="math inline">\(X_t^* \sim F_{\boldsymbol{theta}}{\)</span> (<em>note:</em> if <span class="math inline">\(\boldsymbol{theta}\)</span> is unknown it can be replace by <span class="math inline">\(\hat{\boldsymbol{theta}}\)</span>, a suitable estimator). 2. Compute the statistics of interest on the simulated sample <span class="math inline">\((X_t^*)\)</span>. 3. Repeat Steps 1 and 2 <span class="math inline">\(B\)</span> times where <span class="math inline">\(B\)</span> is sufficiently “large” (typically <span class="math inline">\(100 \leq B \leq 10000\)</span>). 4. Compute the empirical variance of the statistics of interest based on the <span class="math inline">\(B\)</span> independent replications.
+<div class="example">
+<p><span id="ex:parabootstrap" class="example"><strong>Example 1.8 </strong></span>Parametric bootstrap can be implemented in the following manner:</p>
+<ol style="list-style-type: decimal">
+<li>Simulate a new sample under the postulated model, i.e. <span class="math inline">\(X_t^* \sim F_{\boldsymbol{\theta}}\)</span> (<em>note:</em> if <span class="math inline">\(\boldsymbol{\theta}\)</span> is unknown it can be replaced by <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span>, a suitable estimator).</li>
+<li>Compute the statistics of interest on the simulated sample <span class="math inline">\((X_t^*)\)</span>.</li>
+<li>Repeat Steps 1 and 2 <span class="math inline">\(B\)</span> times where <span class="math inline">\(B\)</span> is sufficiently “large” (typically <span class="math inline">\(100 \leq B \leq 10000\)</span>).</li>
+<li>Compute the empirical variance of the statistics of interest based on the <span class="math inline">\(B\)</span> independent replications.
 </div>
-
+</li>
+</ol>
 <p>In our example, we would consider <span class="math inline">\((X_t^*)\)</span> to be <span class="math inline">\({\bar{X}^*}\)</span> and seek to obtain:</p>
 <p><span class="math display">\[\hat{\sigma}^2_B = \frac{1}{B-1} \sum_{i = 1}^B \left(\bar{X}^*_i - \bar{X}^* \right)^2, \;\;\; \text{where} \;\;\; \bar{X}^* = \frac{1}{B} \sum_{i=1}^B \bar{X}^*_i,\]</span></p>
 <p>where <span class="math inline">\(\bar{X}^*_i\)</span> denotes the value of the mean estimated on the <span class="math inline">\(i\)</span>-th simulated sample.</p>
@@ -603,12 +619,12 @@ var.approx =<span class="st"> </span><span class="dv">1</span><span class="op">/
        <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;deepskyblue4&quot;</span>,<span class="st">&quot;firebrick3&quot;</span>,<span class="st">&quot;springgreen4&quot;</span>), <span class="dt">lty =</span> <span class="dv">1</span>,
        <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,<span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">box.col =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">cex =</span> <span class="fl">1.2</span>)</code></pre></div>
 <p><img src="02-fundamental_rep_files/figure-html/estimXbar-1.png" width="672" /></p>
-<p>It can be observed that the variance of <span class="math inline">\(\bar{X}\)</span> typically increases with <span class="math inline">\(\phi\)</span>. As expected when <span class="math inline">\(\phi = 0\)</span>, we have <span class="math inline">\(\text{var}(\bar{X}) = 1/n\)</span> — in this case the process is a white noise. Moreover, the bootstrap approach appears to approximate well the curve of (@ref(eq:chap2_exAR1)), while the asymptotic formula provides a reasonable approximation for <span class="math inline">\(\phi\)</span> being between -0.5 and 0.5. Naturally, the quality of this approximation would be far better for a larger sample size (here we consider <span class="math inline">\(n = 10\)</span>, which is a little “extreme”).</p>
+<p>It can be observed that the variance of <span class="math inline">\(\bar{X}\)</span> typically increases with <span class="math inline">\(\phi\)</span>. As expected when <span class="math inline">\(\phi = 0\)</span>, we have <span class="math inline">\(\text{var}(\bar{X}) = 1/n\)</span> — in this case the process is a white noise. Moreover, the bootstrap approach appears to well approximate the curve of (@ref(eq:chap2_exAR1)), while the asymptotic form provides a reasonable approximation when <span class="math inline">\(\phi\)</span> lies between -0.5 and 0.5. Naturally, the quality of this approximation would be far better for a larger sample size (here we consider <span class="math inline">\(n = 10\)</span>, which is a little “extreme”).</p>
 </div>
 <div id="sample-autocovariance-and-autocorrelation-functions" class="section level3">
 <h3><span class="header-section-number">1.3.2</span> Sample Autocovariance and Autocorrelation Functions</h3>
 <p>A natural estimator of the <em>autocovariance function</em> is given by:</p>
-<p><span class="math display">\[\hat \gamma \left( h \right) = \frac{1}{T}\sum\limits_{t = 1}^{T - h} {\left( {{X_t} - \bar X} \right)\left( {{X_{t + h}} - \bar X} \right)} \]</span></p>
+<p><span class="math display">\[\hat \gamma \left( h \right) = \frac{1}{n}\sum\limits_{t = 1}^{n - h} {\left( {{X_t} - \bar X} \right)\left( {{X_{t + h}} - \bar X} \right)} \]</span></p>
 <p>leading to the following “plug-in” estimator of the <em>autocorrelation function</em>:</p>
 <p><span class="math display">\[\hat \rho \left( h \right) = \frac{{\hat \gamma \left( h \right)}}{{\hat \gamma \left( 0 \right)}}.\]</span></p>
 <p>A graphical representation of the autocorrelation function is often the first step for any time series analysis (again assuming the process to be stationary). Consider the following simulated example:</p>
@@ -627,18 +643,18 @@ acf_Xt =<span class="st"> </span><span class="kw">ACF</span>(Xt)
 <p>In this example, the true autocorrelation is equal to zero at any lag <span class="math inline">\(h \neq 0\)</span>, but obviously the estimated autocorrelations are random variables and are not equal to their true values. It would therefore be useful to have some knowledge about the variability of the sample autocorrelations (under some conditions) to assess whether the data comes from a completely random series or presents some significant correlation at certain lags. The following result provides an asymptotic solution to this problem:</p>
 
 <div class="theorem">
-<span id="thm:approxnormal" class="theorem"><strong>Theorem 1.2 </strong></span>If <span class="math inline">\(X_t\)</span> is a strong white noise with finite fourth moment, then <span class="math inline">\(\hat{\rho}(h)\)</span> is approximately normally distributed with mean <span class="math inline">\(0\)</span> and variance <span class="math inline">\(n^{-1}\)</span> for all fixed <span class="math inline">\(h\)</span>.
+<span id="thm:approxnormal" class="theorem"><strong>Theorem 1.1 </strong></span>If <span class="math inline">\(X_t\)</span> is a strong white noise with finite fourth moment, then <span class="math inline">\(\hat{\rho}(h)\)</span> is approximately normally distributed with mean <span class="math inline">\(0\)</span> and variance <span class="math inline">\(n^{-1}\)</span> for all fixed <span class="math inline">\(h\)</span>.
 </div>
 
 <p>The proof of this Theorem is given in Appendix <a href="#appendixa"><strong>??</strong></a>.</p>
-<p>Using this result, we now have an approximate method to assess whether peaks in the sample autocorrelation are significant by determining whether the observed peak lies outside the interval <span class="math inline">\(\pm 2/\sqrt{T}\)</span> (i.e. an approximate 95% confidence interval). Returning to our previous example and adding confidence bands to the previous graph, we obtain:</p>
+<p>Using this result, we now have an approximate method to assess whether peaks in the sample autocorrelation are significant by determining whether the observed peak lies outside the interval <span class="math inline">\(\pm 2/\sqrt{n}\)</span> (i.e. an approximate 95% confidence interval). Returning to our previous example and adding confidence bands to the previous graph, we obtain:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Plot autocorrelation with confidence bands </span>
 <span class="kw">plot</span>(acf_Xt)</code></pre></div>
 <p><img src="02-fundamental_rep_files/figure-html/basicACF2-1.png" width="672" /></p>
-<p>It can now be observed that most peaks lie within the interval <span class="math inline">\(\pm 2/\sqrt{T}\)</span> suggesting that the true data generating process is uncorrelated.</p>
+<p>It can now be observed that most peaks lie within the interval <span class="math inline">\(\pm 2/\sqrt{n}\)</span> suggesting that the true data generating process is uncorrelated.</p>
 
 <div class="example">
-<span id="ex:acffeatures" class="example"><strong>Example 1.8 </strong></span>To illustrate how the autocorrelation function can be used to reveal some “features” of a time series, we download the level of the Standard &amp; Poor’s 500 index, often abbreviated as the S&amp;P 500. This financial index is based on the market capitalization of 500 large companies having common stock listed on the New York Stock Exchange or the NASDAQ Stock Market. The graph below shows the index level and daily returns from 1990.
+<span id="ex:acffeatures" class="example"><strong>Example 1.9 </strong></span>To illustrate how the autocorrelation function can be used to reveal some “features” of a time series, we download the level of the Standard &amp; Poor’s 500 index, often abbreviated as the S&amp;P 500. This financial index is based on the market capitalization of 500 large companies having common stock listed on the New York Stock Exchange or the NASDAQ Stock Market. The graph below shows the index level and daily returns from 1990.
 </div>
 
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load package</span>
@@ -655,13 +671,13 @@ GSPC.ret =<span class="st"> </span><span class="kw">ClCl</span>(GSPC)
 <span class="kw">plot</span>(GSPC, <span class="dt">main =</span> <span class="st">&quot; &quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Index level&quot;</span>)
 <span class="kw">plot</span>(GSPC.ret, <span class="dt">main =</span> <span class="st">&quot; &quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Daily returns&quot;</span>)</code></pre></div>
 <p><img src="02-fundamental_rep_files/figure-html/GSPC-1.png" width="768" /></p>
-<p>From these graphs, it is clear that the returns are not identically distributed as the variance seems to vary with time, and clusters with either high or low volatility can be observed. These characteristics of financial time series is well known and in the Chapter 5, we will discuss how the variance of such process can be approximated. Nevertheless, we compute the empirical autocorrelation function of the S&amp;P 500 return to evaluate the degree of “linear” dependence between observations. The graph below presents the empirical autocorrelation.</p>
+<p>From these graphs, it is clear that the returns are not identically distributed as the variance seems to change over time and clusters with either high or low volatility can be observed. These characteristics of financial time series are well known and further on in this book we will discuss how the variance of such processes can be approximated. Nevertheless, we compute the empirical autocorrelation function of the S&amp;P 500 return to evaluate the degree of “linear” dependence between observations. The graph below presents the empirical autocorrelation.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sp500 =<span class="st"> </span><span class="kw">na.omit</span>(GSPC.ret)
 <span class="kw">names</span>(sp500) =<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;S&amp;P 500 (1990-01-01 - &quot;</span>,<span class="kw">Sys.Date</span>(),<span class="st">&quot;)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
 <span class="kw">plot</span>(<span class="kw">ACF</span>(sp500))</code></pre></div>
 <p><img src="02-fundamental_rep_files/figure-html/GSPCacf-1.png" width="672" /></p>
 <p>As expected, the autocorrelation is small but it might be reasonable to believe that this sequence is not purely uncorrelated.</p>
-<p>Unfortunately, Theorem 1 is based on an asymptotic argument and since the confidence bands constructed are also asymptotic, there are no “exact” tools that can be used in this case. To study the validity of these results when <span class="math inline">\(n\)</span> is “small” we performed a simulation. In the latter, we simulated processes following from a Gaussian white noise and examined the empirical distribution of <span class="math inline">\(\hat{\rho}(3)\)</span> with different sample sizes (i.e. <span class="math inline">\(n\)</span> is set to 5, 10, 30 and 300). Intuitively, the “quality” of the approximation provided by Theorem 1 should increase with the sample size <span class="math inline">\(n\)</span>. The code below performs such a simulation and compares the empirical distribution of <span class="math inline">\(\sqrt{n} \hat{\rho}(3)\)</span> with a normal distribution with mean 0 and variance 1 (its asymptotic distribution), which is depicted using a red line.</p>
+<p>Unfortunately, Theorem <a href="#approxnormal"><strong>??</strong></a> is based on an asymptotic argument and since the confidence bands constructed are also asymptotic, there are no “exact” tools that can be used in this case. To study the validity of these results when <span class="math inline">\(n\)</span> is “small” we performed a simulation. In the latter, we simulated processes following from a Gaussian white noise and examined the empirical distribution of <span class="math inline">\(\hat{\rho}(3)\)</span> with different sample sizes (i.e. <span class="math inline">\(n\)</span> is set to 5, 10, 30 and 300). Intuitively, the “quality” of the approximation provided by Theorem 1 should increase with the sample size <span class="math inline">\(n\)</span>. The code below performs such a simulation and compares the empirical distribution of <span class="math inline">\(\sqrt{n} \hat{\rho}(3)\)</span> with a normal distribution with mean 0 and variance 1 (its asymptotic distribution), which is depicted using a red line.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Number of Monte Carlo replications</span>
 B =<span class="st"> </span><span class="dv">10000</span>
 
