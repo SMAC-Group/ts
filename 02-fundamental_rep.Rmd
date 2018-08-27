@@ -303,7 +303,7 @@ where ${U_t} \mathop \sim \limits^{iid} N\left( {1,1} \right)$ and ${V_t}\mathop
   strong stationarity.
   
 ```{exercise, moment, name = "Existence of moments"}
-It is important to note that, for a given value of $r$ and a random variable $X$, the expected $\mathbb{E}[X^r]$ may be infinite, or may not exist. If there exist an $r \in \mathbb{N}^+$ such that $\mathbb{E}[|X|^r]$ exist and is bounded, then we have that $\mathbb{E}[X^j] < \infty$ for all $j = 1,...,r$. This result is implied by Jensen’s inequality. Indeed, the function $f(x) = x^k$ is convex for $t > 0$ and $m > 1$, so we have
+It is important to note that, for a given value of $r$ and a random variable $X$, the expected $\mathbb{E}[X^r]$ may be infinite, or may not exist. If there exists an $r \in \mathbb{N}^+$ such that $\mathbb{E}[|X|^r]$ exists and is bounded, then we have that $\mathbb{E}[X^j] < \infty$ for all $j = 1,...,r$. This result is implied by Jensen’s inequality. Indeed, the function $f(x) = x^k$ is convex for $t > 0$ and $m > 1$, so we have
 $$\mathbb{E}\left[|X |^j\right]^{\frac{r}{j}} \leq \mathbb{E}\left[(|X |^j)^{\frac{r}{j}}\right] = \mathbb{E}\left[|X|^r\right] < \infty.$$
 Therefore, we obtain $\mathbb{E}[X^j] \leq \mathbb{E}[|X|^j] < \infty$.
 ```
@@ -871,8 +871,6 @@ suggest that Theorem \@ref(approxnormal) provides a relatively "close" approxima
 distribution of $\hat{\rho}(h)$, especially when the sample size is large enough.
 
 ### Robustness Issues
-
-<!-- Rob I am sure you would be great to extent this section! I add a small simulation as an example -->
   
 The data generating process delivers a theoretical autocorrelation
 (autocovariance) function that, as explained in the previous section,
@@ -963,6 +961,16 @@ for(i in 1:B) {
   acf_yt[i, ] = as.numeric(ACF(Yt))[1:15]
   
 }
+
+# Compute the Theoretical ACF of an AR(1) model (up to lag 15)
+true_acf = phi^(1:15)
+
+# Make boxplots of Empirical ACF for both settings and compare with true ACF
+par(mfrow = c(1,2))
+boxplot(acf_xt[, 3])
+abline(h = true_acf[3], col = "red")
+boxplot(acf_yt[, 3])
+abline(h = true_acf[3], col = "red")
 ```
 
 The boxplots in each figure show how the standard autocorrelation estimator is
