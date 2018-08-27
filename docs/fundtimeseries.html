@@ -158,6 +158,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#a-fundamental-representation"><i class="fa fa-check"></i><b>3.1.1</b> A Fundamental Representation</a></li>
 <li class="chapter" data-level="3.1.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#admissible-autocorrelation-functions"><i class="fa fa-check"></i><b>3.1.2</b> Admissible Autocorrelation Functions 😱</a></li>
 </ul></li>
+<li class="chapter" data-level="3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#stationary"><i class="fa fa-check"></i><b>3.2</b> Stationarity</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#assessing-weak-stationarity-of-time-series-models"><i class="fa fa-check"></i><b>3.2.1</b> Assessing Weak Stationarity of Time Series Models</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -385,6 +388,119 @@ the estimation of the autocorrelation and autocovariance functions, we must
 first discuss the stationarity of <span class="math inline">\((X_t)\)</span>, which will provide a convenient
 framework in which <span class="math inline">\(\gamma(h)\)</span> and <span class="math inline">\(\rho(h)\)</span> can be used (rather that <span class="math inline">\(\gamma(t,t+h)\)</span>
 for example) and (easily) estimated.</p>
+</div>
+</div>
+<div id="stationary" class="section level2">
+<h2><span class="header-section-number">3.2</span> Stationarity</h2>
+<p>There are two kinds of stationarity that are commonly used. They are defined
+as follows:</p>
+
+<div class="definition">
+<span id="def:strongstationarity" class="definition"><strong>Definition 3.2  </strong></span>A process <span class="math inline">\((X_t)\)</span> is <em>strongly stationary</em> or <em>strictly stationary</em> if the joint probability distribution of <span class="math inline">\((X_{t-h}, ..., X_t, ..., X_{t+h})\)</span> is independent of <span class="math inline">\(t\)</span> for all <span class="math inline">\(t,h \in \mathbb{Z}\)</span>.
+</div>
+
+<p><br></p>
+
+<div class="definition">
+<span id="def:weakstationarity" class="definition"><strong>Definition 3.3  </strong></span>A process <span class="math inline">\((X_t)\)</span> is <em>weakly stationary</em>, <em>covariance stationary</em> or <em>second order stationary</em> if <span class="math inline">\(\mathbb{E}[X_t]\)</span> and <span class="math inline">\(\mathbb{E}[X_t^2]\)</span> are finite and <span class="math inline">\(\mathbb{E}[X_t X_{t-h}]\)</span> depends only on <span class="math inline">\(h\)</span> and not on <span class="math inline">\(t\)</span> for all <span class="math inline">\(t,h \in \mathbb{Z}\)</span>.
+</div>
+
+<p><br></p>
+<p>These types of stationarity are <em>not equivalent</em> and the presence of one kind
+of stationarity does not imply the other. That is, a time series can be strongly
+stationary but not weakly stationary and vice versa. In some cases, a time
+series can be both strongly and weakly stationary and this occurs, for
+example, in the (jointly) Gaussian case. Stationarity of <span class="math inline">\((X_t)\)</span> matters
+because <em>it provides the framework in which averaging dependent data makes
+sense</em>, thereby allowing us to easily obtain estimates for certain quantities
+such as autocorrelation.</p>
+<p>Several remarks and comments can be made on these definitions:</p>
+<ul>
+<li><p>As mentioned earlier, strong stationarity <em>does not imply</em> weak stationarity. For example, an <span class="math inline">\(iid\)</span> Cauchy process is strongly but not weakly stationary (why? 🤔).</p></li>
+<li><p>Weak stationarity <em>does not imply</em> strong stationarity. For example, consider the following weak white noise process:
+<span class="math display">\[\begin{equation*}
+X_t = \begin{cases}
+U_{t}      &amp; \quad \text{if } t \in \{2k:\, k\in \mathbb{Z} \}, \\
+V_{t}      &amp; \quad \text{if } t \in \{2k+1:\, k\in \mathbb{Z} \},\\
+\end{cases}
+\end{equation*}\]</span>
+where <span class="math inline">\({U_t} \mathop \sim \limits^{iid} N\left( {1,1} \right)\)</span> and <span class="math inline">\({V_t}\mathop \sim \limits^{iid} \mathcal{E}\left( 1 \right)\)</span> is a weakly stationary process that is <em>not</em> strongly stationary.</p></li>
+<li>Strong stationarity combined with bounded values of
+<span class="math inline">\(\mathbb{E}[X_t^2]\)</span> <em>implies</em> weak stationarity.</li>
+<li><p>Weak stationarity combined with normally distributed processes <em>implies</em>
+strong stationarity.</p></li>
+</ul>
+
+<div class="exercise">
+<span id="exr:moment" class="exercise"><strong>Remark 3.1  (Existence of moments)  </strong></span>It is important to note that, for a given value of <span class="math inline">\(r\)</span> and a random variable <span class="math inline">\(X\)</span>, the expected <span class="math inline">\(\mathbb{E}[X^r]\)</span> may be infinite, or may not exist. If there exist an <span class="math inline">\(r \in \mathbb{N}^+\)</span> such that <span class="math inline">\(\mathbb{E}[|X|^r]\)</span> exist and is bounded, then we have that <span class="math inline">\(\mathbb{E}[X^j] &lt; \infty\)</span> for all <span class="math inline">\(j = 1,...,r\)</span>. This result is implied by Jensen’s inequality. Indeed, the function <span class="math inline">\(f(x) = x^k\)</span> is convex for <span class="math inline">\(t &gt; 0\)</span> and <span class="math inline">\(m &gt; 1\)</span>, so we have
+<span class="math display">\[\mathbb{E}\left[|X |^j\right]^{\frac{r}{j}} \leq \mathbb{E}\left[(|X |^j)^{\frac{r}{j}}\right] = \mathbb{E}\left[|X|^r\right] &lt; \infty.\]</span>
+Therefore, we obtain <span class="math inline">\(\mathbb{E}[X^j] \leq \mathbb{E}[|X|^j] &lt; \infty\)</span>.
+</div>
+
+<div id="assessing-weak-stationarity-of-time-series-models" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Assessing Weak Stationarity of Time Series Models</h3>
+<p>It is important to understand how to verify if a postulated model is (weakly)
+stationary. In order to do so, we must ensure that our model satisfies the
+following three properties:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\mathbb{E}\left[X_t \right] = \mu_t = \mu &lt; \infty\)</span>,</li>
+<li><span class="math inline">\(\text{var}\left[X_t \right] = \sigma^2_t = \sigma^2 &lt; \infty\)</span>,</li>
+<li><span class="math inline">\(\text{cov}\left(X_t, X_{t+h} \right) = \gamma \left(h\right)\)</span> (i.e. the autocovariance only depends on <span class="math inline">\(h\)</span> and not on <span class="math inline">\(t\)</span>).</li>
+</ol>
+<p>In the following examples, we evaluate the stationarity of the processes
+introduced in Section <a href="basic-elements-of-time-series.html#basicmodels">2.2</a>.</p>
+
+<div class="example">
+<p><span id="exm:gwn" class="example"><strong>Example 3.1  (Gaussian White Noise)  </strong></span>It is easy to verify that this process is stationary. Indeed, we have:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\mathbb{E}\left[ {{X_t}} \right] = 0\)</span>,</li>
+<li><span class="math inline">\(\gamma(0) = \sigma^2 &lt; \infty\)</span>,<br />
+</li>
+<li><span class="math inline">\(\gamma(h) = 0\)</span> for <span class="math inline">\(|h| &gt; 0\)</span>.
+</div></li>
+</ol>
+
+<div class="example">
+<p><span id="exm:srw" class="example"><strong>Example 3.2  (Random Walk)  </strong></span>To evaluate the stationarity of this process, we first derive its properties:</p>
+<ol style="list-style-type: decimal">
+<li>We begin by calculating the expectation of the process:
+<span class="math display">\[
+  \mathbb{E}\left[ {{X_t}} \right] = \mathbb{E}\left[ {{X_{t - 1}} + {W_t}} \right]
+  = \mathbb{E}\left[ {\sum\limits_{i = 1}^t {{W_i}}  + {X_0}} \right] 
+  = \mathbb{E}\left[ {\sum\limits_{i = 1}^t {{W_i}} } \right] + {c} 
+  = c.  \]</span></li>
+</ol>
+<p>Observe that the mean obtained is constant since it depends only on the value
+of the first term in the sequence.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Next, after finding the mean to be constant, we calculate the variance to check stationarity:
+<span class="math display">\[\begin{aligned}
+  \text{var}\left( {{X_t}} \right) &amp;= \text{var}\left( {\sum\limits_{i = 1}^t {{W_t}}  + {X_0}} \right) 
+  = \text{var}\left( {\sum\limits_{i = 1}^t {{W_i}} } \right) + \underbrace {\text{var}\left( {{X_0}} \right)}_{= 0} \\
+  &amp;= \sum\limits_{i = 1}^t {\text{var}\left( {{W_i}} \right)} 
+  = t \sigma_w^2,
+  \end{aligned}\]</span>
+where <span class="math inline">\(\sigma_w^2 = \text{var}(W_t)\)</span>. Therefore, the variance depends on time <span class="math inline">\(t\)</span>, contradicting our
+second property. Moreover, we have:
+<span class="math display">\[\mathop {\lim }\limits_{t \to \infty } \; \text{var}\left(X_t\right) = \infty.\]</span>
+This process is therefore not weakly stationary.</p></li>
+<li><p>Regarding the autocovariance of a random walk, we have:
+<span class="math display">\[\begin{aligned}
+  \gamma \left( h \right) &amp;= \text{cov}\left( {{X_t},{X_{t + h}}} \right) 
+  = \text{cov}\left( {\sum\limits_{i = 1}^t {{W_i}} ,\sum\limits_{j = 1}^{t + h} {{W_j}} } \right) 
+  = \text{cov}\left( {\sum\limits_{i = 1}^t {{W_i}} ,\sum\limits_{j = 1}^t {{W_j}} } \right)\\ 
+  &amp;= \min \left( {t,t + h} \right)\sigma _w^2
+  = \left( {t + \min \left( {0,h} \right)} \right)\sigma _w^2,
+  \end{aligned} \]</span>
+which further illustrates the non-stationarity of this process.</p></li>
+</ol>
+<p>Moreover, the autocorrelation of this process is given by</p>
+<p><span class="math display">\[\rho (h) = \frac{t + \min \left( {0,h} \right)}{\sqrt{t}\sqrt{t+h}},\]</span></p>
+<p>implying (for a fixed <span class="math inline">\(h\)</span>) that</p>
+<p><span class="math display">\[\mathop {\lim }\limits_{t \to \infty } \; \rho(h) = 1.\]</span></p>
+Note that using <span class="math inline">\(\gamma (h)\)</span> and <span class="math inline">\(\rho (h)\)</span> in this context is actually an abuse of notation since both of these quantites are here function of <span class="math inline">\(h\)</span> and <span class="math inline">\(t\)</span>.
+</div>
+
 
 </div>
 </div>
