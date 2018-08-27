@@ -1,5 +1,8 @@
-
 # Representations of Time Series
+
+>
+> "*One of the first things taught in introductory statistics textbooks is that correlation is not causation. It is also one of the first things forgotten.*" – Thomas Sowell
+>
 
 In this chapter we will discuss and formalize how knowledge about $X_{t-1}$ (or
 more generally about all the information from the past, $\Omega_t$) can provide 
@@ -38,20 +41,20 @@ material discussed in this chapter.
 ```{definition, label="acvf"}
 The *autocovariance function* of a series $(X_t)$ is defined as 
 
-\[{\gamma_x}\left( {t,t+h} \right) = \text{cov} \left( {{X_t},{X_{t+h}}} \right),\]
+\[{\gamma_x}\left( {t,t+h} \right) \equiv \text{cov} \left( {{X_t},{X_{t+h}}} \right),\]
 ```
 
 where the definition of covariance is given by:
   
   \[
-    \text{cov} \left( {{X_t},{X_{t+h}}} \right) = \mathbb{E}\left[ {{X_t}{X_{t+h}}} \right] - \mathbb{E}\left[ {{X_t}} \right]\mathbb{E}\left[ {{X_{t+h}}} \right].
+    \text{cov} \left( {{X_t},{X_{t+h}}} \right) \equiv \mathbb{E}\left[ {{X_t}{X_{t+h}}} \right] - \mathbb{E}\left[ {{X_t}} \right]\mathbb{E}\left[ {{X_{t+h}}} \right].
     \]
 
 Similarly, the above expectations are defined to be:
   
   \[\begin{aligned}
-     \mathbb{E}\left[ {{X_t}} \right] &= \int\limits_{ - \infty }^\infty  {x \cdot {f_t}\left( x \right)dx},  \\
-     \mathbb{E}\left[ {{X_t}{X_{t+h}}} \right] &= \int\limits_{ - \infty }^\infty  {\int\limits_{ - \infty }^\infty  {{x_1}{x_2} \cdot f_{t,t+h}\left( {{x_1},{x_2}} \right)d{x_1}d{x_2}} } ,
+     \mathbb{E}\left[ {{X_t}} \right] &\equiv \int\limits_{ - \infty }^\infty  {x \cdot {f_t}\left( x \right)dx},  \\
+     \mathbb{E}\left[ {{X_t}{X_{t+h}}} \right] &\equiv \int\limits_{ - \infty }^\infty  {\int\limits_{ - \infty }^\infty  {{x_1}{x_2} \cdot f_{t,t+h}\left( {{x_1},{x_2}} \right)d{x_1}d{x_2}} } ,
      \end{aligned} \]
 
 where ${f_t}\left( x \right)$ and $f_{t,t+h}\left( {{x_1},{x_2}} \right)$ denote,
@@ -71,6 +74,7 @@ of $X_{t+j}$ and $X_{t+h+j}$ (for all $j$), i.e. the covariance depends only
 on the time between observations and not on the specific time $t$. This is an 
 important property called *stationarity*, which will be discussed in the next
 section. In this case, we simply use to following notation:
+
   \[\gamma \left( {h} \right) = \text{cov} \left( X_t , X_{t+h} \right). \]
 
 This notation will generally be used throughout the text and implies 
@@ -135,12 +139,12 @@ know *everything* there is to know about the process and therefore:
 *if two processes have the same autocovariance function, then they are the 
 same process.*
   
-### Admissible Autocorrelation Functions
+### Admissible Autocorrelation Functions `r emo::ji("scream")`
   
 Since the autocorrelation is related to a fundamental representation of time
 series, it implies that one might be able to define a stochastic process by 
-picking a set of autocorrelation values (assuming for example
-                                         that $\text{var}(X_t) = 1$). However, it turns out that not every collection of
+picking a set of autocorrelation values (assuming for example that $\text{var}(X_t) = 1$). 
+However, it turns out that not every collection of
 numbers, say $\{\rho_1, \rho_2, ...\}$, can represent the autocorrelation of a
 process. Indeed, two conditions are required to ensure the validity of an
 autocorrelation sequence:
@@ -242,8 +246,6 @@ the estimation of the autocorrelation and autocovariance functions, we must
 first discuss the stationarity of $(X_t)$, which will provide a convenient 
 framework in which $\gamma(h)$ and $\rho(h)$ can be used (rather that $\gamma(t,t+h)$ 
 for example) and (easily) estimated.
-
-
   
 ## Estimation of Moments
   
