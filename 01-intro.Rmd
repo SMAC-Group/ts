@@ -279,12 +279,12 @@ This final fit appears to well describe the behaviour of the earnings although t
 
 From this section onwards we will refer to *time series as being solely the random noise component*. Keeping this in mind, a *time series* is a particular kind of *stochastic process* which, generally speaking, is a collection of random variables indexed by a set of numbers. Not surprisingly, the index of reference for a time series is given by *time* and, consequently, a time series is a collection of random variables indexed (or "measured") over time such as, for example, the daily price of a financial asset or the monthly average temperature in a given location. In terms of notation, a time series is often represented as
 
- \[\left(X_1, X_2, ..., X_n \right) \;\;\; \text{ or } \;\;\; \left(X_t\right)_{t = 1,...,n}.\]
+ \[\left(X_1, X_2, ..., X_T \right) \;\;\; \text{ or } \;\;\; \left(X_t\right)_{t = 1,...,T}.\]
  
 The time index $t$ is contained within either the set of reals, $\mathbb{R}$, or
-integers, $\mathbb{N}$. When $t \in \mathbb{R}$, the time series becomes a
+integers, $\mathbb{Z}$. When $t \in \mathbb{R}$, the time series becomes a
 *continuous-time* stochastic process such as a Brownian motion, a model used to
-represent the random movement of particles within a suspended liquid or gas. However, within this book, we will limit ourselves to the cases where $t \in \mathbb{N}$, better known as *discrete-time* processes. Discrete-time processes are measured sequentially at fixed
+represent the random movement of particles within a suspended liquid or gas. However, within this book, we will limit ourselves to the cases where $t \in \mathbb{Z}$, better known as *discrete-time* processes. Discrete-time processes are measured sequentially at fixed
 and equally spaced intervals in time. This implies that we will uphold two general assumptions for the time series considered in this book:
 
 1. $t$ is not random, e.g. the time at which each observation is measured is known, and
@@ -294,7 +294,7 @@ This book will also focus on certain representations of time series based on par
 
 \[X_t \mathop \sim \limits^{iid} N(0, \sigma^2).\]
 
-This statement simply means that $(X_t)$ is normally distributed and independent over time. Ideally, this is the type of process that we would want to observe once we have performed a statistical modelling procedure. However, despite it appearing to be an excessively simple model to be considered for time series, it is actually a crucial component to construct a wide range of more complex time series models (see Chapter 3). Indeed, unlike the white noise process, time series are typically *not* independent over time. For example, if we suppose that the temperature in State College is unusually low on a given day, then it is reasonable to assume that the temperature the day after will also be low.
+This statement simply means that $(X_t)$ is normally distributed and independent over time. Ideally, this is the type of process that we would want to observe once we have performed a statistical modelling procedure. However, despite it appearing to be an excessively simple model to be considered for time series, it is actually a crucial component to construct a wide range of more complex time series models (see Chapter \@ref(fundtimeseries)). Indeed, unlike the white noise process, time series are typically *not* independent over time. For example, if we suppose that the temperature in State College is unusually low on a given day, then it is reasonable to assume that the temperature the day after will also be low.
 
 With this in mind, let us now give a quick overview of the information that can be retrieved on a time series from a simple descriptive representation.
 
@@ -390,7 +390,6 @@ next) for Starbuck's stock on July 1, 2011 for about 150 seconds (left
 panel) and about 400 minutes (right panel). 
 
 ```{r example_Starbucks, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE, fig.align='center'}
-
 # Load "high-frequency" Starbucks returns for July 01 2011
 data(sbux.xts, package = "highfrequency")
 
@@ -794,9 +793,9 @@ n = 1000                                # process length
 delta = 0.005                           # delta parameter (drift)
 sigma2 = 10                             # variance parameter (white noise)
 gamma2 = 0.1                            # innovation variance (random walk)
-model = WN(sigma2 = sigma2) + RW(gamma2 = gamma2) + DR(omega = delta)
-Xt = gen_lts(n, model)
-plot(Xt)
+#model = WN(sigma2 = sigma2) + RW(gamma2 = gamma2) + DR(omega = delta)
+#Xt = gen_lts(n, model)
+#plot(Xt)
 ```
 
 In the above graph, the first three plots represent the latent (unobserved)

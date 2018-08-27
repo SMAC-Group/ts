@@ -1,4 +1,4 @@
-# Fundamental Properties of Time Series
+# Fundamental Properties of Time Series {#fundtimeseries}
 
 
 >
@@ -20,7 +20,6 @@ library(mgcv)
 library(simts)
 library(imudata)
 library(timeDate)
-library(gmwm)
 ```
 
 In this chapter we will discuss and formalize how knowledge about $X_{t-1}$ (or
@@ -184,11 +183,11 @@ Thus, the matrix
 \[ \boldsymbol{A}_1 = \begin{bmatrix}
   1 & \rho_1\\
   \rho_1 & 1
-  \end{bmatrix} \]
+  \end{bmatrix}, \]
 
 must be positive semi-definite. Taking the determinant we have 
 
-\[\operatorname{det} \left(\boldsymbol{A}_1\right) = 1 - \rho_1^2 \]
+\[\operatorname{det} \left(\boldsymbol{A}_1\right) = 1 - \rho_1^2, \]
 
 implying that the condition $|\rho_1| \leq 1$ must be respected. 
 Now, let $\alpha_j = 0$ for $j > 2$, then we must verify that:
@@ -211,7 +210,7 @@ Again, this implies that the matrix
   1 & \rho_1 & \rho_2\\
   \rho_1 & 1 & \rho_1 \\
   \rho_2 & \rho_1 & 1
-  \end{bmatrix} \]
+  \end{bmatrix}, \]
 
 must be positive semi-definite and it is easy to verify that
 
@@ -258,8 +257,7 @@ the estimation of the autocorrelation and autocovariance functions, we must
 first discuss the stationarity of $(X_t)$, which will provide a convenient 
 framework in which $\gamma(h)$ and $\rho(h)$ can be used (rather that $\gamma(t,t+h)$ 
 for example) and (easily) estimated.
-<<<<<<< HEAD
-=======
+
 
 ## Stationarity {#stationary}
 
@@ -267,12 +265,14 @@ There are two kinds of stationarity that are commonly used. They are defined
 as follows:
   
 ```{definition, label="strongstationarity"}
-A process $(X_t)$ is *strongly stationary* or *strictly stationary* if the joint probability distribution of $(X_{t-h}, ..., X_t, ..., X_{t+h})$ is independent of $t$ for all $h$.
+A process $(X_t)$ is *strongly stationary* or *strictly stationary* if the joint probability distribution of $(X_{t-h}, ..., X_t, ..., X_{t+h})$ is independent of $t$ for all $t,h \in \mathbb{Z}$.
 ```
+<br>
 
 ```{definition, label="weakstationarity"}
-A process $(X_t)$ is *weakly stationary*, *covariance stationary* or *second order stationary* if $\mathbb{E}[X_t]$ and $\mathbb{E}[X_t^2]$ are finite and $\mathbb{E}[X_t X_{t-h}]$ depends only on $h$ and not on $t$.
+A process $(X_t)$ is *weakly stationary*, *covariance stationary* or *second order stationary* if $\mathbb{E}[X_t]$ and $\mathbb{E}[X_t^2]$ are finite and $\mathbb{E}[X_t X_{t-h}]$ depends only on $h$ and not on $t$ for all $t,h \in \mathbb{Z}$.
 ```
+<br>
 
 These types of stationarity are *not equivalent* and the presence of one kind 
 of stationarity does not imply the other. That is, a time series can be strongly
@@ -285,16 +285,10 @@ such as autocorrelation.
 
 Several remarks and comments can be made on these definitions:
   
-- As mentioned earlier, strong stationarity *does not imply* weak stationarity. 
+- As mentioned earlier, strong stationarity *does not imply* weak stationarity. For example, an $iid$ Cauchy process is strongly but not weakly stationary (why? `r emo::ji("thinking_face")`).
 
-```{example, label="strongnotweak"}
-an $iid$ Cauchy process is strongly but not weakly stationary.
-```
 
-- Weak stationarity *does not imply* strong stationarity. 
-
-```{example, label="weaksplit"}
-Consider the following weak white noise process:
+- Weak stationarity *does not imply* strong stationarity. For example, consider the following weak white noise process:
   \begin{equation*}
 X_t = \begin{cases}
 U_{t}      & \quad \text{if } t \in \{2k:\, k\in \mathbb{Z} \}, \\
@@ -302,12 +296,17 @@ V_{t}      & \quad \text{if } t \in \{2k+1:\, k\in \mathbb{Z} \},\\
 \end{cases}
 \end{equation*}
 where ${U_t} \mathop \sim \limits^{iid} N\left( {1,1} \right)$ and ${V_t}\mathop \sim \limits^{iid} \mathcal{E}\left( 1 \right)$ is a weakly stationary process that is *not* strongly stationary.
-```
 
-- Strong stationarity combined with bounded values of $\mathbb{E}[X_t]$ 
-  and $\mathbb{E}[X_t^2]$ *implies* weak stationarity.
+- Strong stationarity combined with bounded values of 
+  $\mathbb{E}[X_t^2]$ *implies* weak stationarity.
 - Weak stationarity combined with normally distributed processes *implies* 
   strong stationarity.
+  
+```{exercise, moment, name = "Existence of moments"}
+It is important to note that, for a given value of $r$ and a random variable $X$, the expected $\mathbb{E}[X^r]$ may be infinite, or may not exist. If there exist an $r \in \mathbb{N}^+$ such that $\mathbb{E}[|X|^r]$ exist and is bounded, then we have that $\mathbb{E}[X^j] < \infty$ for all $j = 1,...,r$. This result is implied by Jensen’s inequality. Indeed, the function $f(x) = x^k$ is convex for $t > 0$ and $m > 1$, so we have
+$$\mathbb{E}\left[|X |^j\right]^{\frac{r}{j}} \leq \mathbb{E}\left[(|X |^j)^{\frac{r}{j}}\right] = \mathbb{E}\left[|X|^r\right] < \infty.$$
+Therefore, we obtain $\mathbb{E}[X^j] \leq \mathbb{E}[|X|^j] < \infty$.
+```
 
 ### Assessing Weak Stationarity of Time Series Models
 
@@ -328,8 +327,8 @@ It is easy to verify that this process is stationary. Indeed, we have:
 1. $\mathbb{E}\left[ {{X_t}} \right] = 0$,
 2. $\gamma(0) = \sigma^2 < \infty$,  
 3. $\gamma(h) = 0$ for $|h| > 0$.
-
 ```
+
 
 ```{example, label="srw", name = "Random Walk"}
 To evaluate the stationarity of this process, we first derive its properties:
@@ -373,6 +372,7 @@ Moreover, the autocorrelation of this process is given by
 implying (for a fixed $h$) that
 
 \[\mathop {\lim }\limits_{t \to \infty } \; \rho(h) = 1.\]
+<<<<<<< HEAD
 ```
 
 In the following simulated example, we illustrate the non-stationary feature of
@@ -1006,312 +1006,10 @@ and the results are depicted below:
 
 It can be observed that both estimators provide extremely similar results,
 although the robust estimator is slightly more variable.
+=======
+>>>>>>> 99aebd5545841548d42fd16f09ff57c337235c6f
 
-Next, we consider the issue of robustness on the real data set coming from the
-domain of hydrology presented in Section \@ref(eda). This data concerns monthly
-precipitation (in mm) over a certain period of time (1907 to 1972). Let us 
-compare the standard and robust estimators of the autocorrelation functions:
-  
-```{r hydro_ACF, cache = TRUE, fig.height = 4, fig.width = 7}
-# TO DO
+Note that using $\gamma (h)$ and $\rho (h)$ in this context is actually an abuse of notation since both of these quantites are here function of $h$ and $t$.
 ```
 
-It can be seen that, under certain assumptions (e.g. linear dependence), the 
-standard estimator does not detect any significant autocorrelation between lags
-since the estimations all lie within the asymptotic confidence intervals. However,
-many of the robust estimations lie outside these confidence intervals at different 
-lags indicating that there could be dependence within the data. If one were only to
-rely on the standard estimator in this case, there may be erroneous conclusions
-drawn on this data. Robustness issues therefore need to be considered for any 
-time series analysis, not only when estimating the 
-autocorrelation (autocovariance) functions.
 
-Finally, we return to S&P 500 returns and compare the classical and robust
-autocorrelation estimators, which are presented in the figure below.
-
-```{r GSPCracf, cache = TRUE, fig.height = 4, fig.width = 7}
-# TO DO
-```
-
-It can be observed that both estimators are very similar. Nevertheless, some
-small discrepancies can be observed. In particular, the robust estimators seem
-to indicate an absence of linear dependence while a slightly different
-interpretation might be achieved with the classical estimator.
-
-
-## Joint Stationarity
-
-The notion of joint stationarity implies that the time series under
-investigation is bivariate in nature, e.g. $\left(X_t \right)$ and 
-$\left(Y_t\right)$ are two distinct time series with matching time points.
-In order to fulfill bivariate stationarity, both processes
-must be considered *weakly stationary* (with constant mean and autocovariance
-dependent on lag $h$) and there must exist a cross-covariance function between them, 
-depenent only on lag $h$.
-The ideas discussed next can extended beyond the bivariate case to a general 
-multivariate setting.
-
-```{definition, label="crosscov"}
-The **cross-covariance** function of two jointly stationary processes
-$\left\{X_t\right\}$ and $\left\{Y_t\right\}$ is given by:
-  
-  \[{\gamma _{XY}}\left( {t + h,t} \right) = \text{cov}\left( {{X_{t+h}},{Y_{t}}} \right) =
-      \e{\left( {{X_{t + h}} - {\mu _X}} \right)\left( {{Y_t} - {\mu _Y}} \right)} = {\gamma _{XY}}\left( h \right)\]
-```
-
-Unlike the symmetry found in the autocovariance function of a stationary
-process $\left\{X_t\right\}$, e.g. $\gamma_X(h) = \gamma_X(-h)$, the cross-covariance
-function is only equal when $\gamma_{XY}(h) = \gamma_{YX}(-h)$. Notice the
-switch in indices and negative lag change.
-
-```{definition, label="crosscorr"}
-The *cross-correlation* function for two jointly stationary time series
-$\left\{X_t\right\}$ and $\left\{Y_t\right\}$ can be expressed as:
-  
-  \[{\rho _{XY}}\left( {t+h,t} \right) = \frac{{{\gamma _{XY}}\left( {t + h,t} \right)}}{{\sqrt {{\gamma _X}\left( 0 \right)} \sqrt {{\gamma _Y}\left( 0 \right)} }} = \frac{{{\gamma _{XY}}\left( h \right)}}{{{\sigma _{{X_{t+h}}}}{\sigma _{{Y_{t}}}}}} = {\rho _{XY}}\left( h \right)\]
-```
-
-Due to the previously discussed symmetry regarding the cross-covariance function,
-note that the cross-correlation function also only has equality when 
-$\rho_{XY}(h) = \rho_{YX}(-h)$. Thus, note that $\rho_{XY}(h) \neq \rho_{XY}(-h)$.
-
-```{example, label="ccfjs"}
-Consider two time series processes given by:
-  
-  \[\begin{aligned}
-     {X_t} &= {W_t} - {W_{t-1}} \\
-     {Y_t} &= {W_t} + {W_{t-1}} \\ 
-     \end{aligned} \]
-
-where $W_t \sim WN(0, \sigma^2_W)$.
-
-First check to see if $\left\{X_t\right\}$ and $\left\{Y_t\right\}$ are weakly stationary.
-
-The means of both time series are evident to be
-\[\begin{aligned}
-   E\left[ {{X_t}} \right] &= E\left[ {{Y_t}} \right] = 0 \\
-   \end{aligned} \]
-
-The autocovariance for $\left\{X_t\right\}$ is given as:
-  
-  \[\begin{aligned}
-     {\gamma _X}\left( h \right) &= \text{cov} \left( {{X_{t + h}},{X_t}} \right) \\
-     &= \text{cov} \left( {{W_{t + h}} - {W_{t + h - 1}},{W_t} - {W_{t - 1}}} \right) \\
-     &= {1_{\left\{ {h = 0} \right\}}}2{\sigma ^2} + {1_{\left\{ {h =  - 1} \right\}}}{-\sigma ^2} + {1_{\left\{ {h = 1} \right\}}}{-\sigma ^2} \\
-     &= \begin{cases}
-     2\sigma^2_W, &\text{if} h = 0 \\
-     -\sigma^2_W, &\text{if} \left|h\right| = 1 \\
-     0, &\text{if} \left|h\right| \ge 1 
-     \end{cases} 
-     \end{aligned} \]
-
-Similarly, the autocovariance for $\left\{Y_t\right\}$ is calculated to be:
-  
-  \[\begin{aligned}
-     {\gamma _Y}\left( h \right) &= \text{cov} \left( {{Y_{t + h}},{Y_t}} \right) \\
-     &= \text{cov} \left( {{W_{t + h}} + {W_{t + h - 1}},{W_t} + {W_{t - 1}}} \right) \\
-     &= {1_{\left\{ {h = 0} \right\}}}2{\sigma ^2} + {1_{\left\{ {h =  - 1} \right\}}}{\sigma ^2} + {1_{\left\{ {h = 1} \right\}}}{\sigma ^2} \\ 
-     &= \begin{cases}
-     2\sigma^2_W, &\text{if} h = 0 \\
-     \sigma^2_W, &\text{if} \left|h\right| = 1 \\
-     0, &\text{if} \left|h\right| \ge 1 
-     \end{cases} 
-     \end{aligned} \]
-
-Next, the cross-covariance for $\left\{X_t\right\}$ and $\left\{Y_t\right\}$:
-  
-  \[\begin{aligned}
-     {\gamma _{XY}}\left( h \right) &= \text{cov} \left( {{X_{t + h}},{Y_t}} \right) \\
-     &= \text{cov} \left( {{W_{t + h}} - {W_{t + h - 1}},{W_t} + {W_{t-1}}} \right)  \\ 
-     &= \begin{cases}
-     0, &\text{if } h = 0 \\
-     -\sigma^2_W, &\text{if } h = 1 \\
-     \sigma^2_W, &\text{if } h = -1 \\
-     0, &\text{if } h \ge 2
-     \end{cases}
-     \end{aligned}\]
-
-Therefore, based on obtain the weak stationarity for each process and obtain a
-cross-covariance function that only depends on the lag $h$, the process is
-joint stationary. 
-
-Furthermore, we also have the cross-correlation function as:
-  
-  \[{\rho _{XY}}\left( {{X_{t + h}},{Y_t}} \right) = \frac{{{\gamma _{XY}}\left( h \right)}}{{{\sigma _X}{\sigma _Y}}} = \frac{{{\gamma _{XY}}\left( h \right)}}{{\sqrt {{\gamma _x}\left( 0 \right)} \sqrt {{\gamma _y}\left( 0 \right)} }} = \frac{{{\gamma _{XY}}\left( h \right)}}{{{\gamma _X}\left( 0 \right)}} = \begin{cases}
-    0, &\text{if } h = 0 \\
-    -\frac{1}{2}, &\text{if } h = 1 \\
-    \frac{1}{2}, &\text{if } h = -1 \\
-    0, &\text{if } h \ge 2
-    \end{cases}\]
-```
-
-### Sample Cross-Covariance and Cross-Correlation Functions
-
-A natural estimator of the *cross-covariance function* is given by:
-  
-  \[{{\hat \gamma }_{XY}}\left( h \right) = \frac{1}{T}\sum\limits_{t = 1}^{T - h} {\left( {{X_{t + h}} - \bar X} \right)\left( {{Y_t} - \bar Y} \right)} \]
-
-With this in mind, the "plug-in" estimator for the *cross-correlation function*
-  follows:
-  
-  \[{{\hat \rho }_{XY}}\left( h \right) = \frac{{{{\hat \gamma }_{XY}}\left( h \right)}}{{\sqrt {{{\hat \gamma }_X}\left( 0 \right)} \sqrt {{{\hat \gamma }_Y}\left( 0 \right)} }}\]
-
-Both of the above estimators are again only symmetric under the above index
-and lag transformation.
-
-
-## Portmanteau test
-
-In this section we give a brief introduction to Portmanteau tests used in time
-series analysis. In linear regression, we always need to do a diagnostic test for
-residuals after building our model, to check whether our assumptions are 
-satisfied. If there is no evidence to reject any of the assumptions, we can say
-that the linear model we built is adequate. Otherwise, if the linear model is not
-adequate, some modifications or transformations need to be done either for the
-previous model or for the data. This rule also applies to time series modeling.
-In time series analysis, a wide variety of Portmanteau tests can be used to 
-check the white noise residuals assumption. We will introduce two of them as 
-follows, which are based on the ACF of residuals, in order to illustrate some 
-of ideas behind these kinds of tests.
-
-Dating back to 1970, Box and Pierce proposed the well-known Box-Pierce test
-statistic with the following form:
-  
-  $$Q_{BP} = n\sum_{h =1}^m \hat{\rho}_h^2,$$
-  
-  where the empirical autocorrelation of residuals at lag $h$ is defined
-as $\hat{\rho}_h = \frac{\hat{\gamma}(h)}{\hat{\gamma}(0)}$. It is obvious that
-under the alternative hypothesis, $\hat{\rho}_h$ would be deviate from $0$, thus a
-large $Q_{BP}$ gives us the evidence to reject the null. Under the null
-hypothesis that the residuals are white noise (or equivalently the time series 
-are adequate), it can be shown that when $n \to \infty$, we have
-
-$$Q_{BP} \overset{\mathcal{D}}{\to} \chi^2_{m - m^{\prime}},$$
-where $m^{\prime}$ is the number of parameters in the time series model.
-
-## Proof
-We can write the autocorrelation $\bm{\rho} = \left(\rho(1), \rho(2), \dots, \rho(m)\right)^T$, and the sample autocorrelation $\bm{\hat{\rho}} = \left(\hat{\rho}(1), \hat{\rho}(2), \dots, \hat{\rho}(m)\right)^T$.
-
-According to Theorem A.7 in the textbook, under the data generating process $X_t = W_t + \mu$, where $\mu < \infty$ and $(W_t)$ is a strong white noise process with variance $\sigma^2$ and finite fourth moment (i.e. $\mathbb{E} [W_t^4] < \infty$), we have 
-$$\sqrt{n} \left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right) \overset{\mathcal{D}}{\to} V,$$
-  where the $(p,q)^{th}$ element of $V$ is
-$$v_{pq} = \sum_{u=1}^{\infty}\left[ \rho(u+p) + \rho(u-p) - 2\rho(p)\rho(u) \right] \times \left[ \rho(u+p) + \rho(u-p) - 2\rho(p)\rho(u) \right].$$
-  And since $V$ is a positive definite covariance matrix, it follows that
-$$\sqrt{n} V^{-\frac{1}{2}}\left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right) \overset{\mathcal{D}}{\to} \mathcal{N}(\mathbf{0}, I),$$
-  and also
-$$n \left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right)^T V^{-1} \left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right) \overset{\mathcal{D}}{\to} \chi^2_m,$$
-  Since under the null, $\mathbf{\rho} = \mathbf{0}$, we have 
-$$v_{pq} = 
-  \begin{cases}
-0, \; p \neq q\\
-1, \; p = q
-\end{cases}
-.$$
-  
-  Thus, it's easy to show that the Box and Pierce test statistic 
-$$Q_{BP} = n\sum_{h =1}^m \hat{\rho}_h^2,$$
-under that data generating process would follow a $\chi^2$ distribution 
-with $m$ degree of freedom.
-
-Before, we supposed that we knew $\mu$ in our data generating process exactly,
-and hence no unknown parameter needed be estimated. Now, suppose $\mu$ is
-unknown and contains $m^{\prime}$ number of unknown parameters which we have 
-to estimate. As we know, if our model for $\mu$ is correctly specified and
-those $m^{\prime}$ unknown parameters are appropriately estimated, then the 
-underlying model of the residules of the fitted model would be $W_t$ as before,
-but the $m^{\prime}$ number of true parameters are replaced by their estimators.
-Then $Q_{BP}$ will still asymptotically follows $\chi^2$ but
-with $m - m^{\prime}$ degree of freedom. $\;\;\;\;\;\;\;\; \blacksquare$
-
-
-Then on 1978, Ljung and Box improved Box-Pierce test by standardizing
-each $\hat{\rho}_h$ by its asymptotic variance. The Ljung and Box test
-statistic is
-
-$$Q_{LB} = n\sum_{h =1}^m \frac{n+2}{n-h}\hat{\rho}_h^2.$$
-
-It can also be shown that $Q_{LB} \overset{\mathcal{D}}{\to} \chi^2_{m - m^{\prime}}$ under
-the null. However, compared to $Q_{BP}$, the distribution of $Q_{BP}$ under the
-null is closer to $\chi^2_{m - m^{\prime}}$, when $n$ is finite.
-
-In the above two examples, the test statistic contains a user specified
-parameter $m$. And for different $m$, the power of the test would be different.
-Thus, much work has gone into either finding an approach for selecting the optimal $m$, 
-or finding a new test statistic without user specified parameters. Moreover, testing 
-white noise can also be done by checking PACF, or by checking spectral density in the
-frequency domain. Therefore, these differing approaches have lead to many different 
-Portmanteau tests.
-
-Take for an example the following use of a Portmanteau test to show the 
-distribution of test statistics under the null:
-
-```{r dist_null_portmanteau, cache = TRUE}
-
-# set seed
-set.seed(1345)
-
-# Specify models
-model = WN(sigma2 = 1) # WN
-
-B = 1000 # number of parametric bootstrap
-BP.obs = rep(NA, B)
-LB.obs = rep(NA, B)
-
-for (j in seq_len(B)){
-x = gen_gts(1000, model)
-BP.obs[j] = Box.test(x, lag = 10, "Box-Pierce", fitdf = 0)$statistic
-LB.obs[j] = Box.test(x, lag = 10, "Ljung-Box", fitdf = 0)$statistic
-}
-
-sim_results = data.frame(sim = c(BP.obs, LB.obs),
-simtype = c(rep("Box-Pierce",B), rep("Ljung-Box",B)))
-
-ggplot(data = sim_results, aes(x = sim)) + 
-geom_histogram(aes(y = ..density.., fill = simtype),
-binwidth = 1, color = "black") +
-stat_function(fun = dchisq, args = list(df = 10)) +
-facet_wrap( ~ simtype) + ylim(0, 0.12) + 
-labs(fill = "Statistic", title = "Histogram of the Observed Test Statistics",
-y = "Density", x = "Observed Test Statistic")
-```
-
-From the histogram, we can see that under the null the distribution of both BP
-and LB are close to a Chi-square distribution, but LP is slightly better.
-
-Consider the following simulation that shows how the test depends on specified $m$
-and displays the distribution of P-values under different alternatives.
-
-```{r alternatives_port, cache = TRUE}
-# Set seed
-set.seed(1234)
-
-# Specify models
-model1 = WN(sigma2 = 1)                         # WN
-model2 = AR(phi = 0.3, sigma2 = 1)              # AR(1)
-model3 = AR(phi = c(rep(0,9), 0.3), sigma2 = 1) # seasonal AR(10)
-
-B = 1000 # number of parametric bootstrap
-LB.pvalue = matrix(NA, nrow = B, ncol = 6)
-
-for (i in 1:3){
-for (j in seq_len(B)){
-x = gen_gts(1000, get(paste0("model", i)))
-LB.pvalue[j,2*i-1] = Box.test(x, lag = 1, "Ljung-Box", fitdf = 0)$p.value
-LB.pvalue[j,2*i] = Box.test(x, lag = 10, "Ljung-Box", fitdf = 0)$p.value
-}
-}
-
-para_1 = data.frame(lag = 1, LB.pvalue[, c(1,3,5)])
-para_2 = data.frame(lag = 2, LB.pvalue[, c(2,4,6)])
-para = rbind(para_1, para_2)
-
-colnames(para)[2:4] = c("WN", "AR(1)", "Seasonal AR(10)")
-
-library(reshape2)
-para.melt = melt(para, id.vars = "lag")
-
-ggplot(data = para.melt, aes(x=variable, y=value)) + 
-geom_boxplot(aes(fill=factor(lag))) + facet_wrap( ~ variable, scales="free") +
-ggtitle("Simulated P-value") +
-scale_fill_hue(name="Specified m", breaks = c(1,2) , labels = c("m=1", "m=10"))
-```

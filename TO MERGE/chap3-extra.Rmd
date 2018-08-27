@@ -1,0 +1,894 @@
+
+In the following simulated example, we illustrate the non-stationary feature of
+such a process:
+  
+```{r RWsim, cache = TRUE, fig.cap = "Two hundred simulated random walks.", fig.align='center', fig.height = 5, fig.width = 7}
+# Number of simulated processes
+B = 200
+
+# Length of random walks
+n = 1000
+
+# Output matrix
+out = matrix(NA,B,n)
+
+# Set seed for reproducibility
+set.seed(6182)
+
+# Simulate Data
+for (i in seq_len(B)){
+  # Simulate random walk
+  Xt = gen_gts(n, RW(gamma = 1))
+  
+  # Store process
+  out[i,] = Xt
+}
+
+# Plot random walks
+plot(NA, xlim = c(1,n), ylim = range(out), xlab = "Time", ylab = " ")
+grid()
+color = sample(topo.colors(B, alpha = 0.5))
+grid()
+for (i in seq_len(B)){
+  lines(out[i,], col = color[i])
+}
+
+# Add 95% confidence region
+lines(1:n, 1.96*sqrt(1:n), col = 2, lwd = 2, lty = 2)
+lines(1:n, -1.96*sqrt(1:n), col = 2, lwd = 2, lty = 2)
+```
+
+In the plot above, two hundred simulated random walks are plotted along with
+theoretical 95% confidence intervals (red-dashed lines). The relationship
+between time and variance can clearly be observed (i.e. the variance of the 
+process increases with the time).
+
+```{example, label="exma1", name = "Moving Average of Order 1"}
+
+Similarly to our previous examples, we attempt to verify the stationary 
+properties for the MA(1) model defined in the previous chapter:
+  
+1. \[ 
+    \mathbb{E}\left[ {{X_t}} \right] = \mathbb{E}\left[ {{\theta_1}{W_{t - 1}} + {W_t}} \right] 
+    = {\theta_1} \mathbb{E} \left[ {{W_{t - 1}}} \right] + \mathbb{E}\left[ {{W_t}} \right] 
+    = 0. \] 
+2. \[\text{var} \left( {{X_t}} \right) = \theta_1^2 \text{var} \left( W_{t - 1}\right) + \text{var} \left( W_{t}\right) = \left(1 + \theta^2 \right) \sigma^2_w.\]  
+3. Regarding the autocovariance, we have 
+\[\begin{aligned}
+   \text{cov}\left( {{X_t},{X_{t + h}}} \right) &= \mathbb{E}\left[ {\left( {{X_t} - \mathbb{E}\left[ {{X_t}} \right]} \right)\left( {{X_{t + h}} - \mathbb{E}\left[ {{X_{t + h}}} \right]} \right)} \right] = \mathbb{E}\left[ {{X_t}{X_{t + h}}} \right] \\
+   &= \mathbb{E}\left[ {\left( {{\theta}{W_{t - 1}} + {W_t}} \right)\left( {{\theta }{W_{t + h - 1}} + {W_{t + h}}} \right)} \right] \\
+   &= \mathbb{E}\left[ {\theta^2{W_{t - 1}}{W_{t + h - 1}} + \theta {W_t}{W_{t + h}} + {\theta}{W_{t - 1}}{W_{t + h}} + {W_t}{W_{t + h}}} \right]. \\
+   \end{aligned} \] 
+It is easy to see that $\mathbb{E}\left[ {{W_t}{W_{t + h}}} \right] = {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}\sigma _w^2$ and therefore, we obtain
+\[\text{cov} \left( {{X_t},{X_{t + h}}} \right) = \left( {\theta^2{ \boldsymbol{1}_{\left\{ {h = 0} \right\}}} + {\theta}{\boldsymbol{1}_{\left\{ {h = 1} \right\}}} + {\theta}{\boldsymbol{1}_{\left\{ {h =  - 1} \right\}}} + {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}} \right)\sigma _w^2\] 
+implying the following autocovariance function:
+  \[\gamma \left( h \right) = \left\{ {\begin{array}{*{20}{c}}
+    {\left( {\theta^2 + 1} \right)\sigma _w^2}&{h = 0} \\ 
+    {{\theta}\sigma _w^2}&{\left| h \right| = 1} \\ 
+    0&{\left| h \right| > 1} 
+    \end{array}} \right. .\]
+Therefore, an MA(1) process is weakly stationary since both the mean and variance are constant over time and its covariance function is only a function of the lag $(h)$. Finally, we can easily obtain the autocorrelation for this process, which is given by
+$$\rho \left( h \right) = \left\{ {\begin{array}{*{20}{c}}
+  1&{h = 0} \\ 
+  {\frac{{{\theta}\sigma _w^2}}{{\left( {\theta^2 + 1} \right)\sigma _w^2}} = \frac{{{\theta}}}{{\theta^2 + 1}}}&{\left| h \right| = 1} \\ 
+  0&{\left| h \right| > 1} 
+  \end{array}} \right. .$$
+    Interestingly, we can note that $|\rho(1)| \leq 0.5$.
+```
+
+```{example, label="exar1", name = "Autoregressive of Order 1"}
+  As another example, we shall verify the stationary properties for the AR(1)
+  model defined in the previous chapter.
+  
+  Using the *backsubstitution* technique, we can rearrange an AR(1) process so 
+  that it is written in a more compact form, i.e.
+  
+  \[\begin{aligned}
+     {X_t} & =  {\phi }{X_{t - 1}} + {W_t} = \phi \left[ {\phi {X_{t - 2}} + {W_{t - 1}}} \right] + {W_t} 
+     =  {\phi ^2}{X_{t - 2}} + \phi {W_{t - 1}} + {W_t}  \\
+     &  \vdots  \\
+     & =  {\phi ^k}{X_{t-k}} + \sum\limits_{j = 0}^{k - 1} {{\phi ^j}{W_{t - j}}} .
+     \end{aligned} \]
+  
+  By taking the limit in $k$ (which is perfectly valid as we 
+                              assume $t \in \mathbb{Z}$) and assuming $|\phi|<1$, we obtain
+  
+  \[\begin{aligned}
+     X_t = \mathop {\lim }\limits_{k \to \infty} \; {X_t}  =  \sum\limits_{j = 0}^{\infty} {{\phi ^j}{W_{t - j}}} 
+     \end{aligned} \]
+  
+  and therefore such process can be interpreted as a linear combination of the 
+  white noise $(W_t)$ and corresponds (as we will observe later on) to an MA($\infty$). 
+  In addition, the requirement $\left| \phi  \right| < 1$ turns out to be 
+  extremely useful as the above formula is related to a **geometric series** which
+  would diverge if $\phi \geq 1$ (for example when $\phi = 1$ we have a random walk). Indeed, remember that
+  an infinite (converging) geometric series is given by
+>>>>>>> cb89d168198f38b1736da9dce9b616b02713003d
+  
+  \[\sum\limits_{k = 0}^\infty  \, a{{r^k}}  = \frac{a}{{1 - r}}, \; {\text{ if }}\left| r \right| < 1.\]
+  
+  <!--
+    The origin of the requirement comes from needing to ensure that the characteristic polynomial solution for an AR1 lies outside of the unit circle. Subsequently, stability enables the process to be stationary. If $\phi  \ge 1$, the process would not converge. Under the requirement, the process can represented as a
+  -->
+    
+With this setup, we demonstrate how crucial this property is by calculating each of the requirements of a stationary process.
+  
+  1. First, we will check if the mean is stationary. 
+  In this case, we choose to use limits in order to derive the expectation
+  \[\begin{aligned}
+     \mathbb{E}\left[ {{X_t}} \right] &= \mathop {\lim }\limits_{k \to \infty } \mathbb{E}\left[ {{\phi^k}{X_{t-k}} + \sum\limits_{j = 0}^{k - 1} {\phi^j{W_{t - j}}} } \right] \\
+     &= \mathop {\lim }\limits_{k \to \infty } \, \underbrace {{\phi ^k}{\mathbb{E}[X_{t-k}]}}_{= 0} + \mathop {\lim }\limits_{k \to \infty } \, \sum\limits_{j = 0}^{k - 1} {\phi^j\underbrace {\mathbb{E}\left[ {{W_{t - j}}} \right]}_{ = 0}}
+     = 0.
+     \end{aligned} \] As expected, the mean is zero and, hence, the first criterion for weak stationarity is satisfied. 
+  2. Next, we determine the variance of the process
+  \[\begin{aligned}
+     \text{var}\left( {{X_t}} \right) &= \mathop {\lim }\limits_{k \to \infty } \text{var}\left( {{\phi^k}{X_{t-k}} + \sum\limits_{j = 0}^{k - 1} {\phi^j{W_{t - j}}} } \right)
+     = \mathop {\lim }\limits_{k \to \infty } \sum\limits_{j = 0}^{k - 1} {\phi ^{2j} \text{var}\left( {{W_{t - j}}} \right)}  \\
+     &= \mathop {\lim }\limits_{k \to \infty } \sum\limits_{j = 0}^{k - 1} \sigma _W^2 \, {\phi ^{2j}}  =  
+       \underbrace {\frac{\sigma _W^2}{{1 - {\phi ^2}}}.}_{\begin{subarray}{l} 
+         {\text{Geom. Series}} 
+         \end{subarray}}
+     \end{aligned} \] Once again, the above result only holds because we are able to use the convergence of the geometric series as a result of $\left| \phi  \right| < 1$.
+  3. Finally, we consider the autocovariance of an AR(1). For $h > 0$, we have
+  \[\gamma \left( h \right) =  \text{cov}\left( {{X_t},{X_{t + h}}} \right) = \phi \text{cov}\left( {{X_t},{X_{t + h - 1}}} \right) = \phi \, \gamma \left( h-1 \right).\]
+  Therefore, using the symmetry of autocovariance, we find that
+  \[\gamma \left( h \right) = \phi^{|h|} \, \gamma(0).\]
+  
+  Both the mean and variance do not depend on time. In addition, the autocovariance function can be viewed as a function that only depends on the time lag $h$ and, thus, the AR(1) process is weakly stationary if $\left| \phi  \right| < 1$.  Lastly, we can obtain the autocorrelation for this process. Indeed, for $h > 0$, we have
+  
+  \[\rho \left( h \right) = \frac{{\gamma \left( h \right)}}{{\gamma \left( 0 \right)}} = \frac{{\phi \gamma \left( {h - 1} \right)}}{{\gamma \left( 0 \right)}} = \phi \rho \left( {h - 1} \right).\]
+  
+  After simplifying, we obtain
+  
+  \[\rho \left( h \right) = {\phi^{|h|}}.\]
+  
+  Thus, the autocorrelation function for an AR(1) exhibits a _geometric decay_,
+  meaning that as $|\phi|$ gets smaller the autocorrelation reaches zero at a faster rate (on the contrary, if $|\phi|$ is close to 1 then the decay rate is slower).
+```
+  
+## Estimation of Moments (Stationary Processes)
+  
+In this section, we discuss how moments and related quantities of stationary
+process can be estimated. Informally speaking, the use of "averages" is 
+meaningful for such processes suggesting that classical moments estimators can
+be employed. Indeed, suppose that one is interested in 
+estimating $\alpha \equiv \mathbb{E}[m (X_t)]$, where $m(\cdot)$ is a known
+function of $X_t$. If $X_t$ is a strongly stationary process, we have
+  
+\[\alpha = \int m(x) \, f(x) dx\]
+  
+where $f(x)$ denotes the density of $X_t, \; \forall t$. Replacing $f(x)$ by
+$f_n(x)$, the empirical density, we obtain the following estimator
+  
+\[\hat{\alpha} = \frac{1}{n} \sum_{i = 1}^n m\left(x_i\right).\]
+  
+In the next subsection, we examine how this simple idea can be used to estimate
+the mean, autocovariance and autocorrelation functions. Moreover, we discuss
+some of the properties of these estimators.
+  
+  
+### Estimation of the Mean Function
+  
+If a time series is stationary, the mean function is constant and a possible
+estimator of this quantity is, as discussed above, given by
+  
+\[\bar{X} = {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t}} }.\]
+  
+Naturally, the $k$-th moment, say $\beta_k \equiv \mathbb{E}[X_t^k]$ can be
+estimated by
+  
+\[\hat{\beta}_k = {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t^k}} }, \;\; k \in \left\{x \in \mathbb{N} : \, 0 < x < \infty  \right\}.\]
+  
+The variance of such an estimator can be derived as follows:
+    
+\begin{equation}
+  \begin{aligned}
+  \text{var} \left( \hat{\beta}_k \right) &= \text{var} \left( {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t^k}} } \right)  \\
+  &= \frac{1}{{{n^2}}}\text{var} \left( {{{\left[ {\begin{array}{*{20}{c}}
+    1& \cdots &1
+    \end{array}} \right]}_{1 \times n}}{{\left[ {\begin{array}{*{20}{c}}
+      {{X_1^k}} \\
+      \vdots  \\
+      {{X_n^k}}
+      \end{array}} \right]}_{n \times 1}}} \right)  \\
+  &= \frac{1}{{{n^2}}}{\left[ {\begin{array}{*{20}{c}}
+    1& \cdots &1
+    \end{array}} \right]_{1 \times n}} \, \boldsymbol{\Sigma}(k) \, {\left[ {\begin{array}{*{20}{c}}
+      1 \\
+      \vdots  \\
+      1
+      \end{array}} \right]_{n \times 1}}, 
+  \end{aligned}
+  (\#eq:chap2VarMoment)
+\end{equation}
+    
+where $\boldsymbol{\Sigma}(k) \in \mathbb{R}^{n \times n}$ and its $i$-th, $j$-th
+element is given by
+    
+\[ \left(\boldsymbol{\Sigma}(k)\right)_{i,j} = \text{cov} \left(X_i^k, X_j^k\right).\]
+    
+In the case $k = 1$, \@ref(eq:chap2VarMoment) can easily be further simplified.
+Indeed, we have
+    
+\[\begin{aligned}
+       \text{var} \left( {\bar X} \right) &= \text{var} \left( {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t}} } \right)  \\
+       &= \frac{1}{{{n^2}}}{\left[ {\begin{array}{*{20}{c}}
+         1& \cdots &1
+         \end{array}} \right]_{1 \times n}}\left[ {\begin{array}{*{20}{c}}
+           {\gamma \left( 0 \right)}&{\gamma \left( 1 \right)}& \cdots &{\gamma \left( {n - 1} \right)} \\
+           {\gamma \left( 1 \right)}&{\gamma \left( 0 \right)}&{}& \vdots  \\
+           \vdots &{}& \ddots & \vdots  \\
+           {\gamma \left( {n - 1} \right)}& \cdots & \cdots &{\gamma \left( 0 \right)}
+           \end{array}} \right]_{n \times n}{\left[ {\begin{array}{*{20}{c}}
+             1 \\
+             \vdots  \\
+             1
+             \end{array}} \right]_{n \times 1}}  \\
+       &= \frac{1}{{{n^2}}}\left( {n\gamma \left( 0 \right) + 2\left( {n - 1} \right)\gamma \left( 1 \right) + 2\left( {n - 2} \right)\gamma \left( 2 \right) +  \cdots  + 2\gamma \left( {n - 1} \right)} \right)  \\
+       &= \frac{1}{n}\sum\limits_{h =  - n}^n {\left( {1 - \frac{{\left| h \right|}}{n}} \right)\gamma \left( h \right)} .  \\
+\end{aligned} \]
+    
+Obviously, when $X_t$ is a white noise process, the above formula reduces to the
+usual $\text{var} \left( {\bar X} \right) = \sigma^2_w/n$. In the following example,
+we consider the case of an AR(1) process and discuss 
+how $\text{var} \left( {\bar X} \right)$ can be obtained or estimated.
+    
+```{example, label="exactvbootstrap"}
+For an AR(1), we have $\gamma(h) = \phi^h \sigma_w^2 \left(1 - \phi^2\right)^{-1}$. Therefore, we obtain (after some computations):
+      
+\begin{equation}
+    \text{var} \left( {\bar X} \right) = \frac{\sigma_w^2 \left( n - 2\phi - n \phi^2 + 2 \phi^{n + 1}\right)}{n^2\left(1-\phi^2\right)\left(1-\phi\right)^2}.
+\end{equation}
+    
+Unfortunately, deriving such an exact formula is often difficult when considering
+more complex models. However, asymptotic approximations are often employed to
+simplify the calculation. For example, in our case we have
+    
+\[\mathop {\lim }\limits_{n \to \infty } \; n \text{var} \left( {\bar X} \right) = \frac{\sigma_w^2}{\left(1-\phi\right)^2},\]
+    
+providing the following approximate formula:
+      
+\[\text{var} \left( {\bar X} \right) \approx \frac{\sigma_w^2}{n \left(1-\phi\right)^2}.\]
+    
+Alternatively, simulation methods can also be employed. For example, a possible
+strategy would be parametric bootstrap.
+```
+  
+```{example, label="parabootstrap", "Parametric Bootstrap"}
+Parametric bootstrap can be implemented in the following manner:
+
+1. Simulate a new sample under the postulated model, i.e. $X_t^* \sim F_{\boldsymbol{\theta}}$ (*note:* if $\boldsymbol{\theta}$ is unknown it can be replaced by $\hat{\boldsymbol{\theta}}$, a suitable estimator).
+2. Compute the statistics of interest on the simulated sample $(X_t^*)$.
+3. Repeat Steps 1 and 2 $B$ times where $B$ is sufficiently "large" (typically $100 \leq B \leq 10000$).
+4. Compute the empirical variance of the statistics of interest based on the $B$ independent replications. 
+```
+    
+In our example, we would consider $(X_t^*)$ to be ${\bar{X}^*}$ and seek to
+obtain:
+      
+\[\hat{\sigma}^2_B = \frac{1}{B-1} \sum_{i = 1}^B \left(\bar{X}^*_i - \bar{X}^* \right)^2, \;\;\; \text{where} \;\;\; \bar{X}^* = \frac{1}{B} \sum_{i=1}^B \bar{X}^*_i,\]
+    
+where $\bar{X}^*_i$ denotes the value of the mean estimated on the $i$-th 
+simulated sample.
+    
+The figure below generated by the following code compares these three methods
+for $n = 10$, $B = 1000$, $\sigma^2 = 1$ and a grid of values for $\phi$ going
+from $-0.95$ to $0.95$:
+      
+      
+```{r estimXbar, cache = TRUE, fig.height = 5, fig.width = 7}
+# Define sample size
+n = 10
+
+# Number of Monte-Carlo replications
+B = 5000
+
+# Define grid of values for phi
+phi = seq(from = 0.95, to = -0.95, length.out = 30)
+
+# Define result matrix
+result = matrix(NA,B,length(phi))
+
+# Start simulation
+for (i in seq_along(phi)){
+  # Define model
+  model = AR1(phi = phi[i], sigma2 = 1)
+  
+  # Monte-Carlo
+  for (j in seq_len(B)){
+    # Simulate AR(1)
+    Xt = gen_gts(n, model)
+    
+    # Estimate Xbar
+    result[j,i] = mean(Xt)
+  }
+}
+
+# Estimate variance of Xbar
+var.Xbar = apply(result,2,var)
+
+# Compute theoretical variance
+var.theo = (n - 2*phi - n*phi^2 + 2*phi^(n+1))/(n^2*(1-phi^2)*(1-phi)^2)
+
+# Compute (approximate) variance
+var.approx = 1/(n*(1-phi)^2)
+
+# Compare variance estimations
+plot(NA, xlim = c(-1,1), ylim = range(var.approx), log = "y", 
+     ylab = expression(paste("var(", bar(X), ")")),
+     xlab= expression(phi), cex.lab = 1)
+grid()
+lines(phi,var.theo, col = "deepskyblue4")
+lines(phi, var.Xbar, col = "firebrick3")
+lines(phi,var.approx, col = "springgreen4")
+legend("topleft",c("Theoretical variance","Bootstrap variance","Approximate variance"), 
+       col = c("deepskyblue4","firebrick3","springgreen4"), lty = 1,
+       bty = "n",bg = "white", box.col = "white", cex = 1.2)
+```
+    
+It can be observed that the variance of $\bar{X}$ typically increases with 
+$\phi$. As expected when $\phi = 0$, we have $\text{var}(\bar{X}) = 1/n$ — in 
+this case the process is a white noise. Moreover, the bootstrap approach 
+appears to well approximate the curve of (\@ref(eq:chap2_exAR1)), while the
+asymptotic form provides a reasonable approximation when $\phi$ lies between
+-0.5 and 0.5. Naturally, the quality of this approximation would be far better
+for a larger sample size (here we consider $n = 10$, which is a little "extreme").
+    
+### Sample Autocovariance and Autocorrelation Functions
+    
+A natural estimator of the *autocovariance function* is given by:
+      
+\[\hat \gamma \left( h \right) = \frac{1}{n}\sum\limits_{t = 1}^{n - h} {\left( {{X_t} - \bar X} \right)\left( {{X_{t + h}} - \bar X} \right)} \]
+    
+leading to the following "plug-in" estimator of the *autocorrelation function*:
+      
+\[\hat \rho \left( h \right) = \frac{{\hat \gamma \left( h \right)}}{{\hat \gamma \left( 0 \right)}}.\]
+    
+A graphical representation of the autocorrelation function is often the first
+step for any time series analysis (again assuming the process to be stationary).
+Consider the following simulated example:
+      
+```{r basicACF, cache = TRUE, fig.height = 4.5, fig.width = 7}
+# Set seed for reproducibility
+set.seed(2241)
+
+# Simulate 100 observation from a Gaussian white noise
+Xt = gen_gts(100, WN(sigma2 = 1))
+
+# Compute autocorrelation
+acf_Xt = ACF(Xt)
+
+# Plot autocorrelation
+plot(acf_Xt, show.ci = FALSE)
+```
+    
+In this example, the true autocorrelation is equal to zero at any 
+lag $h \neq 0$, but obviously the estimated autocorrelations are random variables
+and are not equal to their true values. It would therefore be useful to have
+some knowledge about the variability of the sample autocorrelations (under some
+conditions) to assess whether the data comes from a completely random series or
+presents some significant correlation at certain lags. The following result
+provides an asymptotic solution to this problem:
+
+```{theorem, label="approxnormal"}
+If $X_t$ is a strong white noise with finite fourth moment,
+then $\hat{\rho}(h)$ is approximately normally distributed with mean $0$ and 
+variance $n^{-1}$ for all fixed $h$.
+```
+    
+The proof of this Theorem is given in Appendix \@ref(appendixa).
+    
+Using this result, we now have an approximate method to assess whether peaks in
+the sample autocorrelation are significant by determining whether the observed
+peak lies outside the interval $\pm 2/\sqrt{n}$ (i.e. an approximate 95%
+confidence interval). Returning to our previous example and adding confidence
+bands to the previous graph, we obtain:
+      
+```{r basicACF2, cache = TRUE, fig.height = 4.5, fig.width = 7}
+# Plot autocorrelation with confidence bands 
+plot(acf_Xt)
+```
+    
+It can now be observed that most peaks lie within the 
+interval $\pm 2/\sqrt{n}$ suggesting that the true data generating process 
+is uncorrelated.
+    
+```{example, label = "acffeatures"}
+To illustrate how the autocorrelation function can be used to reveal some
+"features" of a time series, we download the level of the Standard & Poor's 500
+index, often abbreviated as the S&P 500. This financial index is based on the
+market capitalization of 500 large companies having common stock listed on
+the New York Stock Exchange or the NASDAQ Stock Market. The graph below 
+shows the index level and daily returns from 1990.
+```
+  
+
+```{r GSPC, cache = TRUE, fig.height = 4, fig.width = 8, warnings = FALSE, message = FALSE}
+# Load package
+library(quantmod)
+
+# Download S&P index
+getSymbols("^GSPC", from="1990-01-01", to = Sys.Date())
+
+# Compute returns
+GSPC.ret = ClCl(GSPC)
+
+# Plot index level and returns
+par(mfrow = c(1,2))
+plot(GSPC, main = " ", ylab = "Index level")
+plot(GSPC.ret, main = " ", ylab = "Daily returns")
+```
+
+From these graphs, it is clear that the returns are not identically distributed
+as the variance seems to change over time and clusters with either high or low 
+volatility can be observed. These characteristics of financial time series are 
+well known and further on in this book we will discuss how the variance of such 
+processes can be approximated. Nevertheless, we compute the empirical
+autocorrelation function of the S&P 500 return to evaluate the degree 
+of "linear" dependence between observations. The graph below presents 
+the empirical autocorrelation.
+
+```{r GSPCacf, cache = TRUE, fig.height = 4.5, fig.width = 7, warning = FALSE}
+sp500 = na.omit(GSPC.ret)
+names(sp500) = paste("S&P 500 (1990-01-01 - ",Sys.Date(),")", sep = "")
+plot(ACF(sp500))
+```
+
+As expected, the autocorrelation is small but it might be reasonable to believe
+that this sequence is not purely uncorrelated. Unfortunately, Theorem \@ref(approxnormal) is based on an asymptotic argument and since the
+confidence bands constructed are also asymptotic, there are no "exact" tools
+that can be used in this case. To study the validity of these results when $n$ is
+"small" we can perform a simulation study. In the latter, we simulate processes from a Gaussian white noise and examine the empirical distribution of
+$\hat{\rho}(3)$ with different sample sizes (i.e. $n$ is set to 5, 10, 30 and
+300). Intuitively, the "quality" of the approximation provided by Theorem \@ref(approxnormal)
+should increase with the sample size $n$. The code below performs such a simulation
+and compares the empirical distribution of $\sqrt{n} \hat{\rho}(3)$ with a
+normal distribution with mean 0 and variance 1 (its asymptotic
+distribution), which is depicted using a red line.
+
+```{r simulationACF, cache = TRUE, fig.height = 5.5, fig.width = 7}
+# Number of Monte Carlo replications
+B = 10000
+
+# Define considered lag
+h = 3
+
+# Sample size considered
+N = c(5, 10, 30, 300)
+
+# Initialisation
+result = matrix(NA,B,length(N))
+
+# Set seed
+set.seed(1)
+
+# Start Monte Carlo
+for (i in seq_len(B)){
+  for (j in seq_along(N)){
+    # Simluate process
+    Xt = rnorm(N[j])
+    
+    # Save autocorrelation at lag h
+    result[i,j] = acf(Xt, plot = FALSE)$acf[h+1]
+  }
+}
+
+# Plot results
+par(mfrow = c(2,length(N)/2))
+for (i in seq_along(N)){
+  # Estimated empirical distribution
+  hist(sqrt(N[i])*result[,i], col = "royalblue1", 
+       main = paste("Sample size n =",N[i]), probability = TRUE,
+       xlim = c(-4,4), xlab = " ")
+  
+  # Asymptotic distribution
+  xx = seq(from = -10, to = 10, length.out = 10^3)
+  yy = dnorm(xx,0,1)
+  lines(xx,yy, col = "red", lwd = 2)
+}
+```
+
+As expected, it can clearly be observed that the asymptotic approximation is
+quite poor when $n = 5$ but as the sample size increases the approximation
+improves and is very close when, for example, $n = 300$. Therefore, this simulation would
+suggest that Theorem \@ref(approxnormal) provides a relatively "close" approximation of the
+distribution of $\hat{\rho}(h)$, especially when the sample size is large enough.
+
+### Robustness Issues
+
+<!-- Rob I am sure you would be great to extent this section! I add a small simulation as an example -->
+  
+The data generating process delivers a theoretical autocorrelation
+(autocovariance) function that, as explained in the previous section,
+can then be estimated through the sample autocorrelation (autocovariance)
+functions. However, in practice, the sample is often issued from a data 
+generating process that is "close" to the true one, meaning that the sample
+suffers from some form of small contamination. This contamination is typically
+represented by a small amount of extreme observations that are called "outliers"
+that come from a process that is different from the true data generating process.
+
+The fact that the sample can suffer from outliers implies that the standard
+estimation of the autocorrelation (autocovariance) functions through the sample
+functions could be highly biased. The standard estimators presented in the
+previous section are therefore not "robust" and can behave badly when the sample
+suffers from contamination. To illustrate this limitation of a classical estimator,
+we consider the following two processes:
+  
+\[ 
+    \begin{aligned}
+    X_t &= \phi X_{t-1} + W_t, \;\;\; W_t \sim \mathcal{N}(0,\sigma_w^2),\\
+    Y_t &= \begin{cases}
+    X_t       & \quad \text{with probability } 1 - \epsilon\\
+    U_t  & \quad \text{with probability } \epsilon\\
+    \end{cases}, \;\;\; U_t \sim \mathcal{N}(0,\sigma_u^2),
+    \end{aligned}
+\] 
+
+where $\epsilon$ is "small" and $\sigma_u^2 \gg \sigma_w^2$. The process $(Y_t)$
+can be interpreted as a "contaminated" version of $(X_t)$ and the figure below
+represents one realization of the processes $(X_t)$ and $(Y_t)$ using the 
+following setting: $n = 100$, $\sigma_u^2 = 10$, $\phi = 0,5$, $\sigma_w^2 = 1$ as 
+well as $\alpha = 0.05$.
+
+```{r XtYt, cache = TRUE, fig.height = 8, fig.width = 7}
+```
+
+Next, we consider a simulated example to highlight how the performance of a
+"classical" autocorrelation can deteriorate if the sample is contaminated (i.e.
+what is the impact of using $Y_t$ instead of $X_t$, the "uncontaminated" 
+process). In this simulation, we will use the setting presented above and
+consider $B = 10^3$ bootstrap replications.
+
+```{r simulationRobust, cache = TRUE, fig.height = 5.5, fig.width = 7}
+```
+
+The boxplots in each figure show how the standard autocorrelation estimator is
+centered around the true value (red line) when the sample is not 
+contaminated (left boxplot) while it is considerably biased when the sample is
+contaminated (right boxplot), especially at the smallest lags. Indeed, it can 
+be seen how the boxplots under contamination are often close to zero indicating 
+that it does not detect much dependence in the data although it should. This is 
+a known result in robustness, more specifically that outliers in the data can 
+break the dependence structure and make it more difficult for the latter to be
+detected.
+
+In order to limit this problem, different robust estimators exist for time
+series problems which are designed to reduce contamination during 
+the estimation procedure. Among these estimators, there are a few that estimate the
+autocorrelation (autocovariance) functions in a robust manner. One of these 
+estimators is provided in the ``robacf()`` function in the "robcor" package. 
+The following simulated example shows how it limits bias from contamination. 
+Unlike in the previous simulation, we shall only consider data issued 
+from the contaminated model, $Y_t$, and compare the performance of two 
+estimators (i.e. classical and robust autocorrelation estimators):
+  
+```{r simulationRobust2, cache = TRUE, fig.height = 5.5, fig.width = 7}
+```
+
+The robust estimator remains close to the true value represented by the red line
+in the boxplots as opposed to the standard estimator. It can also be observed 
+that to reduce the bias induced by contamination in the sample, robust
+estimators pay a certain price in terms of efficiency as highlighted by the
+boxplots that show more variability compared to those of the standard estimator.
+To assess how much is "lost" by the robust estimator compared to the classical
+one in terms of efficiency, we consider one last simulation where we examine 
+the performance of two estimators on data issued from the uncontaminated model,
+i.e. $(X_t)$. Therefore, the only difference between this simulation and the 
+previous one is the value of $\alpha$ set equal to $0$; the code shall thus be omitted
+and the results are depicted below:
+  
+```{r simulationRobust3, cache = TRUE, echo = FALSE, fig.height = 5.5, fig.width = 7}
+# TO DO
+```
+
+It can be observed that both estimators provide extremely similar results,
+although the robust estimator is slightly more variable.
+
+Next, we consider the issue of robustness on the real data set coming from the
+domain of hydrology presented in Section \@ref(eda). This data concerns monthly
+precipitation (in mm) over a certain period of time (1907 to 1972). Let us 
+compare the standard and robust estimators of the autocorrelation functions:
+  
+```{r hydro_ACF, cache = TRUE, fig.height = 4, fig.width = 7}
+# TO DO
+```
+
+It can be seen that, under certain assumptions (e.g. linear dependence), the 
+standard estimator does not detect any significant autocorrelation between lags
+since the estimations all lie within the asymptotic confidence intervals. However,
+many of the robust estimations lie outside these confidence intervals at different 
+lags indicating that there could be dependence within the data. If one were only to
+rely on the standard estimator in this case, there may be erroneous conclusions
+drawn on this data. Robustness issues therefore need to be considered for any 
+time series analysis, not only when estimating the 
+autocorrelation (autocovariance) functions.
+
+Finally, we return to S&P 500 returns and compare the classical and robust
+autocorrelation estimators, which are presented in the figure below.
+
+```{r GSPCracf, cache = TRUE, fig.height = 4, fig.width = 7}
+# TO DO
+```
+
+It can be observed that both estimators are very similar. Nevertheless, some
+small discrepancies can be observed. In particular, the robust estimators seem
+to indicate an absence of linear dependence while a slightly different
+interpretation might be achieved with the classical estimator.
+
+
+## Joint Stationarity
+
+The notion of joint stationarity implies that the time series under
+investigation is bivariate in nature, e.g. $\left(X_t \right)$ and 
+$\left(Y_t\right)$ are two distinct time series with matching time points.
+In order to fulfill bivariate stationarity, both processes
+must be considered *weakly stationary* (with constant mean and autocovariance
+dependent on lag $h$) and there must exist a cross-covariance function between them, 
+depenent only on lag $h$.
+The ideas discussed next can extended beyond the bivariate case to a general 
+multivariate setting.
+
+```{definition, label="crosscov"}
+The **cross-covariance** function of two jointly stationary processes
+$\left\{X_t\right\}$ and $\left\{Y_t\right\}$ is given by:
+  
+  \[{\gamma _{XY}}\left( {t + h,t} \right) = \text{cov}\left( {{X_{t+h}},{Y_{t}}} \right) =
+      \e{\left( {{X_{t + h}} - {\mu _X}} \right)\left( {{Y_t} - {\mu _Y}} \right)} = {\gamma _{XY}}\left( h \right)\]
+```
+
+Unlike the symmetry found in the autocovariance function of a stationary
+process $\left\{X_t\right\}$, e.g. $\gamma_X(h) = \gamma_X(-h)$, the cross-covariance
+function is only equal when $\gamma_{XY}(h) = \gamma_{YX}(-h)$. Notice the
+switch in indices and negative lag change.
+
+```{definition, label="crosscorr"}
+The *cross-correlation* function for two jointly stationary time series
+$\left\{X_t\right\}$ and $\left\{Y_t\right\}$ can be expressed as:
+  
+  \[{\rho _{XY}}\left( {t+h,t} \right) = \frac{{{\gamma _{XY}}\left( {t + h,t} \right)}}{{\sqrt {{\gamma _X}\left( 0 \right)} \sqrt {{\gamma _Y}\left( 0 \right)} }} = \frac{{{\gamma _{XY}}\left( h \right)}}{{{\sigma _{{X_{t+h}}}}{\sigma _{{Y_{t}}}}}} = {\rho _{XY}}\left( h \right)\]
+```
+
+Due to the previously discussed symmetry regarding the cross-covariance function,
+note that the cross-correlation function also only has equality when 
+$\rho_{XY}(h) = \rho_{YX}(-h)$. Thus, note that $\rho_{XY}(h) \neq \rho_{XY}(-h)$.
+
+```{example, label="ccfjs"}
+Consider two time series processes given by:
+  
+  \[\begin{aligned}
+     {X_t} &= {W_t} - {W_{t-1}} \\
+     {Y_t} &= {W_t} + {W_{t-1}} \\ 
+     \end{aligned} \]
+
+where $W_t \sim WN(0, \sigma^2_W)$.
+
+First check to see if $\left\{X_t\right\}$ and $\left\{Y_t\right\}$ are weakly stationary.
+
+The means of both time series are evident to be
+\[\begin{aligned}
+   E\left[ {{X_t}} \right] &= E\left[ {{Y_t}} \right] = 0 \\
+   \end{aligned} \]
+
+The autocovariance for $\left\{X_t\right\}$ is given as:
+  
+  \[\begin{aligned}
+     {\gamma _X}\left( h \right) &= \text{cov} \left( {{X_{t + h}},{X_t}} \right) \\
+     &= \text{cov} \left( {{W_{t + h}} - {W_{t + h - 1}},{W_t} - {W_{t - 1}}} \right) \\
+     &= {1_{\left\{ {h = 0} \right\}}}2{\sigma ^2} + {1_{\left\{ {h =  - 1} \right\}}}{-\sigma ^2} + {1_{\left\{ {h = 1} \right\}}}{-\sigma ^2} \\
+     &= \begin{cases}
+     2\sigma^2_W, &\text{if} h = 0 \\
+     -\sigma^2_W, &\text{if} \left|h\right| = 1 \\
+     0, &\text{if} \left|h\right| \ge 1 
+     \end{cases} 
+     \end{aligned} \]
+
+Similarly, the autocovariance for $\left\{Y_t\right\}$ is calculated to be:
+  
+  \[\begin{aligned}
+     {\gamma _Y}\left( h \right) &= \text{cov} \left( {{Y_{t + h}},{Y_t}} \right) \\
+     &= \text{cov} \left( {{W_{t + h}} + {W_{t + h - 1}},{W_t} + {W_{t - 1}}} \right) \\
+     &= {1_{\left\{ {h = 0} \right\}}}2{\sigma ^2} + {1_{\left\{ {h =  - 1} \right\}}}{\sigma ^2} + {1_{\left\{ {h = 1} \right\}}}{\sigma ^2} \\ 
+     &= \begin{cases}
+     2\sigma^2_W, &\text{if} h = 0 \\
+     \sigma^2_W, &\text{if} \left|h\right| = 1 \\
+     0, &\text{if} \left|h\right| \ge 1 
+     \end{cases} 
+     \end{aligned} \]
+
+Next, the cross-covariance for $\left\{X_t\right\}$ and $\left\{Y_t\right\}$:
+  
+  \[\begin{aligned}
+     {\gamma _{XY}}\left( h \right) &= \text{cov} \left( {{X_{t + h}},{Y_t}} \right) \\
+     &= \text{cov} \left( {{W_{t + h}} - {W_{t + h - 1}},{W_t} + {W_{t-1}}} \right)  \\ 
+     &= \begin{cases}
+     0, &\text{if } h = 0 \\
+     -\sigma^2_W, &\text{if } h = 1 \\
+     \sigma^2_W, &\text{if } h = -1 \\
+     0, &\text{if } h \ge 2
+     \end{cases}
+     \end{aligned}\]
+
+Therefore, based on obtain the weak stationarity for each process and obtain a
+cross-covariance function that only depends on the lag $h$, the process is
+joint stationary. 
+
+Furthermore, we also have the cross-correlation function as:
+  
+  \[{\rho _{XY}}\left( {{X_{t + h}},{Y_t}} \right) = \frac{{{\gamma _{XY}}\left( h \right)}}{{{\sigma _X}{\sigma _Y}}} = \frac{{{\gamma _{XY}}\left( h \right)}}{{\sqrt {{\gamma _x}\left( 0 \right)} \sqrt {{\gamma _y}\left( 0 \right)} }} = \frac{{{\gamma _{XY}}\left( h \right)}}{{{\gamma _X}\left( 0 \right)}} = \begin{cases}
+    0, &\text{if } h = 0 \\
+    -\frac{1}{2}, &\text{if } h = 1 \\
+    \frac{1}{2}, &\text{if } h = -1 \\
+    0, &\text{if } h \ge 2
+    \end{cases}\]
+```
+
+### Sample Cross-Covariance and Cross-Correlation Functions
+
+A natural estimator of the *cross-covariance function* is given by:
+  
+  \[{{\hat \gamma }_{XY}}\left( h \right) = \frac{1}{T}\sum\limits_{t = 1}^{T - h} {\left( {{X_{t + h}} - \bar X} \right)\left( {{Y_t} - \bar Y} \right)} \]
+
+With this in mind, the "plug-in" estimator for the *cross-correlation function*
+  follows:
+  
+  \[{{\hat \rho }_{XY}}\left( h \right) = \frac{{{{\hat \gamma }_{XY}}\left( h \right)}}{{\sqrt {{{\hat \gamma }_X}\left( 0 \right)} \sqrt {{{\hat \gamma }_Y}\left( 0 \right)} }}\]
+
+Both of the above estimators are again only symmetric under the above index
+and lag transformation.
+
+
+## Portmanteau test
+
+In this section we give a brief introduction to Portmanteau tests used in time
+series analysis. In linear regression, we always need to do a diagnostic test for
+residuals after building our model, to check whether our assumptions are 
+satisfied. If there is no evidence to reject any of the assumptions, we can say
+that the linear model we built is adequate. Otherwise, if the linear model is not
+adequate, some modifications or transformations need to be done either for the
+previous model or for the data. This rule also applies to time series modeling.
+In time series analysis, a wide variety of Portmanteau tests can be used to 
+check the white noise residuals assumption. We will introduce two of them as 
+follows, which are based on the ACF of residuals, in order to illustrate some 
+of ideas behind these kinds of tests.
+
+Dating back to 1970, Box and Pierce proposed the well-known Box-Pierce test
+statistic with the following form:
+  
+  $$Q_{BP} = n\sum_{h =1}^m \hat{\rho}_h^2,$$
+  
+  where the empirical autocorrelation of residuals at lag $h$ is defined
+as $\hat{\rho}_h = \frac{\hat{\gamma}(h)}{\hat{\gamma}(0)}$. It is obvious that
+under the alternative hypothesis, $\hat{\rho}_h$ would be deviate from $0$, thus a
+large $Q_{BP}$ gives us the evidence to reject the null. Under the null
+hypothesis that the residuals are white noise (or equivalently the time series 
+are adequate), it can be shown that when $n \to \infty$, we have
+
+$$Q_{BP} \overset{\mathcal{D}}{\to} \chi^2_{m - m^{\prime}},$$
+where $m^{\prime}$ is the number of parameters in the time series model.
+
+## Proof
+We can write the autocorrelation $\bm{\rho} = \left(\rho(1), \rho(2), \dots, \rho(m)\right)^T$, and the sample autocorrelation $\bm{\hat{\rho}} = \left(\hat{\rho}(1), \hat{\rho}(2), \dots, \hat{\rho}(m)\right)^T$.
+
+According to Theorem A.7 in the textbook, under the data generating process $X_t = W_t + \mu$, where $\mu < \infty$ and $(W_t)$ is a strong white noise process with variance $\sigma^2$ and finite fourth moment (i.e. $\mathbb{E} [W_t^4] < \infty$), we have 
+$$\sqrt{n} \left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right) \overset{\mathcal{D}}{\to} V,$$
+  where the $(p,q)^{th}$ element of $V$ is
+$$v_{pq} = \sum_{u=1}^{\infty}\left[ \rho(u+p) + \rho(u-p) - 2\rho(p)\rho(u) \right] \times \left[ \rho(u+p) + \rho(u-p) - 2\rho(p)\rho(u) \right].$$
+  And since $V$ is a positive definite covariance matrix, it follows that
+$$\sqrt{n} V^{-\frac{1}{2}}\left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right) \overset{\mathcal{D}}{\to} \mathcal{N}(\mathbf{0}, I),$$
+  and also
+$$n \left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right)^T V^{-1} \left(\mathbf{\hat{\rho}} - \mathbf{\rho}\right) \overset{\mathcal{D}}{\to} \chi^2_m,$$
+  Since under the null, $\mathbf{\rho} = \mathbf{0}$, we have 
+$$v_{pq} = 
+  \begin{cases}
+0, \; p \neq q\\
+1, \; p = q
+\end{cases}
+.$$
+  
+  Thus, it's easy to show that the Box and Pierce test statistic 
+$$Q_{BP} = n\sum_{h =1}^m \hat{\rho}_h^2,$$
+under that data generating process would follow a $\chi^2$ distribution 
+with $m$ degree of freedom.
+
+Before, we supposed that we knew $\mu$ in our data generating process exactly,
+and hence no unknown parameter needed be estimated. Now, suppose $\mu$ is
+unknown and contains $m^{\prime}$ number of unknown parameters which we have 
+to estimate. As we know, if our model for $\mu$ is correctly specified and
+those $m^{\prime}$ unknown parameters are appropriately estimated, then the 
+underlying model of the residules of the fitted model would be $W_t$ as before,
+but the $m^{\prime}$ number of true parameters are replaced by their estimators.
+Then $Q_{BP}$ will still asymptotically follows $\chi^2$ but
+with $m - m^{\prime}$ degree of freedom. $\;\;\;\;\;\;\;\; \blacksquare$
+
+
+Then on 1978, Ljung and Box improved Box-Pierce test by standardizing
+each $\hat{\rho}_h$ by its asymptotic variance. The Ljung and Box test
+statistic is
+
+$$Q_{LB} = n\sum_{h =1}^m \frac{n+2}{n-h}\hat{\rho}_h^2.$$
+
+It can also be shown that $Q_{LB} \overset{\mathcal{D}}{\to} \chi^2_{m - m^{\prime}}$ under
+the null. However, compared to $Q_{BP}$, the distribution of $Q_{BP}$ under the
+null is closer to $\chi^2_{m - m^{\prime}}$, when $n$ is finite.
+
+In the above two examples, the test statistic contains a user specified
+parameter $m$. And for different $m$, the power of the test would be different.
+Thus, much work has gone into either finding an approach for selecting the optimal $m$, 
+or finding a new test statistic without user specified parameters. Moreover, testing 
+white noise can also be done by checking PACF, or by checking spectral density in the
+frequency domain. Therefore, these differing approaches have lead to many different 
+Portmanteau tests.
+
+Take for an example the following use of a Portmanteau test to show the 
+distribution of test statistics under the null:
+
+```{r dist_null_portmanteau, cache = TRUE}
+
+# set seed
+set.seed(1345)
+
+# Specify models
+model = WN(sigma2 = 1) # WN
+
+B = 1000 # number of parametric bootstrap
+BP.obs = rep(NA, B)
+LB.obs = rep(NA, B)
+
+for (j in seq_len(B)){
+x = gen_gts(1000, model)
+BP.obs[j] = Box.test(x, lag = 10, "Box-Pierce", fitdf = 0)$statistic
+LB.obs[j] = Box.test(x, lag = 10, "Ljung-Box", fitdf = 0)$statistic
+}
+
+sim_results = data.frame(sim = c(BP.obs, LB.obs),
+simtype = c(rep("Box-Pierce",B), rep("Ljung-Box",B)))
+
+ggplot(data = sim_results, aes(x = sim)) + 
+geom_histogram(aes(y = ..density.., fill = simtype),
+binwidth = 1, color = "black") +
+stat_function(fun = dchisq, args = list(df = 10)) +
+facet_wrap( ~ simtype) + ylim(0, 0.12) + 
+labs(fill = "Statistic", title = "Histogram of the Observed Test Statistics",
+y = "Density", x = "Observed Test Statistic")
+```
+
+From the histogram, we can see that under the null the distribution of both BP
+and LB are close to a Chi-square distribution, but LP is slightly better.
+
+Consider the following simulation that shows how the test depends on specified $m$
+and displays the distribution of P-values under different alternatives.
+
+```{r alternatives_port, cache = TRUE}
+# Set seed
+set.seed(1234)
+
+# Specify models
+model1 = WN(sigma2 = 1)                         # WN
+model2 = AR(phi = 0.3, sigma2 = 1)              # AR(1)
+model3 = AR(phi = c(rep(0,9), 0.3), sigma2 = 1) # seasonal AR(10)
+
+B = 1000 # number of parametric bootstrap
+LB.pvalue = matrix(NA, nrow = B, ncol = 6)
+
+for (i in 1:3){
+for (j in seq_len(B)){
+x = gen_gts(1000, get(paste0("model", i)))
+LB.pvalue[j,2*i-1] = Box.test(x, lag = 1, "Ljung-Box", fitdf = 0)$p.value
+LB.pvalue[j,2*i] = Box.test(x, lag = 10, "Ljung-Box", fitdf = 0)$p.value
+}
+}
+
+para_1 = data.frame(lag = 1, LB.pvalue[, c(1,3,5)])
+para_2 = data.frame(lag = 2, LB.pvalue[, c(2,4,6)])
+para = rbind(para_1, para_2)
+
+colnames(para)[2:4] = c("WN", "AR(1)", "Seasonal AR(10)")
+
+library(reshape2)
+para.melt = melt(para, id.vars = "lag")
+
+ggplot(data = para.melt, aes(x=variable, y=value)) + 
+geom_boxplot(aes(fill=factor(lag))) + facet_wrap( ~ variable, scales="free") +
+ggtitle("Simulated P-value") +
+scale_fill_hue(name="Specified m", breaks = c(1,2) , labels = c("m=1", "m=10"))
+```

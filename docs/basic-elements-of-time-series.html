@@ -32,7 +32,7 @@
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="prev" href="index.html">
-<link rel="next" href="references.html">
+<link rel="next" href="fundtimeseries.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -153,6 +153,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#lts"><i class="fa fa-check"></i><b>2.3</b> Composite Stochastic Processes</a></li>
 </ul></li>
+<li class="chapter" data-level="3" data-path="fundtimeseries.html"><a href="fundtimeseries.html"><i class="fa fa-check"></i><b>3</b> Fundamental Properties of Time Series</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#the-autocorrelation-and-autocovariance-functions"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#a-fundamental-representation"><i class="fa fa-check"></i><b>3.1.1</b> A Fundamental Representation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#admissible-autocorrelation-functions"><i class="fa fa-check"></i><b>3.1.2</b> Admissible Autocorrelation Functions 😱</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#stationary"><i class="fa fa-check"></i><b>3.2</b> Stationarity</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#assessing-weak-stationarity-of-time-series-models"><i class="fa fa-check"></i><b>3.2.1</b> Assessing Weak Stationarity of Time Series Models</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/SMAC-Group/ts" target="blank">Published with bookdown</a></li>
@@ -176,15 +185,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="basic-elements-of-time-series" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Basic Elements of Time Series</h1>
+<blockquote>
+<p>“<em>Prévoir consiste à projeter dans l’avenir ce qu’on a perçu dans le passé.</em>” – Henri Bergson</p>
+</blockquote>
 
 <div class="rmdimportant">
 <p>To make use of the R code within this chapter you will need to install (if not already done) and load the following libraries:</p>
 <ul>
 <li><a href="http://simts.smac-group.com/">simts</a>;</li>
-<li><a href="https://cran.r-project.org/web/packages/astsa/index.html">astsa</a>.</li>
-<li><a href="https://cran.r-project.org/web/packages/mgcv/index.html">mgcv</a></li>
+<li><a href="https://cran.r-project.org/web/packages/astsa/index.html">astsa</a>;</li>
+<li><a href="https://cran.r-project.org/web/packages/mgcv/index.html">mgcv</a>.</li>
 </ul>
-These library can be install as follows:
+These libraries can be install as follows:
 </div>
 
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;devtools&quot;</span>, <span class="st">&quot;astsa&quot;</span>, <span class="st">&quot;mgcv&quot;</span>))
@@ -207,7 +219,7 @@ globtemp =<span class="st"> </span><span class="kw">gts</span>(globtemp, <span c
 <p><span class="math display">\[
 X_t = f(t) + \varepsilon_t,
 \]</span>
-where <span class="math inline">\(X_t\)</span> denotes the global temperatures deviation and <span class="math inline">\(f(\cdot)\)</span> is a “smooth” function such that <span class="math inline">\(\mathbb{E}[X_t] - f(t) = 0\)</span> for all <span class="math inline">\(t\)</span>. In general, <span class="math inline">\(\varepsilon_t\)</span> is assumed to follow a normal distribution for simplicity. The goal in this context would therefore be to evaluate if <span class="math inline">\(f(t)\)</span> (or a suitable estimator of this function) is an increasing function. In order to do so, we would require the residuals from the fitted model to be independently and identically distributed (iid). Let us fit a (nonparametric) model with the years (time) as explanatory variable using the code below:</p>
+where <span class="math inline">\(X_t\)</span> denotes the global temperatures deviation and <span class="math inline">\(f(\cdot)\)</span> is a “smooth” function such that <span class="math inline">\(\mathbb{E}[X_t] - f(t) = 0\)</span> for all <span class="math inline">\(t\)</span>. In general, <span class="math inline">\(\varepsilon_t\)</span> is assumed to follow a normal distribution for simplicity. The goal in this context would therefore be to evaluate if <span class="math inline">\(f(t)\)</span> (or a suitable estimator of this function) is an increasing function (especially over the last decades). In order to do so, we would require the residuals from the fitted model to be independently and identically distributed (iid). Let us fit a (nonparametric) model with the years (time) as explanatory variable using the code below:</p>
 <pre class="sourceCode r"><code class="sourceCode r">time =<span class="st"> </span><span class="kw">gts_time</span>(globtemp)
 fit =<span class="st"> </span><span class="kw">gam</span>(globtemp <span class="op">~</span><span class="st"> </span><span class="kw">s</span>(time))</code></pre>
 <p>and check the residuals from this model using:</p>
@@ -218,11 +230,11 @@ fit =<span class="st"> </span><span class="kw">gam</span>(globtemp <span class="
 <p><span class="math display">\[X_t = \beta \cdot t + Y_t,\]</span>
 where
 <span class="math display">\[Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \varepsilon_t,\]</span>
-and where <span class="math inline">\(\varepsilon_t \sim \mathcal{N}(0, \sigma^2)\)</span>. Intuitively, <span class="math inline">\(Y_t\)</span> is not an <em>iid</em> sequence of random variables except in the case where <span class="math inline">\(\phi_1 = \phi_2 = 0\)</span>. In the following chapters we shall see that this intuition is correct and that this model is known as an AR(2) model. Considering this, we simulate two cases where, in the first, the residuals are actually <em>iid</em> Gaussian while, in the second, the residuals are Gaussian but are dependent over time. The parameters employed in both cases are <span class="math inline">\(\beta = 5 \cdot 10^{-3}\)</span> and <span class="math inline">\(\sigma^2 = 1\)</span> but in the first case we used <span class="math inline">\(\phi_1 = \phi_2 = 0\)</span> (i.e. <em>iid</em> residuals) while in the latter <span class="math inline">\(\phi_1 = 0.8897\)</span>, <span class="math inline">\(\phi_2 = -0.4858\)</span>. In both cases, we perform the hypothesis test:</p>
+and where <span class="math inline">\(\varepsilon_t \sim \mathcal{N}(0, \sigma^2)\)</span>. Intuitively, <span class="math inline">\(Y_t\)</span> is not an <em>iid</em> sequence of random variables except in the case where <span class="math inline">\(\phi_1 = \phi_2 = 0\)</span>. In the following chapters we shall see that this intuition is correct and that this model is known as an AR(2) model. Considering this, we simulate two cases where, in the first, the residuals are actually <em>iid</em> Gaussian while, in the second, the residuals are Gaussian but are dependent over time. In the first case, the only parameters that explain <span class="math inline">\(X_t\)</span> are <span class="math inline">\(\beta = 5 \cdot 10^{-3}\)</span> and <span class="math inline">\(\sigma^2 = 1\)</span> since the residuals <span class="math inline">\(Y_t\)</span> are <em>iid</em> (i.e. <span class="math inline">\(\phi_1 = \phi_2 = 0\)</span>). In the second case however, aside from the mentioned parameters we also have <span class="math inline">\(\phi_1 = 0.8897\)</span>, <span class="math inline">\(\phi_2 = -0.4858\)</span>. In both cases, we perform the hypothesis test:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \text{H}_0:&amp; \;\;\; \beta = 0\\
-\text{H}_1:&amp; \;\;\; \beta &gt; 0,
+\text{H}_1:&amp; \;\;\; \beta &gt; 0
 \end{aligned}
 \]</span>
 as our hope is to prove, similarly to the global temperature deviation example, that <span class="math inline">\(f(t)\)</span> is an increasing function. Our syntetic data are simulated as follows:</p>
@@ -271,7 +283,7 @@ model2 &lt;-<span class="st"> </span><span class="kw">lm</span>(Xt_case2 <span c
 ## Residual standard error: 0.9583 on 99 degrees of freedom
 ## Multiple R-squared:  0.05436,    Adjusted R-squared:  0.04481 
 ## F-statistic: 5.691 on 1 and 99 DF,  p-value: 0.01895</code></pre>
-<p>As can be seen, in the first case the estimated slope (<span class="math inline">\(\approx\)</span> 0.004) is close to the true slope (0.005) and is significant (i.e. the p-value is smaller than the common rejection level 0.05) since the p-value of the above mentioned test is given by 0.0095. Hence, from this inference procedure we can conclude at the 5% significance level that the slope is significantly larger than zero and is roughly equal to 0.004 (which cis relatively close to the truth). However, let us perform the same analysis when the residuals are not independent (the second case) by examining its “summary”:</p>
+<p>As can be seen, in the first case the estimated slope (<span class="math inline">\(\approx\)</span> 0.004) is close to the true slope (0.005) and is significant (i.e. the p-value is smaller than the common rejection level 0.05) since the p-value of the above mentioned test is given by 0.0095. Hence, from this inference procedure we can conclude at the 5% significance level that the slope is significantly larger than zero and is roughly equal to 0.004 (which is relatively close to the truth). However, let us perform the same analysis when the residuals are not independent (the second case) by examining its “summary”:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(model2)</code></pre>
 <pre><code>## 
 ## Call:
@@ -288,10 +300,8 @@ model2 &lt;-<span class="st"> </span><span class="kw">lm</span>(Xt_case2 <span c
 ## Residual standard error: 1.538 on 99 degrees of freedom
 ## Multiple R-squared:  0.001408,   Adjusted R-squared:  -0.008679 
 ## F-statistic: 0.1396 on 1 and 99 DF,  p-value: 0.7095</code></pre>
-<p>In this case we can observe that the p-value of the above mentioned test is given by 0.3547 and is therefore greater than the arbitrary value of 0.05. Consequently, we don’t have evidence to conclude that the slope coefficient is larger than zero (i.e. we fail to reject H<span class="math inline">\(_0\)</span>) although it is actually so in reality. Therefore, the inference procedures can be misleading when not taking into account other possible significant variables or, in this case, forms of dependence that can hide true underlying effects.</p>
-<p>I WOULD ADD SOMETHING HERE ABOUT THE FACT THAT THIS IS A SIMPLE INDICATION AND SHOUD BE REPLIACATE TO TAKE A CONCLUSION.</p>
-<p>The above examples therefore highlight how the approach to analysing time series does not only rely on finding an appropriate model that describes the evolution of a variable as a function of time (which is deterministic). Indeed, one of the main focuses of time series analysis consists in modelling the dependence structure that describes how random variables impact each other as a function of time. In other words, a time series is a collection of random variables whose interaction and dependence structure is indexed by time.</p>
-<p>ADD SOMETHING HERE ABOUT THE OTHER GOAL OF TIME SERIES WHICH IS FORECASTING</p>
+<p>In this case we can observe that the p-value of the above mentioned test is given by 0.3547 and is therefore greater than the arbitrary value of 0.05. Consequently, we don’t have evidence to conclude that the slope coefficient is larger than zero (i.e. we fail to reject H<span class="math inline">\(_0\)</span>) although it is actually so in reality. Therefore, the inference procedures can be misleading when not taking into account other possible significant variables or, in this case, forms of dependence that can hide true underlying effects. The above is only one example and there are therefore cases where, despite dependence in the residuals, the estimated slope would be deemed significant even when not considering this dependence structure. However, if we decided to repeat this experiment using a larger quantity of simulated samples, we would probably see that we fail to reject the null hypothesis much more frequently in the case where we don’t consider dependence when there actually is.</p>
+<p>These examples therefore highlight how the approach to analysing time series does not only rely on finding an appropriate model that describes the evolution of a variable as a function of time (which is deterministic). Indeed, one of the main focuses of time series analysis consists in modelling the dependence structure that describes how random variables impact each other as a function of time. In other words, a time series is a collection of random variables whose interaction and dependence structure is indexed by time. Based on this structure, one of the main goals of time series analysis is to correctly estimate the dependence mechanism and consequently deliver forecasts that are as accurate as possible considering the deterministic functions of time (and other variables) as well as the random dependence structure.</p>
 <div id="the-wold-decomposition" class="section level2">
 <h2><span class="header-section-number">2.1</span> The Wold Decomposition</h2>
 <p>The previous discussion highlighted how a time series can be decomposed into a deterministic component and a random component. Leaving aside technical rigour, this characteristic of time series was put forward in Wold’s Decomposition Theorem who postulated that a time series <span class="math inline">\((Y_t)\)</span> (where <span class="math inline">\(t = 1,...,n\)</span> represents the time index) can be very generically represented as follows:</p>
@@ -354,7 +364,7 @@ fit_jj1 =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">as
 X_t = \alpha + \beta_1 t + \beta_2 t^2 + \varepsilon_t,
 \tag{2.2}
 \end{equation}\]</span>
-<p>The results of this regression is presented on the graphs below:</p>
+<p>The results of this regression are presented on the graphs below:</p>
 <p><img src="ts_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">simple_diag_plot</span>(jj, fit_jj2)</code></pre>
 <p><img src="ts_files/figure-html/lmresid2-1.png" width="624" style="display: block; margin: auto;" /></p>
@@ -380,17 +390,16 @@ X_t = \alpha + \beta_1 t + \beta_2 t^2 + \sum_{i = 1}^4 \gamma_i I_{t \in \mathc
 <p><img src="ts_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">simple_diag_plot</span>(jj, fit_jj3)</code></pre>
 <p><img src="ts_files/figure-html/lmresid3-1.png" width="624" style="display: block; margin: auto;" /></p>
-<p>ADD SOMETHING ON INCREASING VARIANCE?? + DOES NOT COMPLETELY FIX THE PROBLEM OF SEASONALITY.</p>
-<p>This final fit appears to well describe the behaviour of the earnings. Hence, <em>trend</em> and <em>seasonality</em> are the main features that characterize the deterministic component of a time series. However, as discussed earlier, these deterministic components often don’t explain all of the observed time series since there is often a random component characterizing data measured over time. Not considering the latter component can have considerable impacts on the inference procedures (as seen earlier) and it is therefore important to adequately analyse them (see next section).</p>
+<p>This final fit appears to well describe the behaviour of the earnings although there still appears to be a problem of heteroskedasticity (i.e. change in variance) and random seasonality (both of which will be treated further on in this text). Hence, <em>trend</em> and <em>seasonality</em> are the main features that characterize the deterministic component of a time series. However, as discussed earlier, these deterministic components often don’t explain all of the observed time series since there is often a random component characterizing data measured over time. Not considering the latter component can have considerable impacts on the inference procedures (as seen earlier) and it is therefore important to adequately analyse them (see next section).</p>
 </div>
 <div id="the-random-component-noise" class="section level3">
 <h3><span class="header-section-number">2.1.2</span> The Random Component (Noise)</h3>
 <p>From this section onwards we will refer to <em>time series as being solely the random noise component</em>. Keeping this in mind, a <em>time series</em> is a particular kind of <em>stochastic process</em> which, generally speaking, is a collection of random variables indexed by a set of numbers. Not surprisingly, the index of reference for a time series is given by <em>time</em> and, consequently, a time series is a collection of random variables indexed (or “measured”) over time such as, for example, the daily price of a financial asset or the monthly average temperature in a given location. In terms of notation, a time series is often represented as</p>
-<p><span class="math display">\[\left(X_1, X_2, ..., X_n \right) \;\;\; \text{ or } \;\;\; \left(X_t\right)_{t = 1,...,n}.\]</span></p>
+<p><span class="math display">\[\left(X_1, X_2, ..., X_T \right) \;\;\; \text{ or } \;\;\; \left(X_t\right)_{t = 1,...,T}.\]</span></p>
 <p>The time index <span class="math inline">\(t\)</span> is contained within either the set of reals, <span class="math inline">\(\mathbb{R}\)</span>, or
-integers, <span class="math inline">\(\mathbb{N}\)</span>. When <span class="math inline">\(t \in \mathbb{R}\)</span>, the time series becomes a
-<em>continuous-time</em> stochastic process such a Brownian motion, a model used to
-represent the random movement of particles within a suspended liquid or gas. However, within this book, we will limit ourselves to the cases where <span class="math inline">\(t \in \mathbb{N}\)</span>, better known as <em>discrete-time</em> processes. Discrete-time processes are measured sequentially at fixed
+integers, <span class="math inline">\(\mathbb{Z}\)</span>. When <span class="math inline">\(t \in \mathbb{R}\)</span>, the time series becomes a
+<em>continuous-time</em> stochastic process such as a Brownian motion, a model used to
+represent the random movement of particles within a suspended liquid or gas. However, within this book, we will limit ourselves to the cases where <span class="math inline">\(t \in \mathbb{Z}\)</span>, better known as <em>discrete-time</em> processes. Discrete-time processes are measured sequentially at fixed
 and equally spaced intervals in time. This implies that we will uphold two general assumptions for the time series considered in this book:</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(t\)</span> is not random, e.g. the time at which each observation is measured is known, and</li>
@@ -398,7 +407,7 @@ and equally spaced intervals in time. This implies that we will uphold two gener
 </ol>
 <p>This book will also focus on certain representations of time series based on parametric probabilistic models. For example, one of the fundamental probability models used in time series analysis is called the <em>white noise</em> model and is defined as</p>
 <p><span class="math display">\[X_t \mathop \sim \limits^{iid} N(0, \sigma^2).\]</span></p>
-<p>This statement simply means that <span class="math inline">\((X_t)\)</span> is normally distributed and independent over time. Ideally, this is the type of process that we would want to observe once we have performed a statistical modelling procedure. However, despite it appearing to be an excessively simple model to be considered for time series, it is actually a crucial component to construct a wide range of more complex time series models (see Chapter 3). Indeed, unlike the white noise process, time series are typically <em>not</em> independent over time. For example, if we suppose that the temperature in State College is unusually low on a given day, then it is reasonable to assume that temperature the day after will also be low.</p>
+<p>This statement simply means that <span class="math inline">\((X_t)\)</span> is normally distributed and independent over time. Ideally, this is the type of process that we would want to observe once we have performed a statistical modelling procedure. However, despite it appearing to be an excessively simple model to be considered for time series, it is actually a crucial component to construct a wide range of more complex time series models (see Chapter <a href="fundtimeseries.html#fundtimeseries">3</a>). Indeed, unlike the white noise process, time series are typically <em>not</em> independent over time. For example, if we suppose that the temperature in State College is unusually low on a given day, then it is reasonable to assume that the temperature the day after will also be low.</p>
 <p>With this in mind, let us now give a quick overview of the information that can be retrieved on a time series from a simple descriptive representation.</p>
 <div id="eda" class="section level4">
 <h4><span class="header-section-number">2.1.2.1</span> Exploratory Data Analysis for Time Series</h4>
@@ -477,13 +486,25 @@ hydro =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.
 <span class="co"># Plot hydro </span>
 <span class="kw">plot</span>(hydro)</code></pre>
 <p><img src="ts_files/figure-html/example_hydro-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Next, we consider an example coming from high-frequency finance to illustrate
-the limitations our current framework.</p>
-<p>The figure below presents the returns or price innovations
+<p>We can see how most observations lie below 2mm but there appear to be different observations that go beyond this and appear to be larger than the others. These could be possible outliers that can greatly affect the estimation procedure if not taken adequately into account.</p>
+<p>Next, we consider an example coming from high-frequency finance. The figure below presents the returns or price innovations
 (i.e. the changes in price from one observation to the
 next) for Starbuck’s stock on July 1, 2011 for about 150 seconds (left
 panel) and about 400 minutes (right panel).</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># TO DO add Duke&#39;s code here!</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load &quot;high-frequency&quot; Starbucks returns for July 01 2011</span>
+<span class="kw">data</span>(sbux.xts, <span class="dt">package =</span> <span class="st">&quot;highfrequency&quot;</span>)
+
+<span class="co"># Plot returns</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+
+<span class="kw">plot</span>(<span class="kw">gts</span>(sbux.xts[<span class="dv">1</span><span class="op">:</span><span class="dv">89</span>]), 
+     <span class="dt">main =</span> <span class="st">&quot;Starbucks: 150 Seconds&quot;</span>, 
+     <span class="dt">ylab =</span> <span class="st">&quot;Returns&quot;</span>) 
+
+<span class="kw">plot</span>(<span class="kw">gts</span>(sbux.xts), 
+     <span class="dt">main =</span> <span class="st">&quot;Starbucks: 400 Minutes&quot;</span>, 
+     <span class="dt">ylab =</span> <span class="st">&quot;Returns&quot;</span>)</code></pre>
+<p><img src="ts_files/figure-html/example_Starbucks-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>It can be observed on the left panel that observations are not equally spaced.
 Indeed, in high-frequency data the intervals between two points are typically not
 constant and are, even worse, random variables. This implies that the time when
@@ -516,6 +537,11 @@ vehicle stability control, human and animal motion capture and so forth:</p>
 high frequencies over a long time and are often characterized by linear trends
 and numerous underlying stochastic processes.</p>
 <p>The code below retrieves some data from an IMU and plots it directly:</p>
+
+<div class="rmdimportant">
+To access the IMU time series represented below you must install the imudata package which can be found at this <a href="https://github.com/SMAC-Group/imudata">link</a>.
+</div>
+
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load IMU data</span>
 <span class="kw">data</span>(imu6, <span class="dt">package =</span> <span class="st">&quot;imudata&quot;</span>)
 
@@ -529,8 +555,7 @@ Xt =<span class="st"> </span><span class="kw">gts</span>(imu6[,<span class="dv">
 <p><img src="ts_files/figure-html/example_IMU-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Although a linear trend and other processes are present in this signal
 (time series), it is practically impossible to understand or guess anything
-from the plot.</p>
-<p>Having discussed these representations (and the relative issues with these representations) let us present the basic parametric models that are used to build even more complex models to describe and predict the behaviour of a time series.</p>
+from the plot. For this reason, other types of representations are available to understand the behaviour of a time series and will be discussed in the next chapter. Having discussed these representations (and the relative issues with these representations) let us present the basic parametric models that are used to build even more complex models to describe and predict the behaviour of a time series.</p>
 </div>
 </div>
 </div>
@@ -654,7 +679,7 @@ represented below:</p>
 <blockquote>
 <p>“<em>the most likely place to find a drunken walker is somewhere near his starting point.</em>”</p>
 </blockquote>
-<p>Empirical evidence of this phenomenon is not too hard to find on a Friday or Saturday night. This two dimensional process may easily be extended in three dimension and an example of a simulation of such process is presented in the animation below:</p>
+<p>Empirical evidence of this phenomenon is not too hard to find on a Friday or Saturday night. This two-dimensional process may easily be extended to three dimensions and a simulated example of such a process is presented in the animation below:</p>
 <center>
 <img src="asset/rw3.gif" />
 </center>
@@ -751,7 +776,7 @@ familiar form as follows:</p>
 <p><span class="math display">\[
   {X_t} = {X_{t - 1}} + \omega 
    = \left( {{X_{t - 2}} + \omega} \right) + \omega 
-   = t{\omega} + c  \]</span></p>
+   = t{\omega} + c . \]</span></p>
 <p>Therefore, a (linear) drift corresponds to a simple linear model with slope <span class="math inline">\(\omega\)</span> and intercept <span class="math inline">\(c\)</span>.</p>
 
 <div class="exercise">
@@ -803,14 +828,12 @@ a drift, and a white noise. The code below can be used to simulate such data:</p
 delta =<span class="st"> </span><span class="fl">0.005</span>                           <span class="co"># delta parameter (drift)</span>
 sigma2 =<span class="st"> </span><span class="dv">10</span>                             <span class="co"># variance parameter (white noise)</span>
 gamma2 =<span class="st"> </span><span class="fl">0.1</span>                            <span class="co"># innovation variance (random walk)</span>
-model =<span class="st"> </span><span class="kw">WN</span>(<span class="dt">sigma2 =</span> sigma2) <span class="op">+</span><span class="st"> </span><span class="kw">RW</span>(<span class="dt">gamma2 =</span> gamma2) <span class="op">+</span><span class="st"> </span><span class="kw">DR</span>(<span class="dt">omega =</span> delta)
-Xt =<span class="st"> </span><span class="kw">gen_lts</span>(n, model)
-<span class="kw">plot</span>(Xt)</code></pre>
-<p><img src="ts_files/figure-html/example_composite-1.png" width="672" /></p>
+<span class="co">#model = WN(sigma2 = sigma2) + RW(gamma2 = gamma2) + DR(omega = delta)</span>
+<span class="co">#Xt = gen_lts(n, model)</span>
+<span class="co">#plot(Xt)</span></code></pre>
 <p>In the above graph, the first three plots represent the latent (unobserved)
 processes (i.e. white noise, random walk, and drift) and the last one represents
 the sum of the three (i.e. <span class="math inline">\((X_t)\)</span>).</p>
-<p>ADD AS EXAMPLE HERE???</p>
 <p>Let us consider a real example where these latent processes are useful to
 describe (and predict) the behavior of economic variables such as Personal
 Saving Rates (PSR). A process that is used for these settings is the
@@ -848,7 +871,7 @@ exist.</p>
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="fundtimeseries.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
