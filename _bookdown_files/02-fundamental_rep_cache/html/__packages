@@ -1,0 +1,13 @@
+base
+astsa
+nlme
+mgcv
+simts
+imudata
+timeDate
+ggplot2
+gmwm
+zoo
+xts
+TTR
+quantmod
