@@ -182,11 +182,11 @@ Thus, the matrix
 \[ \boldsymbol{A}_1 = \begin{bmatrix}
   1 & \rho_1\\
   \rho_1 & 1
-  \end{bmatrix} \]
+  \end{bmatrix}, \]
 
 must be positive semi-definite. Taking the determinant we have 
 
-\[\operatorname{det} \left(\boldsymbol{A}_1\right) = 1 - \rho_1^2 \]
+\[\operatorname{det} \left(\boldsymbol{A}_1\right) = 1 - \rho_1^2, \]
 
 implying that the condition $|\rho_1| \leq 1$ must be respected. 
 Now, let $\alpha_j = 0$ for $j > 2$, then we must verify that:
@@ -209,7 +209,7 @@ Again, this implies that the matrix
   1 & \rho_1 & \rho_2\\
   \rho_1 & 1 & \rho_1 \\
   \rho_2 & \rho_1 & 1
-  \end{bmatrix} \]
+  \end{bmatrix}, \]
 
 must be positive semi-definite and it is easy to verify that
 
