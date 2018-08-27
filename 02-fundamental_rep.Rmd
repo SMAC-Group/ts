@@ -10,7 +10,8 @@ To make use of the R code within this chapter you will need to install (if not a
 
   - [quantmod](https://cran.r-project.org/web/packages/quantmod/index.html);
   - [simts](http://simts.smac-group.com/);
-  - [astsa](https://cran.r-project.org/web/packages/astsa/index.html).
+  - [astsa](https://cran.r-project.org/web/packages/astsa/index.html);
+  - [robcor](https://cran.r-project.org/web/packages/robcor/index.html).
 ```
 
 ```{r, echo=FALSE, include=FALSE}
@@ -902,10 +903,31 @@ we consider the following two processes:
 where $\epsilon$ is "small" and $\sigma_u^2 \gg \sigma_w^2$. The process $(Y_t)$
 can be interpreted as a "contaminated" version of $(X_t)$ and the figure below
 represents one realization of the processes $(X_t)$ and $(Y_t)$ using the 
-following setting: $n = 100$, $\sigma_u^2 = 10$, $\phi = 0,5$, $\sigma_w^2 = 1$ as 
+following setting: $n = 100$, $\sigma_u^2 = 10$, $\phi = 0.9$, $\sigma_w^2 = 1$ as 
 well as $\alpha = 0.05$.
 
 ```{r XtYt, cache = TRUE, fig.height = 8, fig.width = 7}
+# Set seed for reproducibility
+set.seed(2241)
+
+# Define length of time series
+N = 100
+
+# Select observations from contamination distribution
+epsilon = 0.05
+index = sample(1:N, round(epsilon*N))
+Ut = gen_gts(N, WN(sigma2 = 10))
+
+# Simulate observations from Xt and Yt
+Xt = gen_gts(N, AR1(phi = 0.9, sigma2 = 1))
+Yt = Xt
+Yt[index] = Ut[index]
+
+# Plot time series
+par(mfrow = c(2,1))
+plot(Xt, main = "Original Time Series Xt")
+plot(Yt, main = "Contaminated Time Series Yt")
+points(index-1, Yt[index], col = "red")
 ```
 
 Next, we consider a simulated example to highlight how the performance of a
@@ -915,6 +937,32 @@ process). In this simulation, we will use the setting presented above and
 consider $B = 10^3$ bootstrap replications.
 
 ```{r simulationRobust, cache = TRUE, fig.height = 5.5, fig.width = 7}
+B = 1000 # Number of simulations
+N = 100 # Length of time series
+epsilon = 0.05 # Amount of contamination
+
+# Store first 15 values of Empirical ACF (for Xt and Yt)
+acf_xt = acf_yt = matrix(NA, B, 15)
+
+for(i in 1:B) {
+  
+  # Set seed for reproducibility
+  set.seed(i + 2241)
+
+  # Select observations from contamination distribution
+  index = sample(1:N, round(epsilon*N))
+  Ut = gen_gts(N, WN(sigma2 = 10))
+
+  # Simulate observations from Xt and Yt
+  Xt = gen_gts(N, AR1(phi = 0.9, sigma2 = 1))
+  Yt = Xt
+  Yt[index] = Ut[index]
+  
+  # Store ACF values
+  acf_xt[i, ] = as.numeric(ACF(Xt))[1:15]
+  acf_yt[i, ] = as.numeric(ACF(Yt))[1:15]
+  
+}
 ```
 
 The boxplots in each figure show how the standard autocorrelation estimator is
