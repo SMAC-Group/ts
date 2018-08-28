@@ -20,6 +20,7 @@ library(mgcv)
 library(simts)
 library(imudata)
 library(timeDate)
+library(robcor)
 ```
 
 In this chapter we will discuss and formalize how knowledge about $X_{t-1}$ (or
@@ -303,7 +304,7 @@ where ${U_t} \mathop \sim \limits^{iid} N\left( {1,1} \right)$ and ${V_t}\mathop
   strong stationarity.
   
 ```{exercise, moment, name = "Existence of moments"}
-It is important to note that, for a given value of $r$ and a random variable $X$, the expected $\mathbb{E}[X^r]$ may be infinite, or may not exist. If there exists an $r \in \mathbb{N}^+$ such that $\mathbb{E}[|X|^r]$ exists and is bounded, then we have that $\mathbb{E}[X^j] < \infty$ for all $j = 1,...,r$. This result is implied by Jensen’s inequality. Indeed, the function $f(x) = x^k$ is convex for $t > 0$ and $m > 1$, so we have
+It is important to note that, for a given value of $r$ and a random variable $X$, the expected $\mathbb{E}[X^r]$ may be infinite, or may not exist. If there exists an $r \in \mathbb{N}^+$ such that $\mathbb{E}[|X|^r]$ exists and is bounded, then we have that $\mathbb{E}[X^j] < \infty$ for all $j = 1,...,r$. This result is implied by Jensen’s inequality. Indeed, the function $f(x) = x^k$ is convex for $x > 0$ and $k > 1$, so we have
 $$\mathbb{E}\left[|X |^j\right]^{\frac{r}{j}} \leq \mathbb{E}\left[(|X |^j)^{\frac{r}{j}}\right] = \mathbb{E}\left[|X|^r\right] < \infty.$$
 Therefore, we obtain $\mathbb{E}[X^j] \leq \mathbb{E}[|X|^j] < \infty$.
 ```
@@ -372,7 +373,8 @@ Moreover, the autocorrelation of this process is given by
 implying (for a fixed $h$) that
 
 \[\mathop {\lim }\limits_{t \to \infty } \; \rho(h) = 1.\]
-<<<<<<< HEAD
+
+Note that using $\gamma (h)$ and $\rho (h)$ in this context is actually an abuse of notation since both of these quantites are here function of $h$ and $t$.
 ```
 
 In the following simulated example, we illustrate the non-stationary feature of
@@ -938,6 +940,7 @@ consider $B = 10^3$ bootstrap replications.
 B = 1000 # Number of simulations
 N = 100 # Length of time series
 epsilon = 0.05 # Amount of contamination
+phi = 0.9 # AR(1) parameter value
 
 # Store first 15 values of Empirical ACF (for Xt and Yt)
 acf_xt = acf_yt = matrix(NA, B, 15)
@@ -967,21 +970,16 @@ true_acf = phi^(1:15)
 
 # Make boxplots of Empirical ACF for both settings and compare with true ACF
 par(mfrow = c(1,2))
-boxplot(acf_xt[, 3])
+boxplot(acf_xt[, 3], col = "grey80", main = "Empirical Distribution of ACF at lag 3 (uncontaminated)")
 abline(h = true_acf[3], col = "red")
-boxplot(acf_yt[, 3])
+boxplot(acf_yt[, 3], col = "grey80", main = "Empirical Distribution of ACF at lag 3 (contaminated)")
 abline(h = true_acf[3], col = "red")
 ```
 
-The boxplots in each figure show how the standard autocorrelation estimator is
+The boxplots represent the empirical distribution of the ACF estimator for time-lag $h = 3$: the left boxplot shows how the standard autocorrelation estimator is
 centered around the true value (red line) when the sample is not 
-contaminated (left boxplot) while it is considerably biased when the sample is
-contaminated (right boxplot), especially at the smallest lags. Indeed, it can 
-be seen how the boxplots under contamination are often close to zero indicating 
-that it does not detect much dependence in the data although it should. This is 
-a known result in robustness, more specifically that outliers in the data can 
-break the dependence structure and make it more difficult for the latter to be
-detected.
+contaminated while the right boxplot shows how this estimate is considerably biased when the sample is contaminated. Indeed, it can 
+be seen how the boxplot under contamination shows a lower value of autocorrelation indicating that it does not detect much dependence in the data although it should. The latter phenomenon is even more evident when analysing the empirical distributions at the larger lags. This is a known result in robustness, more specifically that outliers in the data can break the dependence structure and make it more difficult for the latter to be detected.
 
 In order to limit this problem, different robust estimators exist for time
 series problems which are designed to reduce contamination during 
@@ -994,30 +992,88 @@ from the contaminated model, $Y_t$, and compare the performance of two
 estimators (i.e. classical and robust autocorrelation estimators):
   
 ```{r simulationRobust2, cache = TRUE, fig.height = 5.5, fig.width = 7}
+B = 1000 # Number of simulations
+N = 100 # Length of time series
+epsilon = 0.05 # Amount of contamination
+phi = 0.9 # AR(1) parameter value
+
+# Store first 15 values of Empirical ACF (classic and robust)
+cl_acf = rob_acf = matrix(NA, B, 15)
+
+for(i in 1:B) {
+  
+  # Set seed for reproducibility
+  set.seed(i + 2241)
+
+  # Select observations from contamination distribution
+  index = sample(1:N, round(epsilon*N))
+  Ut = gen_gts(N, WN(sigma2 = 10))
+
+  # Simulate observations from  Yt
+  Yt = gen_gts(N, AR1(phi = 0.9, sigma2 = 1))
+  Yt[index] = Ut[index]
+  
+  # Store Classic and Robust ACF values
+  cl_acf[i, ] = as.numeric(ACF(Yt))[1:15]
+  rob_acf[i, ] = robacf(Yt, plot = FALSE)$acf[1:15]
+  
+}
+
+# Compute the Theoretical ACF of an AR(1) model (up to lag 15)
+true_acf = phi^(1:15)
+
+# Make boxplots of both Classic and Robust Empirical ACF and compare with true ACF
+par(mfrow = c(1,2))
+boxplot(cl_acf[, 2], col = "grey80", main = "Empirical Distribution of Classic ACF at lag 2")
+abline(h = true_acf[2], col = "red")
+boxplot(rob_acf[, 2], col = "grey80", main = "Empirical Distribution of Robust ACF at lag 2")
+abline(h = true_acf[2], col = "red")
 ```
 
-The robust estimator remains close to the true value represented by the red line
-in the boxplots as opposed to the standard estimator. It can also be observed 
-that to reduce the bias induced by contamination in the sample, robust
-estimators pay a certain price in terms of efficiency as highlighted by the
-boxplots that show more variability compared to those of the standard estimator.
+In this case we see the empirical distributions of the two estimators (classic and robust) for the ACF at time-lag $h = 2$. As you can see, the robust estimator remains close to the true value represented by the red line
+in the boxplots as opposed to the standard estimator. However, the price to pay in terms of bias reduction (under contamination) is a loss of efficiency of the robust estimator. Indeed it can often be observed that to reduce the bias induced by contamination in the sample, robust estimators pay a certain price in terms of efficiency.
+
 To assess how much is "lost" by the robust estimator compared to the classical
 one in terms of efficiency, we consider one last simulation where we examine 
 the performance of two estimators on data issued from the uncontaminated model,
 i.e. $(X_t)$. Therefore, the only difference between this simulation and the 
-previous one is the value of $\alpha$ set equal to $0$; the code shall thus be omitted
-and the results are depicted below:
+previous one is the value of $\epsilon$ set equal to $0$; the code shall thus be omitted and the results are depicted below:
   
 ```{r simulationRobust3, cache = TRUE, echo = FALSE, fig.height = 5.5, fig.width = 7}
-# TO DO
+B = 1000 # Number of simulations
+N = 100 # Length of time series
+phi = 0.9 # AR(1) parameter value
+
+# Store first 15 values of Empirical ACF (classic and robust)
+cl_acf = rob_acf = matrix(NA, B, 15)
+
+for(i in 1:B) {
+  
+  # Set seed for reproducibility
+  set.seed(i + 2241)
+
+  # Simulate observations from  Xt
+  Xt = gen_gts(N, AR1(phi = 0.9, sigma2 = 1))
+  
+  # Store Classic and Robust ACF values
+  cl_acf[i, ] = as.numeric(ACF(Xt))[1:15]
+  rob_acf[i, ] = robacf(Xt, plot = FALSE)$acf[1:15]
+  
+}
+
+# Compute the Theoretical ACF of an AR(1) model (up to lag 15)
+true_acf = phi^(1:15)
+
+# Make boxplots of both Classic and Robust Empirical ACF and compare with true ACF
+par(mfrow = c(1,2))
+boxplot(cl_acf[, 4], col = "grey80", main = "Empirical Distribution of Classic ACF at lag 5")
+abline(h = true_acf[4], col = "red")
+boxplot(rob_acf[, 4], col = "grey80", main = "Empirical Distribution of Robust ACF at lag 5")
+abline(h = true_acf[4], col = "red")
 ```
 
 It can be observed that both estimators provide extremely similar results,
 although the robust estimator is slightly more variable.
-=======
->>>>>>> 99aebd5545841548d42fd16f09ff57c337235c6f
 
-Note that using $\gamma (h)$ and $\rho (h)$ in this context is actually an abuse of notation since both of these quantites are here function of $h$ and $t$.
-```
 
 
