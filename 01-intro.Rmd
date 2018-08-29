@@ -299,7 +299,7 @@ This statement simply means that $(X_t)$ is normally distributed and independent
 With this in mind, let us now give a quick overview of the information that can be retrieved on a time series from a simple descriptive representation.
 
 
-#### Exploratory Data Analysis for Time Series {#eda}
+## Exploratory Data Analysis for Time Series {#eda}
 
 When dealing with relatively small time series (e.g. a few thousands or less), it is
 often useful to look at a graph of the original data. A graph can be

@@ -33,7 +33,7 @@ time series analysis. However, if we do not assume that a time series is
 characterized by a certain form of "stability", it would be rather difficult 
 to estimate $\text{corr} \left(X_t, X_{t+h}\right)$ as this quantity would depend on 
 both $t$ and $h$ leading to more parameters to estimate than observations 
-available. Therefore, the concept of *stationarity* is convenient in this
+available. Therefore, the concept of *stationarity* (which we will describe further on) is convenient in this
 context as it allows (among other things) to assume that
 
 \[\text{corr} \left(X_t, X_{t+h}\right) = \text{corr} \left(X_{t+j}, X_{t+h+j}\right), \;\;\; \text{for all $j$},\]
@@ -86,8 +86,8 @@ pair $(X_t, X_{t+h})$. Considering the notation used above, it should be clear t
 
 In addition, in the context of this book we will normally drop the subscript referring to the time series (i.e. $x$ in this case) if it is clear from the context which time
 series the autocovariance refers to. For example, we generally use ${\gamma}\left( {t,t+h} \right)$ instead of ${\gamma_x}\left( {t,t+h} \right)$. Moreover, the notation is even further simplified when the covariance of $X_t$ and $X_{t+h}$ is the same as that of $X_{t+j}$ and $X_{t+h+j}$ (for all $j$), i.e. the covariance depends only 
-on the time between observations and not on the specific time $t$. This is an 
-important property called *stationarity*, which will be discussed in the next
+on the time between observations and not on the specific time $t$. This is consequence of an 
+important property called *stationarity* that was mentioned earlier and will be discussed in the next
 section. In this case, we simply use to following notation:
 
   \[\gamma \left( {h} \right) = \text{cov} \left( X_t , X_{t+h} \right). \]
@@ -114,11 +114,11 @@ or $-\infty \le {\gamma}\left( {h} \right) \le +\infty$. We therefore have:
   - if $\left| {\gamma}\left( {h} \right) \right|$ is "close" to zero, 
 then $X_t$ and $X_{t+h}$ are "weakly" (linearly) dependent;
 - if $\left| {\gamma}\left( {h} \right) \right|$ is "far" from zero, 
-then the two random variable present a "strong" (linear) dependence. 
+then the two random variables present a "strong" (linear) dependence. 
 However it is generally difficult to asses what "close" and "far" from 
 zero means in this case. 
 5. ${\gamma}\left( {h} \right)=0$ does not imply that $X_t$ and $X_{t+h}$ are 
-independent but simply $X_t$ and $X_{t+h}$ are uncorrelated. 
+independent but simply that they are uncorrelated. 
 The independence is only implied by ${\gamma}\left( {h} \right)=0$ in
 the jointly Gaussian case.
 
@@ -131,7 +131,7 @@ Similarly to $\gamma(h)$, it is important to note that the above notation
 implies that the autocorrelation function is only a function of the 
 lag $h$ between observations. Thus, autocovariances and autocorrelations are one
 possible way to describe the joint distribution of a time series. Indeed, the 
-correlation of $X_t$ with $X_{t+1}$ is an obvious measure of how *persistent* a
+correlation of $X_t$ with $X_{t+h}$ is an obvious measure of how *persistent* a
 time series is. 
 
 Remember that just as with any correlation:
@@ -150,7 +150,7 @@ distribution is fully characterized by the
 autocovariances $\mathbb{E}[X_t X_{t+h}]$ (since the joint probability density only depends of these covariances). Once we know the autocovariances we
 know *everything* there is to know about the process and therefore:
   
-> if two processes have the same autocovariance function, then they are the same process.
+> if two (Gaussian) processes have the same autocovariance function, then they are the same process.
   
 ### Admissible Autocorrelation Functions `r emo::ji("scream")`
   
@@ -158,7 +158,7 @@ Since the autocorrelation function is one of the fundamental representations of 
 series, it implies that one might be able to define a stochastic process by 
 picking a set of autocorrelation values (assuming for example that $\text{var}(X_t) = 1$). 
 However, it turns out that not every collection of
-numbers, say $\{\rho_1, \rho_2, ...\}$, can represent the autocorrelation of a
+numbers, say $\{\rho_1, \rho_2, ...\},$ can represent the autocorrelation of a
 process. Indeed, two conditions are required to ensure the validity of an
 autocorrelation sequence:
   
@@ -177,9 +177,9 @@ verify. To further our understanding of the latter we let $\alpha_j = 0$ for $j 
    \end{bmatrix} \begin{bmatrix}
    \alpha_0 \\
    \alpha_1
-   \end{bmatrix} \geq 0. \]
+   \end{bmatrix} \geq 0, \]
 
-Thus, the matrix 
+where $\gamma_0$ is a more compact notation for $\gamma(0)$. Thus, the matrix 
 
 \[ \boldsymbol{A}_1 = \begin{bmatrix}
   1 & \rho_1\\
@@ -304,7 +304,7 @@ where ${U_t} \mathop \sim \limits^{iid} N\left( {1,1} \right)$ and ${V_t}\mathop
   strong stationarity.
   
 ```{exercise, moment, name = "Existence of moments"}
-It is important to note that, for a given value of $r$ and a random variable $X$, the expected $\mathbb{E}[X^r]$ may be infinite, or may not exist. If there exists an $r \in \mathbb{N}^+$ such that $\mathbb{E}[|X|^r]$ exists and is bounded, then we have that $\mathbb{E}[X^j] < \infty$ for all $j = 1,...,r$. This result is implied by Jensen’s inequality. Indeed, the function $f(x) = x^k$ is convex for $x > 0$ and $k > 1$, so we have
+It is important to note that, for a given value of $r$ and a random variable $X$, the expected value $\mathbb{E}[X^r]$ may be infinite, or may not exist. If there exists an $r \in \mathbb{N}^+$ such that $\mathbb{E}[|X|^r]$ exists and is bounded, then we have that $\mathbb{E}[X^j] < \infty$ for all $j = 1,...,r$. This result is implied by Jensen’s inequality. Indeed, the function $f(x) = x^k$ is convex for $x > 0$ and $k > 1$, so we have
 $$\mathbb{E}\left[|X |^j\right]^{\frac{r}{j}} \leq \mathbb{E}\left[(|X |^j)^{\frac{r}{j}}\right] = \mathbb{E}\left[|X|^r\right] < \infty.$$
 Therefore, we obtain $\mathbb{E}[X^j] \leq \mathbb{E}[|X|^j] < \infty$.
 ```
@@ -374,7 +374,7 @@ implying (for a fixed $h$) that
 
 \[\mathop {\lim }\limits_{t \to \infty } \; \rho(h) = 1.\]
 
-Note that using $\gamma (h)$ and $\rho (h)$ in this context is actually an abuse of notation since both of these quantites are here function of $h$ and $t$.
+Note that using $\gamma (h)$ and $\rho (h)$ in this context is actually an abuse of notation since both of these quantites are a function of $h$ and $t$ for a random walk process.
 ```
 
 In the following simulated example, we illustrate the non-stationary feature of
@@ -475,19 +475,15 @@ $$\rho \left( h \right) = \left\{ {\begin{array}{*{20}{c}}
      X_t = \mathop {\lim }\limits_{k \to \infty} \; {X_t}  =  \sum\limits_{j = 0}^{\infty} {{\phi ^j}{W_{t - j}}} 
      \end{aligned} \]
   
-  and therefore such process can be interpreted as a linear combination of the 
+  and therefore such a process can be interpreted as a linear combination of 
   white noise $(W_t)$ and corresponds (as we will observe later on) to an MA($\infty$). 
   In addition, the requirement $\left| \phi  \right| < 1$ turns out to be 
   extremely useful as the above formula is related to a **geometric series** which
-  would diverge if $\phi \geq 1$ (for example when $\phi = 1$ we have a random walk). Indeed, remember that
-  an infinite (converging) geometric series is given by
->>>>>>> cb89d168198f38b1736da9dce9b616b02713003d
+  would diverge if $\phi \geq 1$ (for example when $\phi = 1$ we have a random walk). Indeed, remember that an infinite (converging) geometric series is given by
   
   \[\sum\limits_{k = 0}^\infty  \, a{{r^k}}  = \frac{a}{{1 - r}}, \; {\text{ if }}\left| r \right| < 1.\]
   
-  <!--
-    The origin of the requirement comes from needing to ensure that the characteristic polynomial solution for an AR1 lies outside of the unit circle. Subsequently, stability enables the process to be stationary. If $\phi  \ge 1$, the process would not converge. Under the requirement, the process can represented as a
-  -->
+The origin of this requirement comes from needing to ensure that the characteristic polynomial solution for an AR(1) lies outside the unit circle thereby ensuring that the process is stationary. Indeed, if $\phi \ge 1$, the process would not converge.
     
 With this setup, we demonstrate how crucial this property is by calculating each of the requirements of a stationary process.
   
@@ -527,7 +523,7 @@ With this setup, we demonstrate how crucial this property is by calculating each
 ## Estimation of Moments (Stationary Processes)
   
 In this section, we discuss how moments and related quantities of stationary
-process can be estimated. Informally speaking, the use of "averages" is 
+processes can be estimated. Informally speaking, the use of "averages" is 
 meaningful for such processes suggesting that classical moments estimators can
 be employed. Indeed, suppose that one is interested in 
 estimating $\alpha \equiv \mathbb{E}[m (X_t)]$, where $m(\cdot)$ is a known
@@ -650,7 +646,7 @@ where $\bar{X}^*_i$ denotes the value of the mean estimated on the $i$-th
 simulated sample.
     
 The figure below generated by the following code compares these three methods
-for $n = 10$, $B = 1000$, $\sigma^2 = 1$ and a grid of values for $\phi$ going
+for $n = 10$, $B = 1000,$ $\sigma^2 = 1$ and a grid of values for $\phi$ going
 from $-0.95$ to $0.95$:
       
       
@@ -705,7 +701,7 @@ legend("topleft",c("Theoretical variance","Bootstrap variance","Approximate vari
 ```
     
 It can be observed that the variance of $\bar{X}$ typically increases with 
-$\phi$. As expected when $\phi = 0$, we have $\text{var}(\bar{X}) = 1/n$ — in 
+$\phi$. As expected when $\phi = 0$, we have $\text{var}(\bar{X}) = 1/n$ and in 
 this case the process is a white noise. Moreover, the bootstrap approach 
 appears to well approximate the curve of (\@ref(eq:chap2_exAR1)), while the
 asymptotic form provides a reasonable approximation when $\phi$ lies between
@@ -887,7 +883,7 @@ The fact that the sample can suffer from outliers implies that the standard
 estimation of the autocorrelation (autocovariance) functions through the sample
 functions could be highly biased. The standard estimators presented in the
 previous section are therefore not "robust" and can behave badly when the sample
-suffers from contamination. To illustrate this limitation of a classical estimator,
+suffers from contamination. To illustrate this limitation for a classical estimator,
 we consider the following two processes:
   
 \[ 
@@ -902,11 +898,11 @@ we consider the following two processes:
 
 where $\epsilon$ is "small" and $\sigma_u^2 \gg \sigma_w^2$. The process $(Y_t)$
 can be interpreted as a "contaminated" version of $(X_t)$ and the figure below
-represents one realization of the processes $(X_t)$ and $(Y_t)$ using the 
+represents one realization of the process $(Y_t)$ using the 
 following setting: $n = 100$, $\sigma_u^2 = 10$, $\phi = 0.9$, $\sigma_w^2 = 1$ as 
 well as $\alpha = 0.05$.
 
-```{r XtYt, cache = TRUE, fig.height = 8, fig.width = 7}
+```{r Yt, cache = TRUE, fig.height = 8, fig.width = 7}
 # Set seed for reproducibility
 set.seed(2241)
 
@@ -924,17 +920,24 @@ Yt = Xt
 Yt[index] = Ut[index]
 
 # Plot time series
+par(mfrow = c(1,1))
+plot(Yt, main = "Contaminated Time Series Yt")
+```
+
+The first question we can ask ourselves looking at this figure is: where are the outliers? `r emo::ji("thinking_face")` You can probably spot a few but there are 5 outliers. If you're having difficulties detecting the outliers don't worry: it's a commonly known phenomenon in time series that detecting outliers is not always easy. Indeed, when looking at a time series for the first time it's not straightforward to understand if there's any form of contamination. Let's now compare $X_t$ and $Y_t$ in the following plots. 
+
+```{r XtYt, cache = TRUE, fig.height = 8, fig.width = 7}
+# Plot time series
 par(mfrow = c(2,1))
 plot(Xt, main = "Original Time Series Xt")
 plot(Yt, main = "Contaminated Time Series Yt")
 points(index-1, Yt[index], col = "red")
 ```
 
-Next, we consider a simulated example to highlight how the performance of a
-"classical" autocorrelation can deteriorate if the sample is contaminated (i.e.
-what is the impact of using $Y_t$ instead of $X_t$, the "uncontaminated" 
-process). In this simulation, we will use the setting presented above and
-consider $B = 10^3$ bootstrap replications.
+In this case it's more simple to detect the outliers (that are also highlighted with the red dots) since we can compare $Y_t$ with the original uncontaminated time series $X_t$. Having highlighted how exploratory analysis can provide limited information on the presence of contamination in an observed time series, we now consider a simulated example to highlight how the performance of a
+"classical" autocorrelation estimator can deteriorate if the sample is contaminated (i.e.
+what is the impact of $Y_t$ on the ACF estimator $\hat{\rho}(h)$). In this simulation, we will use the setting presented above and
+consider $B = 10^3$ bootstrap replications comparing the performance of the classical estimator when applied to an uncontaminated time series ($X_t$) and a contaminated time series ($Y_t$).
 
 ```{r simulationRobust, cache = TRUE, fig.height = 5.5, fig.width = 7}
 B = 1000 # Number of simulations
@@ -970,24 +973,24 @@ true_acf = phi^(1:15)
 
 # Make boxplots of Empirical ACF for both settings and compare with true ACF
 par(mfrow = c(1,2))
-boxplot(acf_xt[, 3], col = "grey80", main = "Empirical Distribution of ACF at lag 3 (uncontaminated)")
+boxplot(acf_xt[, 3], col = "grey80", main = "ACF at lag 3 (uncontaminated)")
 abline(h = true_acf[3], col = "red")
-boxplot(acf_yt[, 3], col = "grey80", main = "Empirical Distribution of ACF at lag 3 (contaminated)")
+boxplot(acf_yt[, 3], col = "grey80", main = "ACF at lag 3 (contaminated)")
 abline(h = true_acf[3], col = "red")
 ```
 
-The boxplots represent the empirical distribution of the ACF estimator for time-lag $h = 3$: the left boxplot shows how the standard autocorrelation estimator is
+The boxplots represent the empirical distribution of the ACF estimator $\hat{\rho}(3)$: the left boxplot shows how the standard autocorrelation estimator is
 centered around the true value (red line) when the sample is not 
 contaminated while the right boxplot shows how this estimate is considerably biased when the sample is contaminated. Indeed, it can 
 be seen how the boxplot under contamination shows a lower value of autocorrelation indicating that it does not detect much dependence in the data although it should. The latter phenomenon is even more evident when analysing the empirical distributions at the larger lags. This is a known result in robustness, more specifically that outliers in the data can break the dependence structure and make it more difficult for the latter to be detected.
 
 In order to limit this problem, different robust estimators exist for time
-series problems which are designed to reduce contamination during 
+series problems which are designed to reduce the impact of contamination on 
 the estimation procedure. Among these estimators, there are a few that estimate the
 autocorrelation (autocovariance) functions in a robust manner. One of these 
 estimators is provided in the ``robacf()`` function in the "robcor" package. 
-The following simulated example shows how it limits bias from contamination. 
-Unlike in the previous simulation, we shall only consider data issued 
+The following simulated example shows how it limits the bias which is induced on the classic estimator $\hat{\rho}(h)$ from contamination. 
+Unlike the previous simulation, we shall only consider data issued 
 from the contaminated model, $Y_t$, and compare the performance of two 
 estimators (i.e. classical and robust autocorrelation estimators):
   
@@ -1024,9 +1027,9 @@ true_acf = phi^(1:15)
 
 # Make boxplots of both Classic and Robust Empirical ACF and compare with true ACF
 par(mfrow = c(1,2))
-boxplot(cl_acf[, 2], col = "grey80", main = "Empirical Distribution of Classic ACF at lag 2")
+boxplot(cl_acf[, 2], col = "grey80", main = "Classic ACF at lag 2")
 abline(h = true_acf[2], col = "red")
-boxplot(rob_acf[, 2], col = "grey80", main = "Empirical Distribution of Robust ACF at lag 2")
+boxplot(rob_acf[, 2], col = "grey80", main = "Robust ACF at lag 2")
 abline(h = true_acf[2], col = "red")
 ```
 
@@ -1037,7 +1040,7 @@ To assess how much is "lost" by the robust estimator compared to the classical
 one in terms of efficiency, we consider one last simulation where we examine 
 the performance of two estimators on data issued from the uncontaminated model,
 i.e. $(X_t)$. Therefore, the only difference between this simulation and the 
-previous one is the value of $\epsilon$ set equal to $0$; the code shall thus be omitted and the results are depicted below:
+previous one is the value of $\epsilon$ set equal to $0$ (the code shall thus be omitted). For this reason we simply show a plot that represents the ratio of the variances of the classic and robust ACF estimators respectively. If they happened to have the same efficiency, we would expect this ratio to be roughly equal to 1 over all the considered lags (we omit this ratio at lag 1 since it is numerically impossible to represent due to the size of the empirical variances).
   
 ```{r simulationRobust3, cache = TRUE, echo = FALSE, fig.height = 5.5, fig.width = 7}
 B = 1000 # Number of simulations
@@ -1061,19 +1064,14 @@ for(i in 1:B) {
   
 }
 
-# Compute the Theoretical ACF of an AR(1) model (up to lag 15)
-true_acf = phi^(1:15)
+# Compute the variance ratio (Classic/Robust) (from lags 2 to 15)
+eff = apply(cl_acf[, 2:15], 2, var)/apply(rob_acf[, 2:15], 2, var)
 
-# Make boxplots of both Classic and Robust Empirical ACF and compare with true ACF
-par(mfrow = c(1,2))
-boxplot(cl_acf[, 4], col = "grey80", main = "Empirical Distribution of Classic ACF at lag 5")
-abline(h = true_acf[4], col = "red")
-boxplot(rob_acf[, 4], col = "grey80", main = "Empirical Distribution of Robust ACF at lag 5")
-abline(h = true_acf[4], col = "red")
+# Plot the efficiency over the time lags 2 to 15
+plot(2:15, eff, main = "Ratio of Empirical Variances of Classic and Robust ACF", ylim = c(0.5, 1.1), ylab = "Efficiency", xlab = "Time Lags (h)", type = "l")
+abline(h = 1, lty = 2, col = "red")
 ```
 
-It can be observed that both estimators provide extremely similar results,
-although the robust estimator is slightly more variable.
+As can be seen on the plot, the black line representing the above described ratio decreases steadily as the lags increase and moves further away from the red dotted line representing equality of variances. Hence, since the variance of the classic ACF estimator is in the numerator of this ratio, we can conclude that the variance of the robust ACF estimator is always larger and increases over the lags. This can partly be explained by the fact that the classic ACF estimator makes use of all the observations while the robust estimator only uses part of the information coming from more "extreme" observations. Moreover, the number of observations available to estimate the greater lags is smaller and therefore the robust ACF estimator pays a larger price in terms of "loss" of information.
 
-
-
+A general overview of the concepts and advantages of robustness can be found in Appendix \@ref(appendixb).
