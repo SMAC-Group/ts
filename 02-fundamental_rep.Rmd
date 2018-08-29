@@ -517,7 +517,18 @@ With this setup, we demonstrate how crucial this property is by calculating each
   \[\rho \left( h \right) = {\phi^{|h|}}.\]
   
   Thus, the autocorrelation function for an AR(1) exhibits a _geometric decay_,
-  meaning that as $|\phi|$ gets smaller the autocorrelation reaches zero at a faster rate (on the contrary, if $|\phi|$ is close to 1 then the decay rate is slower).
+  meaning that as $|\phi|$ gets smaller the autocorrelation reaches zero at a faster rate (on the contrary, if $|\phi|$ is close to 1 then the decay rate is slower), which can be better illustrated in the following plots.
+```
+
+```{r AR1theoACF, cache = TRUE, echo = FALSE, fig.cap = "Comparison of theoretical ACF of AR1 with different values of phi (i.e. phi = 0.9, 0.5, 0.1)", fig.align='center', fig.height = 4, fig.width = 10}
+par(mfrow=c(1,3))
+plot(theo_acf(ARMA(ar = 0.9, ma = NULL)), 
+     main = expression(paste("Theoretical ACF plot of AR1 with ", phi, " = 0.9")))
+plot(theo_acf(ARMA(ar = 0.5, ma = NULL)),
+     main = expression(paste("Theoretical ACF plot of AR1 with ", phi, " = 0.5")))
+plot(theo_acf(ARMA(ar = 0.1, ma = NULL)), 
+     main = expression(paste("Theoretical ACF plot of AR1 with ", phi, " = 0.1")))
+
 ```
   
 ## Estimation of Moments (Stationary Processes)

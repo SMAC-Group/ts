@@ -502,9 +502,15 @@ Figure 3.3: Two hundred simulated random walks.
 <p><span class="math display">\[\rho \left( h \right) = \frac{{\gamma \left( h \right)}}{{\gamma \left( 0 \right)}} = \frac{{\phi \gamma \left( {h - 1} \right)}}{{\gamma \left( 0 \right)}} = \phi \rho \left( {h - 1} \right).\]</span></p>
 <p>After simplifying, we obtain</p>
 <p><span class="math display">\[\rho \left( h \right) = {\phi^{|h|}}.\]</span></p>
-Thus, the autocorrelation function for an AR(1) exhibits a <em>geometric decay</em>, meaning that as <span class="math inline">\(|\phi|\)</span> gets smaller the autocorrelation reaches zero at a faster rate (on the contrary, if <span class="math inline">\(|\phi|\)</span> is close to 1 then the decay rate is slower).
+Thus, the autocorrelation function for an AR(1) exhibits a <em>geometric decay</em>, meaning that as <span class="math inline">\(|\phi|\)</span> gets smaller the autocorrelation reaches zero at a faster rate (on the contrary, if <span class="math inline">\(|\phi|\)</span> is close to 1 then the decay rate is slower), which can be better illustrated in the following plots.
 </div>
 <p></p>
+<div class="figure" style="text-align: center"><span id="fig:AR1theoACF"></span>
+<img src="ts_files/figure-html/AR1theoACF-1.png" alt="Comparison of theoretical ACF of AR1 with different values of phi (i.e. phi = 0.9, 0.5, 0.1)" width="960" />
+<p class="caption">
+Figure 3.4: Comparison of theoretical ACF of AR1 with different values of phi (i.e. phi = 0.9, 0.5, 0.1)
+</p>
+</div>
 </div>
 </div>
 <div id="estimation-of-moments-stationary-processes" class="section level2">
