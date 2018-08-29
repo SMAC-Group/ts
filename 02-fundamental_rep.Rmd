@@ -779,35 +779,20 @@ shows the index level and daily returns from 1990.
 ```
   
 
-```{r GSPC, cache = TRUE, fig.height = 5, fig.width = 10, warnings = FALSE, message = FALSE}
+```{r GSPC, cache = TRUE, fig.height = 4, fig.width = 8, warnings = FALSE, message = FALSE}
 # Load package
 library(quantmod)
 
 # Download S&P index
 getSymbols("^GSPC", from="1990-01-01", to = Sys.Date())
 
-# Extract index level and daily returns from the data
-GSPC_index = gts(data = as.numeric(GSPC$GSPC.Open),
-                 start = 1990,
-                 freq = 252,
-                 Time = time(GSPC),
-                 unit_time = "year",
-                 name_ts = "Index Level",
-                 data_name = paste("S&P 500 (1990-01-01 - ",Sys.Date(),")", sep = "")
-                 )
+# Compute returns
+GSPC.ret = ClCl(GSPC)
 
-GSPC_returns = gts(data = as.numeric(ClCl(GSPC)),
-                   start = 1990,
-                   freq = 252,
-                   Time = time(GSPC),
-                   unit_time = "year",
-                   name_ts = "Daily Returns",
-                   data_name = paste("S&P 500 (1990-01-01 - ",Sys.Date(),")", sep = "")
-)
-
+# Plot index level and returns
 par(mfrow = c(1,2))
-plot(GSPC_index)
-plot(GSPC_returns)
+plot(GSPC, main = " ", ylab = "Index level")
+plot(GSPC.ret, main = " ", ylab = "Daily returns")
 ```
 
 From these graphs, it is clear that the returns are not identically distributed
