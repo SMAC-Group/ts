@@ -924,7 +924,7 @@ par(mfrow = c(1,1))
 plot(Yt, main = "Contaminated Time Series Yt")
 ```
 
-The first question we can ask ourselves looking at this figure is: where are the outliers? `r emo::ji("thinking_face")` You can probably spot a few but there are 5 outliers. If you're having difficulties detecting the outliers don't worry: it's a commonly known phenomenon in time series that detecting outliers is not always easy. Indeed, when looking at a time series for the first time it's not straightforward to understand if there's any form of contamination. Let's now compare $X_t$ and $Y_t$ in the following plots. 
+The first question we can ask ourselves looking at this figure is: where are the outliers? `r emo::ji("thinking_face")` You can probably spot a few but there are 5 outliers. If you're having difficulties detecting the outliers don't worry: it's a commonly known phenomenon in time series that detecting outliers is not always easy. Indeed, when looking at a time series for the first time it's not straightforward to understand if there's any form of contamination. Let's now compare $(X_t)$ and $(Y_t)$ in the following plots. 
 
 ```{r XtYt, cache = TRUE, fig.height = 8, fig.width = 7}
 # Plot time series
@@ -934,10 +934,10 @@ plot(Yt, main = "Contaminated Time Series Yt")
 points(index-1, Yt[index], col = "red")
 ```
 
-In this case it's more simple to detect the outliers (that are also highlighted with the red dots) since we can compare $Y_t$ with the original uncontaminated time series $X_t$. Having highlighted how exploratory analysis can provide limited information on the presence of contamination in an observed time series, we now consider a simulated example to highlight how the performance of a
+In this case it's more simple to detect the outliers (that are also highlighted with the red dots) since we can compare $(Y_t)$ with the original uncontaminated time series $(X_t)$. Having highlighted how exploratory analysis can provide limited information on the presence of contamination in an observed time series, we now consider a simulated example to highlight how the performance of a
 "classical" autocorrelation estimator can deteriorate if the sample is contaminated (i.e.
-what is the impact of $Y_t$ on the ACF estimator $\hat{\rho}(h)$). In this simulation, we will use the setting presented above and
-consider $B = 10^3$ bootstrap replications comparing the performance of the classical estimator when applied to an uncontaminated time series ($X_t$) and a contaminated time series ($Y_t$).
+what is the impact of $(Y_t)$ on the ACF estimator $\hat{\rho}(h)$). In this simulation, we will use the setting presented above and
+consider $B = 10^3$ bootstrap replications comparing the performance of the classical estimator when applied to an uncontaminated time series $(X_t)$ and a contaminated time series $(Y_t)$.
 
 ```{r simulationRobust, cache = TRUE, fig.height = 5.5, fig.width = 7}
 B = 1000 # Number of simulations
@@ -991,7 +991,7 @@ autocorrelation (autocovariance) functions in a robust manner. One of these
 estimators is provided in the ``robacf()`` function in the "robcor" package. 
 The following simulated example shows how it limits the bias which is induced on the classic estimator $\hat{\rho}(h)$ from contamination. 
 Unlike the previous simulation, we shall only consider data issued 
-from the contaminated model, $Y_t$, and compare the performance of two 
+from the contaminated process $(Y_t)$, and compare the performance of two 
 estimators (i.e. classical and robust autocorrelation estimators):
   
 ```{r simulationRobust2, cache = TRUE, fig.height = 5.5, fig.width = 7}
@@ -1033,14 +1033,13 @@ boxplot(rob_acf[, 2], col = "grey80", main = "Robust ACF at lag 2")
 abline(h = true_acf[2], col = "red")
 ```
 
-In this case we see the empirical distributions of the two estimators (classic and robust) for the ACF at time-lag $h = 2$. As you can see, the robust estimator remains close to the true value represented by the red line
-in the boxplots as opposed to the standard estimator. However, the price to pay in terms of bias reduction (under contamination) is a loss of efficiency of the robust estimator. Indeed it can often be observed that to reduce the bias induced by contamination in the sample, robust estimators pay a certain price in terms of efficiency.
+In this case we see the empirical distributions of the two estimators (classic and robust) for the ACF at time-lag $h = 2$. As you can see, the robust estimator remains close to the true value represented by the red line in the boxplots as opposed to the standard estimator. However, the price to pay in terms of bias reduction is a loss of efficiency of the robust estimator. Indeed it can often be observed that to reduce the bias induced by contamination in the sample, robust estimators pay a certain price in terms of efficiency.
 
 To assess how much is "lost" by the robust estimator compared to the classical
 one in terms of efficiency, we consider one last simulation where we examine 
-the performance of two estimators on data issued from the uncontaminated model,
+the performance of two estimators on data issued from the uncontaminated process,
 i.e. $(X_t)$. Therefore, the only difference between this simulation and the 
-previous one is the value of $\epsilon$ set equal to $0$ (the code shall thus be omitted). For this reason we simply show a plot that represents the ratio of the variances of the classic and robust ACF estimators respectively. If they happened to have the same efficiency, we would expect this ratio to be roughly equal to 1 over all the considered lags (we omit this ratio at lag 1 since it is numerically impossible to represent due to the size of the empirical variances).
+previous one is the value of $\epsilon$ set equal to $0$ (the code shall thus be omitted). For this reason we simply show a plot that represents the ratio of the variances of the classic and robust ACF estimators respectively. If they happened to have the same efficiency, we would expect this ratio to be roughly equal to 1 over all the considered lags (we omit this ratio at lag 1 since it is numerically impossible to represent due to the infinitesimal size of the empirical variances).
   
 ```{r simulationRobust3, cache = TRUE, echo = FALSE, fig.height = 5.5, fig.width = 7}
 B = 1000 # Number of simulations
@@ -1072,6 +1071,6 @@ plot(2:15, eff, main = "Ratio of Empirical Variances of Classic and Robust ACF",
 abline(h = 1, lty = 2, col = "red")
 ```
 
-As can be seen on the plot, the black line representing the above described ratio decreases steadily as the lags increase and moves further away from the red dotted line representing equality of variances. Hence, since the variance of the classic ACF estimator is in the numerator of this ratio, we can conclude that the variance of the robust ACF estimator is always larger and increases over the lags. This can partly be explained by the fact that the classic ACF estimator makes use of all the observations while the robust estimator only uses part of the information coming from more "extreme" observations. Moreover, the number of observations available to estimate the greater lags is smaller and therefore the robust ACF estimator pays a larger price in terms of "loss" of information.
+As can be seen on the plot, the black line representing the above described ratio decreases steadily as the lags increase and moves further away from the red dotted line representing equality of variances. Hence, since the variance of the classic ACF estimator is in the numerator of this ratio, we can conclude that the variance of the robust ACF estimator is always larger and increases over the lags. This can partly be explained by the fact that the classic ACF estimator $\hat{\rho}(h)$ makes use of all the observations while the robust estimator only uses part of the information coming from more "extreme" observations. Moreover, the number of observations available to estimate the greater lags is smaller and therefore the robust ACF estimator pays a larger price in terms of "loss" of information.
 
 A general overview of the concepts and advantages of robustness can be found in Appendix \@ref(appendixb).
