@@ -1,6 +1,6 @@
 # Proofs {#appendixa}
 
-## Proof of Theorem 1
+## Proof of Theorem 1 `r emo::ji("scream")`
 
 We let $X_t = W_t + \mu$, where $\mu < \infty$ and $(W_t)$ is a strong white noise process with variance $\sigma^2$ and finite fourth moment (i.e. $\mathbb{E} [W_t^4] < \infty$). 
 

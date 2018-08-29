@@ -389,7 +389,7 @@ Next, we consider an example coming from high-frequency finance. The figure belo
 next) for Starbuck's stock on July 1, 2011 for about 150 seconds (left
 panel) and about 400 minutes (right panel). 
 
-```{r example_Starbucks, fig.height = 4, fig.width = 7, cache = TRUE, message = FALSE, fig.align='center'}
+```{r example_Starbucks, fig.height = 4, fig.width = 9, cache = TRUE, message = FALSE, fig.align='center'}
 # Load "high-frequency" Starbucks returns for July 01 2011
 data(sbux.xts, package = "highfrequency")
 
@@ -432,7 +432,7 @@ navigation precision or reconstruct three dimensional movements:
 knitr::include_url("https://www.youtube.com/embed/htoBvSq8jLA")
 ```
 
-These sensors are used in a very wide range of applications such as robotics, virtual reality, 
+These sensors are used in a very wide range of applications such as robotics, virtual reality `r emo::ji("bear")`, 
 vehicle stability control, human and animal motion capture and so forth:
 
 ```{r, echo = FALSE, fig.align='center'}

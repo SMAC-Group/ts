@@ -609,9 +609,11 @@ how $\text{var} \left( {\bar X} \right)$ can be obtained or estimated.
     
 ```{example, label="exactvbootstrap"}
 For an AR(1), we have $\gamma(h) = \phi^h \sigma_w^2 \left(1 - \phi^2\right)^{-1}$. Therefore, we obtain (after some computations):
-      
+```      
+
 \begin{equation}
     \text{var} \left( {\bar X} \right) = \frac{\sigma_w^2 \left( n - 2\phi - n \phi^2 + 2 \phi^{n + 1}\right)}{n^2\left(1-\phi^2\right)\left(1-\phi\right)^2}.
+     (\#eq:chap2exAR1)
 \end{equation}
     
 Unfortunately, deriving such an exact formula is often difficult when considering
@@ -626,7 +628,7 @@ providing the following approximate formula:
     
 Alternatively, simulation methods can also be employed. For example, a possible
 strategy would be parametric bootstrap.
-```
+
   
 ```{example, label="parabootstrap", "Parametric Bootstrap"}
 Parametric bootstrap can be implemented in the following manner:
@@ -703,7 +705,7 @@ legend("topleft",c("Theoretical variance","Bootstrap variance","Approximate vari
 It can be observed that the variance of $\bar{X}$ typically increases with 
 $\phi$. As expected when $\phi = 0$, we have $\text{var}(\bar{X}) = 1/n$ and in 
 this case the process is a white noise. Moreover, the bootstrap approach 
-appears to well approximate the curve of (\@ref(eq:chap2_exAR1)), while the
+appears to well approximate the curve of \@ref(eq:chap2exAR1), while the
 asymptotic form provides a reasonable approximation when $\phi$ lies between
 -0.5 and 0.5. Naturally, the quality of this approximation would be far better
 for a larger sample size (here we consider $n = 10$, which is a little "extreme").
@@ -809,12 +811,12 @@ plot(ACF(sp500))
 ```
 
 As expected, the autocorrelation is small but it might be reasonable to believe
-that this sequence is not purely uncorrelated. Unfortunately, Theorem \@ref(approxnormal) is based on an asymptotic argument and since the
+that this sequence is not purely uncorrelated. Unfortunately, Theorem \@ref(thm:approxnormal) is based on an asymptotic argument and since the
 confidence bands constructed are also asymptotic, there are no "exact" tools
 that can be used in this case. To study the validity of these results when $n$ is
 "small" we can perform a simulation study. In the latter, we simulate processes from a Gaussian white noise and examine the empirical distribution of
 $\hat{\rho}(3)$ with different sample sizes (i.e. $n$ is set to 5, 10, 30 and
-300). Intuitively, the "quality" of the approximation provided by Theorem \@ref(approxnormal)
+300). Intuitively, the "quality" of the approximation provided by Theorem \@ref(thm:approxnormal)
 should increase with the sample size $n$. The code below performs such a simulation
 and compares the empirical distribution of $\sqrt{n} \hat{\rho}(3)$ with a
 normal distribution with mean 0 and variance 1 (its asymptotic
@@ -865,7 +867,7 @@ for (i in seq_along(N)){
 As expected, it can clearly be observed that the asymptotic approximation is
 quite poor when $n = 5$ but as the sample size increases the approximation
 improves and is very close when, for example, $n = 300$. Therefore, this simulation would
-suggest that Theorem \@ref(approxnormal) provides a relatively "close" approximation of the
+suggest that Theorem \@ref(thm:approxnormal) provides a relatively "close" approximation of the
 distribution of $\hat{\rho}(h)$, especially when the sample size is large enough.
 
 ### Robustness Issues
@@ -902,7 +904,7 @@ represents one realization of the process $(Y_t)$ using the
 following setting: $n = 100$, $\sigma_u^2 = 10$, $\phi = 0.9$, $\sigma_w^2 = 1$ as 
 well as $\alpha = 0.05$.
 
-```{r Yt, cache = TRUE, fig.height = 8, fig.width = 7}
+```{r Yt, cache = TRUE, fig.height = 4, fig.width = 7}
 # Set seed for reproducibility
 set.seed(2241)
 
