@@ -385,7 +385,7 @@ X_t = \alpha + \beta_1 t + \beta_2 t^2 + \varepsilon_t,
 <p><img src="ts_files/figure-html/lmresid2-1.png" width="624" style="display: block; margin: auto;" /></p>
 <p>We can see now that the quadratic function of time allows to better fit the observed time series and closely follow the observations. However, there still appears to be a pattern in the data that isn’t captured by this quadratic model. This pattern appears to be repeated over time: peaks and valleys that seem to occur at regular intervals along the time series. This behaviour is known as <em>seasonality</em> which, in this case, can be explained by the effect of a specific quarter on the behaviour of the earnings. Indeed, it is reasonable to assume that the seasons have impacts on different variables measured over time (e.g. temperatures, earnings linked to sales that vary with seasons, etc.). Let us therefore take the quarters as an explanatory variable and add it to the model considered in <a href="basic-elements-of-time-series.html#eq:modeljjexample2">(2.2)</a>, which becomes:</p>
 <span class="math display" id="eq:modeljjexample3">\[\begin{equation} 
-X_t = \alpha + \beta_1 t + \beta_2 t^2 + \sum_{i = 1}^4 \gamma_i I_{t \in \mathcal{A}_i} + \varepsilon_t,
+X_t = \alpha + \beta_1 t + \beta_2 t^2 + \sum_{i = 2}^4 \gamma_i I_{t \in \mathcal{A}_i} + \varepsilon_t,
 \tag{2.3}
 \end{equation}\]</span>
 <p>where</p>
