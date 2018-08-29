@@ -237,7 +237,7 @@ simple_diag_plot(jj, fit_jj2)
 We can see now that the quadratic function of time allows to better fit the observed time series and closely follow the observations. However, there still appears to be a pattern in the data that isn't captured by this quadratic model. This pattern appears to be repeated over time: peaks and valleys that seem to occur at regular intervals along the time series. This behaviour is known as *seasonality* which, in this case, can be explained by the effect of a specific quarter on the behaviour of the earnings. Indeed, it is reasonable to assume that the seasons have impacts on different variables measured over time (e.g. temperatures, earnings linked to sales that vary with seasons, etc.). Let us therefore take the quarters as an explanatory variable and add it to the model considered in \@ref(eq:modeljjexample2), which becomes:
 
 \begin{equation} 
-X_t = \alpha + \beta_1 t + \beta_2 t^2 + \sum_{i = 1}^4 \gamma_i I_{t \in \mathcal{A}_i} + \varepsilon_t,
+X_t = \alpha + \beta_1 t + \beta_2 t^2 + \sum_{i = 2}^4 \gamma_i I_{t \in \mathcal{A}_i} + \varepsilon_t,
 (\#eq:modeljjexample3)
 \end{equation}
 
