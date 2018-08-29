@@ -820,7 +820,7 @@ of "linear" dependence between observations. The graph below presents
 the empirical autocorrelation.
 
 ```{r GSPCacf, cache = TRUE, fig.height = 4.5, fig.width = 7, warning = FALSE}
-sp500 = na.omit(GSPC.ret)
+sp500 = na.omit(GSPC_returns)
 names(sp500) = paste("S&P 500 (1990-01-01 - ",Sys.Date(),")", sep = "")
 plot(ACF(sp500))
 ```
