@@ -779,7 +779,7 @@ shows the index level and daily returns from 1990.
 ```
   
 
-```{r GSPC, cache = TRUE, fig.height = 5, fig.width = 10, warnings = FALSE, message = FALSE}
+```{r GSPC, cache = TRUE, fig.height = 4.5, fig.width = 10, warnings = FALSE, message = FALSE}
 # Load package
 library(quantmod)
 
@@ -787,7 +787,7 @@ library(quantmod)
 getSymbols("^GSPC", from="1990-01-01", to = Sys.Date())
 
 # Extract index level and daily returns from the data
-GSPC_index = gts(data = as.numeric(GSPC$GSPC.Open),
+GSPC_index = gts(data = as.numeric(GSPC$GSPC.Close),
                  start = 1990,
                  freq = 252,
                  Time = time(GSPC),

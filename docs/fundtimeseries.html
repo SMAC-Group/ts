@@ -879,7 +879,7 @@ shows the index level and daily returns from 1990.
 <span class="kw">getSymbols</span>(<span class="st">&quot;^GSPC&quot;</span>, <span class="dt">from=</span><span class="st">&quot;1990-01-01&quot;</span>, <span class="dt">to =</span> <span class="kw">Sys.Date</span>())</code></pre>
 <pre><code>## [1] &quot;GSPC&quot;</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Extract index level and daily returns from the data</span>
-GSPC_index =<span class="st"> </span><span class="kw">gts</span>(<span class="dt">data =</span> <span class="kw">as.numeric</span>(GSPC<span class="op">$</span>GSPC.Open),
+GSPC_index =<span class="st"> </span><span class="kw">gts</span>(<span class="dt">data =</span> <span class="kw">as.numeric</span>(GSPC<span class="op">$</span>GSPC.Close),
                  <span class="dt">start =</span> <span class="dv">1990</span>,
                  <span class="dt">freq =</span> <span class="dv">252</span>,
                  <span class="dt">Time =</span> <span class="kw">time</span>(GSPC),
