@@ -4,10 +4,10 @@ nlme
 mgcv
 simts
 imudata
+timeDate
+robcor
 zoo
 xts
 TTR
 quantmod
-timeDate
 robustbase
-robcor

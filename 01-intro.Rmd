@@ -788,14 +788,19 @@ X_t &= R_t + S_t + Z_t,
 where $R_t$, $S_t$ and $Z_t$ denote, respectively, a random walk,
 a drift, and a white noise. The code below can be used to simulate such data:
 
-```{r example_composite, fig.height = 6, fig.width = 7, cache=TRUE}
+```{r fixbug, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+lapply(paste('package:',names(sessionInfo()$otherPkgs),sep=""),detach,character.only=TRUE,unload=TRUE)
+library(simts)
+```
+
+```{r examplecomposite, fig.align='center', fig.width=6, fig.height=8}
 n = 1000                                # process length
 delta = 0.005                           # delta parameter (drift)
 sigma2 = 10                             # variance parameter (white noise)
 gamma2 = 0.1                            # innovation variance (random walk)
-#model = WN(sigma2 = sigma2) + RW(gamma2 = gamma2) + DR(omega = delta)
-#Xt = gen_lts(n, model)
-#plot(Xt)
+model = WN(sigma2 = sigma2) + RW(gamma2 = gamma2) + DR(omega = delta)
+Xt = gen_lts(n = n, model = model)
+plot(Xt)
 ```
 
 In the above graph, the first three plots represent the latent (unobserved)

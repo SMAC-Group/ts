@@ -743,7 +743,7 @@ set.seed(2241)
 Xt = gen_gts(100, WN(sigma2 = 1))
 
 # Compute autocorrelation
-acf_Xt = ACF(Xt)
+acf_Xt = simts::ACF(Xt)
 
 # Plot autocorrelation
 plot(acf_Xt, show.ci = FALSE)
@@ -833,7 +833,7 @@ the empirical autocorrelation.
 ```{r GSPCacf, cache = TRUE, fig.height = 4.5, fig.width = 7, warning = FALSE}
 sp500 = na.omit(GSPC_returns)
 names(sp500) = paste("S&P 500 (1990-01-01 - ",Sys.Date(),")", sep = "")
-plot(ACF(sp500))
+plot(simts::ACF(sp500))
 ```
 
 As expected, the autocorrelation is small but it might be reasonable to believe
@@ -991,8 +991,8 @@ for(i in 1:B) {
   Yt[index] = Ut[index]
   
   # Store ACF values
-  acf_xt[i, ] = as.numeric(ACF(Xt))[1:15]
-  acf_yt[i, ] = as.numeric(ACF(Yt))[1:15]
+  acf_xt[i, ] = as.numeric(simts::ACF(Xt))[1:15]
+  acf_yt[i, ] = as.numeric(simts::ACF(Yt))[1:15]
   
 }
 
@@ -1045,7 +1045,7 @@ for(i in 1:B) {
   Yt[index] = Ut[index]
   
   # Store Classic and Robust ACF values
-  cl_acf[i, ] = as.numeric(ACF(Yt))[1:15]
+  cl_acf[i, ] = as.numeric(simts::ACF(Yt))[1:15]
   rob_acf[i, ] = robacf(Yt, plot = FALSE)$acf[1:15]
   
 }
@@ -1086,7 +1086,7 @@ for(i in 1:B) {
   Xt = gen_gts(N, AR1(phi = 0.9, sigma2 = 1))
   
   # Store Classic and Robust ACF values
-  cl_acf[i, ] = as.numeric(ACF(Xt))[1:15]
+  cl_acf[i, ] = as.numeric(simts::ACF(Xt))[1:15]
   rob_acf[i, ] = robacf(Xt, plot = FALSE)$acf[1:15]
   
 }

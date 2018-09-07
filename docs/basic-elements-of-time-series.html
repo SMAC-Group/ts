@@ -843,9 +843,10 @@ a drift, and a white noise. The code below can be used to simulate such data:</p
 delta =<span class="st"> </span><span class="fl">0.005</span>                           <span class="co"># delta parameter (drift)</span>
 sigma2 =<span class="st"> </span><span class="dv">10</span>                             <span class="co"># variance parameter (white noise)</span>
 gamma2 =<span class="st"> </span><span class="fl">0.1</span>                            <span class="co"># innovation variance (random walk)</span>
-<span class="co">#model = WN(sigma2 = sigma2) + RW(gamma2 = gamma2) + DR(omega = delta)</span>
-<span class="co">#Xt = gen_lts(n, model)</span>
-<span class="co">#plot(Xt)</span></code></pre>
+model =<span class="st"> </span><span class="kw">WN</span>(<span class="dt">sigma2 =</span> sigma2) <span class="op">+</span><span class="st"> </span><span class="kw">RW</span>(<span class="dt">gamma2 =</span> gamma2) <span class="op">+</span><span class="st"> </span><span class="kw">DR</span>(<span class="dt">omega =</span> delta)
+Xt =<span class="st"> </span><span class="kw">gen_lts</span>(<span class="dt">n =</span> n, <span class="dt">model =</span> model)
+<span class="kw">plot</span>(Xt)</code></pre>
+<p><img src="ts_files/figure-html/examplecomposite-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>In the above graph, the first three plots represent the latent (unobserved)
 processes (i.e. white noise, random walk, and drift) and the last one represents
 the sum of the three (i.e. <span class="math inline">\((X_t)\)</span>).</p>
