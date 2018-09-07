@@ -9,7 +9,7 @@ library(timeDate)
 ```{r introduction_code, echo = FALSE, warning=FALSE, message=FALSE}
 library(astsa)
 library(imudata)
-library(simts)
+library(simts) 
 ```
 
 # Basic Elements of Time Series 
