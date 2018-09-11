@@ -12,11 +12,10 @@ With this premise, the first part of this chapter introduces and explains the cl
 
 The second part of this chapter introduces the general class of SARIMA models, passing through the class of ARIMA models. These models allow to apply the ARMA modeling framework also to time series that have particular non-stationary components to them such as, for example, linear and/or seasonal trends. Extending ARMA modeling to these cases allows SARIMA models to be an extremely flexible class of models that can be used to describe a wide range of phenomena.
 
+
 ## Linear Processes
 
-In order to discuss the classes of models mentioned above, we first present the class of linear processes which underlie many of the most common time series models. This class of models can be represented 
-
-INSERT AN INTRODUCTION TO WHAT LINEAR PROCESSES ARE AND WHY THEY ARE IMPORTANT
+In order to discuss the classes of models mentioned above, we first present the class of linear processes which underlie many of the most common time series models.
 
 ```{definition, label="lp", name="Linear Process"}
 A time series, $(X_t)$, is defined to be a linear process if it can be expressed
@@ -27,11 +26,7 @@ as a linear combination of white noise by:
 where $W_t \sim WN(0, \sigma^2)$ and $\sum\limits_{j =  - \infty }^\infty  {\left| {{\psi _j}} \right|}  < \infty$.
 ```
 
-Note, the latter assumption is required to ensure that the series has a limit. 
-Furthermore, the set of coefficients \[{\{ {\psi _j}\} _{j =  - \infty , \cdots ,\infty }}\]
-can be viewed as a linear filter. These coefficients do not have to be all equal
-nor symmetric as later examples will show. Generally, the properties of a linear
-process related to mean and variance are given by:
+Note, the latter assumption is required to ensure that the series has a limit. Furthermore, the set of coefficients \[{\{ {\psi _j}\} _{j =  - \infty , \cdots ,\infty }}\] can be viewed as a linear filter. These coefficients do not have to be all equal nor symmetric as later examples will show. Generally, the properties of a linear process related to mean and variance are given by:
 
 \[\begin{aligned}
 \mu_{X} &= \mu \\
