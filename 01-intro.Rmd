@@ -799,8 +799,8 @@ delta = 0.005                           # delta parameter (drift)
 sigma2 = 10                             # variance parameter (white noise)
 gamma2 = 0.1                            # innovation variance (random walk)
 model = WN(sigma2 = sigma2) + RW(gamma2 = gamma2) + DR(omega = delta)
-Xt = gen_lts(n = n, model = model)
-plot(Xt)
+#Xt = gen_lts(n = n, model = model)
+#plot(Xt)
 ```
 
 In the above graph, the first three plots represent the latent (unobserved)
