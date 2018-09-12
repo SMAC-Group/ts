@@ -552,12 +552,12 @@ be employed. Indeed, suppose that one is interested in
 estimating $\alpha \equiv \mathbb{E}[m (X_t)]$, where $m(\cdot)$ is a known
 function of $X_t$. If $X_t$ is a strongly stationary process, we have
   
-\[\alpha = \int m(x) \, f(x) dx\]
+\[\alpha = \mathbb{E}[m(x) ] = \int m(x) \, f(x) dx\]
   
 where $f(x)$ denotes the density of $X_t, \; \forall t$. Replacing $f(x)$ by
 $f_n(x)$, the empirical density, we obtain the following estimator
   
-\[\hat{\alpha} = \frac{1}{n} \sum_{i = 1}^n m\left(x_i\right).\]
+\[\hat{\alpha} = \widehat{\mathbb{E}}[m(x) ] \frac{1}{n} \sum_{i = 1}^n m\left(x_i\right).\]
   
 In the next subsection, we examine how this simple idea can be used to estimate
 the mean, autocovariance and autocorrelation functions. Moreover, we discuss

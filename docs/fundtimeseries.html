@@ -681,10 +681,10 @@ meaningful for such processes suggesting that classical moments estimators can
 be employed. Indeed, suppose that one is interested in
 estimating <span class="math inline">\(\alpha \equiv \mathbb{E}[m (X_t)]\)</span>, where <span class="math inline">\(m(\cdot)\)</span> is a known
 function of <span class="math inline">\(X_t\)</span>. If <span class="math inline">\(X_t\)</span> is a strongly stationary process, we have</p>
-<p><span class="math display">\[\alpha = \int m(x) \, f(x) dx\]</span></p>
+<p><span class="math display">\[\alpha = \mathbb{E}[m(x) ] = \int m(x) \, f(x) dx\]</span></p>
 <p>where <span class="math inline">\(f(x)\)</span> denotes the density of <span class="math inline">\(X_t, \; \forall t\)</span>. Replacing <span class="math inline">\(f(x)\)</span> by
 <span class="math inline">\(f_n(x)\)</span>, the empirical density, we obtain the following estimator</p>
-<p><span class="math display">\[\hat{\alpha} = \frac{1}{n} \sum_{i = 1}^n m\left(x_i\right).\]</span></p>
+<p><span class="math display">\[\hat{\alpha} = \widehat{\mathbb{E}}[m(x) ] \frac{1}{n} \sum_{i = 1}^n m\left(x_i\right).\]</span></p>
 <p>In the next subsection, we examine how this simple idea can be used to estimate
 the mean, autocovariance and autocorrelation functions. Moreover, we discuss
 some of the properties of these estimators.</p>
