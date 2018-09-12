@@ -684,7 +684,7 @@ function of <span class="math inline">\(X_t\)</span>. If <span class="math inlin
 <p><span class="math display">\[\alpha = \mathbb{E}[m(x) ] = \int m(x) \, f(x) dx\]</span></p>
 <p>where <span class="math inline">\(f(x)\)</span> denotes the density of <span class="math inline">\(X_t, \; \forall t\)</span>. Replacing <span class="math inline">\(f(x)\)</span> by
 <span class="math inline">\(f_n(x)\)</span>, the empirical density, we obtain the following estimator</p>
-<p><span class="math display">\[\hat{\alpha} = \widehat{\mathbb{E}}[m(x) ] \frac{1}{n} \sum_{i = 1}^n m\left(x_i\right).\]</span></p>
+<p><span class="math display">\[\hat{\alpha} = \widehat{\mathbb{E}}[m(x) ] \frac{1}{T} \sum_{t = 1}^T m\left(x_t\right).\]</span></p>
 <p>In the next subsection, we examine how this simple idea can be used to estimate
 the mean, autocovariance and autocorrelation functions. Moreover, we discuss
 some of the properties of these estimators.</p>
@@ -692,55 +692,55 @@ some of the properties of these estimators.</p>
 <h3><span class="header-section-number">3.3.1</span> Estimation of the Mean Function</h3>
 <p>If a time series is stationary, the mean function is constant and a possible
 estimator of this quantity is, as discussed above, given by</p>
-<p><span class="math display">\[\bar{X} = {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t}} }.\]</span></p>
+<p><span class="math display">\[\bar{X} = {\frac{1}{T}\sum\limits_{t = 1}^T {{X_t}} }.\]</span></p>
 <p>Naturally, the <span class="math inline">\(k\)</span>-th moment, say <span class="math inline">\(\beta_k \equiv \mathbb{E}[X_t^k]\)</span> can be
 estimated by</p>
-<p><span class="math display">\[\hat{\beta}_k = {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t^k}} }, \;\; k \in \left\{x \in \mathbb{N} : \, 0 &lt; x &lt; \infty  \right\}.\]</span></p>
+<p><span class="math display">\[\hat{\beta}_k = {\frac{1}{T}\sum\limits_{t = 1}^T {{X_t^k}} }, \;\; k \in \left\{x \in \mathbb{N} : \, 0 &lt; x &lt; \infty  \right\}.\]</span></p>
 <p>The variance of such an estimator can be derived as follows:</p>
 <span class="math display" id="eq:chap2VarMoment">\[\begin{equation}
   \begin{aligned}
-  \text{var} \left( \hat{\beta}_k \right) &amp;= \text{var} \left( {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t^k}} } \right)  \\
-  &amp;= \frac{1}{{{n^2}}}\text{var} \left( {{{\left[ {\begin{array}{*{20}{c}}
+  \text{var} \left( \hat{\beta}_k \right) &amp;= \text{var} \left( {\frac{1}{T}\sum\limits_{t = 1}^T {{X_t^k}} } \right)  \\
+  &amp;= \frac{1}{{{T^2}}}\text{var} \left( {{{\left[ {\begin{array}{*{20}{c}}
     1&amp; \cdots &amp;1
-    \end{array}} \right]}_{1 \times n}}{{\left[ {\begin{array}{*{20}{c}}
+    \end{array}} \right]}_{1 \times T}}{{\left[ {\begin{array}{*{20}{c}}
       {{X_1^k}} \\
       \vdots  \\
       {{X_n^k}}
-      \end{array}} \right]}_{n \times 1}}} \right)  \\
+      \end{array}} \right]}_{T \times 1}}} \right)  \\
   &amp;= \frac{1}{{{n^2}}}{\left[ {\begin{array}{*{20}{c}}
     1&amp; \cdots &amp;1
-    \end{array}} \right]_{1 \times n}} \, \boldsymbol{\Sigma}(k) \, {\left[ {\begin{array}{*{20}{c}}
+    \end{array}} \right]_{1 \times T}} \, \boldsymbol{\Sigma}(k) \, {\left[ {\begin{array}{*{20}{c}}
       1 \\
       \vdots  \\
       1
-      \end{array}} \right]_{n \times 1}}, 
+      \end{array}} \right]_{T \times 1}}, 
   \end{aligned}
   \tag{3.1}
 \end{equation}\]</span>
-<p>where <span class="math inline">\(\boldsymbol{\Sigma}(k) \in \mathbb{R}^{n \times n}\)</span> and its <span class="math inline">\(i\)</span>-th, <span class="math inline">\(j\)</span>-th
+<p>where <span class="math inline">\(\boldsymbol{\Sigma}(k) \in \mathbb{R}^{T \times T}\)</span> and its <span class="math inline">\(i\)</span>-th, <span class="math inline">\(j\)</span>-th
 element is given by</p>
 <p><span class="math display">\[ \left(\boldsymbol{\Sigma}(k)\right)_{i,j} = \text{cov} \left(X_i^k, X_j^k\right).\]</span></p>
 <p>In the case <span class="math inline">\(k = 1\)</span>, <a href="fundtimeseries.html#eq:chap2VarMoment">(3.1)</a> can easily be further simplified.
 Indeed, we have</p>
 <p><span class="math display">\[\begin{aligned}
-       \text{var} \left( {\bar X} \right) &amp;= \text{var} \left( {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t}} } \right)  \\
-       &amp;= \frac{1}{{{n^2}}}{\left[ {\begin{array}{*{20}{c}}
+       \text{var} \left( {\bar X} \right) &amp;= \text{var} \left( {\frac{1}{n}\sum\limits_{t = 1}^T {{X_t}} } \right)  \\
+       &amp;= \frac{1}{{{T^2}}}{\left[ {\begin{array}{*{20}{c}}
          1&amp; \cdots &amp;1
-         \end{array}} \right]_{1 \times n}}\left[ {\begin{array}{*{20}{c}}
-           {\gamma \left( 0 \right)}&amp;{\gamma \left( 1 \right)}&amp; \cdots &amp;{\gamma \left( {n - 1} \right)} \\
+         \end{array}} \right]_{1 \times T}}\left[ {\begin{array}{*{20}{c}}
+           {\gamma \left( 0 \right)}&amp;{\gamma \left( 1 \right)}&amp; \cdots &amp;{\gamma \left( {T - 1} \right)} \\
            {\gamma \left( 1 \right)}&amp;{\gamma \left( 0 \right)}&amp;{}&amp; \vdots  \\
            \vdots &amp;{}&amp; \ddots &amp; \vdots  \\
-           {\gamma \left( {n - 1} \right)}&amp; \cdots &amp; \cdots &amp;{\gamma \left( 0 \right)}
-           \end{array}} \right]_{n \times n}{\left[ {\begin{array}{*{20}{c}}
+           {\gamma \left( {T - 1} \right)}&amp; \cdots &amp; \cdots &amp;{\gamma \left( 0 \right)}
+           \end{array}} \right]_{T \times T}{\left[ {\begin{array}{*{20}{c}}
              1 \\
              \vdots  \\
              1
-             \end{array}} \right]_{n \times 1}}  \\
-       &amp;= \frac{1}{{{n^2}}}\left( {n\gamma \left( 0 \right) + 2\left( {n - 1} \right)\gamma \left( 1 \right) + 2\left( {n - 2} \right)\gamma \left( 2 \right) +  \cdots  + 2\gamma \left( {n - 1} \right)} \right)  \\
-       &amp;= \frac{1}{n}\sum\limits_{h =  - n}^n {\left( {1 - \frac{{\left| h \right|}}{n}} \right)\gamma \left( h \right)} .  \\
+             \end{array}} \right]_{T \times 1}}  \\
+       &amp;= \frac{1}{{{n^2}}}\left( {T\gamma \left( 0 \right) + 2\left( {T - 1} \right)\gamma \left( 1 \right) + 2\left( {T - 2} \right)\gamma \left( 2 \right) +  \cdots  + 2\gamma \left( {T - 1} \right)} \right)  \\
+       &amp;= \frac{1}{T}\sum\limits_{h =  - T}^T {\left( {1 - \frac{{\left| h \right|}}{T}} \right)\gamma \left( h \right)} .  \\
 \end{aligned} \]</span></p>
 <p>Obviously, when <span class="math inline">\(X_t\)</span> is a white noise process, the above formula reduces to the
-usual <span class="math inline">\(\text{var} \left( {\bar X} \right) = \sigma^2_w/n\)</span>. In the following example,
+usual <span class="math inline">\(\text{var} \left( {\bar X} \right) = \sigma^2_w/T\)</span>. In the following example,
 we consider the case of an AR(1) process and discuss
 how <span class="math inline">\(\text{var} \left( {\bar X} \right)\)</span> can be obtained or estimated.</p>
 
@@ -749,15 +749,15 @@ how <span class="math inline">\(\text{var} \left( {\bar X} \right)\)</span> can 
 </div>
 
 <span class="math display" id="eq:chap2exAR1">\[\begin{equation}
-    \text{var} \left( {\bar X} \right) = \frac{\sigma_w^2 \left( n - 2\phi - n \phi^2 + 2 \phi^{n + 1}\right)}{n^2\left(1-\phi^2\right)\left(1-\phi\right)^2}.
+    \text{var} \left( {\bar X} \right) = \frac{\sigma_w^2 \left( T - 2\phi - T \phi^2 + 2 \phi^{T + 1}\right)}{T^2\left(1-\phi^2\right)\left(1-\phi\right)^2}.
      \tag{3.2}
 \end{equation}\]</span>
 <p>Unfortunately, deriving such an exact formula is often difficult when considering
 more complex models. However, asymptotic approximations are often employed to
 simplify the calculation. For example, in our case we have</p>
-<p><span class="math display">\[\mathop {\lim }\limits_{n \to \infty } \; n \text{var} \left( {\bar X} \right) = \frac{\sigma_w^2}{\left(1-\phi\right)^2},\]</span></p>
+<p><span class="math display">\[\mathop {\lim }\limits_{T \to \infty } \; T \text{var} \left( {\bar X} \right) = \frac{\sigma_w^2}{\left(1-\phi\right)^2},\]</span></p>
 <p>providing the following approximate formula:</p>
-<p><span class="math display">\[\text{var} \left( {\bar X} \right) \approx \frac{\sigma_w^2}{n \left(1-\phi\right)^2}.\]</span></p>
+<p><span class="math display">\[\text{var} \left( {\bar X} \right) \approx \frac{\sigma_w^2}{T \left(1-\phi\right)^2}.\]</span></p>
 <p>Alternatively, simulation methods can also be employed. For example, a possible
 strategy would be parametric bootstrap.</p>
 
@@ -776,7 +776,7 @@ obtain:</p>
 <p>where <span class="math inline">\(\bar{X}^*_i\)</span> denotes the value of the mean estimated on the <span class="math inline">\(i\)</span>-th
 simulated sample.</p>
 <p>The figure below generated by the following code compares these three methods
-for <span class="math inline">\(n = 10\)</span>, <span class="math inline">\(B = 1000,\)</span> <span class="math inline">\(\sigma^2 = 1\)</span> and a grid of values for <span class="math inline">\(\phi\)</span> going
+for <span class="math inline">\(T = 10\)</span>, <span class="math inline">\(B = 1000,\)</span> <span class="math inline">\(\sigma^2 = 1\)</span> and a grid of values for <span class="math inline">\(\phi\)</span> going
 from <span class="math inline">\(-0.95\)</span> to <span class="math inline">\(0.95\)</span>:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Define sample size</span>
 n =<span class="st"> </span><span class="dv">10</span>
@@ -832,7 +832,7 @@ this case the process is a white noise. Moreover, the bootstrap approach
 appears to well approximate the curve of <a href="fundtimeseries.html#eq:chap2exAR1">(3.2)</a>, while the
 asymptotic form provides a reasonable approximation when <span class="math inline">\(\phi\)</span> lies between
 -0.5 and 0.5. Naturally, the quality of this approximation would be far better
-for a larger sample size (here we consider <span class="math inline">\(n = 10\)</span>, which is a little “extreme”).</p>
+for a larger sample size (here we consider <span class="math inline">\(T = 10\)</span>, which is a little “extreme”).</p>
 </div>
 <div id="sample-autocovariance-and-autocorrelation-functions" class="section level3">
 <h3><span class="header-section-number">3.3.2</span> Sample Autocovariance and Autocorrelation Functions</h3>

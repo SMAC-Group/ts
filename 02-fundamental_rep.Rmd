@@ -557,7 +557,7 @@ function of $X_t$. If $X_t$ is a strongly stationary process, we have
 where $f(x)$ denotes the density of $X_t, \; \forall t$. Replacing $f(x)$ by
 $f_n(x)$, the empirical density, we obtain the following estimator
   
-\[\hat{\alpha} = \widehat{\mathbb{E}}[m(x) ] \frac{1}{n} \sum_{i = 1}^n m\left(x_i\right).\]
+\[\hat{\alpha} = \widehat{\mathbb{E}}[m(x) ] \frac{1}{T} \sum_{t = 1}^T m\left(x_t\right).\]
   
 In the next subsection, we examine how this simple idea can be used to estimate
 the mean, autocovariance and autocorrelation functions. Moreover, we discuss
@@ -569,37 +569,37 @@ some of the properties of these estimators.
 If a time series is stationary, the mean function is constant and a possible
 estimator of this quantity is, as discussed above, given by
   
-\[\bar{X} = {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t}} }.\]
+\[\bar{X} = {\frac{1}{T}\sum\limits_{t = 1}^T {{X_t}} }.\]
   
 Naturally, the $k$-th moment, say $\beta_k \equiv \mathbb{E}[X_t^k]$ can be
 estimated by
   
-\[\hat{\beta}_k = {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t^k}} }, \;\; k \in \left\{x \in \mathbb{N} : \, 0 < x < \infty  \right\}.\]
+\[\hat{\beta}_k = {\frac{1}{T}\sum\limits_{t = 1}^T {{X_t^k}} }, \;\; k \in \left\{x \in \mathbb{N} : \, 0 < x < \infty  \right\}.\]
   
 The variance of such an estimator can be derived as follows:
     
 \begin{equation}
   \begin{aligned}
-  \text{var} \left( \hat{\beta}_k \right) &= \text{var} \left( {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t^k}} } \right)  \\
-  &= \frac{1}{{{n^2}}}\text{var} \left( {{{\left[ {\begin{array}{*{20}{c}}
+  \text{var} \left( \hat{\beta}_k \right) &= \text{var} \left( {\frac{1}{T}\sum\limits_{t = 1}^T {{X_t^k}} } \right)  \\
+  &= \frac{1}{{{T^2}}}\text{var} \left( {{{\left[ {\begin{array}{*{20}{c}}
     1& \cdots &1
-    \end{array}} \right]}_{1 \times n}}{{\left[ {\begin{array}{*{20}{c}}
+    \end{array}} \right]}_{1 \times T}}{{\left[ {\begin{array}{*{20}{c}}
       {{X_1^k}} \\
       \vdots  \\
       {{X_n^k}}
-      \end{array}} \right]}_{n \times 1}}} \right)  \\
+      \end{array}} \right]}_{T \times 1}}} \right)  \\
   &= \frac{1}{{{n^2}}}{\left[ {\begin{array}{*{20}{c}}
     1& \cdots &1
-    \end{array}} \right]_{1 \times n}} \, \boldsymbol{\Sigma}(k) \, {\left[ {\begin{array}{*{20}{c}}
+    \end{array}} \right]_{1 \times T}} \, \boldsymbol{\Sigma}(k) \, {\left[ {\begin{array}{*{20}{c}}
       1 \\
       \vdots  \\
       1
-      \end{array}} \right]_{n \times 1}}, 
+      \end{array}} \right]_{T \times 1}}, 
   \end{aligned}
   (\#eq:chap2VarMoment)
 \end{equation}
     
-where $\boldsymbol{\Sigma}(k) \in \mathbb{R}^{n \times n}$ and its $i$-th, $j$-th
+where $\boldsymbol{\Sigma}(k) \in \mathbb{R}^{T \times T}$ and its $i$-th, $j$-th
 element is given by
     
 \[ \left(\boldsymbol{\Sigma}(k)\right)_{i,j} = \text{cov} \left(X_i^k, X_j^k\right).\]
@@ -608,25 +608,25 @@ In the case $k = 1$, \@ref(eq:chap2VarMoment) can easily be further simplified.
 Indeed, we have
     
 \[\begin{aligned}
-       \text{var} \left( {\bar X} \right) &= \text{var} \left( {\frac{1}{n}\sum\limits_{t = 1}^n {{X_t}} } \right)  \\
-       &= \frac{1}{{{n^2}}}{\left[ {\begin{array}{*{20}{c}}
+       \text{var} \left( {\bar X} \right) &= \text{var} \left( {\frac{1}{n}\sum\limits_{t = 1}^T {{X_t}} } \right)  \\
+       &= \frac{1}{{{T^2}}}{\left[ {\begin{array}{*{20}{c}}
          1& \cdots &1
-         \end{array}} \right]_{1 \times n}}\left[ {\begin{array}{*{20}{c}}
-           {\gamma \left( 0 \right)}&{\gamma \left( 1 \right)}& \cdots &{\gamma \left( {n - 1} \right)} \\
+         \end{array}} \right]_{1 \times T}}\left[ {\begin{array}{*{20}{c}}
+           {\gamma \left( 0 \right)}&{\gamma \left( 1 \right)}& \cdots &{\gamma \left( {T - 1} \right)} \\
            {\gamma \left( 1 \right)}&{\gamma \left( 0 \right)}&{}& \vdots  \\
            \vdots &{}& \ddots & \vdots  \\
-           {\gamma \left( {n - 1} \right)}& \cdots & \cdots &{\gamma \left( 0 \right)}
-           \end{array}} \right]_{n \times n}{\left[ {\begin{array}{*{20}{c}}
+           {\gamma \left( {T - 1} \right)}& \cdots & \cdots &{\gamma \left( 0 \right)}
+           \end{array}} \right]_{T \times T}{\left[ {\begin{array}{*{20}{c}}
              1 \\
              \vdots  \\
              1
-             \end{array}} \right]_{n \times 1}}  \\
-       &= \frac{1}{{{n^2}}}\left( {n\gamma \left( 0 \right) + 2\left( {n - 1} \right)\gamma \left( 1 \right) + 2\left( {n - 2} \right)\gamma \left( 2 \right) +  \cdots  + 2\gamma \left( {n - 1} \right)} \right)  \\
-       &= \frac{1}{n}\sum\limits_{h =  - n}^n {\left( {1 - \frac{{\left| h \right|}}{n}} \right)\gamma \left( h \right)} .  \\
+             \end{array}} \right]_{T \times 1}}  \\
+       &= \frac{1}{{{n^2}}}\left( {T\gamma \left( 0 \right) + 2\left( {T - 1} \right)\gamma \left( 1 \right) + 2\left( {T - 2} \right)\gamma \left( 2 \right) +  \cdots  + 2\gamma \left( {T - 1} \right)} \right)  \\
+       &= \frac{1}{T}\sum\limits_{h =  - T}^T {\left( {1 - \frac{{\left| h \right|}}{T}} \right)\gamma \left( h \right)} .  \\
 \end{aligned} \]
     
 Obviously, when $X_t$ is a white noise process, the above formula reduces to the
-usual $\text{var} \left( {\bar X} \right) = \sigma^2_w/n$. In the following example,
+usual $\text{var} \left( {\bar X} \right) = \sigma^2_w/T$. In the following example,
 we consider the case of an AR(1) process and discuss 
 how $\text{var} \left( {\bar X} \right)$ can be obtained or estimated.
     
@@ -635,7 +635,7 @@ For an AR(1), we have $\gamma(h) = \phi^h \sigma_w^2 \left(1 - \phi^2\right)^{-1
 ```      
 
 \begin{equation}
-    \text{var} \left( {\bar X} \right) = \frac{\sigma_w^2 \left( n - 2\phi - n \phi^2 + 2 \phi^{n + 1}\right)}{n^2\left(1-\phi^2\right)\left(1-\phi\right)^2}.
+    \text{var} \left( {\bar X} \right) = \frac{\sigma_w^2 \left( T - 2\phi - T \phi^2 + 2 \phi^{T + 1}\right)}{T^2\left(1-\phi^2\right)\left(1-\phi\right)^2}.
      (\#eq:chap2exAR1)
 \end{equation}
     
@@ -643,11 +643,11 @@ Unfortunately, deriving such an exact formula is often difficult when considerin
 more complex models. However, asymptotic approximations are often employed to
 simplify the calculation. For example, in our case we have
     
-\[\mathop {\lim }\limits_{n \to \infty } \; n \text{var} \left( {\bar X} \right) = \frac{\sigma_w^2}{\left(1-\phi\right)^2},\]
+\[\mathop {\lim }\limits_{T \to \infty } \; T \text{var} \left( {\bar X} \right) = \frac{\sigma_w^2}{\left(1-\phi\right)^2},\]
     
 providing the following approximate formula:
       
-\[\text{var} \left( {\bar X} \right) \approx \frac{\sigma_w^2}{n \left(1-\phi\right)^2}.\]
+\[\text{var} \left( {\bar X} \right) \approx \frac{\sigma_w^2}{T \left(1-\phi\right)^2}.\]
     
 Alternatively, simulation methods can also be employed. For example, a possible
 strategy would be parametric bootstrap.
@@ -671,7 +671,7 @@ where $\bar{X}^*_i$ denotes the value of the mean estimated on the $i$-th
 simulated sample.
     
 The figure below generated by the following code compares these three methods
-for $n = 10$, $B = 1000,$ $\sigma^2 = 1$ and a grid of values for $\phi$ going
+for $T = 10$, $B = 1000,$ $\sigma^2 = 1$ and a grid of values for $\phi$ going
 from $-0.95$ to $0.95$:
       
       
@@ -731,7 +731,7 @@ this case the process is a white noise. Moreover, the bootstrap approach
 appears to well approximate the curve of \@ref(eq:chap2exAR1), while the
 asymptotic form provides a reasonable approximation when $\phi$ lies between
 -0.5 and 0.5. Naturally, the quality of this approximation would be far better
-for a larger sample size (here we consider $n = 10$, which is a little "extreme").
+for a larger sample size (here we consider $T = 10$, which is a little "extreme").
     
 ### Sample Autocovariance and Autocorrelation Functions
     
