@@ -19,7 +19,7 @@ In order to discuss the classes of models mentioned above, we first present the 
 
 ```{definition, label="lp", name="Linear Process"}
 A time series, $(X_t)$, is defined to be a linear process if it can be expressed
-as a linear combination of white noise by:
+as a linear combination of white noise as follows:
 
 \[{X_t} = \mu + \sum\limits_{j =  - \infty }^\infty  {{\psi _j}{W_{t - j}}} \]
 
@@ -46,15 +46,39 @@ The latter is derived from
 Within the above derivation, the key is to realize that 
 $Cov\left( {{w_{t - j}},{w_{t + h - j}}} \right) = 0$ if $t - j \ne t + h - j$.
 
-Lastly, one of the better formalities of a linear process is that it is able 
-to be represented in a simplified form under the **backshift operator**:
+Lastly, another convenient way to formalize the definition of a linear process is through the use of the **backshift operator** (or lag operator) which is itself defined as follows:
+
+\[B\,X_t = X_{t-1}.\]
+
+The properties of the backshift operator allow us to create composite functions of the type 
+
+$$B^2 \, X_t = B (B \, X_t) = B \, X_{t-1} = X_{t-2}$$
+which allows to generalize as follows
+
+$$B^k \, X_t = X_{t-k}.$$
+Moreover, we can apply the inverse operator to it (i.e. $B^{-1} \, B = 1$) thereby allowing us to have, for example:
+
+$$X_t = B^{-1} \, B X_t = B^{-1} X_{t-1}$$
+
+```{example, label="backdiff", name="d-order Differences"}
+We can re-express $X_t - X_{t-1}$ as
+$$\delta X_t = (1 - B) X_t$$
+or a second order difference as
+$$\delta^2 X_t = (1 - B)^2 X_t$$
+thereby generalizing to a d-order difference as follows:
+$$\delta^d X_t = (1 - B)^d X_t.$$
+```
+
+Having defined the backshift operator, we can now provide an alternative definition of a linear process as follows:
 
 \[{X_t} = \psi \left( B \right){W_t}\]
+
+where $\psi ( B )$ is a polynomial function in $B$ whose coefficients are given by the linear filters $\{\psi_j\}$ (we'll describe these polynomials further on).
 
 ```{example, label="lpwn", name="Linear Process of White Noise"}
 
 The white noise process $\left\{X_t\right\}$, defined in \@ref(wn),
-can be expressed as a linear process under:
+can be expressed as a linear process as follows:
 
 \[\psi _j = \begin{cases}
       1 , &\mbox{ if } j = 0\\
@@ -69,7 +93,7 @@ Therefore, $X_t = W_t$, where $W_t \sim WN(0, \sigma^2_W)$
 ```{example, label="lpma1", name="Linear Process of Moving Average Order 1"}
 
 Similarly, consider $\left\{X_t\right\}$ to be a MA(1) process, 
-given by \@ref(ma1). The process can be expressed linearly under: 
+given by \@ref(ma1). The process can be expressed linearly through the following filters: 
 
 \[\psi _j = \begin{cases}
       1, &\mbox{ if } j = 0\\
@@ -104,24 +128,16 @@ In practice, if $q = 1$, we would have:
 ```
 
 
-```{example, label="lpar1", name="Linear Process of Autoregressive Process of Order 1"}
-A more intensive application of a linear process is $\left\{X_t\right\}$ as an
-AR1 process, defined in \@ref(ar1). The intensity comes
-from the necessity to define the weights with respect
-to the time lag.
+```{example, label="lpar1", name="Autoregressive Process of Order 1"}
+If $\left\{X_t\right\}$ follows an AR(1) model defined in \@ref(ar1), the linear filters are a function of the time lag:
 
 \[\psi _j = \begin{cases}
       \phi^j , &\mbox{ if } j \ge 0\\
       0 , &\mbox{ if } j < 0
 \end{cases}.\]
 
-and $\mu = 0$.
-
-Under the condition that $\left| \phi \right| < 1$ the
-process can be considered to be the traditional $X_t = \phi X_{t-1} + W_t$. Furthermore, the process can also be considered to be an MA($\infty$)!
+and $\mu = 0$. We would require the condition that $\left| \phi \right| < 1$ in order to respect the condition on the filters (i.e. $\sum\limits_{j =  - \infty }^\infty  {\left| {{\psi _j}} \right|}  < \infty$).
 ```
-
-## Linear Operators
 
 
 ## Autoregressive Models (AR(p))
@@ -131,12 +147,12 @@ The class of autoregressive models is based on the idea that previous values in 
 ```{definition, label="ar_p","Autoregressive Models of Order P"}
 The AR(p) models can be formally represented as follows
 $${X_t} = {\phi_1}{Y_{t - 1}} + ... + {\phi_p}{X_{t - p}} + {W_t},$$
-where $\phi_p \neq 0$ and $W_t$ is a (Gaussian) white noise process with variance $\sigma^2$. 
+where $\phi_i \neq 0$ (for $i = 1, ..., p$) and $W_t$ is a (Gaussian) white noise process with variance $\sigma^2$. 
 ```
 
-In general, we will assume that the expectation of the process $({X_t})$, as well as that of the following ones in this chapter, is zero. The reason for this simplification is that if $\mathbb{E} [ X_t ] = \mu$, we can define an AR process *around* $\mu$ as follows:
+As earlier in this book, we will assume that the expectation of the process $({X_t})$, as well as that of the following ones in this chapter, is zero. The reason for this simplification is that if $\mathbb{E} [ X_t ] = \mu$, we can define an AR process *around* $\mu$ as follows:
 
-$$X_t - \mu = \sum_{i = 1}^p \left(\phi_i X_{t-i} - \mu \right) + W_t,$$
+$$X_t - \mu = \sum_{i = 1}^p \phi_i \left(X_{t-i} - \mu \right) + W_t,$$
 
 which is equivalent to 
 
@@ -144,7 +160,7 @@ $$X_t  = \mu^{\star} +  \sum_{i = 1}^p \phi_i X_{t-i}  + W_t,$$
 
 where $\mu^{\star} = \mu (1 - \sum_{i = 1}^p \phi_i)$. Therefore, to simplify the notation we will generally consider only zero mean processes, since adding means (as well as other deterministic trends) is easy.
 
-A useful way of representing AR processes is through the backshift operator introduced in the previous section and is as follows
+A useful way of representing AR(p) processes is through the backshift operator introduced in the previous section and is as follows
 
 \[\begin{aligned}
   {X_t} &= {\phi_1}{X_{t - 1}} + ... + {\phi_p}{y_{t - p}} + {w_t} \\
@@ -160,7 +176,7 @@ which, in abbreviated form, can be expressed as
 
 $$\phi(B){X_t} = W_t.$$
 
-We will see that $\phi(B)$ is important to establish the stationarity of these processes and is called the *autoregressive* operator. Moreover, this quantity is closely related to another important property of AR processes called *causality*. Before formally defining this new property, we consider the following example, which provides an intuitive illustration of its importance.
+We will see that $\phi(B)$ is important to establish the stationarity of these processes and is called the *autoregressive* operator. Moreover, this quantity is closely related to another important property of AR(p) processes called *causality*. Before formally defining this new property we consider the following example which provides an intuitive illustration of its importance.
 
 **Example:** Consider a classical AR(1) model with $|\phi| > 1$. Such a model could be expressed as
 
@@ -168,30 +184,34 @@ $$X_t = \phi^{-1} X_{t+1} - \phi^{-1} W_t = \phi^{-k} X_{t+k} - \sum_{i = 1}^{k-
 
 Since $|\phi| > 1$, we obtain
 
-$$X_t = - \sum_{i = 1}^{\infty} \phi^{-j} W_{t-j},$$
+$$X_t = - \sum_{j = 1}^{\infty} \phi^{-j} W_{t+j},$$
 
-which is a linear process and therefore is stationary. Unfortunately, such a model is useless because we need the future to predict the future and such processes are called non-causal.
+which is a linear process and therefore is stationary. Unfortunately, such a model is useless because we need the future to predict the future. These processes are called non-causal.
 
 ### Properties of AR(p) models
 
-In this section we will describe the main property of the AR(p) model which has already been introduced in the previous paragraphs and therefore let us now introduce the property of causality in a more formal manner.
+In this section we will describe the main property of the AR(p) model which has already been mentioned in the previous paragraphs and therefore let us now introduce the property of causality in a more formal manner.
 
 **Definition:** An AR(p) model is *causal*, if the time series $\{ X_t \}_{-\infty}^{\infty}$ can be written as a one-sided linear process:
 \begin{equation}
     X_t = \sum_{j = 0}^{\infty} \psi_j W_{t-j} = \frac{1}{\phi(B)} W_t = \psi(B) W_t,
 (\#eq:causal)
 \end{equation}
-where $\phi(B) = \sum_{j = 0}^{\infty} \phi_j B^j$, and $\sum_{j=0}^{\infty}|\phi_j| < \infty$; we set $\phi_0 = 1$.
+where $\phi(B) = \sum_{j = 0}^{\infty} \phi_j B^j$, and $\sum_{j=0}^{\infty}|\phi_j| < \infty$ and setting $\phi_0 = 1$.
 
-As discussed earlier this condition implies that only the past values of the time series can explain the future values of it, and not viceversa. However, it might be difficult and not obvious to show the causality of an AR(p) process by using the above definitions directly, thus the following properties are useful in practice. 
+As discussed earlier this condition implies that only the past values of the time series can explain the future values of it, and not viceversa. Moreover, given the expression of the linear filters given by
+$$\frac{1}{\phi(B)}$$
+it is obvious that there a solution (and therefore causality) only when $\phi(B) = \sum_{j = 0}^{\infty} \phi_j B^j \neq 0$. A condition for this to be respected is for the roots of $\phi(B) = 0$ to lie outside the unit circle.
 
-**Property: Causality**
-If an AR(p) model is causal, then the coefficients of the one-sided linear process given in (\@ref(eq:causal)) can be obtained by solving
-\begin{equation*}
-    \psi(z) = \frac{1}{\sum_{j=0}^{\infty} \phi_j z^j} = \frac{1}{\phi(z)}, \mbox{ } |z| \leq 1.
-\end{equation*}
+<!-- However, it might be difficult and not obvious to show the causality of an AR(p) process by using the above definitions directly, thus the following properties are useful in practice.  -->
 
-It can be seen how there is no solution to the above equation if $\phi(z) = 0$ and therefore an AR(p) is causal if and only if $\phi(z) \neq 0$. A condition for this to be respected is for the roots of $\phi(z) = 0$ to lie outside the unit circle.
+<!-- **Causality** -->
+<!-- If an AR(p) model is causal, then the coefficients of the one-sided linear process given in \@ref(eq:causal) can be obtained by solving -->
+<!-- \begin{equation*} -->
+<!--     \psi(z) = \frac{1}{\sum_{j=0}^{\infty} \phi_j z^j} = \frac{1}{\phi(z)}, \mbox{ } |z| \leq 1. -->
+<!-- \end{equation*} -->
+
+<!-- It can be seen how there is no solution to the above equation if $\phi(z) = 0$ and therefore an AR(p) is causal if and only if $\phi(z) \neq 0$. A condition for this to be respected is for the roots of $\phi(z) = 0$ to lie outside the unit circle. -->
 
 
 ## Estimation of AR(p) models
@@ -442,7 +462,7 @@ simulation engine, we can simultaneously evaluate the processes within one
 loop iteration. Please take into consideration that the following simulation study is computationally intensive and may require the amount of iteration $B$ to be decreased on a personal computer to complete in a reasonable time.
 
 
-``` {r simuAR2study, cache = TRUE, fig.height = 4.5, fig.width = 9}
+``` {r simuAR2study, eval = FALSE, cache = TRUE, fig.height = 4.5, fig.width = 9}
 # Number of bootstrap iterations
 B = 250
 

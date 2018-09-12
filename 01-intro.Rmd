@@ -467,13 +467,9 @@ Although a linear trend and other processes are present in this signal
 (time series), it is practically impossible to understand or guess anything
 from the plot. For this reason, other types of representations are available to understand the behaviour of a time series and will be discussed in the next chapter. Having discussed these representations (and the relative issues with these representations) let us present the basic parametric models that are used to build even more complex models to describe and predict the behaviour of a time series.
 
-## Modelling Time Series {#basicmodels}
+## Dependence in Time Series 
 
-Before discussing the basic time series models used to describe and forecast, we briefly discuss the concept of dependence within time series.
-
-### Dependence within Time Series
-
-As mentioned earlier, it is straightforward to assume that observations measured through time are dependent on each other (in that observations at time $t$ have some form of impact on observations at time $t+1$ or beyond). Due to this characteristic, one of the main interests in time series is prediction where, if $(X_t)_{t=1,\ldots,T}$ is an identically distributed but not independent sequence, we often want to know the value of ${X}_{T+h}$ for $h > 0$ (i.e. an estimator of $\mathbb{E}[X_{T+h}| X_T,...]$). In order to tackle this issue, we first need to understand the dependence between $X_{1},\ldots,X_{T}$ and, even before this, we have to formally define what **independence** is.
+In this seciton we briefly discuss the concept of dependence (within time series). As mentioned earlier, it is straightforward to assume that observations measured through time are dependent on each other (in that observations at time $t$ have some form of impact on observations at time $t+1$ or beyond). Due to this characteristic, one of the main interests in time series is prediction where, if $(X_t)_{t=1,\ldots,T}$ is an identically distributed but not independent sequence, we often want to know the value of ${X}_{T+h}$ for $h > 0$ (i.e. an estimator of $\mathbb{E}[X_{T+h}| X_T,...]$). In order to tackle this issue, we first need to understand the dependence between $X_{1},\ldots,X_{T}$ and, even before this, we have to formally define what **independence** is.
 
 ```{definition, IndepEvents, name = "Independence of Events"}
 Two events $A$ and $B$ are independent if 
@@ -515,7 +511,7 @@ and
 The basic idea behind the above definitions of independence is the fact that the probability of an event regarding variable $X_i$ remains unaltered no matter what occurs for variable $X_j$ (for $i \neq j$). However, for time series, this is often not the case and $X_t$ often has some impact on $X_{t+h}$ for some $h$ (not too large). In order to explain (and predict) the impact of an observation on future observations, a series of models have been adopted through the years thereby providing a comprehensive framework to explain dependence through time. The following paragraphs introduce some of these basic models.
 
 
-### Basic Time Series Models
+## Basic Time Series Models {#basicmodels}
 
 In this section, we introduce some simple time series models that consitute the building blocks for the more complex and flexible classes of time series commonly used in practice. Before doing so it is useful to define $\Omega_t$ as all the information available up to time
 $t-1$, i.e.

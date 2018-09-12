@@ -557,7 +557,7 @@ function of $X_t$. If $X_t$ is a strongly stationary process, we have
 where $f(x)$ denotes the density of $X_t, \; \forall t$. Replacing $f(x)$ by
 $f_n(x)$, the empirical density, we obtain the following estimator
   
-\[\hat{\alpha} = \widehat{\mathbb{E}}[m(x) ] \frac{1}{T} \sum_{t = 1}^T m\left(x_t\right).\]
+\[\hat{\alpha} = \widehat{\mathbb{E}}[m(x) ] = \frac{1}{T} \sum_{t = 1}^T m\left(x_t\right).\]
   
 In the next subsection, we examine how this simple idea can be used to estimate
 the mean, autocovariance and autocorrelation functions. Moreover, we discuss
