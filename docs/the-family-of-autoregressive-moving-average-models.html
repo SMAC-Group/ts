@@ -213,8 +213,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The second part of this chapter introduces the general class of SARIMA models, passing through the class of ARIMA models. These models allow to apply the ARMA modeling framework also to time series that have particular non-stationary components to them such as, for example, linear and/or seasonal trends. Extending ARMA modeling to these cases allows SARIMA models to be an extremely flexible class of models that can be used to describe a wide range of phenomena.</p>
 <div id="linear-processes" class="section level2">
 <h2><span class="header-section-number">4.1</span> Linear Processes</h2>
-<p>In order to discuss the classes of models mentioned above, we first present the class of linear processes which underlie many of the most common time series models. This class of models can be represented</p>
-<p>INSERT AN INTRODUCTION TO WHAT LINEAR PROCESSES ARE AND WHY THEY ARE IMPORTANT</p>
+<p>In order to discuss the classes of models mentioned above, we first present the class of linear processes which underlie many of the most common time series models.</p>
 
 <div class="definition">
 <p><span id="def:lp" class="definition"><strong>Definition 4.1  (Linear Process)  </strong></span>A time series, <span class="math inline">\((X_t)\)</span>, is defined to be a linear process if it can be expressed
@@ -223,11 +222,7 @@ as a linear combination of white noise by:</p>
 where <span class="math inline">\(W_t \sim WN(0, \sigma^2)\)</span> and <span class="math inline">\(\sum\limits_{j = - \infty }^\infty {\left| {{\psi _j}} \right|} &lt; \infty\)</span>.
 </div>
 
-<p>Note, the latter assumption is required to ensure that the series has a limit.
-Furthermore, the set of coefficients <span class="math display">\[{\{ {\psi _j}\} _{j =  - \infty , \cdots ,\infty }}\]</span>
-can be viewed as a linear filter. These coefficients do not have to be all equal
-nor symmetric as later examples will show. Generally, the properties of a linear
-process related to mean and variance are given by:</p>
+<p>Note, the latter assumption is required to ensure that the series has a limit. Furthermore, the set of coefficients <span class="math display">\[{\{ {\psi _j}\} _{j =  - \infty , \cdots ,\infty }}\]</span> can be viewed as a linear filter. These coefficients do not have to be all equal nor symmetric as later examples will show. Generally, the properties of a linear process related to mean and variance are given by:</p>
 <p><span class="math display">\[\begin{aligned}
 \mu_{X} &amp;= \mu \\
 \gamma_{X}(h) &amp;= \sigma _W^2\sum\limits_{j =  - \infty }^\infty  {{\psi _j}{\psi _{h + j}}}

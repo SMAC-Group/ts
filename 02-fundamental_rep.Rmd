@@ -359,8 +359,7 @@ This process is therefore not weakly stationary.
 3. Regarding the autocovariance of a random walk, we have:
   \[\begin{aligned}
      \gamma \left( h \right) &= \text{cov}\left( {{X_t},{X_{t + h}}} \right) 
-     = \text{cov}\left( {\sum\limits_{i = 1}^t {{W_i}} ,\sum\limits_{j = 1}^{t + h} {{W_j}} } \right) 
-     = \text{cov}\left( {\sum\limits_{i = 1}^t {{W_i}} ,\sum\limits_{j = 1}^t {{W_j}} } \right)\\ 
+     = \text{cov}\left( {\sum\limits_{i = 1}^t {{W_i}} ,\sum\limits_{j = 1}^{t + h} {{W_j}} } \right) \\ 
      &= \min \left( {t,t + h} \right)\sigma _w^2
      = \left( {t + \min \left( {0,h} \right)} \right)\sigma _w^2,
      \end{aligned} \]
@@ -520,15 +519,16 @@ With this setup, we demonstrate how crucial this property is by calculating each
   meaning that as $|\phi|$ gets smaller the autocorrelation reaches zero at a faster rate (on the contrary, if $|\phi|$ is close to 1 then the decay rate is slower). This is well illustrated in the following plots.
 ```
 
-```{r AR1theoACF, cache = TRUE, echo = FALSE, fig.cap = "Comparison of theoretical ACF of AR(1) with different values of phi (i.e. phi = 0.9, 0.5, 0.1)", fig.align='center', fig.height = 4, fig.width = 10}
-par(mfrow=c(1,3))
+```{r AR1theoACF, cache = TRUE, echo = FALSE, fig.cap = "Comparison of theoretical ACF of AR(1) with different values of phi (i.e. phi = 0.9, 0.5, 0.1)", fig.align='center', fig.height = 6, fig.width = 10}
+par(mfrow=c(2,2))
 plot(theo_acf(ARMA(ar = 0.9, ma = NULL)), 
-     main = expression(paste("Theoretical ACF plot of AR1 with ", phi, " = 0.9")))
+     main = expression(paste("Theoretical ACF plot of AR(1) with ", phi, " = 0.9")))
 plot(theo_acf(ARMA(ar = 0.5, ma = NULL)),
-     main = expression(paste("Theoretical ACF plot of AR1 with ", phi, " = 0.5")))
+     main = expression(paste("Theoretical ACF plot of AR(1) with ", phi, " = 0.5")))
+plot(theo_acf(ARMA(ar = -0.9, ma = NULL)), 
+     main = expression(paste("Theoretical ACF plot of AR(1) with ", phi, " = -0.9")))
 plot(theo_acf(ARMA(ar = 0.1, ma = NULL)), 
-     main = expression(paste("Theoretical ACF plot of AR1 with ", phi, " = 0.1")))
-
+     main = expression(paste("Theoretical ACF plot of AR(1) with ", phi, " = 0.1")))
 ```
   
 ## Estimation of Moments (Stationary Processes)
