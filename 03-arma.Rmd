@@ -192,16 +192,16 @@ which is a linear process and therefore is stationary. Unfortunately, such a mod
 
 In this section we will describe the main property of the AR(p) model which has already been mentioned in the previous paragraphs and therefore let us now introduce the property of causality in a more formal manner.
 
-**Definition:** An AR(p) model is *causal*, if the time series $\{ X_t \}_{-\infty}^{\infty}$ can be written as a one-sided linear process:
+**Definition:** An AR(p) model is *causal* if the time series $\{ X_t \}_{-\infty}^{\infty}$ can be written as a one-sided linear process:
 \begin{equation}
     X_t = \sum_{j = 0}^{\infty} \psi_j W_{t-j} = \frac{1}{\phi(B)} W_t = \psi(B) W_t,
 (\#eq:causal)
 \end{equation}
 where $\phi(B) = \sum_{j = 0}^{\infty} \phi_j B^j$, and $\sum_{j=0}^{\infty}|\phi_j| < \infty$ and setting $\phi_0 = 1$.
 
-As discussed earlier this condition implies that only the past values of the time series can explain the future values of it, and not viceversa. Moreover, given the expression of the linear filters given by
+As discussed earlier this condition implies that only the past values of the time series can explain the future values of it and not viceversa. Moreover, given the expression of the linear filters given by
 $$\frac{1}{\phi(B)}$$
-it is obvious that there a solution (and therefore causality) only when $\phi(B) = \sum_{j = 0}^{\infty} \phi_j B^j \neq 0$. A condition for this to be respected is for the roots of $\phi(B) = 0$ to lie outside the unit circle.
+it is obvious that a solution exists only when $\phi(B) = \sum_{j = 0}^{\infty} \phi_j B^j \neq 0$ (thereby implying causality). A condition for this to be respected is for the roots of $\phi(B) = 0$ to lie outside the unit circle.
 
 <!-- However, it might be difficult and not obvious to show the causality of an AR(p) process by using the above definitions directly, thus the following properties are useful in practice.  -->
 
@@ -216,15 +216,15 @@ it is obvious that there a solution (and therefore causality) only when $\phi(B)
 
 ## Estimation of AR(p) models
 
-Given the above defined properties of the AR(p) models, we will now discuss how these models can be estimated, more specifically how the $p+1$ parameters can be obtained from an observed time series. Indeed, a reliable estimation of these models is necessary in order to intepret and describe different natural phenomena and/or forecast possible future values of the time series.
+Given the above defined properties of AR(p) models, we will now discuss how these models can be estimated, more specifically how the $p+1$ parameters can be obtained from an observed time series. Indeed, a reliable estimation of these models is necessary in order to intepret and describe different natural phenomena and/or forecast possible future values of the time series.
 
-A first approach builds upon the earlier definition of the AR(p) as being a linear process. Recall that
+A first approach builds upon the earlier definition of AR(p) models being a linear process. Recall that
 \begin{equation}
     X_t = \sum_{j = 1}^{p} \phi_j X_{t-j}
 \end{equation}
 which delivers the following autocovariance function
 \begin{equation}
-    \gamma(h) = cov(X_{t+h}, X_t) = cov(\sum_{j = 1}^{p} \phi_j X_{t-j}, X_t) = \sum_{j = 1}^{p} \phi_j \gamma(h-j), \mbox{ } h \geq 0.
+    \gamma(h) = \text{cov}(X_{t+h}, X_t) = \text{cov}\left(\sum_{j = 1}^{p} \phi_j X_{t-j}, X_t\right) = \sum_{j = 1}^{p} \phi_j \gamma(h-j), \mbox{ } h \geq 1.
 \end{equation}
 Rearranging the above expressions we obtain the following general equations
 \begin{equation}
@@ -246,29 +246,29 @@ and
 \end{equation}
 which in matrix notation can be defined as follows
 \begin{equation}
-    \Gamma_p \mathbf{\phi} = \mathbf{\gamma}_p \text{and} \sigma_w^2 = \gamma(0) - \mathbf{\phi}'\mathbf{\gamma}_p
+    \Gamma_p \mathbf{\phi} = \mathbf{\gamma}_p \,\, \text{and} \,\, \sigma_w^2 = \gamma(0) - \mathbf{\phi}'\mathbf{\gamma}_p
 \end{equation}
-where $\Gamma_p$ is the $p\times p$ matrix containing the autocovariances $\gamma(k-j), j,k = 1, ...,p$ while $\mathbf{\phi} = (\phi_1,...,\phi_p)'$ and $\mathbf{\gamma}_p = (\gamma(1),...,\gamma(p))'$ are $p\times 1$ vectors.
+where $\Gamma_p$ is the $p\times p$ matrix containing the autocovariances $\gamma(k-j)$, where $j,k = 1, ...,p$, while $\mathbf{\phi} = (\phi_1,...,\phi_p)'$ and $\mathbf{\gamma}_p = (\gamma(1),...,\gamma(p))'$ are $p\times 1$ vectors.
 
 Considering the Yule-Walker equations, it is possible to use a method of moments approach and simply replace the theoretical quantities given in the previous definition with their empirical (estimated) counterparts that we saw in the previous chapter. This gives us the following Yule-Walker estimators
 \begin{equation}
-    \hat{\mathbf{\phi}} = \hat{\Gamma}_p^{-1}\hat{\mathbf{\gamma}}_p \text{and} \hat{\sigma}_w^2 = \hat{\gamma}(0) - \hat{\mathbf{\gamma}}_p'\hat{\Gamma}_p^{-1}\hat{\mathbf{\gamma}}_p
+    \hat{\mathbf{\phi}} = \hat{\Gamma}_p^{-1}\hat{\mathbf{\gamma}}_p \,\, \text{and} \,\, \hat{\sigma}_w^2 = \hat{\gamma}(0) - \hat{\mathbf{\gamma}}_p'\hat{\Gamma}_p^{-1}\hat{\mathbf{\gamma}}_p .
 \end{equation}
 
 These estimators have the following asymptotic properties.
 
-**Property: Consistency and Asymptotic Normality of Yule-Walker estimators**
+**Consistency and Asymptotic Normality of Yule-Walker estimators:**
 The Yule-Walker estimators for a causal AR(p) model have the following asymptotic properties:
 
 \begin{equation*}
-\sqrt{T}(\hat{\mathbf{\phi}}- \mathbf{\phi}) \xrightarrow{\mathcal{D}} \mathcal{N}(\mathbf{0},\sigma_w^2\Gamma_p^{-1}) \text{and} \hat{\sigma}_w^2 \xrightarrow{\mathcal{P}} \sigma_w^2 .
+\sqrt{T}(\hat{\mathbf{\phi}}- \mathbf{\phi}) \xrightarrow{\mathcal{D}} \mathcal{N}(\mathbf{0},\sigma_w^2\Gamma_p^{-1}) \,\, \text{and} \,\, \hat{\sigma}_w^2 \xrightarrow{\mathcal{P}} \sigma_w^2 .
 \end{equation*}
 
-Therefore the Yule-Walker estimators have an asymptotically normal distribution and the estimator of the innovation variance is consistent. Moreover, these estimators are also optimal for AR(p) models, meaning that they are also efficient. However, there exists another method which allows to achieve this efficiency also for general ARMA models and this is the maximum likelihood method. Considering an AR(1) model as an example, and assuming without loss of generality that the expectation is zero, we have the following representation of the AR(1) model
+Therefore the Yule-Walker estimators have an asymptotically normal distribution and the estimator of the innovation variance is consistent. Moreover, these estimators are also optimal for AR(p) models, meaning that they are also efficient. However, there is also another method which allows to achieve this efficiency (also for general ARMA models that will be tackled further on) and this is the Maximum Likelihood (ML) method. Considering an AR(1) model as an example, and assuming without loss of generality that its expectation is zero, we have the following representation of the AR(1) model
 \begin{equation*}
 X_t = \phi X_{t-1} + w_t
 \end{equation*}
-where $|\phi|<1$ and $w_t \overset{iid}{\sim} \mathcal{N}(0,\sigma_w^2)$. Supposing we have observations issued from this model $(x_t)_{t=1,...,T}$, then the likelihood function for this setting is given by
+where $|\phi|<1$ and $w_t \overset{iid}{\sim} \mathcal{N}(0,\sigma_w^2)$. Supposing we have observations $(x_t)_{t=1,...,T}$ issued from this model, then the likelihood function for this setting is given by
 \begin{equation*}
 L(\phi,\sigma_w^2) = f(\phi,\sigma_w^2|x_1,...,x_T)
 \end{equation*}
@@ -276,11 +276,11 @@ which, for an AR(1) model, can be rewritten as follows
 \begin{equation*}
 L(\phi,\sigma_w^2) = f(x_1)f(x_2|x_1)\cdot \cdot \cdot f(x_T|x_{T-1}).
 \end{equation*}
-If we define $\Omega_t^p$ as the information contained in the previous $p$ observations to time $t$, the above can be generalized for an AR(p) model as follows
+If we define $\Omega_t^p$ as the information contained in the previous $p$ observations (before time $t$), the above expression can be generalized for an AR(p) model as follows
 \begin{equation*}
 L(\phi,\sigma_w^2) = f(x_1,...,x_p)f(x_{p+1}|\Omega_{p+1}^p)\cdot \cdot \cdot f(x_T|\Omega_{T-1}^p)
 \end{equation*}
-where $f(x_1,...,x_p)$ is the joint probability distribution of the first $p$ observations. A discussion on how to find $f(x_1,...,x_p)$ will be presented in the following paragraphs based on the approach to find $f(x_1)$ in the AR(1) likelihood. Going back to the latter, we know that $x_t|x_{t-1} \sim \mathcal{N}(\phi x_{t-1},\sigma_w^2)$ and therefore we have that
+where $f(x_1,...,x_p)$ is the joint probability distribution of the first $p$ observations. Going back to the AR(1) setting, based on our assumption on $(w_t)$ we know that $x_t|x_{t-1} \sim \mathcal{N}(\phi x_{t-1},\sigma_w^2)$ and therefore we have that
 \begin{equation*}
 f(x_t|x_{t-1}) = f_w(x_t - \phi x_{t-1})
 \end{equation*}
@@ -294,11 +294,11 @@ x_1 = \sum_{j=0}^{\infty} \phi^j w_{1-j}
 \end{equation*}
 which implies that $x_1$ follows a normal distribution with zero expectation and a variance given by $\frac{\sigma_w^2}{(1-\phi^2)}$. Based on this, the likelihood function of an AR(1) finally becomes
 \begin{equation*}
-L(\phi,\sigma_w^2) = (2\pi \sigma_w^2)^{-\frac{n}{2}} (1 - \phi)^2 \exp \left(-\frac{S(\phi)}{2 \sigma_w^2}\right)
+L(\phi,\sigma_w^2) = (2\pi \sigma_w^2)^{-\frac{T}{2}} (1 - \phi)^{\frac{1}{2}} \exp \left(-\frac{S(\phi)}{2 \sigma_w^2}\right)
 \end{equation*}
 with $S(\phi) = (1-\phi)^2 x_1^2 + \sum_{t=2}^T (x_t -\phi x_{t-1})^2$. Once the derivative of the logarithm of the likelihood is taken, the minimization of the negative of this function is usually done numerically. However, if we condition on the initial values, the AR(p) models are linear and, for example, we can then define the conditional likelihood of an AR(1) as
 \begin{equation*}
-L(\phi,\sigma_w^2|x_1) = (2\pi \sigma_w^2)^{-\frac{n-1}{2}} \exp \left(-\frac{S_c(\phi)}{2 \sigma_w^2}\right)
+L(\phi,\sigma_w^2|x_1) = (2\pi \sigma_w^2)^{-\frac{T-1}{2}} \exp \left(-\frac{S_c(\phi)}{2 \sigma_w^2}\right)
 \end{equation*}
 where
 \begin{equation*}
@@ -306,16 +306,16 @@ S_c(\phi) = \sum_{t=2}^T (x_t -\phi x_{t-1})^2 .
 \end{equation*}
 The latter is called the conditional sum of squares and $\phi$ can be estimated as a straightforward linear regression problem. Once an estimate $\hat{\phi}$ is obtained, this can be used to obtain the conditional maximum likelihood estimate of $\sigma_w^2$
 \begin{equation*}
-\hat{\sigma}_w^2 = \frac{S_c(\hat{\phi})}{(n-1)} .
+\hat{\sigma}_w^2 = \frac{S_c(\hat{\phi})}{(T-1)} .
 \end{equation*}
 
-The estimation methods presented so far are standard ones for these kind of models. Nevertheless, if the data suffers from some form of contamination, these methods can become highly biased. For this reason, some robust estimators are available to limit this problematic if there are indeed outliers in the observed time series. A first solution is given by the estimator proposed in Kunsch (1984) who underlines that the MLE score function of an AR(p) is given by
+The estimation methods presented so far are standard for these kind of models. Nevertheless, if the data suffers from some form of contamination, these methods can become highly biased. For this reason, some robust estimators are available to limit this problematic if there are indeed outliers in the observed time series. One of these methods relies on the estimator proposed in Kunsch (1984) who underlines that the MLE score function of an AR(p) is given by
 \begin{equation*}
  \kappa(\mathbf{\theta}|x_j,...x_{j+p}) = \frac{\partial}{\partial \mathbf{\theta}} (x_{j+p} - \sum_{k=1}^p \phi_k x_{j+p-k})^2
 \end{equation*}
 where $\theta$ is the parameter vector containing, in the case of an AR(1)
 model, the two parameters $\phi$ and $\sigma_w^2$ 
-(i.e.$\theta = [\phi \,\, \sigma_w^2]$). This delivers the estimating equation
+(i.e. $\theta = [\phi \,\, \sigma_w^2]$). This delivers the estimating equation
 \begin{equation*}
 \sum_{j=1}^{n-p} \kappa (\hat{\mathbf{\theta}}|x_j,...x_{j+p}) = 0 .
 \end{equation*}
@@ -330,48 +330,36 @@ can be used to deliver an M-estimator given by
 where $\psi(\cdot)$ is a function of bounded variation. When conditioning on the
 first $p$ observations, this problem can be brought back to a linear regression
 problem which can be applied in a robust manner using the robust regression
-tools available in _R_ such as `rlm(...)` or `lmrob(...)`. However, another 
-available tool in _R_ which can applied directly without conditioning also for 
-general ARMA models is the `gmwm(...)` function which, by specifying the option
-`robust = TRUE`. This function makes use of a quantity called the wavelet 
-variance (denoted as $\nu$) which is estimated robustly and then used to 
-retrieve the parameters $\theta$ of the time series model. The robust estimate 
-is obtained by solving the following minimization problem
+tools available in `R` such as `rlm(...)` or `lmrob(...)`. However, another 
+available tool in `R` which is does not require a strict specification of the distribution function (also for general ARMA models) is the `gmwm(...)` function in which it is possible to specify the option `robust = TRUE`. This function makes use of a quantity called the wavelet variance (denoted as $\nu$) which is estimated robustly and then used to retrieve the parameters $\theta$ of the time series model. The robust estimate is obtained by solving the following minimization problem
 \begin{equation*}
 \hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta} \in \boldsymbol{\Theta}}{\text{argmin}} (\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}(\boldsymbol{\theta}))^T\boldsymbol{\Omega}(\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}({\boldsymbol{\theta}})),
 \end{equation*}
-where $\hat{\nu}$ is the robustly estimated wavelet variance, $\nu{\theta}$ is 
-the theoretical wavelet variance and $\Omega$ is positive definite weighting 
-matrix. Below we show some simulation studies where we present the results of
-the above estimation procedures in absence and in presence of contamination in
-the data.
+where $\hat{\nu}$ is the robustly estimated wavelet variance, $\nu(\theta)$ is 
+the theoretical wavelet variance (implied by the model we want to estimate) and $\Omega$ is a positive definite weighting matrix. Below we show some simulation studies where we present the results of the above estimation procedures in absence and in presence of contamination in the data.
 
 In particular, we simulate three different 
 processes $X_t, Y_t, Z_t$ from \[X_t = 0.5 X_{t-1} - 0.25 X_{t-2} + W_t\]
-with $W_t \sim WN(0, 1)$. Within two of the processes, we apply either a
-process-wise contamination or a pointwise contamination. The process wise 
-contamination, $Y_t$, has a portion of the original process, $X_t$ replaced 
-with concurrent samples from \[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t\], 
-where $V_t \sim WN(0, 9)$ whereas the point-wise contaimination, $Z_t$, has 
-points selected at random from $X_t$ and replaced with $N_t \sim WN(0, 9)$.
+with $W_t \overset{iid}{\sim} N(0, 1)$. The first process $(X_t)$ is uncontaminated while the other two processes are contaminated versions of the first that can often be observed in practice. The first type of contamination can be seen in $(Y_t)$ and is delivered by replacing a portion of the original process with a process defined as \[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t\], where $V_t \overset{iid}{\sim} N(0, 9)$. The second form of contamination can be seen in $(Z_t)$ and consists in the so-called point-wise contamination where randomly selected points from $X_t$ are replaced with $N_t \overset{iid}{\sim} N(0, 9)$.
 
 
 ``` {r simuAR2data, cache = TRUE}
-n         = 1000           # Sample Size
-gamma     = 0.05           # Level of contamination
-dispersal = round(gamma*n) # Amount of samples contaminated
+n         = 1000           # Sample Size (T)
+eps       = 0.05           # Proportion of contamination
+cont      = round(gamma*n) # Number of contaminated observations
 
 set.seed(19)               # Set seed for reproducibility
 
-# Generate data!
+# Generate time series
 Xt = gen_gts(n, AR(phi = c(0.5,0.25), sigma2 = 1))
 Yt = gen_gts(n, AR(phi = c(0.5,0.25), sigma2 = 1))
 Zt = gen_gts(n, AR(phi = c(0.5,0.25), sigma2 = 1))
 
-# Contaminate a portion of Y_t with a process
+# Contaminate a portion of Yt with a process
+index = sample(1:(n-cont), 1) 
 Yt[101:135,] = gen_gts(35, AR(phi = c(0.9,-0.4), sigma2 = 9))
 
-# Contaminate at random Z_t with noise
+# Contaminate at random Zt with noise
 Zt[sample(n, dispersal, replace = FALSE),] = gen_gts(dispersal, WN(sigma2 = 9))
 ```
 
