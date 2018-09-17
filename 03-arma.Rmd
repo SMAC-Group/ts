@@ -346,7 +346,7 @@ with $W_t \overset{iid}{\sim} N(0, 1)$. The first process $(X_t)$ is uncontamina
 ``` {r simuAR2data, cache = TRUE}
 n         = 1000           # Sample Size (T)
 eps       = 0.05           # Proportion of contamination
-cont      = round(gamma*n) # Number of contaminated observations
+cont      = round(eps*n) # Number of contaminated observations
 
 set.seed(19)               # Set seed for reproducibility
 
@@ -360,7 +360,8 @@ index = sample(1:(n-cont), 1)
 Yt[101:135,] = gen_gts(35, AR(phi = c(0.9,-0.4), sigma2 = 9))
 
 # Contaminate at random Zt with noise
-Zt[sample(n, dispersal, replace = FALSE),] = gen_gts(dispersal, WN(sigma2 = 9))
+Zt = Yt
+#Zt[sample(n, dispersal, replace = FALSE),] = #gen_gts(dispersal, WN(sigma2 = 9))
 ```
 
 ```{r visualizesimuAR2data, cache = TRUE, echo = FALSE, fig.height = 9, fig.width = 6, fig.cap = "Contaminated AR(2) Processes", fig.align='center'}

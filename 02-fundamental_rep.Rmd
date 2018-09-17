@@ -771,15 +771,14 @@ provides an asymptotic solution to this problem:
 
 ```{theorem, label="approxnormal"}
 If $X_t$ is a strong white noise with finite fourth moment,
-then $\hat{\rho}(h)$ is approximately normally distributed with mean $0$ and 
-variance $n^{-1}$ for all fixed $h$.
+then for all $h \in \mathbb{Z} \setminus {0}$, $\hat{\rho}(h)$ is approximately normally distributed with mean $0$ and variance $T^{-1}$.
 ```
     
 The proof of this Theorem is given in Appendix \@ref(appendixa).
     
 Using this result, we now have an approximate method to assess whether peaks in
 the sample autocorrelation are significant by determining whether the observed
-peak lies outside the interval $\pm 2/\sqrt{n}$ (i.e. an approximate 95%
+peak lies outside the interval $\pm 2/\sqrt{T}$ (i.e. an approximate 95%
 confidence interval). Returning to our previous example and adding confidence
 bands to the previous graph, we obtain:
       
@@ -789,7 +788,7 @@ plot(acf_Xt)
 ```
     
 It can now be observed that most peaks lie within the 
-interval $\pm 2/\sqrt{n}$ suggesting that the true data generating process 
+interval $\pm 2/\sqrt{T}$ suggesting that the true data generating process 
 is uncorrelated.
     
 ```{example, label = "acffeatures"}
@@ -851,12 +850,12 @@ plot(simts::ACF(sp500))
 As expected, the autocorrelation is small but it might be reasonable to believe
 that this sequence is not purely uncorrelated. Unfortunately, Theorem \@ref(thm:approxnormal) is based on an asymptotic argument and since the
 confidence bands constructed are also asymptotic, there are no "exact" tools
-that can be used in this case. To study the validity of these results when $n$ is
+that can be used in this case. To study the validity of these results when $T$ is
 "small" we can perform a simulation study. In the latter, we simulate processes from a Gaussian white noise and examine the empirical distribution of
 $\hat{\rho}(3)$ with different sample sizes (i.e. $n$ is set to 5, 10, 30 and
 300). Intuitively, the "quality" of the approximation provided by Theorem \@ref(thm:approxnormal)
-should increase with the sample size $n$. The code below performs such a simulation
-and compares the empirical distribution of $\sqrt{n} \hat{\rho}(3)$ with a
+should increase with the sample size $T$. The code below performs such a simulation
+and compares the empirical distribution of $\sqrt{T} \hat{\rho}(3)$ with a
 normal distribution with mean 0 and variance 1 (its asymptotic
 distribution), which is depicted using a red line.
 
@@ -904,7 +903,7 @@ for (i in seq_along(N)){
 
 As expected, it can clearly be observed that the asymptotic approximation is
 quite poor when $n = 5$ but as the sample size increases the approximation
-improves and is very close when, for example, $n = 300$. Therefore, this simulation would
+improves and is very close when, for example, $T = 300$. Therefore, this simulation would
 suggest that Theorem \@ref(thm:approxnormal) provides a relatively "close" approximation of the
 distribution of $\hat{\rho}(h)$, especially when the sample size is large enough.
 
@@ -939,7 +938,7 @@ we consider the following two processes:
 where $\epsilon$ is "small" and $\sigma_u^2 \gg \sigma_w^2$. The process $(Y_t)$
 can be interpreted as a "contaminated" version of $(X_t)$ and the figure below
 represents one realization of the process $(Y_t)$ using the 
-following setting: $n = 100$, $\sigma_u^2 = 10$, $\phi = 0.9$, $\sigma_w^2 = 1$ as 
+following setting: $T = 100$, $\sigma_u^2 = 10$, $\phi = 0.9$, $\sigma_w^2 = 1$ as 
 well as $\alpha = 0.05$.
 
 ```{r Yt, cache = TRUE, fig.height = 4, fig.width = 7}
