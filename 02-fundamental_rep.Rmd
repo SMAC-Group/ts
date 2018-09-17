@@ -737,7 +737,7 @@ for a larger sample size (here we consider $T = 10$, which is a little "extreme"
     
 A natural estimator of the *autocovariance function* is given by:
       
-\[\hat \gamma \left( h \right) = \frac{1}{n}\sum\limits_{t = 1}^{n - h} {\left( {{X_t} - \bar X} \right)\left( {{X_{t + h}} - \bar X} \right)} \]
+\[\hat \gamma \left( h \right) = \frac{1}{T}\sum\limits_{t = 1}^{T - h} {\left( {{X_t} - \bar X} \right)\left( {{X_{t + h}} - \bar X} \right)} \]
     
 leading to the following "plug-in" estimator of the *autocorrelation function*:
       
