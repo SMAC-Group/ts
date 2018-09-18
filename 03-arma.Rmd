@@ -331,22 +331,19 @@ where $\psi(\cdot)$ is a function of bounded variation. When conditioning on the
 first $p$ observations, this problem can be brought back to a linear regression
 problem which can be applied in a robust manner using the robust regression
 tools available in `R` such as `rlm(...)` or `lmrob(...)`. However, another 
-available tool in `R` which is does not require a strict specification of the distribution function (also for general ARMA models) is the `gmwm(...)` function in which it is possible to specify the option `robust = TRUE`. This function makes use of a quantity called the wavelet variance (denoted as $\nu$) which is estimated robustly and then used to retrieve the parameters $\theta$ of the time series model. The robust estimate is obtained by solving the following minimization problem
+available tool in `R` which does not require a strict specification of the distribution function (also for general ARMA models) is the `gmwm(...)` function (in the `gmwm` package) in which it is possible to specify the option `robust = TRUE`. This function makes use of a quantity called the wavelet variance (denoted as $\nu$) which is estimated robustly and then used to retrieve the parameters $\theta$ of the time series model. The robust estimate is obtained by solving the following minimization problem
 \begin{equation*}
 \hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta} \in \boldsymbol{\Theta}}{\text{argmin}} (\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}(\boldsymbol{\theta}))^T\boldsymbol{\Omega}(\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}({\boldsymbol{\theta}})),
 \end{equation*}
 where $\hat{\nu}$ is the robustly estimated wavelet variance, $\nu(\theta)$ is 
 the theoretical wavelet variance (implied by the model we want to estimate) and $\Omega$ is a positive definite weighting matrix. Below we show some simulation studies where we present the results of the above estimation procedures in absence and in presence of contamination in the data.
 
-In particular, we simulate three different 
-processes $X_t, Y_t, Z_t$ from \[X_t = 0.5 X_{t-1} - 0.25 X_{t-2} + W_t\]
-with $W_t \overset{iid}{\sim} N(0, 1)$. The first process $(X_t)$ is uncontaminated while the other two processes are contaminated versions of the first that can often be observed in practice. The first type of contamination can be seen in $(Y_t)$ and is delivered by replacing a portion of the original process with a process defined as \[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t\], where $V_t \overset{iid}{\sim} N(0, 9)$. The second form of contamination can be seen in $(Z_t)$ and consists in the so-called point-wise contamination where randomly selected points from $X_t$ are replaced with $N_t \overset{iid}{\sim} N(0, 9)$.
-
+In particular, we simulate three different processes $X_t, Y_t, Z_t$ from \[X_t = 0.5 X_{t-1} - 0.25 X_{t-2} + W_t\] with $W_t \overset{iid}{\sim} N(0, 1)$. The first process $(X_t)$ is uncontaminated while the other two processes are contaminated versions of the first that can often be observed in practice. The first type of contamination can be seen in $(Y_t)$ and is delivered by replacing a portion of the original process with a process defined as \[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t\], where $V_t \overset{iid}{\sim} N(0, 9)$. The second form of contamination can be seen in $(Z_t)$ and consists in the so-called point-wise contamination where randomly selected points from $X_t$ are replaced with $N_t \overset{iid}{\sim} N(0, 9)$. An example of how to simulate a time series from each of these processes is in the code below.
 
 ``` {r simuAR2data, cache = TRUE}
 n         = 1000           # Sample Size (T)
 eps       = 0.05           # Proportion of contamination
-cont      = round(eps*n) # Number of contaminated observations
+cont      = round(eps*n)   # Number of contaminated observations
 
 set.seed(19)               # Set seed for reproducibility
 
@@ -356,20 +353,22 @@ Yt = gen_gts(n, AR(phi = c(0.5,0.25), sigma2 = 1))
 Zt = gen_gts(n, AR(phi = c(0.5,0.25), sigma2 = 1))
 
 # Contaminate a portion of Yt with a process
-index = sample(1:(n-cont), 1) 
-Yt[101:135,] = gen_gts(35, AR(phi = c(0.9,-0.4), sigma2 = 9))
+index_start = sample(1:(n-cont-1), 1)
+index_end = index_start + cont - 1
+Yt[index_start:index_end,] = gen_gts(cont, AR(phi = c(0.9,-0.4), sigma2 = 9))
 
 # Contaminate at random Zt with noise
-Zt = Yt
-#Zt[sample(n, dispersal, replace = FALSE),] = #gen_gts(dispersal, WN(sigma2 = 9))
+Zt[sample(1:n, cont, replace = FALSE),] = gen_gts(cont, WN(sigma2 = 9))
 ```
+
+The plots of the simulated time series are shown below.
 
 ```{r visualizesimuAR2data, cache = TRUE, echo = FALSE, fig.height = 9, fig.width = 6, fig.cap = "Contaminated AR(2) Processes", fig.align='center'}
 # Graph points
 par(mfrow = c(3,1))
-plot(Xt, main = expression(paste("Simulated process ",X[t])))
-plot(Yt, main = expression(paste("Simulated process ",Y[t])))
-plot(Zt, main = expression(paste("Simulated process ",Z[t])))
+plot(Xt, main = expression(paste("Simulated process ",X[t])), ylim = range(c(Xt, Yt, Zt)))
+plot(Yt, main = expression(paste("Simulated process ",Y[t])), ylim = range(c(Xt, Yt, Zt)))
+plot(Zt, main = expression(paste("Simulated process ",Z[t])), ylim = range(c(Xt, Yt, Zt)))
 ```
 
 As every process will require the same estimation methodology, we will first define a computational engine that will compute estimates for the parameters across all of the different methods under the simulation study. Doing so provides separate, reusable code that lowers the threshold for error when compared to having multiple copies of the same code scattered about. In addition, we have defined a means to visualize the results obtained from the simulation study through a boxplot. The procedure for creating the graphs is detailed after the simulation engine.
@@ -451,7 +450,7 @@ simulation engine, we can simultaneously evaluate the processes within one
 loop iteration. Please take into consideration that the following simulation study is computationally intensive and may require the amount of iteration $B$ to be decreased on a personal computer to complete in a reasonable time.
 
 
-``` {r simuAR2study, eval = FALSE, cache = TRUE, fig.height = 4.5, fig.width = 9}
+``` {r simuAR2study, eval = TRUE, cache = TRUE, fig.height = 4.5, fig.width = 9}
 # Number of bootstrap iterations
 B = 250
 
@@ -472,10 +471,12 @@ for (i in seq_len(B)){
   Zt = gen_gts(n, AR(phi = c(0.5, 0.25), sigma2 = 1))
   
   # Generate Ut contamination process that replaces a portion of original signal
-  Yt[101:135] = gen_gts(35, AR(phi = c(0.9,-0.4), sigma2 = 9))
+  index_start = sample(1:(n-cont-1), 1)
+  index_end = index_start + cont - 1
+  Yt[index_start:index_end] = gen_gts(cont, AR(phi = c(0.9,-0.4), sigma2 = 9))
   
   # Generate Nt contamination that inject noise at random
-  Zt[sample(n, dispersal, replace = FALSE)] = gen_gts(dispersal, WN(sigma2 = 9))
+  Zt[sample(n, cont, replace = FALSE)] = gen_gts(cont, WN(sigma2 = 9))
 
   # Compute estimates and store in the appropriate matrix
   res = sim_engine(Xt)
