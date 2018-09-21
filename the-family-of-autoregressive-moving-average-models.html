@@ -437,30 +437,23 @@ Figure 1.1: Contaminated AR(2) Processes
        <span class="dt">res.GMWM =</span> res.GMWM, <span class="dt">res.RGMWM =</span> res.RGMWM)
 } </code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim_study_graph =<span class="st"> </span><span class="cf">function</span>(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
-                           <span class="dt">theta =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="dv">1</span>)){
-  <span class="co"># Converts Simulation Matrices to Long Form for use in ggplot2</span>
-  d =<span class="st"> </span>bmisc<span class="op">::</span><span class="kw">study_df</span>(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
-                         <span class="dt">data_names =</span> <span class="kw">c</span>(<span class="st">&quot;MLE&quot;</span>,<span class="st">&quot;LS&quot;</span>,<span class="st">&quot;RLS&quot;</span>,<span class="st">&quot;GMWM&quot;</span>,<span class="st">&quot;RGMWM&quot;</span>))
+                           <span class="dt">theta =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="dv">1</span>), <span class="dt">process_name =</span> <span class="st">&quot;NA&quot;</span>) {
   
-  <span class="co"># Reorder factors</span>
-  d<span class="op">$</span>Draw =<span class="st"> </span><span class="kw">factor</span>(d<span class="op">$</span>Draw, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),
-                  <span class="dt">labels =</span> <span class="kw">expression</span>(phi[<span class="dv">1</span>], phi[<span class="dv">2</span>], sigma<span class="op">^</span><span class="dv">2</span>))
-  d<span class="op">$</span>Type =<span class="st"> </span><span class="kw">factor</span>(d<span class="op">$</span>Type, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;MLE&quot;</span>,<span class="st">&quot;LS&quot;</span>,<span class="st">&quot;RLS&quot;</span>,<span class="st">&quot;GMWM&quot;</span>,<span class="st">&quot;RGMWM&quot;</span>))
+  labels =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;MLE&quot;</span>, <span class="st">&quot;LS&quot;</span>, <span class="st">&quot;RLS&quot;</span>, <span class="st">&quot;GMWM&quot;</span>, <span class="st">&quot;RGMWM&quot;</span>)
+  title =<span class="st"> </span><span class="kw">c</span>(<span class="kw">expression</span>(phi [<span class="dv">1</span>]), <span class="kw">expression</span>(phi [<span class="dv">2</span>]), <span class="kw">expression</span>(sigma))
   
-  <span class="co"># Add in horizontal lines</span>
-  true_values =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Draw =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">Parameters =</span> theta)
-  true_values<span class="op">$</span>Draw =<span class="st"> </span><span class="kw">factor</span>(true_values<span class="op">$</span>Draw, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), 
-                       <span class="dt">labels =</span> <span class="kw">expression</span>(phi[<span class="dv">1</span>], phi[<span class="dv">2</span>], sigma<span class="op">^</span><span class="dv">2</span>))
+  <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">0</span>))
   
-  <span class="co"># Plot</span>
-  <span class="kw">ggplot</span>(d, <span class="kw">aes</span>(<span class="dt">x =</span> Type, <span class="dt">y =</span> Values, <span class="dt">fill =</span> Type)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">stat_boxplot</span>(<span class="dt">geom =</span><span class="st">&#39;errorbar&#39;</span>, <span class="dt">width =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">data =</span> true_values, <span class="kw">aes</span>(<span class="dt">yintercept =</span> theta), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Draw, <span class="dt">labeller =</span> label_parsed, <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>,
-          <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">50</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))
+  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(theta)) {
+    
+    <span class="kw">boxplot</span>(res.MLE[, i], res.LS[, i], res.RR[, i], res.GMWM[, i], res.RGMWM[, i], <span class="dt">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">main =</span> title[i], <span class="dt">names =</span> labels, <span class="dt">las =</span> <span class="dv">3</span>)
+    <span class="kw">abline</span>(<span class="dt">h =</span> theta[i], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
+    
+  }
+  
+  <span class="kw">title</span>(<span class="kw">paste</span>(<span class="st">&quot;Estimations on process&quot;</span>, process_name), <span class="dt">outer=</span><span class="ot">TRUE</span>)
+  
+  
 }</code></pre></div>
 <p>Having defined two functions that allow to estimate and summarize the results of the considered estimation techniques, we can now perform the simulation study. For this purpose we simulate 250 time series from the processes <span class="math inline">\((X_t)\)</span>, <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span> and, for each simulation, we apply the five different methods thereby saving the results of the estimations for each simulated time series. By doing so, we will verify the finite sample behaviour of the methods and understand how they behave under the different settings discussed earlier (contaminated and uncontaminated observations).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Number of bootstrap iterations</span>
@@ -511,8 +504,14 @@ res.zt.MLE =<span class="st"> </span>res.zt.LS =<span class="st"> </span>res.zt.
 <li><strong>GMWM</strong>: the standard version of the GMWM estimator</li>
 <li><strong>RGMWM</strong>: the robust version of the GMWM estimator</li>
 </ul>
-<p>The boxplots representing the distributions of estimated values are shown below.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_study_graph</span>(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM)</code></pre></div>
+<p>The boxplots representing the distributions of estimated values on the process <span class="math inline">\((X_t)\)</span> (i.e. uncontaminated) are shown below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_study_graph</span>(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Xt&quot;</span>)</code></pre></div>
+<p><img src="03-arma_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>It can be seen how all methods appear to properly estimate the true parameter values on average. However, the MLE appears to be slightly more efficient (less variable) compared to the other methods and, in addition, the robust methods (RLS and RGMWM) appear to be less efficient than their standard counterparts. Now let us check the performance of the same methods when applied to the two contaminated processes <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_study_graph</span>(res.yt.MLE, res.yt.LS, res.yt.RR, res.yt.GMWM, res.yt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Yt&quot;</span>)
+<span class="kw">sim_study_graph</span>(res.zt.MLE, res.zt.LS, res.zt.RR, res.zt.GMWM, res.zt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Zt&quot;</span>)</code></pre></div>
+<p><img src="03-arma_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="03-arma_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p>It can be seen that for these two contaminated processes, the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimators allow to remain close (on average) to the true parameter values that we are aiming to estimate. As you can observe, the type of contamination can be important in the choice of the robust estimator to be used as underlined by the different behaviour of the RLS and RGMWM estimators on <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span>. However, this discussion is out of the scope of this book.</p>
 </div>
 </div>
             </section>

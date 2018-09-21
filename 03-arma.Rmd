@@ -412,32 +412,25 @@ apply_methods = function(Xt){
 } 
 ```
 
-```{r simgraphcreator, cache = TRUE}
+```{r simgraphcreator}
 sim_study_graph = function(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
-                           theta = c(0.5, 0.25, 1)){
-  # Converts Simulation Matrices to Long Form for use in ggplot2
-  d = bmisc::study_df(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
-                         data_names = c("MLE","LS","RLS","GMWM","RGMWM"))
+                           theta = c(0.5, 0.25, 1), process_name = "NA") {
   
-  # Reorder factors
-  d$Draw = factor(d$Draw, levels = c(1,2,3),
-                  labels = expression(phi[1], phi[2], sigma^2))
-  d$Type = factor(d$Type, levels = c("MLE","LS","RLS","GMWM","RGMWM"))
+  labels = c("MLE", "LS", "RLS", "GMWM", "RGMWM")
+  title = c(expression(phi [1]), expression(phi [2]), expression(sigma))
   
-  # Add in horizontal lines
-  true_values = data.frame(Draw = 1:3, Parameters = theta)
-  true_values$Draw = factor(true_values$Draw, levels = c(1,2,3), 
-                       labels = expression(phi[1], phi[2], sigma^2))
+  par(mfrow=c(2,2), oma=c(0,0,2,0))
   
-  # Plot
-  ggplot(d, aes(x = Type, y = Values, fill = Type)) + 
-    geom_boxplot() + 
-    stat_boxplot(geom ='errorbar', width = 0.5) + 
-    geom_hline(data = true_values, aes(yintercept = theta), color = "red") +
-    facet_wrap(~Draw, labeller = label_parsed, scales = "free_y") +
-    theme_bw() + 
-    theme(legend.position = "none",
-          axis.text.x = element_text(angle = 50, hjust = 1))
+  for(i in 1:length(theta)) {
+    
+    boxplot(res.MLE[, i], res.LS[, i], res.RR[, i], res.GMWM[, i], res.RGMWM[, i], col = "grey80", main = title[i], names = labels, las = 3)
+    abline(h = theta[i], col = "red")
+    
+  }
+  
+  title(paste("Estimations on process", process_name), outer=TRUE)
+  
+  
 }
 ```
 
@@ -495,8 +488,17 @@ Once we run this simulation (which can be time-demanding), we can now represent 
 - **GMWM**: the standard version of the GMWM estimator
 - **RGMWM**: the robust version of the GMWM estimator
 
-The boxplots representing the distributions of estimated values are shown below.
+The boxplots representing the distributions of estimated values on the process $(X_t)$ (i.e. uncontaminated) are shown below.
 
-```{r, cache=TRUE, eval=FALSE}
-sim_study_graph(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM)
+```{r}
+sim_study_graph(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM, process_name = "Xt")
 ```
+
+It can be seen how all methods appear to properly estimate the true parameter values on average. However, the MLE appears to be slightly more efficient (less variable) compared to the other methods and, in addition, the robust methods (RLS and RGMWM) appear to be less efficient than their standard counterparts. Now let us check the performance of the same methods when applied to the two contaminated processes $(Y_t)$ and $(Z_t)$.
+
+```{r}
+sim_study_graph(res.yt.MLE, res.yt.LS, res.yt.RR, res.yt.GMWM, res.yt.RGMWM, process_name = "Yt")
+sim_study_graph(res.zt.MLE, res.zt.LS, res.zt.RR, res.zt.GMWM, res.zt.RGMWM, process_name = "Zt")
+```
+
+It can be seen that for these two contaminated processes, the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimators allow to remain close (on average) to the true parameter values that we are aiming to estimate. As you can observe, the type of contamination can be important in the choice of the robust estimator to be used as underlined by the different behaviour of the RLS and RGMWM estimators on $(Y_t)$ and $(Z_t)$. However, this discussion is out of the scope of this book.
