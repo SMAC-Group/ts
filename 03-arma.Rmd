@@ -264,7 +264,7 @@ The Yule-Walker estimators for a causal AR(p) model have the following asymptoti
 \sqrt{T}(\hat{\mathbf{\phi}}- \mathbf{\phi}) \xrightarrow{\mathcal{D}} \mathcal{N}(\mathbf{0},\sigma_w^2\Gamma_p^{-1}) \,\, \text{and} \,\, \hat{\sigma}_w^2 \xrightarrow{\mathcal{P}} \sigma_w^2 .
 \end{equation*}
 
-Therefore the Yule-Walker estimators have an asymptotically normal distribution and the estimator of the innovation variance is consistent. Moreover, these estimators are also optimal for AR(p) models, meaning that they are also efficient. However, there is also another method which allows to achieve this efficiency (also for general ARMA models that will be tackled further on) and this is the Maximum Likelihood (ML) method. Considering an AR(1) model as an example, and assuming without loss of generality that its expectation is zero, we have the following representation of the AR(1) model
+Therefore the Yule-Walker estimators have an asymptotically normal distribution and the estimator of the innovation variance is consistent. Moreover, these estimators are also optimal for AR(p) models, meaning that they are also efficient. However, there is also another method which allows to achieve this efficiency (also for general ARMA models that will be tackled further on) and this is the Maximum Likelihood Estimation (MLE) method. Considering an AR(1) model as an example, and assuming without loss of generality that its expectation is zero, we have the following representation of the AR(1) model
 \begin{equation*}
 X_t = \phi X_{t-1} + w_t
 \end{equation*}
@@ -338,7 +338,7 @@ available tool in `R` which does not require a strict specification of the distr
 where $\hat{\nu}$ is the robustly estimated wavelet variance, $\nu(\theta)$ is 
 the theoretical wavelet variance (implied by the model we want to estimate) and $\Omega$ is a positive definite weighting matrix. Below we show some simulation studies where we present the results of the above estimation procedures in absence and in presence of contamination in the data.
 
-In particular, we simulate three different processes $X_t, Y_t, Z_t$ from \[X_t = 0.5 X_{t-1} - 0.25 X_{t-2} + W_t\] with $W_t \overset{iid}{\sim} N(0, 1)$. The first process $(X_t)$ is uncontaminated while the other two processes are contaminated versions of the first that can often be observed in practice. The first type of contamination can be seen in $(Y_t)$ and is delivered by replacing a portion of the original process with a process defined as \[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t\], where $V_t \overset{iid}{\sim} N(0, 9)$. The second form of contamination can be seen in $(Z_t)$ and consists in the so-called point-wise contamination where randomly selected points from $X_t$ are replaced with $N_t \overset{iid}{\sim} N(0, 9)$. An example of how to simulate a time series from each of these processes is in the code below.
+In particular, we simulate three different processes $X_t, Y_t, Z_t$ from \[X_t = 0.5 X_{t-1} - 0.25 X_{t-2} + W_t,\] with $W_t \overset{iid}{\sim} N(0, 1)$. The first process $(X_t)$ is uncontaminated while the other two processes are contaminated versions of the first that can often be observed in practice. The first type of contamination can be seen in $(Y_t)$ and is delivered by replacing a portion of the original process with a process defined as \[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t,\] where $V_t \overset{iid}{\sim} N(0, 9)$. The second form of contamination can be seen in $(Z_t)$ and consists in the so-called point-wise contamination where randomly selected points from $X_t$ are replaced with $N_t \overset{iid}{\sim} N(0, 9)$. An example of how to simulate a time series from each of these processes is in the code below followed by the relative plots.
 
 ``` {r simuAR2data, cache = TRUE}
 n         = 1000           # Sample Size (T)
@@ -361,8 +361,6 @@ Yt[index_start:index_end,] = gen_gts(cont, AR(phi = c(0.9,-0.4), sigma2 = 9))
 Zt[sample(1:n, cont, replace = FALSE),] = gen_gts(cont, WN(sigma2 = 9))
 ```
 
-The plots of the simulated time series are shown below.
-
 ```{r visualizesimuAR2data, cache = TRUE, echo = FALSE, fig.height = 9, fig.width = 6, fig.cap = "Contaminated AR(2) Processes", fig.align='center'}
 # Graph points
 par(mfrow = c(3,1))
@@ -371,12 +369,10 @@ plot(Yt, main = expression(paste("Simulated process ",Y[t])), ylim = range(c(Xt,
 plot(Zt, main = expression(paste("Simulated process ",Z[t])), ylim = range(c(Xt, Yt, Zt)))
 ```
 
-As every process will require the same estimation methodology, we will first define a computational engine that will compute estimates for the parameters across all of the different methods under the simulation study. Doing so provides separate, reusable code that lowers the threshold for error when compared to having multiple copies of the same code scattered about. In addition, we have defined a means to visualize the results obtained from the simulation study through a boxplot. The procedure for creating the graphs is detailed after the simulation engine.
-
-
+Having highlighted the kind of processes we will be simulating from, we will now create a code that allows to apply the different methods in order to estimate the parameters of an AR(2) model from a given time series. The result of this code therefore will consist in the parameter estimates for the five methods discussed above (i.e. MLE, Yule-Walker (standard and robust), GMWM (standard and robust)) on an observed (simulated) time series. The code that follows this function allows to deliver separate boxplots for each method in order to assess the performance of these approaches within the simulation procedure (which will be described further on). 
 
 ```{r simengine, cache = TRUE}
-sim_engine = function(Xt){
+apply_methods = function(Xt){
   # Estimate ARIMA parameters using MLE
   mod = arima(Xt, order = c(2, 0, 0), include.mean  = FALSE)
   
@@ -418,7 +414,7 @@ sim_engine = function(Xt){
 
 ```{r simgraphcreator, cache = TRUE}
 sim_study_graph = function(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
-                           Truth = c(0.5, 0.25, 1)){
+                           theta = c(0.5, 0.25, 1)){
   # Converts Simulation Matrices to Long Form for use in ggplot2
   d = bmisc::study_df(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
                          data_names = c("MLE","LS","RLS","GMWM","RGMWM"))
@@ -429,15 +425,15 @@ sim_study_graph = function(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
   d$Type = factor(d$Type, levels = c("MLE","LS","RLS","GMWM","RGMWM"))
   
   # Add in horizontal lines
-  oracle = data.frame(Draw = 1:3, Truth = Truth)
-  oracle$Draw = factor(oracle$Draw, levels = c(1,2,3), 
+  true_values = data.frame(Draw = 1:3, Parameters = theta)
+  true_values$Draw = factor(true_values$Draw, levels = c(1,2,3), 
                        labels = expression(phi[1], phi[2], sigma^2))
   
   # Plot
   ggplot(d, aes(x = Type, y = Values, fill = Type)) + 
     geom_boxplot() + 
     stat_boxplot(geom ='errorbar', width = 0.5) + 
-    geom_hline(data = oracle, aes(yintercept = Truth), color = "red") +
+    geom_hline(data = true_values, aes(yintercept = theta), color = "red") +
     facet_wrap(~Draw, labeller = label_parsed, scales = "free_y") +
     theme_bw() + 
     theme(legend.position = "none",
@@ -445,9 +441,7 @@ sim_study_graph = function(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
 }
 ```
 
-With the means to now compute and visualize parameter estimates for each of the given methods, the bootrap simulation study may now commence. Using the
-simulation engine, we can simultaneously evaluate the processes within one
-loop iteration. Please take into consideration that the following simulation study is computationally intensive and may require the amount of iteration $B$ to be decreased on a personal computer to complete in a reasonable time.
+Having defined two functions that allow to estimate and summarize the results of the considered estimation techniques, we can now perform the simulation study. For this purpose we simulate 250 time series from the processes $(X_t)$, $(Y_t)$ and $(Z_t)$ and, for each simulation, we apply the five different methods thereby saving the results of the estimations for each simulated time series. By doing so, we will verify the finite sample behaviour of the methods and understand how they behave under the different settings discussed earlier (contaminated and uncontaminated observations).
 
 
 ``` {r simuAR2study, eval = TRUE, cache = TRUE, fig.height = 4.5, fig.width = 9}
@@ -479,17 +473,30 @@ for (i in seq_len(B)){
   Zt[sample(n, cont, replace = FALSE)] = gen_gts(cont, WN(sigma2 = 9))
 
   # Compute estimates and store in the appropriate matrix
-  res = sim_engine(Xt)
+  res = apply_methods(Xt)
   res.xt.MLE[i,]  = res$res.MLE; res.xt.LS[i,] = res$res.LS; res.xt.RR[i,] = res$res.RR
-  res.xt.GMWM[i,] = res$res.GMWM;res.xt.RGMWM[i,] = res$res.RGMWM
+  res.xt.GMWM[i,] = res$res.GMWM; res.xt.RGMWM[i,] = res$res.RGMWM
   
-  res = sim_engine(Yt)
+  res = apply_methods(Yt)
   res.yt.MLE[i,]  = res$res.MLE; res.yt.LS[i,] = res$res.LS; res.yt.RR[i,] = res$res.RR
-  res.yt.GMWM[i,] = res$res.GMWM;res.yt.RGMWM[i,] = res$res.RGMWM
+  res.yt.GMWM[i,] = res$res.GMWM; res.yt.RGMWM[i,] = res$res.RGMWM
 
-  res = sim_engine(Zt)
+  res = apply_methods(Zt)
   res.zt.MLE[i,]  = res$res.MLE; res.zt.LS[i,] = res$res.LS; res.zt.RR[i,] = res$res.RR
-  res.zt.GMWM[i,] = res$res.GMWM;res.zt.RGMWM[i,] = res$res.RGMWM
+  res.zt.GMWM[i,] = res$res.GMWM; res.zt.RGMWM[i,] = res$res.RGMWM
 }
 ```
 
+Once we run this simulation (which can be time-demanding), we can now represent the results of the estimation methods that are denoted as follows:
+
+- **MLE**: Maximum Likelihood Estimator
+- **LS**: Yule-Walker estimator (based on a least-squares distance)
+- **RLS**: the robust version of the Yule-Walker estimator
+- **GMWM**: the standard version of the GMWM estimator
+- **RGMWM**: the robust version of the GMWM estimator
+
+The boxplots representing the distributions of estimated values are shown below.
+
+```{r, cache=TRUE, eval=FALSE}
+sim_study_graph(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM)
+```
