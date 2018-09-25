@@ -755,7 +755,7 @@ set.seed(2241)
 Xt = gen_gts(100, WN(sigma2 = 1))
 
 # Compute autocorrelation
-acf_Xt = simts::ACF(Xt)
+acf_Xt = simts::auto_corr(Xt)
 
 # Plot autocorrelation
 plot(acf_Xt, show.ci = FALSE)
@@ -844,7 +844,7 @@ the empirical autocorrelation.
 ```{r GSPCacf, cache = TRUE, fig.height = 4.5, fig.width = 7, warning = FALSE}
 sp500 = na.omit(GSPC_returns)
 names(sp500) = paste("S&P 500 (1990-01-01 - ",Sys.Date(),")", sep = "")
-plot(simts::ACF(sp500))
+plot(simts::auto_corr(sp500))
 ```
 
 As expected, the autocorrelation is small but it might be reasonable to believe
@@ -1002,8 +1002,8 @@ for(i in 1:B) {
   Yt[index] = Ut[index]
   
   # Store ACF values
-  acf_xt[i, ] = as.numeric(simts::ACF(Xt))[1:15]
-  acf_yt[i, ] = as.numeric(simts::ACF(Yt))[1:15]
+  acf_xt[i, ] = as.numeric(simts::auto_corr(Xt))[1:15]
+  acf_yt[i, ] = as.numeric(simts::auto_corr(Yt))[1:15]
   
 }
 
@@ -1056,7 +1056,7 @@ for(i in 1:B) {
   Yt[index] = Ut[index]
   
   # Store Classic and Robust ACF values
-  cl_acf[i, ] = as.numeric(simts::ACF(Yt))[1:15]
+  cl_acf[i, ] = as.numeric(simts::auto_corr(Yt))[1:15]
   rob_acf[i, ] = robacf(Yt, plot = FALSE)$acf[1:15]
   
 }
@@ -1097,7 +1097,7 @@ for(i in 1:B) {
   Xt = gen_gts(N, AR1(phi = 0.9, sigma2 = 1))
   
   # Store Classic and Robust ACF values
-  cl_acf[i, ] = as.numeric(simts::ACF(Xt))[1:15]
+  cl_acf[i, ] = as.numeric(simts::auto_corr(Xt))[1:15]
   rob_acf[i, ] = robacf(Xt, plot = FALSE)$acf[1:15]
   
 }
@@ -1111,5 +1111,28 @@ abline(h = 1, lty = 2, col = "red")
 ```
 
 As can be seen on the plot, the black line representing the above described ratio decreases steadily as the lags increase and moves further away from the red dotted line representing equality of variances. Hence, since the variance of the classic ACF estimator is in the numerator of this ratio, we can conclude that the variance of the robust ACF estimator is always larger and increases over the lags. This can partly be explained by the fact that the classic ACF estimator $\hat{\rho}(h)$ makes use of all the observations while the robust estimator only uses part of the information coming from more "extreme" observations. Moreover, the number of observations available to estimate the greater lags is smaller and therefore the robust ACF estimator pays a larger price in terms of "loss" of information.
+
+Let us finally investigate the importance of robust ACF estimation on some real data. We consider the data on monthly precipitation (`hydro`) presented in the previous chapter. This data is measured over 65 years (between 1907 and 1972) and is an example of data that is used to determine the behaviour of a water cycle. More specifically, precipitation is often considered the starting point for the analysis of a water cycle and, based on its behaviour, the rest of the water cycle is determined based on other variables. Therefore, a correct analysis of precipitation is extremely important to correctly define the behaviour of the water cycle passing through run-off and groundwater formation to evaporation and condensation. Given this, let us now take a look at the classic autocorrelation plot of this data.
+
+```{r}
+# Load hydro dataset
+data("hydro")
+
+# Define the time series as a gts object
+hydro = gts(as.vector(hydro), start = 1907, freq = 12, unit_ts = "mm", name_ts = "Precipitation", data_name = "Hydrology data")
+
+# Plot the Empirical ACF
+plot(auto_corr(hydro))
+```
+
+
+Based on this ACF plot, one would probably conclude that (counterintuitively) there does not appear to be any significant form of correlation between lagged observations in the data. From a hydrological point of view, one would therefore assume an uncorrelated model for precipitation (i.e. white noise) and, based on this, model the rest of the water cycle. However, let us take a look at the robust ACF plot.
+
+```{r}
+# Plot the Robust ACF
+plot(auto_corr(hydro, robust = TRUE))
+```
+
+If we analyse this output, the conclusion appears to be extremely different and, in some way, makes more sense from a hydrological point of view (i.e. the amount of precipitation between close months and over specific months is correlated). Indeed, we can see that there appears to be a seasonal correlation ("waves" in the ACF plot) and that close months appear to be correlated between them. Therefore, based on this analysis, the entire water cycle analysis would change and could deliver very different conclusions.
 
 A general overview of the concepts and advantages of robustness can be found in Appendix \@ref(appendixb).
