@@ -1133,6 +1133,13 @@ Based on this ACF plot, one would probably conclude that (counterintuitively) th
 plot(auto_corr(hydro, robust = TRUE))
 ```
 
-If we analyse this output, the conclusion appears to be extremely different and, in some way, makes more sense from a hydrological point of view (i.e. the amount of precipitation between close months and over specific months is correlated). Indeed, we can see that there appears to be a seasonal correlation ("waves" in the ACF plot) and that close months appear to be correlated between them. Therefore, based on this analysis, the entire water cycle analysis would change and could deliver very different conclusions.
+If we analyse this output, the conclusion appears to be extremely different and, in some way, makes more sense from a hydrological point of view (i.e. the amount of precipitation between close months and over specific months is correlated). Indeed, we can see that there appears to be a seasonal correlation ("waves" in the ACF plot) and that close months appear to be correlated between them. To better highlight this difference (whci can lead to different conclusions) let us finally compare the plots.
+
+```{r}
+# Compare classic and robust ACF
+compare_acf(hydro)
+```
+
+Therefore, based on the choice of analysis (i.e. classic or robust), the entire water cycle analysis would change and could deliver very different conclusions.
 
 A general overview of the concepts and advantages of robustness can be found in Appendix \@ref(appendixb).
