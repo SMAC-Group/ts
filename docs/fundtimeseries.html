@@ -848,7 +848,7 @@ Consider the following simulated example:</p>
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">100</span>, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">1</span>))
 
 <span class="co"># Compute autocorrelation</span>
-acf_Xt =<span class="st"> </span>simts<span class="op">::</span><span class="kw">ACF</span>(Xt)
+acf_Xt =<span class="st"> </span>simts<span class="op">::</span><span class="kw">auto_corr</span>(Xt)
 
 <span class="co"># Plot autocorrelation</span>
 <span class="kw">plot</span>(acf_Xt, <span class="dt">show.ci =</span> <span class="ot">FALSE</span>)</code></pre>
@@ -927,7 +927,7 @@ of “linear” dependence between observations. The graph below presents
 the empirical autocorrelation.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sp500 =<span class="st"> </span><span class="kw">na.omit</span>(GSPC_returns)
 <span class="kw">names</span>(sp500) =<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;S&amp;P 500 (1990-01-01 - &quot;</span>,<span class="kw">Sys.Date</span>(),<span class="st">&quot;)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
-<span class="kw">plot</span>(simts<span class="op">::</span><span class="kw">ACF</span>(sp500))</code></pre>
+<span class="kw">plot</span>(simts<span class="op">::</span><span class="kw">auto_corr</span>(sp500))</code></pre>
 <p><img src="ts_files/figure-html/GSPCacf-1.png" width="672" /></p>
 <p>As expected, the autocorrelation is small but it might be reasonable to believe
 that this sequence is not purely uncorrelated. Unfortunately, Theorem <a href="fundtimeseries.html#thm:approxnormal">3.1</a> is based on an asymptotic argument and since the
@@ -1070,8 +1070,8 @@ acf_xt =<span class="st"> </span>acf_yt =<span class="st"> </span><span class="k
   Yt[index] =<span class="st"> </span>Ut[index]
   
   <span class="co"># Store ACF values</span>
-  acf_xt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(simts<span class="op">::</span><span class="kw">ACF</span>(Xt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
-  acf_yt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(simts<span class="op">::</span><span class="kw">ACF</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
+  acf_xt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(simts<span class="op">::</span><span class="kw">auto_corr</span>(Xt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
+  acf_yt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(simts<span class="op">::</span><span class="kw">auto_corr</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
   
 }
 
@@ -1120,7 +1120,7 @@ cl_acf =<span class="st"> </span>rob_acf =<span class="st"> </span><span class="
   Yt[index] =<span class="st"> </span>Ut[index]
   
   <span class="co"># Store Classic and Robust ACF values</span>
-  cl_acf[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(simts<span class="op">::</span><span class="kw">ACF</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
+  cl_acf[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(simts<span class="op">::</span><span class="kw">auto_corr</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
   rob_acf[i, ] =<span class="st"> </span><span class="kw">robacf</span>(Yt, <span class="dt">plot =</span> <span class="ot">FALSE</span>)<span class="op">$</span>acf[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
   
 }
@@ -1143,6 +1143,25 @@ i.e. <span class="math inline">\((X_t)\)</span>. Therefore, the only difference 
 previous one is the value of <span class="math inline">\(\epsilon\)</span> set equal to <span class="math inline">\(0\)</span> (the code shall thus be omitted). For this reason we simply show a plot that represents the ratio of the variances of the classic and robust ACF estimators respectively. If they happened to have the same efficiency, we would expect this ratio to be roughly equal to 1 over all the considered lags (we omit this ratio at lag 1 since it is numerically impossible to represent due to the infinitesimal size of the empirical variances).</p>
 <p><img src="ts_files/figure-html/simulationRobust3-1.png" width="672" /></p>
 <p>As can be seen on the plot, the black line representing the above described ratio decreases steadily as the lags increase and moves further away from the red dotted line representing equality of variances. Hence, since the variance of the classic ACF estimator is in the numerator of this ratio, we can conclude that the variance of the robust ACF estimator is always larger and increases over the lags. This can partly be explained by the fact that the classic ACF estimator <span class="math inline">\(\hat{\rho}(h)\)</span> makes use of all the observations while the robust estimator only uses part of the information coming from more “extreme” observations. Moreover, the number of observations available to estimate the greater lags is smaller and therefore the robust ACF estimator pays a larger price in terms of “loss” of information.</p>
+<p>Let us finally investigate the importance of robust ACF estimation on some real data. We consider the data on monthly precipitation (<code>hydro</code>) presented in the previous chapter. This data is measured over 65 years (between 1907 and 1972) and is an example of data that is used to determine the behaviour of a water cycle. More specifically, precipitation is often considered the starting point for the analysis of a water cycle and, based on its behaviour, the rest of the water cycle is determined based on other variables. Therefore, a correct analysis of precipitation is extremely important to correctly define the behaviour of the water cycle passing through run-off and groundwater formation to evaporation and condensation. Given this, let us now take a look at the classic autocorrelation plot of this data.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load hydro dataset</span>
+<span class="kw">data</span>(<span class="st">&quot;hydro&quot;</span>)
+
+<span class="co"># Define the time series as a gts object</span>
+hydro =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.vector</span>(hydro), <span class="dt">start =</span> <span class="dv">1907</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">unit_ts =</span> <span class="st">&quot;mm&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Precipitation&quot;</span>, <span class="dt">data_name =</span> <span class="st">&quot;Hydrology data&quot;</span>)
+
+<span class="co"># Plot the Empirical ACF</span>
+<span class="kw">plot</span>(<span class="kw">auto_corr</span>(hydro))</code></pre>
+<p><img src="ts_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>Based on this ACF plot, one would probably conclude that (counterintuitively) there does not appear to be any significant form of correlation between lagged observations in the data. From a hydrological point of view, one would therefore assume an uncorrelated model for precipitation (i.e. white noise) and, based on this, model the rest of the water cycle. However, let us take a look at the robust ACF plot.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Plot the Robust ACF</span>
+<span class="kw">plot</span>(<span class="kw">auto_corr</span>(hydro, <span class="dt">robust =</span> <span class="ot">TRUE</span>))</code></pre>
+<p><img src="ts_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>If we analyse this output, the conclusion appears to be extremely different and, in some way, makes more sense from a hydrological point of view (i.e. the amount of precipitation between close months and over specific months is correlated). Indeed, we can see that there appears to be a seasonal correlation (“waves” in the ACF plot) and that close months appear to be correlated between them. To better highlight this difference (whci can lead to different conclusions) let us finally compare the plots.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compare classic and robust ACF</span>
+<span class="kw">compare_acf</span>(hydro)</code></pre>
+<p><img src="ts_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>Therefore, based on the choice of analysis (i.e. classic or robust), the entire water cycle analysis would change and could deliver very different conclusions.</p>
 <p>A general overview of the concepts and advantages of robustness can be found in Appendix <a href="appendixb.html#appendixb">B</a>.</p>
 
 </div>
