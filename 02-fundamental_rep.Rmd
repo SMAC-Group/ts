@@ -1002,8 +1002,8 @@ for(i in 1:B) {
   Yt[index] = Ut[index]
   
   # Store ACF values
-  acf_xt[i, ] = as.numeric(simts::auto_corr(Xt))[1:15]
-  acf_yt[i, ] = as.numeric(simts::auto_corr(Yt))[1:15]
+  acf_xt[i, ] = as.numeric(auto_corr(Xt))[1:15]
+  acf_yt[i, ] = as.numeric(auto_corr(Yt))[1:15]
   
 }
 
@@ -1056,8 +1056,8 @@ for(i in 1:B) {
   Yt[index] = Ut[index]
   
   # Store Classic and Robust ACF values
-  cl_acf[i, ] = as.numeric(simts::auto_corr(Yt))[1:15]
-  rob_acf[i, ] = robacf(Yt, plot = FALSE)$acf[1:15]
+  cl_acf[i, ] = as.numeric(auto_corr(Yt))[1:15]
+  rob_acf[i, ] = as.numeric(auto_corr(Xt, robust = TRUE))[1:15]
   
 }
 
@@ -1097,8 +1097,8 @@ for(i in 1:B) {
   Xt = gen_gts(N, AR1(phi = 0.9, sigma2 = 1))
   
   # Store Classic and Robust ACF values
-  cl_acf[i, ] = as.numeric(simts::auto_corr(Xt))[1:15]
-  rob_acf[i, ] = robacf(Xt, plot = FALSE)$acf[1:15]
+  cl_acf[i, ] = as.numeric(auto_corr(Xt))[1:15]
+  rob_acf[i, ] = as.numeric(auto_corr(Xt, robust = TRUE))[1:15]
   
 }
 
