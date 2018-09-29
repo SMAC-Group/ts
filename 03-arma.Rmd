@@ -71,13 +71,13 @@ $$\delta^d X_t = (1 - B)^d X_t.$$
 
 Having defined the backshift operator, we can now provide an alternative definition of a linear process as follows:
 
-\[{X_t} = \psi \left( B \right){W_t}\]
+\[{X_t} = \mu + \psi \left( B \right){W_t}\]
 
-where $\psi ( B )$ is a polynomial function in $B$ whose coefficients are given by the linear filters $\{\psi_j\}$ (we'll describe these polynomials further on).
+where $\psi ( B )$ is a polynomial function in $B$ whose coefficients are given by the linear filters $(\psi_j)$ (we'll describe these polynomials further on).
 
 ```{example, label="lpwn", name="Linear Process of White Noise"}
 
-The white noise process $\left\{X_t\right\}$, defined in \@ref(wn),
+The white noise process $(X_t)$, defined in \@ref(wn),
 can be expressed as a linear process as follows:
 
 \[\psi _j = \begin{cases}
@@ -92,7 +92,7 @@ Therefore, $X_t = W_t$, where $W_t \sim WN(0, \sigma^2_W)$
 
 ```{example, label="lpma1", name="Linear Process of Moving Average Order 1"}
 
-Similarly, consider $\left\{X_t\right\}$ to be a MA(1) process, 
+Similarly, consider $(X_t)$ to be a MA(1) process, 
 given by \@ref(ma1). The process can be expressed linearly through the following filters: 
 
 \[\psi _j = \begin{cases}
@@ -112,7 +112,7 @@ Consider a symmetric moving average given by:
 
 \[{X_t} = \frac{1}{{2q + 1}}\sum\limits_{j =  - q}^q {{W_{t + j}}} \]
 
-Thus, $\left\{X_t\right\}$ is defined for $q + 1 \le t \le n-q$. The above process
+Thus, $(X_t)$ is defined for $q + 1 \le t \le n-q$. The above process
 would be a linear process since:
 
 \[\psi _j = \begin{cases}
@@ -144,9 +144,9 @@ and $\mu = 0$. We would require the condition that $\left| \phi \right| < 1$ in 
 
 The class of autoregressive models is based on the idea that previous values in the time series are needed to explain current values in the series. For this class of models, we assume that the $p$ previous observations are needed for this purpose and we therefore denote this class as AR($p$). In the previous chapter, the model we introduced was an AR(1) in which only the immediately previous observation is needed to explain the following one and therefore represents a particular model which is part of the more general class of AR(p) models.
 
-```{definition, label="ar_p","Autoregressive Models of Order P"}
+```{definition, label="arp", name="Autoregressive Models of Order p"}
 The AR(p) models can be formally represented as follows
-$${X_t} = {\phi_1}{Y_{t - 1}} + ... + {\phi_p}{X_{t - p}} + {W_t},$$
+$$(X_t) = {\phi_1}{X_{t - 1}} + ... + {\phi_p}{X_{t - p}} + {W_t},$$
 where $\phi_i \neq 0$ (for $i = 1, ..., p$) and $W_t$ is a (Gaussian) white noise process with variance $\sigma^2$. 
 ```
 
@@ -163,7 +163,7 @@ where $\mu^{\star} = \mu (1 - \sum_{i = 1}^p \phi_i)$. Therefore, to simplify th
 A useful way of representing AR(p) processes is through the backshift operator introduced in the previous section and is as follows
 
 \[\begin{aligned}
-  {X_t} &= {\phi_1}{X_{t - 1}} + ... + {\phi_p}{y_{t - p}} + {w_t} \\
+  {X_t} &= {\phi_1}{X_{t - 1}} + ... + {\phi_p}{X_{t - p}} + {w_t} \\
    &= {\phi_1}B{X_t} + ... + {\phi_p}B^p{X_t} + {W_t} \\
    &= ({\phi_1}B + ... + {\phi_p}B^p){X_t} + {W_t} \\ 
 \end{aligned},\]
@@ -192,7 +192,7 @@ which is a linear process and therefore is stationary. Unfortunately, such a mod
 
 In this section we will describe the main property of the AR(p) model which has already been mentioned in the previous paragraphs and therefore let us now introduce the property of causality in a more formal manner.
 
-**Definition:** An AR(p) model is *causal* if the time series $\{ X_t \}_{-\infty}^{\infty}$ can be written as a one-sided linear process:
+**Definition:** An AR(p) model is *causal* if the time series $(X_t)_{-\infty}^{\infty}$ can be written as a one-sided linear process:
 \begin{equation}
     X_t = \sum_{j = 0}^{\infty} \psi_j W_{t-j} = \frac{1}{\phi(B)} W_t = \psi(B) W_t,
 (\#eq:causal)
@@ -224,7 +224,7 @@ A first approach builds upon the earlier definition of AR(p) models being a line
 \end{equation}
 which delivers the following autocovariance function
 \begin{equation}
-    \gamma(h) = \text{cov}(X_{t+h}, X_t) = \text{cov}\left(\sum_{j = 1}^{p} \phi_j X_{t-j}, X_t\right) = \sum_{j = 1}^{p} \phi_j \gamma(h-j), \mbox{ } h \geq 1.
+    \gamma(h) = \text{cov}(X_{t+h}, X_t) = \text{cov}\left(\sum_{j = 1}^{p} \phi_j X_{t+h-j}, X_t\right) = \sum_{j = 1}^{p} \phi_j \gamma(h-j), \mbox{ } h \geq 1.
 \end{equation}
 Rearranging the above expressions we obtain the following general equations
 \begin{equation}
@@ -266,9 +266,9 @@ The Yule-Walker estimators for a causal AR(p) model have the following asymptoti
 
 Therefore the Yule-Walker estimators have an asymptotically normal distribution and the estimator of the innovation variance is consistent. Moreover, these estimators are also optimal for AR(p) models, meaning that they are also efficient. However, there is also another method which allows to achieve this efficiency (also for general ARMA models that will be tackled further on) and this is the Maximum Likelihood Estimation (MLE) method. Considering an AR(1) model as an example, and assuming without loss of generality that its expectation is zero, we have the following representation of the AR(1) model
 \begin{equation*}
-X_t = \phi X_{t-1} + w_t
+X_t = \phi X_{t-1} + W_t
 \end{equation*}
-where $|\phi|<1$ and $w_t \overset{iid}{\sim} \mathcal{N}(0,\sigma_w^2)$. Supposing we have observations $(x_t)_{t=1,...,T}$ issued from this model, then the likelihood function for this setting is given by
+where $|\phi|<1$ and $W_t \overset{iid}{\sim} \mathcal{N}(0,\sigma_w^2)$. Supposing we have observations $(x_t)_{t=1,...,T}$ issued from this model, then the likelihood function for this setting is given by
 \begin{equation*}
 L(\phi,\sigma_w^2) = f(\phi,\sigma_w^2|x_1,...,x_T)
 \end{equation*}
@@ -278,13 +278,13 @@ L(\phi,\sigma_w^2) = f(x_1)f(x_2|x_1)\cdot \cdot \cdot f(x_T|x_{T-1}).
 \end{equation*}
 If we define $\Omega_t^p$ as the information contained in the previous $p$ observations (before time $t$), the above expression can be generalized for an AR(p) model as follows
 \begin{equation*}
-L(\phi,\sigma_w^2) = f(x_1,...,x_p)f(x_{p+1}|\Omega_{p+1}^p)\cdot \cdot \cdot f(x_T|\Omega_{T-1}^p)
+L(\phi,\sigma_w^2) = f(x_1,...,x_p)f(x_{p+1}|\Omega_{p+1}^p)\cdot \cdot \cdot f(x_T|\Omega_{T}^p)
 \end{equation*}
-where $f(x_1,...,x_p)$ is the joint probability distribution of the first $p$ observations. Going back to the AR(1) setting, based on our assumption on $(w_t)$ we know that $x_t|x_{t-1} \sim \mathcal{N}(\phi x_{t-1},\sigma_w^2)$ and therefore we have that
+where $f(x_1,...,x_p)$ is the joint probability distribution of the first $p$ observations. Going back to the AR(1) setting, based on our assumption on $(W_t)$ we know that $x_t|x_{t-1} \sim \mathcal{N}(\phi x_{t-1},\sigma_w^2)$ and therefore we have that
 \begin{equation*}
 f(x_t|x_{t-1}) = f_w(x_t - \phi x_{t-1})
 \end{equation*}
-where $f_w(\cdot)$ is the distribution of $w_t$. This rearranges the likelihood function as follows
+where $f_w(\cdot)$ is the distribution of $W_t$. This rearranges the likelihood function as follows
 \begin{equation*}
 L(\phi,\sigma_w^2) = f(x_1)\prod_{t=2}^T f_w(x_t - \phi x_{t-1})
 \end{equation*}
@@ -294,9 +294,9 @@ x_1 = \sum_{j=0}^{\infty} \phi^j w_{1-j}
 \end{equation*}
 which implies that $x_1$ follows a normal distribution with zero expectation and a variance given by $\frac{\sigma_w^2}{(1-\phi^2)}$. Based on this, the likelihood function of an AR(1) finally becomes
 \begin{equation*}
-L(\phi,\sigma_w^2) = (2\pi \sigma_w^2)^{-\frac{T}{2}} (1 - \phi)^{\frac{1}{2}} \exp \left(-\frac{S(\phi)}{2 \sigma_w^2}\right)
+L(\phi,\sigma_w^2) = (2\pi \sigma_w^2)^{-\frac{T}{2}} (1 - \phi^2)^{\frac{1}{2}} \exp \left(-\frac{S(\phi)}{2 \sigma_w^2}\right)
 \end{equation*}
-with $S(\phi) = (1-\phi)^2 x_1^2 + \sum_{t=2}^T (x_t -\phi x_{t-1})^2$. Once the derivative of the logarithm of the likelihood is taken, the minimization of the negative of this function is usually done numerically. However, if we condition on the initial values, the AR(p) models are linear and, for example, we can then define the conditional likelihood of an AR(1) as
+with $S(\phi) = (1-\phi^2) x_1^2 + \sum_{t=2}^T (x_t -\phi x_{t-1})^2$. Once the derivative of the logarithm of the likelihood is taken, the minimization of the negative of this function is usually done numerically. However, if we condition on the initial values, the AR(p) models are linear and, for example, we can then define the conditional likelihood of an AR(1) as
 \begin{equation*}
 L(\phi,\sigma_w^2|x_1) = (2\pi \sigma_w^2)^{-\frac{T-1}{2}} \exp \left(-\frac{S_c(\phi)}{2 \sigma_w^2}\right)
 \end{equation*}
@@ -330,13 +330,13 @@ can be used to deliver an M-estimator given by
 where $\psi(\cdot)$ is a function of bounded variation. When conditioning on the
 first $p$ observations, this problem can be brought back to a linear regression
 problem which can be applied in a robust manner using the robust regression
-tools available in `R` such as `rlm(...)` or `lmrob(...)`. However, another 
-available tool in `R` which does not require a strict specification of the distribution function (also for general ARMA models) is the `gmwm(...)` function (in the `gmwm` package) in which it is possible to specify the option `robust = TRUE`. This function makes use of a quantity called the wavelet variance (denoted as $\nu$) which is estimated robustly and then used to retrieve the parameters $\theta$ of the time series model. The robust estimate is obtained by solving the following minimization problem
+tools available in `R` such as `rlm` or `lmrob`. However, another 
+available tool in `R` which does not require a strict specification of the distribution function (also for general ARMA models) is the `gmwm` function (in the `gmwm` package) in which it is possible to specify the option `robust = TRUE`. This function makes use of a quantity called the wavelet variance (denoted as $\boldsymbol{\nu}$) which is estimated robustly and then used to retrieve the parameters $\theta$ of the time series model. The robust estimate is obtained by solving the following minimization problem
 \begin{equation*}
 \hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta} \in \boldsymbol{\Theta}}{\text{argmin}} (\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}(\boldsymbol{\theta}))^T\boldsymbol{\Omega}(\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}({\boldsymbol{\theta}})),
 \end{equation*}
-where $\hat{\nu}$ is the robustly estimated wavelet variance, $\nu(\theta)$ is 
-the theoretical wavelet variance (implied by the model we want to estimate) and $\Omega$ is a positive definite weighting matrix. Below we show some simulation studies where we present the results of the above estimation procedures in absence and in presence of contamination in the data.
+where $\hat{\boldsymbol{\nu}}$ is the robustly estimated wavelet variance, $\boldsymbol{\nu}({\boldsymbol{\theta}})$ is 
+the theoretical wavelet variance (implied by the model we want to estimate) and $\boldsymbol{\Omega}$ is a positive definite weighting matrix. Below we show some simulation studies where we present the results of the above estimation procedures in absence and in presence of contamination in the data.
 
 In particular, we simulate three different processes $X_t, Y_t, Z_t$ from \[X_t = 0.5 X_{t-1} - 0.25 X_{t-2} + W_t,\] with $W_t \overset{iid}{\sim} N(0, 1)$. The first process $(X_t)$ is uncontaminated while the other two processes are contaminated versions of the first that can often be observed in practice. The first type of contamination can be seen in $(Y_t)$ and is delivered by replacing a portion of the original process with a process defined as \[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t,\] where $V_t \overset{iid}{\sim} N(0, 9)$. The second form of contamination can be seen in $(Z_t)$ and consists in the so-called point-wise contamination where randomly selected points from $X_t$ are replaced with $N_t \overset{iid}{\sim} N(0, 9)$. An example of how to simulate a time series from each of these processes is in the code below followed by the relative plots.
 
@@ -502,3 +502,58 @@ sim_study_graph(res.zt.MLE, res.zt.LS, res.zt.RR, res.zt.GMWM, res.zt.RGMWM, pro
 ```
 
 It can be seen that for these two contaminated processes, the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimators allow to remain close (on average) to the true parameter values that we are aiming to estimate. As you can observe, the type of contamination can be important in the choice of the robust estimator to be used as underlined by the different behaviour of the RLS and RGMWM estimators on $(Y_t)$ and $(Z_t)$. However, this discussion is out of the scope of this book.
+
+## Inference for AR(p) models
+
+For all the above methods, it would be necessary to understand how "precise" 
+their estimates are. To do so we would need to obtain confidence intervals for
+these estimates and this can be done mainly in two manners:
+
+- using the asymptotic distribution of the parameter estimates;
+- using parametric bootstrap.
+
+The first approach consists in using the asymptotic distribution of the 
+estimators presented earlier to deliver approximations of the confidence
+intervals which get better as the length of the observed time series increases. 
+Hence, for example, if we wanted to find a 95% confidence interval for the 
+parameter $\phi$, we would use the quantiles of the normal distribution 
+(given that all methods presented earlier present this asymptotic distribution).
+However, this approach can present some drawbacks, one of which is there
+behaviour when the parameters are close to the boundaries of the parameter space. 
+Suppose we consider a realization of length $n = 100$ of the following AR(1) model:
+
+\[X_t = 0.96 X_{t-1} + W_t, \;\;\;\; W_t \sim \mathcal{N}(0,1),\]
+
+which is depicted in Figure \@ref(fig:simAR1ci)
+
+``` {r simAR1ci, cache = TRUE, fig.height= 4.5, fig.width = 9, fig.cap = "AR(1) with $\\phi$ close to parameter bound"}
+set.seed(7)
+x = gen_gts(n = 100, AR1(0.96, 1))
+plot(x)
+```
+
+It can be seen that the parameter $\phi = 0.96$ respects the condition for 
+stationarity, $\left| \phi \right| < 1$, but is very close to its boundary.
+Using the MLE and the GMWM estimators, we first estimate the parameters and
+then compute confidence intervals for $\phi$ using the asymptotic 
+normal distribution.
+
+```{r asymAR1estci, cache = TRUE}
+# Compute the parameter estimates using MLE
+fit.ML = arima(x, order = c(1,0,0), include.mean = FALSE)
+c("phi" = fit.ML$coef, "se" = sqrt(fit.ML$var.coef))
+
+# Construct asymptotic confidence interval for phi
+fit.ML$coef + c(-1,1)*1.96*as.numeric(sqrt(fit.ML$var.coef))
+
+# Compute the parameter estimates with inference using GMWM
+fit.gmwm = gmwm2::gmwm(AR1(), x)
+summary(fit.gmwm, inference = TRUE)$estimate
+```
+
+
+From the estimation summary, we note that both confidence intervals contain 
+values that would make the AR(1) non-stationary (i.e. values of $\phi$ larger
+than 1). These estimates are indicating that they represent the
+estimated (asymptotic) distribution of $\hat{\phi}$ as displayed in Figure
+\@ref(fig:asymIC).
