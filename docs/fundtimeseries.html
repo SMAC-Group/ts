@@ -173,6 +173,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#properties-of-arp-models"><i class="fa fa-check"></i><b>4.2.1</b> Properties of AR(p) models</a></li>
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.3</b> Estimation of AR(p) models</a></li>
+<li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) models</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -1070,8 +1071,8 @@ acf_xt =<span class="st"> </span>acf_yt =<span class="st"> </span><span class="k
   Yt[index] =<span class="st"> </span>Ut[index]
   
   <span class="co"># Store ACF values</span>
-  acf_xt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(simts<span class="op">::</span><span class="kw">auto_corr</span>(Xt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
-  acf_yt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(simts<span class="op">::</span><span class="kw">auto_corr</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
+  acf_xt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Xt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
+  acf_yt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
   
 }
 
@@ -1120,8 +1121,8 @@ cl_acf =<span class="st"> </span>rob_acf =<span class="st"> </span><span class="
   Yt[index] =<span class="st"> </span>Ut[index]
   
   <span class="co"># Store Classic and Robust ACF values</span>
-  cl_acf[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(simts<span class="op">::</span><span class="kw">auto_corr</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
-  rob_acf[i, ] =<span class="st"> </span><span class="kw">robacf</span>(Yt, <span class="dt">plot =</span> <span class="ot">FALSE</span>)<span class="op">$</span>acf[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
+  cl_acf[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
+  rob_acf[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Xt, <span class="dt">robust =</span> <span class="ot">TRUE</span>))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
   
 }
 
