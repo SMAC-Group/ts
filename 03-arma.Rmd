@@ -277,7 +277,7 @@ $$
 $$
 where $\lambda_1$ and $\lambda_2$ are the roots of $\phi(B)$ such that 
 \[ \begin{aligned}
-\phi_1 &=  \frac{1}{\lambda_1} \frac{1}{\lambda_2}, \\
+\phi_1 &=  \frac{1}{\lambda_1} + \frac{1}{\lambda_2}, \\
 \phi_2 &= - \frac{1}{\lambda_1} \frac{1}{\lambda_2}.
 \end{aligned} \]
 

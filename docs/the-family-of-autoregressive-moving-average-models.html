@@ -143,9 +143,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#linear-processes"><i class="fa fa-check"></i><b>4.1</b> Linear Processes</a></li>
 <li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autoregressive-models-arp"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models (AR(p))</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#properties-of-arp-models"><i class="fa fa-check"></i><b>4.2.1</b> Properties of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.2.2</b> Estimation of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Inference for AR(p) models</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.3</b> Estimation of AR(p) models</a></li>
-<li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) models</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -362,7 +362,7 @@ X_t = \phi_1 X_{t-1} + \phi_2 X_{t-2} + W_t = \phi_1 BX_t + \phi_2 B^2 X_t + W_t
 \]</span> thereby delivering the following autoregressive operator: <span class="math display">\[
 \phi(B) = 1-\phi_1 B - \phi_2 B^2 = \Big( 1-\frac{B}{\lambda_1} \Big) \Big( 1-\frac{B}{\lambda_2} \Big)
 \]</span> where <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(\lambda_2\)</span> are the roots of <span class="math inline">\(\phi(B)\)</span> such that <span class="math display">\[ \begin{aligned}
-\phi_1 &amp;=  \frac{1}{\lambda_1} \frac{1}{\lambda_2}, \\
+\phi_1 &amp;=  \frac{1}{\lambda_1} + \frac{1}{\lambda_2}, \\
 \phi_2 &amp;= - \frac{1}{\lambda_1} \frac{1}{\lambda_2}.
 \end{aligned} \]</span></p>
 <p>That is, <span class="math display">\[\begin{aligned}
@@ -400,9 +400,8 @@ Figure 4.1: Causal Region for Parameters of an AR(2) Process
 </p>
 </div>
 </div>
-</div>
-<div id="estimation-of-arp-models" class="section level2">
-<h2><span class="header-section-number">4.3</span> Estimation of AR(p) models</h2>
+<div id="estimation-of-arp-models" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Estimation of AR(p) models</h3>
 <p>Given the above defined properties of AR(p) models, we will now discuss how these models can be estimated, more specifically how the <span class="math inline">\(p+1\)</span> parameters can be obtained from an observed time series. Indeed, a reliable estimation of these models is necessary in order to intepret and describe different natural phenomena and/or forecast possible future values of the time series.</p>
 A first approach builds upon the earlier definition of AR(p) models being a linear process. Recall that
 <span class="math display">\[\begin{equation}
@@ -645,8 +644,8 @@ for (i in <span class="kw">seq_len</span>(B)){
 <p><img src="ts_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="ts_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
 <p>It can be seen that for these two contaminated processes, the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimators allow to remain close (on average) to the true parameter values that we are aiming to estimate. As you can observe, the type of contamination can be important in the choice of the robust estimator to be used as underlined by the different behaviour of the RLS and RGMWM estimators on <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span>. However, this discussion is out of the scope of this book.</p>
 </div>
-<div id="inference-for-arp-models" class="section level2">
-<h2><span class="header-section-number">4.4</span> Inference for AR(p) models</h2>
+<div id="inference-for-arp-models" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Inference for AR(p) models</h3>
 <p>For all the above methods, it would be necessary to understand how “precise” their estimates are. To do so we would need to obtain confidence intervals for these estimates and this can be done mainly in two manners:</p>
 <ul>
 <li>using the asymptotic distribution of the parameter estimates;</li>
@@ -681,6 +680,7 @@ fit.gmwm =<span class="st"> </span>gmwm2::<span class="kw">gmwm</span>(<span cla
 ## SIGMA2 0.9640085 0.6910043 1.156575 0.14152341</code></pre>
 <p>From the estimation summary, we note that both confidence intervals contain values that would make the AR(1) non-stationary (i.e. values of <span class="math inline">\(\phi\)</span> larger than 1). These estimates are indicating that they represent the estimated (asymptotic) distribution of <span class="math inline">\(\hat{\phi}\)</span> as displayed in Figure <a href="#fig:asymIC"><strong>??</strong></a>.</p>
 
+</div>
 </div>
 </div>
             </section>
