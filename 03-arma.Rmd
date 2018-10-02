@@ -326,7 +326,7 @@ Finally, the causal region of an AR(2) is demonstrated as
 knitr::include_graphics("images/causal_AR2.png")
 ```
 
-## Estimation of AR(p) models
+### Estimation of AR(p) models
 
 Given the above defined properties of AR(p) models, we will now discuss how these models can be estimated, more specifically how the $p+1$ parameters can be obtained from an observed time series. Indeed, a reliable estimation of these models is necessary in order to intepret and describe different natural phenomena and/or forecast possible future values of the time series.
 
@@ -615,7 +615,7 @@ sim_study_graph(res.zt.MLE, res.zt.LS, res.zt.RR, res.zt.GMWM, res.zt.RGMWM, pro
 
 It can be seen that for these two contaminated processes, the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimators allow to remain close (on average) to the true parameter values that we are aiming to estimate. As you can observe, the type of contamination can be important in the choice of the robust estimator to be used as underlined by the different behaviour of the RLS and RGMWM estimators on $(Y_t)$ and $(Z_t)$. However, this discussion is out of the scope of this book.
 
-## Inference for AR(p) models
+### Inference for AR(p) models
 
 For all the above methods, it would be necessary to understand how "precise" 
 their estimates are. To do so we would need to obtain confidence intervals for
