@@ -213,6 +213,118 @@ it is obvious that a solution exists only when $\phi(B) = \sum_{j = 0}^{\infty} 
 
 <!-- It can be seen how there is no solution to the above equation if $\phi(z) = 0$ and therefore an AR(p) is causal if and only if $\phi(z) \neq 0$. A condition for this to be respected is for the roots of $\phi(z) = 0$ to lie outside the unit circle. -->
 
+```{example, label="AR2asLP", name="Transform an AR(2) into a Linear Process"}
+Consider an AR(2) process $$X_t = 1.3 X_{t-1} - 0.4 X_{t-2} + W_t,$$ which we would like to transform into a linear process. This can be done using the following approach:
+
+- Step 1:
+The autoregressive operator of this model can be expressed as 
+$$
+\phi(B) = 1-1.3B+0.4B^2 = (1-0.5B)(1-0.8B),
+$$
+and has roots 2 and 1.25, both $>1$. Thus, we should be able to convert it into a linear process.
+
+- Step 2: We know that if an AR(p) process has all its roots outside the unit circle, then we can write $X_t = \frac{1}{\phi(B)} W_t$. By applying the partial fractions trick, we can inverse the autoregressive operator $\phi(B)$ as follows:
+\[ \begin{aligned}
+\phi^{-1}(B) &= \frac{1}{(1-0.5B)(1-0.8B)} = \frac{c_1}{(1-0.5B)} + \frac{c_2}{(1-0.8B)} \\
+&= \frac{c_2(1-0.5B) + c_1(1-0.8B)}{(1-0.5B)(1-0.8B)} = \frac{(c_1 + c_2)-(0.8c_1+0.5c_2)B}{(1-0.5B)(1-0.8B)}.
+\end{aligned} \]
+
+To solve for $c_1$ and $c_2$:
+\[ \begin{cases}
+      c_1 + c_2 &=1\\
+      0.8c_1+0.5c_2 &=0
+\end{cases} \to 
+\begin{cases}
+      c_1 &= -5/3\\
+      c_2 &= 8/3.
+\end{cases} \]
+
+So we obtain 
+$$
+\phi^{-1}(B) = \frac{-5}{3(1-0.5B)} + \frac{8}{3(1-0.8B)}.
+$$
+
+- Step 3: Using the Geometric series, i.e. $a\sum_{j=0}^{\infty} r^j = \frac{a}{1-r}$ if $|r| <1$, we have
+\[ \begin{cases}
+      \frac{-5}{3(1-0.5B)} = -\frac{5}{3} \sum_{j=0}^\infty 0.5^j B^j, &\mbox{ if } |B| < 2 \\
+      \frac{8}{3(1-0.8B)} = \frac{8}{3} \sum_{j=0}^\infty 0.8^j B^j, &\mbox{ if } |B| < 1.25.
+\end{cases} \]
+
+So we can express $\phi^{-1}(B)$ as 
+$$
+\phi^{-1}(B) = \sum_{j=0}^\infty \Big[ -\frac{5}{3} (0.5)^j  + \frac{8}{3} (0.8)^j \Big] B^j, \;\;\; \text{if  } |B|<1.25.
+$$
+
+- Step 4: Finally, we obtain
+\[ \begin{aligned}
+X_t &= \phi(B)^{-1} W_t = \sum_{j=0}^\infty \Big[ -\frac{5}{3} (0.5)^j  + \frac{8}{3} (0.8)^j \Big] B^j W_t \\
+&= \sum_{j=0}^\infty \Big[ -\frac{5}{3} (0.5)^j  + \frac{8}{3} (0.8)^j \Big] W_{t-j},
+\end{aligned} \]
+which verifies that the AR(2) is causal, and therefore is stationary.
+```
+
+
+```{example, label="AR2causalcond", name="Causal Conditions for an AR(2) Process"}
+We already know that an AR(1) is causal with the simple condition $|\phi_1|<1$. It seems natural to believe that an AR(2) should be causal (and therefore stationary) with the condition that $|\phi_i| <1, \; i=1,2$. However, this is actually not the case as we illustrate below.
+
+We can express an AR(2) process as 
+$$
+X_t = \phi_1 X_{t-1} + \phi_2 X_{t-2} + W_t = \phi_1 BX_t + \phi_2 B^2 X_t + W_t,
+$$
+thereby delivering the following autoregressive operator:
+$$
+\phi(B) = 1-\phi_1 B - \phi_2 B^2 = \Big( 1-\frac{B}{\lambda_1} \Big) \Big( 1-\frac{B}{\lambda_2} \Big)
+$$
+where $\lambda_1$ and $\lambda_2$ are the roots of $\phi(B)$ such that 
+\[ \begin{aligned}
+\phi_1 &=  \frac{1}{\lambda_1} \frac{1}{\lambda_2}, \\
+\phi_2 &= - \frac{1}{\lambda_1} \frac{1}{\lambda_2}.
+\end{aligned} \]
+
+That is, 
+\[\begin{aligned}
+\lambda_1 &= \frac{\phi_1 + \sqrt{\phi_1^2 + 4\phi_2}}{-2\phi_2}, \\
+\lambda_2 &= \frac{\phi_1 - \sqrt{\phi_1^2 + 4\phi_2}}{-2\phi_2}.
+\end{aligned} \]
+
+In order to ensure the causality of the model, we need the roots of $\phi(B)$, i.e. $\lambda_1$ and $\lambda_2$, to lie outside the unit circle.
+
+\[ \begin{cases}
+|\lambda_1| &> 1 \\
+|\lambda_2| &> 1,
+\end{cases} \]
+if and only if 
+\[ \begin{cases}
+\phi_1 + \phi_2 &< 1 \\
+\phi_2 - \phi_1 &< 1 \\
+|\phi_2| &<1.
+\end{cases} \]
+
+We can show the *if* part of the statement as follows:
+\[ \begin{aligned}
+& \phi_1 + \phi_2 = \frac{1}{\lambda_1} + \frac{1}{\lambda_2} - \frac{1}{\lambda_1 \lambda_2} = \frac{1}{\lambda_1} \Big(1-\frac{1}{\lambda_2} \Big) + \frac{1}{\lambda_2} < 1 - \frac{1}{\lambda_2} + \frac{1}{\lambda_2} = 1 \;\; \text{since } 1-\frac{1}{\lambda_2} > 0, \\
+& \phi_2 - \phi_1 = -\frac{1}{\lambda_1 \lambda_2} - \frac{1}{\lambda_1} - \frac{1}{\lambda_2} = -\frac{1}{\lambda_1} \Big( \frac{1}{\lambda_2} +1 \Big) - \frac{1}{\lambda_2} < \frac{1}{\lambda_2}+1-\frac{1}{\lambda_2} = 1 \;\; \text{since } \frac{1}{\lambda_2}+1 > 0, \\
+& |\phi_2| = \frac{1}{|\lambda_1| |\lambda_2|} < 1.
+\end{aligned} \]
+
+We can also show the *only if* part of the statement as follows:
+
+Since $\lambda_1 = \frac{\phi_1 + \sqrt{\phi_1^2 + 4\phi_2}}{-2\phi_2}$ and $\phi_2 - 1 < \phi_1 < 1- \phi_2$, we have 
+$$
+\lambda_1^2 = \frac{(\phi_1 + \sqrt{\phi_1^2 + 4\phi_2})^2}{4\phi_2^2} < \frac{\Big( (1-\phi_2)+ \sqrt{(1-\phi_2)^2 + 4\phi_2} \Big)^2}{4\phi_2^2} = \frac{4}{4\phi_2^2} \leq 1. 
+$$
+
+Since $\lambda_2 = \frac{\phi_1 - \sqrt{\phi_1^2 + 4\phi_2}}{-2\phi_2}$ and $\phi_2 - 1 < \phi_1 < 1- \phi_2$, we have 
+$$
+\lambda_2^2 = \frac{(\phi_1 - \sqrt{\phi_1^2 + 4\phi_2})^2}{4\phi_2^2} < \frac{\Big( (\phi_2-1)+ \sqrt{(\phi_2-1)^2 + 4\phi_2} \Big)^2}{4\phi_2^2} = \frac{4\phi_2^2}{4\phi_2^2} = 1. 
+$$
+
+Finally, the causal region of an AR(2) is demonstrated as
+```
+
+```{r correxample, cache = TRUE, echo = FALSE, fig.cap="Causal Region for Parameters of an AR(2) Process", fig.align = 'center'}
+knitr::include_graphics("images/causal_AR2.png")
+```
 
 ## Estimation of AR(p) models
 

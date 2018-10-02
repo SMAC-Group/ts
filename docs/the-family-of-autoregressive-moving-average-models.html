@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Applied Time Series Analysis with R</title>
   <meta name="description" content="Applied Time Series Analysis with R">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="Applied Time Series Analysis with R" />
   <meta property="og:type" content="book" />
@@ -49,69 +49,41 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -215,12 +187,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In order to discuss the classes of models mentioned above, we first present the class of linear processes which underlie many of the most common time series models.</p>
 
 <div class="definition">
-<p><span id="def:lp" class="definition"><strong>Definition 4.1  (Linear Process)  </strong></span>A time series, <span class="math inline">\((X_t)\)</span>, is defined to be a linear process if it can be expressed
-as a linear combination of white noise as follows:</p>
+<p><span id="def:lp" class="definition"><strong>Definition 4.1  (Linear Process)  </strong></span>A time series, <span class="math inline">\((X_t)\)</span>, is defined to be a linear process if it can be expressed as a linear combination of white noise as follows:</p>
 <p><span class="math display">\[{X_t} = \mu + \sum\limits_{j =  - \infty }^\infty  {{\psi _j}{W_{t - j}}} \]</span></p>
 where <span class="math inline">\(W_t \sim WN(0, \sigma^2)\)</span> and <span class="math inline">\(\sum\limits_{j = - \infty }^\infty {\left| {{\psi _j}} \right|} &lt; \infty\)</span>.
 </div>
-
+<p></p>
 <p>Note, the latter assumption is required to ensure that the series has a limit. Furthermore, the set of coefficients <span class="math display">\[{( {\psi _j}) _{j =  - \infty , \cdots ,\infty }}\]</span> can be viewed as a linear filter. These coefficients do not have to be all equal nor symmetric as later examples will show. Generally, the properties of a linear process related to mean and variance are given by:</p>
 <p><span class="math display">\[\begin{aligned}
 \mu_{X} &amp;= \mu \\
@@ -234,34 +205,24 @@ where <span class="math inline">\(W_t \sim WN(0, \sigma^2)\)</span> and <span cl
    &amp;= \sum\limits_{j =  - \infty }^\infty  {{\psi _j}{\psi _{j + h}}Cov\left( {{w_{t - j}},{w_{t - j}}} \right)}  \\
    &amp;= \sigma _w^2\sum\limits_{j =  - \infty }^\infty  {{\psi _j}{\psi _{j + h}}}  \\ 
 \end{aligned} \]</span></p>
-<p>Within the above derivation, the key is to realize that
-<span class="math inline">\(Cov\left( {{w_{t - j}},{w_{t + h - j}}} \right) = 0\)</span> if <span class="math inline">\(t - j \ne t + h - j\)</span>.</p>
+<p>Within the above derivation, the key is to realize that <span class="math inline">\(Cov\left( {{w_{t - j}},{w_{t + h - j}}} \right) = 0\)</span> if <span class="math inline">\(t - j \ne t + h - j\)</span>.</p>
 <p>Lastly, another convenient way to formalize the definition of a linear process is through the use of the <strong>backshift operator</strong> (or lag operator) which is itself defined as follows:</p>
 <p><span class="math display">\[B\,X_t = X_{t-1}.\]</span></p>
 <p>The properties of the backshift operator allow us to create composite functions of the type</p>
-<p><span class="math display">\[B^2 \, X_t = B (B \, X_t) = B \, X_{t-1} = X_{t-2}\]</span>
-which allows to generalize as follows</p>
-<p><span class="math display">\[B^k \, X_t = X_{t-k}.\]</span>
-Moreover, we can apply the inverse operator to it (i.e. <span class="math inline">\(B^{-1} \, B = 1\)</span>) thereby allowing us to have, for example:</p>
+<p><span class="math display">\[B^2 \, X_t = B (B \, X_t) = B \, X_{t-1} = X_{t-2}\]</span> which allows to generalize as follows</p>
+<p><span class="math display">\[B^k \, X_t = X_{t-k}.\]</span> Moreover, we can apply the inverse operator to it (i.e. <span class="math inline">\(B^{-1} \, B = 1\)</span>) thereby allowing us to have, for example:</p>
 <p><span class="math display">\[X_t = B^{-1} \, B X_t = B^{-1} X_{t-1}\]</span></p>
 
 <div class="example">
-<span id="exm:backdiff" class="example"><strong>Example 4.1  (d-order Differences)  </strong></span>We can re-express <span class="math inline">\(X_t - X_{t-1}\)</span> as
-<span class="math display">\[\delta X_t = (1 - B) X_t\]</span>
-or a second order difference as
-<span class="math display">\[\delta^2 X_t = (1 - B)^2 X_t\]</span>
-thereby generalizing to a d-order difference as follows:
-<span class="math display">\[\delta^d X_t = (1 - B)^d X_t.\]</span>
+<span id="exm:backdiff" class="example"><strong>Example 4.1  (d-order Differences)  </strong></span>We can re-express <span class="math inline">\(X_t - X_{t-1}\)</span> as <span class="math display">\[\delta X_t = (1 - B) X_t\]</span> or a second order difference as <span class="math display">\[\delta^2 X_t = (1 - B)^2 X_t\]</span> thereby generalizing to a d-order difference as follows: <span class="math display">\[\delta^d X_t = (1 - B)^d X_t.\]</span>
 </div>
-
+<p></p>
 <p>Having defined the backshift operator, we can now provide an alternative definition of a linear process as follows:</p>
 <p><span class="math display">\[{X_t} = \mu + \psi \left( B \right){W_t}\]</span></p>
 <p>where <span class="math inline">\(\psi ( B )\)</span> is a polynomial function in <span class="math inline">\(B\)</span> whose coefficients are given by the linear filters <span class="math inline">\((\psi_j)\)</span> (we’ll describe these polynomials further on).</p>
 
 <div class="example">
-<p><span id="exm:lpwn" class="example"><strong>Example 4.2  (Linear Process of White Noise)  </strong></span>
-The white noise process <span class="math inline">\((X_t)\)</span>, defined in <a href="basic-elements-of-time-series.html#wn">2.4.1</a>,
-can be expressed as a linear process as follows:</p>
+<p><span id="exm:lpwn" class="example"><strong>Example 4.2  (Linear Process of White Noise)  </strong></span> The white noise process <span class="math inline">\((X_t)\)</span>, defined in <a href="basic-elements-of-time-series.html#wn">2.4.1</a>, can be expressed as a linear process as follows:</p>
 <p><span class="math display">\[\psi _j = \begin{cases}
       1 , &amp;\mbox{ if } j = 0\\
       0 , &amp;\mbox{ if } |j| \ge 1
@@ -269,12 +230,10 @@ can be expressed as a linear process as follows:</p>
 <p>and <span class="math inline">\(\mu = 0\)</span>.</p>
 Therefore, <span class="math inline">\(X_t = W_t\)</span>, where <span class="math inline">\(W_t \sim WN(0, \sigma^2_W)\)</span>
 </div>
-
+<p></p>
 
 <div class="example">
-<p><span id="exm:lpma1" class="example"><strong>Example 4.3  (Linear Process of Moving Average Order 1)  </strong></span>
-Similarly, consider <span class="math inline">\((X_t)\)</span> to be a MA(1) process,
-given by <a href="basic-elements-of-time-series.html#ma1">2.4.4</a>. The process can be expressed linearly through the following filters:</p>
+<p><span id="exm:lpma1" class="example"><strong>Example 4.3  (Linear Process of Moving Average Order 1)  </strong></span> Similarly, consider <span class="math inline">\((X_t)\)</span> to be a MA(1) process, given by <a href="basic-elements-of-time-series.html#ma1">2.4.4</a>. The process can be expressed linearly through the following filters:</p>
 <p><span class="math display">\[\psi _j = \begin{cases}
       1, &amp;\mbox{ if } j = 0\\
       \theta , &amp;\mbox{ if } j = 1 \\
@@ -283,14 +242,12 @@ given by <a href="basic-elements-of-time-series.html#ma1">2.4.4</a>. The process
 <p>and <span class="math inline">\(\mu = 0\)</span>.</p>
 Thus, we have: <span class="math inline">\(X_t = W_t + \theta W_{t-1}\)</span>
 </div>
-
+<p></p>
 
 <div class="example">
-<p><span id="exm:lpsma" class="example"><strong>Example 4.4  (Linear Process and Symmetric Moving Average)  </strong></span>
-Consider a symmetric moving average given by:</p>
+<p><span id="exm:lpsma" class="example"><strong>Example 4.4  (Linear Process and Symmetric Moving Average)  </strong></span> Consider a symmetric moving average given by:</p>
 <p><span class="math display">\[{X_t} = \frac{1}{{2q + 1}}\sum\limits_{j =  - q}^q {{W_{t + j}}} \]</span></p>
-<p>Thus, <span class="math inline">\((X_t)\)</span> is defined for <span class="math inline">\(q + 1 \le t \le n-q\)</span>. The above process
-would be a linear process since:</p>
+<p>Thus, <span class="math inline">\((X_t)\)</span> is defined for <span class="math inline">\(q + 1 \le t \le n-q\)</span>. The above process would be a linear process since:</p>
 <p><span class="math display">\[\psi _j = \begin{cases}
       \frac{1}{{2q + 1}} , &amp;\mbox{ if } -q \le j \le q\\
       0 , &amp;\mbox{ if } |j| &gt; q
@@ -299,7 +256,7 @@ would be a linear process since:</p>
 <p>In practice, if <span class="math inline">\(q = 1\)</span>, we would have:</p>
 <span class="math display">\[{X_t} = \frac{1}{3}\left( {{W_{t - 1}} + {W_t} + {W_{t + 1}}} \right)\]</span>
 </div>
-
+<p></p>
 
 <div class="example">
 <p><span id="exm:lpar1" class="example"><strong>Example 4.5  (Autoregressive Process of Order 1)  </strong></span>If <span class="math inline">\(\left\{X_t\right\}\)</span> follows an AR(1) model defined in <a href="basic-elements-of-time-series.html#ar1">2.4.3</a>, the linear filters are a function of the time lag:</p>
@@ -309,18 +266,16 @@ would be a linear process since:</p>
 \end{cases}.\]</span></p>
 and <span class="math inline">\(\mu = 0\)</span>. We would require the condition that <span class="math inline">\(\left| \phi \right| &lt; 1\)</span> in order to respect the condition on the filters (i.e. <span class="math inline">\(\sum\limits_{j = - \infty }^\infty {\left| {{\psi _j}} \right|} &lt; \infty\)</span>).
 </div>
-
+<p></p>
 </div>
 <div id="autoregressive-models-arp" class="section level2">
 <h2><span class="header-section-number">4.2</span> Autoregressive Models (AR(p))</h2>
 <p>The class of autoregressive models is based on the idea that previous values in the time series are needed to explain current values in the series. For this class of models, we assume that the <span class="math inline">\(p\)</span> previous observations are needed for this purpose and we therefore denote this class as AR(<span class="math inline">\(p\)</span>). In the previous chapter, the model we introduced was an AR(1) in which only the immediately previous observation is needed to explain the following one and therefore represents a particular model which is part of the more general class of AR(p) models.</p>
 
 <div class="definition">
-<span id="def:arp" class="definition"><strong>Definition 4.2  (Autoregressive Models of Order p)  </strong></span>The AR(p) models can be formally represented as follows
-<span class="math display">\[(X_t) = {\phi_1}{X_{t - 1}} + ... + {\phi_p}{X_{t - p}} + {W_t},\]</span>
-where <span class="math inline">\(\phi_i \neq 0\)</span> (for <span class="math inline">\(i = 1, ..., p\)</span>) and <span class="math inline">\(W_t\)</span> is a (Gaussian) white noise process with variance <span class="math inline">\(\sigma^2\)</span>.
+<span id="def:arp" class="definition"><strong>Definition 4.2  (Autoregressive Models of Order p)  </strong></span>The AR(p) models can be formally represented as follows <span class="math display">\[(X_t) = {\phi_1}{X_{t - 1}} + ... + {\phi_p}{X_{t - p}} + {W_t},\]</span> where <span class="math inline">\(\phi_i \neq 0\)</span> (for <span class="math inline">\(i = 1, ..., p\)</span>) and <span class="math inline">\(W_t\)</span> is a (Gaussian) white noise process with variance <span class="math inline">\(\sigma^2\)</span>.
 </div>
-
+<p></p>
 <p>As earlier in this book, we will assume that the expectation of the process <span class="math inline">\(({X_t})\)</span>, as well as that of the following ones in this chapter, is zero. The reason for this simplification is that if <span class="math inline">\(\mathbb{E} [ X_t ] = \mu\)</span>, we can define an AR process <em>around</em> <span class="math inline">\(\mu\)</span> as follows:</p>
 <p><span class="math display">\[X_t - \mu = \sum_{i = 1}^p \phi_i \left(X_{t-i} - \mu \right) + W_t,\]</span></p>
 <p>which is equivalent to</p>
@@ -345,15 +300,13 @@ where <span class="math inline">\(\phi_i \neq 0\)</span> (for <span class="math 
 <div id="properties-of-arp-models" class="section level3">
 <h3><span class="header-section-number">4.2.1</span> Properties of AR(p) models</h3>
 <p>In this section we will describe the main property of the AR(p) model which has already been mentioned in the previous paragraphs and therefore let us now introduce the property of causality in a more formal manner.</p>
-<p><strong>Definition:</strong> An AR(p) model is <em>causal</em> if the time series <span class="math inline">\((X_t)_{-\infty}^{\infty}\)</span> can be written as a one-sided linear process:
+<strong>Definition:</strong> An AR(p) model is <em>causal</em> if the time series <span class="math inline">\((X_t)_{-\infty}^{\infty}\)</span> can be written as a one-sided linear process:
 <span class="math display" id="eq:causal">\[\begin{equation}
     X_t = \sum_{j = 0}^{\infty} \psi_j W_{t-j} = \frac{1}{\phi(B)} W_t = \psi(B) W_t,
 \tag{4.1}
 \end{equation}\]</span>
-where <span class="math inline">\(\phi(B) = \sum_{j = 0}^{\infty} \phi_j B^j\)</span>, and <span class="math inline">\(\sum_{j=0}^{\infty}|\phi_j| &lt; \infty\)</span> and setting <span class="math inline">\(\phi_0 = 1\)</span>.</p>
-<p>As discussed earlier this condition implies that only the past values of the time series can explain the future values of it and not viceversa. Moreover, given the expression of the linear filters given by
-<span class="math display">\[\frac{1}{\phi(B)}\]</span>
-it is obvious that a solution exists only when <span class="math inline">\(\phi(B) = \sum_{j = 0}^{\infty} \phi_j B^j \neq 0\)</span> (thereby implying causality). A condition for this to be respected is for the roots of <span class="math inline">\(\phi(B) = 0\)</span> to lie outside the unit circle.</p>
+<p>where <span class="math inline">\(\phi(B) = \sum_{j = 0}^{\infty} \phi_j B^j\)</span>, and <span class="math inline">\(\sum_{j=0}^{\infty}|\phi_j| &lt; \infty\)</span> and setting <span class="math inline">\(\phi_0 = 1\)</span>.</p>
+<p>As discussed earlier this condition implies that only the past values of the time series can explain the future values of it and not viceversa. Moreover, given the expression of the linear filters given by <span class="math display">\[\frac{1}{\phi(B)}\]</span> it is obvious that a solution exists only when <span class="math inline">\(\phi(B) = \sum_{j = 0}^{\infty} \phi_j B^j \neq 0\)</span> (thereby implying causality). A condition for this to be respected is for the roots of <span class="math inline">\(\phi(B) = 0\)</span> to lie outside the unit circle.</p>
 <!-- However, it might be difficult and not obvious to show the causality of an AR(p) process by using the above definitions directly, thus the following properties are useful in practice.  -->
 <!-- **Causality** -->
 <!-- If an AR(p) model is causal, then the coefficients of the one-sided linear process given in \@ref(eq:causal) can be obtained by solving -->
@@ -361,12 +314,97 @@ it is obvious that a solution exists only when <span class="math inline">\(\phi(
 <!--     \psi(z) = \frac{1}{\sum_{j=0}^{\infty} \phi_j z^j} = \frac{1}{\phi(z)}, \mbox{ } |z| \leq 1. -->
 <!-- \end{equation*} -->
 <!-- It can be seen how there is no solution to the above equation if $\phi(z) = 0$ and therefore an AR(p) is causal if and only if $\phi(z) \neq 0$. A condition for this to be respected is for the roots of $\phi(z) = 0$ to lie outside the unit circle. -->
+
+<div class="example">
+<p><span id="exm:AR2asLP" class="example"><strong>Example 4.6  (Transform an AR(2) into a Linear Process)  </strong></span>Consider an AR(2) process <span class="math display">\[X_t = 1.3 X_{t-1} - 0.4 X_{t-2} + W_t,\]</span> which we would like to transform into a linear process. This can be done using the following approach:</p>
+<ul>
+<li><p>Step 1: The autoregressive operator of this model can be expressed as <span class="math display">\[
+\phi(B) = 1-1.3B+0.4B^2 = (1-0.5B)(1-0.8B),
+\]</span> and has roots 2 and 1.25, both <span class="math inline">\(&gt;1\)</span>. Thus, we should be able to convert it into a linear process.</p></li>
+<li><p>Step 2: We know that if an AR(p) process has all its roots outside the unit circle, then we can write <span class="math inline">\(X_t = \frac{1}{\phi(B)} W_t\)</span>. By applying the partial fractions trick, we can inverse the autoregressive operator <span class="math inline">\(\phi(B)\)</span> as follows: <span class="math display">\[ \begin{aligned}
+\phi^{-1}(B) &amp;= \frac{1}{(1-0.5B)(1-0.8B)} = \frac{c_1}{(1-0.5B)} + \frac{c_2}{(1-0.8B)} \\
+&amp;= \frac{c_2(1-0.5B) + c_1(1-0.8B)}{(1-0.5B)(1-0.8B)} = \frac{(c_1 + c_2)-(0.8c_1+0.5c_2)B}{(1-0.5B)(1-0.8B)}.
+\end{aligned} \]</span></p></li>
+</ul>
+<p>To solve for <span class="math inline">\(c_1\)</span> and <span class="math inline">\(c_2\)</span>: <span class="math display">\[ \begin{cases}
+      c_1 + c_2 &amp;=1\\
+      0.8c_1+0.5c_2 &amp;=0
+\end{cases} \to 
+\begin{cases}
+      c_1 &amp;= -5/3\\
+      c_2 &amp;= 8/3.
+\end{cases} \]</span></p>
+<p>So we obtain <span class="math display">\[
+\phi^{-1}(B) = \frac{-5}{3(1-0.5B)} + \frac{8}{3(1-0.8B)}.
+\]</span></p>
+<ul>
+<li>Step 3: Using the Geometric series, i.e. <span class="math inline">\(a\sum_{j=0}^{\infty} r^j = \frac{a}{1-r}\)</span> if <span class="math inline">\(|r| &lt;1\)</span>, we have <span class="math display">\[ \begin{cases}
+  \frac{-5}{3(1-0.5B)} = -\frac{5}{3} \sum_{j=0}^\infty 0.5^j B^j, &amp;\mbox{ if } |B| &lt; 2 \\
+  \frac{8}{3(1-0.8B)} = \frac{8}{3} \sum_{j=0}^\infty 0.8^j B^j, &amp;\mbox{ if } |B| &lt; 1.25.
+\end{cases} \]</span></li>
+</ul>
+<p>So we can express <span class="math inline">\(\phi^{-1}(B)\)</span> as <span class="math display">\[
+\phi^{-1}(B) = \sum_{j=0}^\infty \Big[ -\frac{5}{3} (0.5)^j  + \frac{8}{3} (0.8)^j \Big] B^j, \;\;\; \text{if  } |B|&lt;1.25.
+\]</span></p>
+<ul>
+<li>Step 4: Finally, we obtain <span class="math display">\[ \begin{aligned}
+X_t &amp;= \phi(B)^{-1} W_t = \sum_{j=0}^\infty \Big[ -\frac{5}{3} (0.5)^j  + \frac{8}{3} (0.8)^j \Big] B^j W_t \\
+&amp;= \sum_{j=0}^\infty \Big[ -\frac{5}{3} (0.5)^j  + \frac{8}{3} (0.8)^j \Big] W_{t-j},
+\end{aligned} \]</span> which verifies that the AR(2) is causal, and therefore is stationary.
+</div>
+</li>
+</ul>
+
+<div class="example">
+<p><span id="exm:AR2causalcond" class="example"><strong>Example 4.7  (Causal Conditions for an AR(2) Process)  </strong></span>We already know that an AR(1) is causal with the simple condition <span class="math inline">\(|\phi_1|&lt;1\)</span>. It seems natural to believe that an AR(2) should be causal (and therefore stationary) with the condition that <span class="math inline">\(|\phi_i| &lt;1, \; i=1,2\)</span>. However, this is actually not the case as we illustrate below.</p>
+<p>We can express an AR(2) process as <span class="math display">\[
+X_t = \phi_1 X_{t-1} + \phi_2 X_{t-2} + W_t = \phi_1 BX_t + \phi_2 B^2 X_t + W_t,
+\]</span> thereby delivering the following autoregressive operator: <span class="math display">\[
+\phi(B) = 1-\phi_1 B - \phi_2 B^2 = \Big( 1-\frac{B}{\lambda_1} \Big) \Big( 1-\frac{B}{\lambda_2} \Big)
+\]</span> where <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(\lambda_2\)</span> are the roots of <span class="math inline">\(\phi(B)\)</span> such that <span class="math display">\[ \begin{aligned}
+\phi_1 &amp;=  \frac{1}{\lambda_1} \frac{1}{\lambda_2}, \\
+\phi_2 &amp;= - \frac{1}{\lambda_1} \frac{1}{\lambda_2}.
+\end{aligned} \]</span></p>
+<p>That is, <span class="math display">\[\begin{aligned}
+\lambda_1 &amp;= \frac{\phi_1 + \sqrt{\phi_1^2 + 4\phi_2}}{-2\phi_2}, \\
+\lambda_2 &amp;= \frac{\phi_1 - \sqrt{\phi_1^2 + 4\phi_2}}{-2\phi_2}.
+\end{aligned} \]</span></p>
+<p>In order to ensure the causality of the model, we need the roots of <span class="math inline">\(\phi(B)\)</span>, i.e. <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(\lambda_2\)</span>, to lie outside the unit circle.</p>
+<p><span class="math display">\[ \begin{cases}
+|\lambda_1| &amp;&gt; 1 \\
+|\lambda_2| &amp;&gt; 1,
+\end{cases} \]</span> if and only if <span class="math display">\[ \begin{cases}
+\phi_1 + \phi_2 &amp;&lt; 1 \\
+\phi_2 - \phi_1 &amp;&lt; 1 \\
+|\phi_2| &amp;&lt;1.
+\end{cases} \]</span></p>
+<p>We can show the <em>if</em> part of the statement as follows: <span class="math display">\[ \begin{aligned}
+&amp; \phi_1 + \phi_2 = \frac{1}{\lambda_1} + \frac{1}{\lambda_2} - \frac{1}{\lambda_1 \lambda_2} = \frac{1}{\lambda_1} \Big(1-\frac{1}{\lambda_2} \Big) + \frac{1}{\lambda_2} &lt; 1 - \frac{1}{\lambda_2} + \frac{1}{\lambda_2} = 1 \;\; \text{since } 1-\frac{1}{\lambda_2} &gt; 0, \\
+&amp; \phi_2 - \phi_1 = -\frac{1}{\lambda_1 \lambda_2} - \frac{1}{\lambda_1} - \frac{1}{\lambda_2} = -\frac{1}{\lambda_1} \Big( \frac{1}{\lambda_2} +1 \Big) - \frac{1}{\lambda_2} &lt; \frac{1}{\lambda_2}+1-\frac{1}{\lambda_2} = 1 \;\; \text{since } \frac{1}{\lambda_2}+1 &gt; 0, \\
+&amp; |\phi_2| = \frac{1}{|\lambda_1| |\lambda_2|} &lt; 1.
+\end{aligned} \]</span></p>
+<p>We can also show the <em>only if</em> part of the statement as follows:</p>
+<p>Since <span class="math inline">\(\lambda_1 = \frac{\phi_1 + \sqrt{\phi_1^2 + 4\phi_2}}{-2\phi_2}\)</span> and <span class="math inline">\(\phi_2 - 1 &lt; \phi_1 &lt; 1- \phi_2\)</span>, we have <span class="math display">\[
+\lambda_1^2 = \frac{(\phi_1 + \sqrt{\phi_1^2 + 4\phi_2})^2}{4\phi_2^2} &lt; \frac{\Big( (1-\phi_2)+ \sqrt{(1-\phi_2)^2 + 4\phi_2} \Big)^2}{4\phi_2^2} = \frac{4}{4\phi_2^2} \leq 1. 
+\]</span></p>
+<p>Since <span class="math inline">\(\lambda_2 = \frac{\phi_1 - \sqrt{\phi_1^2 + 4\phi_2}}{-2\phi_2}\)</span> and <span class="math inline">\(\phi_2 - 1 &lt; \phi_1 &lt; 1- \phi_2\)</span>, we have <span class="math display">\[
+\lambda_2^2 = \frac{(\phi_1 - \sqrt{\phi_1^2 + 4\phi_2})^2}{4\phi_2^2} &lt; \frac{\Big( (\phi_2-1)+ \sqrt{(\phi_2-1)^2 + 4\phi_2} \Big)^2}{4\phi_2^2} = \frac{4\phi_2^2}{4\phi_2^2} = 1. 
+\]</span></p>
+Finally, the causal region of an AR(2) is demonstrated as
+</div>
+<p></p>
+<div class="figure" style="text-align: center"><span id="fig:correxample"></span>
+<img src="images/causal_AR2.png" alt="Causal Region for Parameters of an AR(2) Process"  />
+<p class="caption">
+Figure 4.1: Causal Region for Parameters of an AR(2) Process
+</p>
+</div>
 </div>
 </div>
 <div id="estimation-of-arp-models" class="section level2">
 <h2><span class="header-section-number">4.3</span> Estimation of AR(p) models</h2>
 <p>Given the above defined properties of AR(p) models, we will now discuss how these models can be estimated, more specifically how the <span class="math inline">\(p+1\)</span> parameters can be obtained from an observed time series. Indeed, a reliable estimation of these models is necessary in order to intepret and describe different natural phenomena and/or forecast possible future values of the time series.</p>
-<p>A first approach builds upon the earlier definition of AR(p) models being a linear process. Recall that
+A first approach builds upon the earlier definition of AR(p) models being a linear process. Recall that
 <span class="math display">\[\begin{equation}
     X_t = \sum_{j = 1}^{p} \phi_j X_{t-j}
 \end{equation}\]</span>
@@ -382,8 +420,8 @@ and, recalling that <span class="math inline">\(\gamma(h) = \gamma(-h)\)</span>,
 <span class="math display">\[\begin{equation}
     \gamma(0) - \sum_{j = 1}^{p} \phi_j \gamma(j) = \sigma_w^2.
 \end{equation}\]</span>
-We can now define the Yule-Walker equations.</p>
-<p><strong>Definition:</strong> The Yule-Walker equations are given by
+<p>We can now define the Yule-Walker equations.</p>
+<strong>Definition:</strong> The Yule-Walker equations are given by
 <span class="math display">\[\begin{equation}
     \gamma(h) = \phi_1 \gamma(h-1) + ... + \phi_p \gamma(h-p), \mbox{ } h = 1,...,p
 \end{equation}\]</span>
@@ -395,18 +433,17 @@ which in matrix notation can be defined as follows
 <span class="math display">\[\begin{equation}
     \Gamma_p \mathbf{\phi} = \mathbf{\gamma}_p \,\, \text{and} \,\, \sigma_w^2 = \gamma(0) - \mathbf{\phi}&#39;\mathbf{\gamma}_p
 \end{equation}\]</span>
-where <span class="math inline">\(\Gamma_p\)</span> is the <span class="math inline">\(p\times p\)</span> matrix containing the autocovariances <span class="math inline">\(\gamma(k-j)\)</span>, where <span class="math inline">\(j,k = 1, ...,p\)</span>, while <span class="math inline">\(\mathbf{\phi} = (\phi_1,...,\phi_p)&#39;\)</span> and <span class="math inline">\(\mathbf{\gamma}_p = (\gamma(1),...,\gamma(p))&#39;\)</span> are <span class="math inline">\(p\times 1\)</span> vectors.</p>
-<p>Considering the Yule-Walker equations, it is possible to use a method of moments approach and simply replace the theoretical quantities given in the previous definition with their empirical (estimated) counterparts that we saw in the previous chapter. This gives us the following Yule-Walker estimators
+<p>where <span class="math inline">\(\Gamma_p\)</span> is the <span class="math inline">\(p\times p\)</span> matrix containing the autocovariances <span class="math inline">\(\gamma(k-j)\)</span>, where <span class="math inline">\(j,k = 1, ...,p\)</span>, while <span class="math inline">\(\mathbf{\phi} = (\phi_1,...,\phi_p)&#39;\)</span> and <span class="math inline">\(\mathbf{\gamma}_p = (\gamma(1),...,\gamma(p))&#39;\)</span> are <span class="math inline">\(p\times 1\)</span> vectors.</p>
+Considering the Yule-Walker equations, it is possible to use a method of moments approach and simply replace the theoretical quantities given in the previous definition with their empirical (estimated) counterparts that we saw in the previous chapter. This gives us the following Yule-Walker estimators
 <span class="math display">\[\begin{equation}
     \hat{\mathbf{\phi}} = \hat{\Gamma}_p^{-1}\hat{\mathbf{\gamma}}_p \,\, \text{and} \,\, \hat{\sigma}_w^2 = \hat{\gamma}(0) - \hat{\mathbf{\gamma}}_p&#39;\hat{\Gamma}_p^{-1}\hat{\mathbf{\gamma}}_p .
-\end{equation}\]</span></p>
+\end{equation}\]</span>
 <p>These estimators have the following asymptotic properties.</p>
-<p><strong>Consistency and Asymptotic Normality of Yule-Walker estimators:</strong>
-The Yule-Walker estimators for a causal AR(p) model have the following asymptotic properties:</p>
+<p><strong>Consistency and Asymptotic Normality of Yule-Walker estimators:</strong> The Yule-Walker estimators for a causal AR(p) model have the following asymptotic properties:</p>
 <span class="math display">\[\begin{equation*}
 \sqrt{T}(\hat{\mathbf{\phi}}- \mathbf{\phi}) \xrightarrow{\mathcal{D}} \mathcal{N}(\mathbf{0},\sigma_w^2\Gamma_p^{-1}) \,\, \text{and} \,\, \hat{\sigma}_w^2 \xrightarrow{\mathcal{P}} \sigma_w^2 .
 \end{equation*}\]</span>
-<p>Therefore the Yule-Walker estimators have an asymptotically normal distribution and the estimator of the innovation variance is consistent. Moreover, these estimators are also optimal for AR(p) models, meaning that they are also efficient. However, there is also another method which allows to achieve this efficiency (also for general ARMA models that will be tackled further on) and this is the Maximum Likelihood Estimation (MLE) method. Considering an AR(1) model as an example, and assuming without loss of generality that its expectation is zero, we have the following representation of the AR(1) model
+Therefore the Yule-Walker estimators have an asymptotically normal distribution and the estimator of the innovation variance is consistent. Moreover, these estimators are also optimal for AR(p) models, meaning that they are also efficient. However, there is also another method which allows to achieve this efficiency (also for general ARMA models that will be tackled further on) and this is the Maximum Likelihood Estimation (MLE) method. Considering an AR(1) model as an example, and assuming without loss of generality that its expectation is zero, we have the following representation of the AR(1) model
 <span class="math display">\[\begin{equation*}
 X_t = \phi X_{t-1} + W_t
 \end{equation*}\]</span>
@@ -449,39 +486,28 @@ S_c(\phi) = \sum_{t=2}^T (x_t -\phi x_{t-1})^2 .
 The latter is called the conditional sum of squares and <span class="math inline">\(\phi\)</span> can be estimated as a straightforward linear regression problem. Once an estimate <span class="math inline">\(\hat{\phi}\)</span> is obtained, this can be used to obtain the conditional maximum likelihood estimate of <span class="math inline">\(\sigma_w^2\)</span>
 <span class="math display">\[\begin{equation*}
 \hat{\sigma}_w^2 = \frac{S_c(\hat{\phi})}{(T-1)} .
-\end{equation*}\]</span></p>
-<p>The estimation methods presented so far are standard for these kind of models. Nevertheless, if the data suffers from some form of contamination, these methods can become highly biased. For this reason, some robust estimators are available to limit this problematic if there are indeed outliers in the observed time series. One of these methods relies on the estimator proposed in Kunsch (1984) who underlines that the MLE score function of an AR(p) is given by
+\end{equation*}\]</span>
+The estimation methods presented so far are standard for these kind of models. Nevertheless, if the data suffers from some form of contamination, these methods can become highly biased. For this reason, some robust estimators are available to limit this problematic if there are indeed outliers in the observed time series. One of these methods relies on the estimator proposed in Kunsch (1984) who underlines that the MLE score function of an AR(p) is given by
 <span class="math display">\[\begin{equation*}
  \kappa(\mathbf{\theta}|x_j,...x_{j+p}) = \frac{\partial}{\partial \mathbf{\theta}} (x_{j+p} - \sum_{k=1}^p \phi_k x_{j+p-k})^2
 \end{equation*}\]</span>
-where <span class="math inline">\(\theta\)</span> is the parameter vector containing, in the case of an AR(1)
-model, the two parameters <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\sigma_w^2\)</span>
-(i.e. <span class="math inline">\(\theta = [\phi \,\, \sigma_w^2]\)</span>). This delivers the estimating equation
+where <span class="math inline">\(\theta\)</span> is the parameter vector containing, in the case of an AR(1) model, the two parameters <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\sigma_w^2\)</span> (i.e. <span class="math inline">\(\theta = [\phi \,\, \sigma_w^2]\)</span>). This delivers the estimating equation
 <span class="math display">\[\begin{equation*}
 \sum_{j=1}^{n-p} \kappa (\hat{\mathbf{\theta}}|x_j,...x_{j+p}) = 0 .
 \end{equation*}\]</span>
-The score function <span class="math inline">\(\kappa(\cdot)\)</span> is clearly not bounded, in the sense that if
-we arbitrarily move a value of <span class="math inline">\((x_t)\)</span> to infinity then the score function also
-goes to infinity thereby delivering a biased estimation procedure. To avoid that
-outlying observations bias the estimation excessively, a bounded score function
-can be used to deliver an M-estimator given by
+The score function <span class="math inline">\(\kappa(\cdot)\)</span> is clearly not bounded, in the sense that if we arbitrarily move a value of <span class="math inline">\((x_t)\)</span> to infinity then the score function also goes to infinity thereby delivering a biased estimation procedure. To avoid that outlying observations bias the estimation excessively, a bounded score function can be used to deliver an M-estimator given by
 <span class="math display">\[\begin{equation*}
 \sum_{j=1}^{n-p} \psi (\hat{\mathbf{\theta}}|x_j,...x_{j+p}) = 0,
 \end{equation*}\]</span>
-where <span class="math inline">\(\psi(\cdot)\)</span> is a function of bounded variation. When conditioning on the
-first <span class="math inline">\(p\)</span> observations, this problem can be brought back to a linear regression
-problem which can be applied in a robust manner using the robust regression
-tools available in <code>R</code> such as <code>rlm</code> or <code>lmrob</code>. However, another
-available tool in <code>R</code> which does not require a strict specification of the distribution function (also for general ARMA models) is the <code>gmwm</code> function (in the <code>gmwm</code> package) in which it is possible to specify the option <code>robust = TRUE</code>. This function makes use of a quantity called the wavelet variance (denoted as <span class="math inline">\(\boldsymbol{\nu}\)</span>) which is estimated robustly and then used to retrieve the parameters <span class="math inline">\(\theta\)</span> of the time series model. The robust estimate is obtained by solving the following minimization problem
+where <span class="math inline">\(\psi(\cdot)\)</span> is a function of bounded variation. When conditioning on the first <span class="math inline">\(p\)</span> observations, this problem can be brought back to a linear regression problem which can be applied in a robust manner using the robust regression tools available in <code>R</code> such as <code>rlm</code> or <code>lmrob</code>. However, another available tool in <code>R</code> which does not require a strict specification of the distribution function (also for general ARMA models) is the <code>gmwm</code> function (in the <code>gmwm</code> package) in which it is possible to specify the option <code>robust = TRUE</code>. This function makes use of a quantity called the wavelet variance (denoted as <span class="math inline">\(\boldsymbol{\nu}\)</span>) which is estimated robustly and then used to retrieve the parameters <span class="math inline">\(\theta\)</span> of the time series model. The robust estimate is obtained by solving the following minimization problem
 <span class="math display">\[\begin{equation*}
 \hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta} \in \boldsymbol{\Theta}}{\text{argmin}} (\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}(\boldsymbol{\theta}))^T\boldsymbol{\Omega}(\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}({\boldsymbol{\theta}})),
 \end{equation*}\]</span>
-where <span class="math inline">\(\hat{\boldsymbol{\nu}}\)</span> is the robustly estimated wavelet variance, <span class="math inline">\(\boldsymbol{\nu}({\boldsymbol{\theta}})\)</span> is
-the theoretical wavelet variance (implied by the model we want to estimate) and <span class="math inline">\(\boldsymbol{\Omega}\)</span> is a positive definite weighting matrix. Below we show some simulation studies where we present the results of the above estimation procedures in absence and in presence of contamination in the data.</p>
+<p>where <span class="math inline">\(\hat{\boldsymbol{\nu}}\)</span> is the robustly estimated wavelet variance, <span class="math inline">\(\boldsymbol{\nu}({\boldsymbol{\theta}})\)</span> is the theoretical wavelet variance (implied by the model we want to estimate) and <span class="math inline">\(\boldsymbol{\Omega}\)</span> is a positive definite weighting matrix. Below we show some simulation studies where we present the results of the above estimation procedures in absence and in presence of contamination in the data.</p>
 <p>In particular, we simulate three different processes <span class="math inline">\(X_t, Y_t, Z_t\)</span> from <span class="math display">\[X_t = 0.5 X_{t-1} - 0.25 X_{t-2} + W_t,\]</span> with <span class="math inline">\(W_t \overset{iid}{\sim} N(0, 1)\)</span>. The first process <span class="math inline">\((X_t)\)</span> is uncontaminated while the other two processes are contaminated versions of the first that can often be observed in practice. The first type of contamination can be seen in <span class="math inline">\((Y_t)\)</span> and is delivered by replacing a portion of the original process with a process defined as <span class="math display">\[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t,\]</span> where <span class="math inline">\(V_t \overset{iid}{\sim} N(0, 9)\)</span>. The second form of contamination can be seen in <span class="math inline">\((Z_t)\)</span> and consists in the so-called point-wise contamination where randomly selected points from <span class="math inline">\(X_t\)</span> are replaced with <span class="math inline">\(N_t \overset{iid}{\sim} N(0, 9)\)</span>. An example of how to simulate a time series from each of these processes is in the code below followed by the relative plots.</p>
-<pre class="sourceCode r"><code class="sourceCode r">n         =<span class="st"> </span><span class="dv">1000</span>           <span class="co"># Sample Size (T)</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n         =<span class="st"> </span><span class="dv">1000</span>           <span class="co"># Sample Size (T)</span>
 eps       =<span class="st"> </span><span class="fl">0.05</span>           <span class="co"># Proportion of contamination</span>
-cont      =<span class="st"> </span><span class="kw">round</span>(eps<span class="op">*</span>n)   <span class="co"># Number of contaminated observations</span>
+cont      =<span class="st"> </span><span class="kw">round</span>(eps*n)   <span class="co"># Number of contaminated observations</span>
 
 <span class="kw">set.seed</span>(<span class="dv">19</span>)               <span class="co"># Set seed for reproducibility</span>
 
@@ -491,58 +517,58 @@ Yt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw"
 Zt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.5</span>,<span class="fl">0.25</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))
 
 <span class="co"># Contaminate a portion of Yt with a process</span>
-index_start =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>(n<span class="op">-</span>cont<span class="dv">-1</span>), <span class="dv">1</span>)
-index_end =<span class="st"> </span>index_start <span class="op">+</span><span class="st"> </span>cont <span class="op">-</span><span class="st"> </span><span class="dv">1</span>
-Yt[index_start<span class="op">:</span>index_end,] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.9</span>,<span class="op">-</span><span class="fl">0.4</span>), <span class="dt">sigma2 =</span> <span class="dv">9</span>))
+index_start =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span>:(n-cont<span class="dv">-1</span>), <span class="dv">1</span>)
+index_end =<span class="st"> </span>index_start +<span class="st"> </span>cont -<span class="st"> </span><span class="dv">1</span>
+Yt[index_start:index_end,] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.9</span>,-<span class="fl">0.4</span>), <span class="dt">sigma2 =</span> <span class="dv">9</span>))
 
 <span class="co"># Contaminate at random Zt with noise</span>
-Zt[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>n, cont, <span class="dt">replace =</span> <span class="ot">FALSE</span>),] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">9</span>))</code></pre>
+Zt[<span class="kw">sample</span>(<span class="dv">1</span>:n, cont, <span class="dt">replace =</span> <span class="ot">FALSE</span>),] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">9</span>))</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:visualizesimuAR2data"></span>
 <img src="ts_files/figure-html/visualizesimuAR2data-1.png" alt="Contaminated AR(2) Processes" width="576" />
 <p class="caption">
-Figure 4.1: Contaminated AR(2) Processes
+Figure 4.2: Contaminated AR(2) Processes
 </p>
 </div>
 <p>Having highlighted the kind of processes we will be simulating from, we will now create a code that allows to apply the different methods in order to estimate the parameters of an AR(2) model from a given time series. The result of this code therefore will consist in the parameter estimates for the five methods discussed above (i.e. MLE, Yule-Walker (standard and robust), GMWM (standard and robust)) on an observed (simulated) time series. The code that follows this function allows to deliver separate boxplots for each method in order to assess the performance of these approaches within the simulation procedure (which will be described further on).</p>
-<pre class="sourceCode r"><code class="sourceCode r">apply_methods =<span class="st"> </span><span class="cf">function</span>(Xt){
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">apply_methods =<span class="st"> </span>function(Xt){
   <span class="co"># Estimate ARIMA parameters using MLE</span>
   mod =<span class="st"> </span><span class="kw">arima</span>(Xt, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.mean  =</span> <span class="ot">FALSE</span>)
   
   <span class="co"># Extract MLE Parameters (including sigma)</span>
-  res.MLE =<span class="st"> </span><span class="kw">c</span>(mod<span class="op">$</span>coef, mod<span class="op">$</span>sigma)
+  res.MLE =<span class="st"> </span><span class="kw">c</span>(mod$coef, mod$sigma)
   
   <span class="co"># Calculate ACF</span>
-  autocorr =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">acf</span>(Xt, <span class="dt">lag.max =</span> <span class="dv">2</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)<span class="op">$</span>acf)
+  autocorr =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">acf</span>(Xt, <span class="dt">lag.max =</span> <span class="dv">2</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)$acf)
   X =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>)
   X[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span>X[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span>autocorr[<span class="dv">2</span>]
-  y =<span class="st"> </span>autocorr[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]
+  y =<span class="st"> </span>autocorr[<span class="dv">2</span>:<span class="dv">3</span>]
   
   <span class="co"># Compute Least Squares on ACF</span>
   svmat =<span class="st"> </span><span class="kw">solve</span>(X)
-  phi.LS =<span class="st"> </span>svmat<span class="op">%*%</span>y
-  sig2.LS =<span class="st"> </span><span class="kw">var</span>(Xt)<span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">t</span>(y)<span class="op">%*%</span>svmat<span class="op">%*%</span>y)
+  phi.LS =<span class="st"> </span>svmat%*%y
+  sig2.LS =<span class="st"> </span><span class="kw">var</span>(Xt)*(<span class="dv">1</span> -<span class="st"> </span><span class="kw">t</span>(y)%*%svmat%*%y)
   res.LS =<span class="st"> </span><span class="kw">c</span>(phi.LS, sig2.LS)
   
   <span class="co"># Calculate RACF</span>
-  rob.ccf =<span class="st"> </span><span class="kw">as.numeric</span>(robcor<span class="op">::</span><span class="kw">robacf</span>(Xt, <span class="dt">plot=</span><span class="ot">FALSE</span>, <span class="dt">type =</span> <span class="st">&quot;covariance&quot;</span>)<span class="op">$</span>acf)
-  X[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span>X[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span>rob.ccf[<span class="dv">2</span>]<span class="op">/</span>rob.ccf[<span class="dv">1</span>]
-  y =<span class="st"> </span>rob.ccf[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]<span class="op">/</span>rob.ccf[<span class="dv">1</span>]
+  rob.ccf =<span class="st"> </span><span class="kw">as.numeric</span>(robcor::<span class="kw">robacf</span>(Xt, <span class="dt">plot=</span><span class="ot">FALSE</span>, <span class="dt">type =</span> <span class="st">&quot;covariance&quot;</span>)$acf)
+  X[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span>X[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span>rob.ccf[<span class="dv">2</span>]/rob.ccf[<span class="dv">1</span>]
+  y =<span class="st"> </span>rob.ccf[<span class="dv">2</span>:<span class="dv">3</span>]/rob.ccf[<span class="dv">1</span>]
   
   <span class="co"># Compute Least Squares on RACF</span>
   svmat =<span class="st"> </span><span class="kw">solve</span>(X)
-  phi.RR =<span class="st"> </span>svmat<span class="op">%*%</span>y
-  sig2.RR =<span class="st"> </span>rob.ccf[<span class="dv">1</span>]<span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">t</span>(y)<span class="op">%*%</span>svmat<span class="op">%*%</span>y)
+  phi.RR =<span class="st"> </span>svmat%*%y
+  sig2.RR =<span class="st"> </span>rob.ccf[<span class="dv">1</span>]*(<span class="dv">1</span> -<span class="st"> </span><span class="kw">t</span>(y)%*%svmat%*%y)
   res.RR =<span class="st"> </span><span class="kw">c</span>(phi.RR, sig2.RR)
   
   <span class="co"># Compute the GMWM Estimator</span>
-  res.GMWM =<span class="st"> </span>gmwm2<span class="op">::</span><span class="kw">gmwm</span>(<span class="kw">ARMA</span>(<span class="dv">2</span>,<span class="dv">0</span>), Xt)<span class="op">$</span>estimate
-  res.RGMWM =<span class="st"> </span>gmwm2<span class="op">::</span><span class="kw">gmwm</span>(<span class="kw">ARMA</span>(<span class="dv">2</span>,<span class="dv">0</span>), Xt, <span class="dt">robust =</span> <span class="ot">TRUE</span>)<span class="op">$</span>estimate
+  res.GMWM =<span class="st"> </span>gmwm2::<span class="kw">gmwm</span>(<span class="kw">ARMA</span>(<span class="dv">2</span>,<span class="dv">0</span>), Xt)$estimate
+  res.RGMWM =<span class="st"> </span>gmwm2::<span class="kw">gmwm</span>(<span class="kw">ARMA</span>(<span class="dv">2</span>,<span class="dv">0</span>), Xt, <span class="dt">robust =</span> <span class="ot">TRUE</span>)$estimate
 
   <span class="co"># Return results</span>
   <span class="kw">list</span>(<span class="dt">res.MLE =</span> res.MLE, <span class="dt">res.LS =</span> res.LS, <span class="dt">res.RR =</span> res.RR,
        <span class="dt">res.GMWM =</span> res.GMWM, <span class="dt">res.RGMWM =</span> res.RGMWM)
-} </code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">sim_study_graph =<span class="st"> </span><span class="cf">function</span>(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
+} </code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim_study_graph =<span class="st"> </span>function(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
                            <span class="dt">theta =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="dv">1</span>), <span class="dt">process_name =</span> <span class="st">&quot;NA&quot;</span>) {
   
   labels =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;MLE&quot;</span>, <span class="st">&quot;LS&quot;</span>, <span class="st">&quot;RLS&quot;</span>, <span class="st">&quot;GMWM&quot;</span>, <span class="st">&quot;RGMWM&quot;</span>)
@@ -550,7 +576,7 @@ Figure 4.1: Contaminated AR(2) Processes
   
   <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">0</span>))
   
-  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(theta)) {
+  for(i in <span class="dv">1</span>:<span class="kw">length</span>(theta)) {
     
     <span class="kw">boxplot</span>(res.MLE[, i], res.LS[, i], res.RR[, i], res.GMWM[, i], res.RGMWM[, i], <span class="dt">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">main =</span> title[i], <span class="dt">names =</span> labels, <span class="dt">las =</span> <span class="dv">3</span>)
     <span class="kw">abline</span>(<span class="dt">h =</span> theta[i], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
@@ -560,9 +586,9 @@ Figure 4.1: Contaminated AR(2) Processes
   <span class="kw">title</span>(<span class="kw">paste</span>(<span class="st">&quot;Estimations on process&quot;</span>, process_name), <span class="dt">outer=</span><span class="ot">TRUE</span>)
   
   
-}</code></pre>
+}</code></pre></div>
 <p>Having defined two functions that allow to estimate and summarize the results of the considered estimation techniques, we can now perform the simulation study. For this purpose we simulate 250 time series from the processes <span class="math inline">\((X_t)\)</span>, <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span> and, for each simulation, we apply the five different methods thereby saving the results of the estimations for each simulated time series. By doing so, we will verify the finite sample behaviour of the methods and understand how they behave under the different settings discussed earlier (contaminated and uncontaminated observations).</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Number of bootstrap iterations</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Number of bootstrap iterations</span>
 B =<span class="st"> </span><span class="dv">250</span>
 
 <span class="co"># Simulation storage</span>
@@ -571,7 +597,7 @@ res.yt.MLE =<span class="st"> </span>res.yt.LS =<span class="st"> </span>res.yt.
 res.zt.MLE =<span class="st"> </span>res.zt.LS =<span class="st"> </span>res.zt.RR =<span class="st"> </span>res.zt.GMWM =<span class="st"> </span>res.zt.RGMWM =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">3</span>)
 
 <span class="co"># Begin bootstrap</span>
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){
+for (i in <span class="kw">seq_len</span>(B)){
   
   <span class="co"># Set seed for reproducibility</span>
   <span class="kw">set.seed</span>(i)
@@ -582,26 +608,26 @@ res.zt.MLE =<span class="st"> </span>res.zt.LS =<span class="st"> </span>res.zt.
   Zt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))
   
   <span class="co"># Generate Ut contamination process that replaces a portion of original signal</span>
-  index_start =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>(n<span class="op">-</span>cont<span class="dv">-1</span>), <span class="dv">1</span>)
-  index_end =<span class="st"> </span>index_start <span class="op">+</span><span class="st"> </span>cont <span class="op">-</span><span class="st"> </span><span class="dv">1</span>
-  Yt[index_start<span class="op">:</span>index_end] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.9</span>,<span class="op">-</span><span class="fl">0.4</span>), <span class="dt">sigma2 =</span> <span class="dv">9</span>))
+  index_start =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span>:(n-cont<span class="dv">-1</span>), <span class="dv">1</span>)
+  index_end =<span class="st"> </span>index_start +<span class="st"> </span>cont -<span class="st"> </span><span class="dv">1</span>
+  Yt[index_start:index_end] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.9</span>,-<span class="fl">0.4</span>), <span class="dt">sigma2 =</span> <span class="dv">9</span>))
   
   <span class="co"># Generate Nt contamination that inject noise at random</span>
   Zt[<span class="kw">sample</span>(n, cont, <span class="dt">replace =</span> <span class="ot">FALSE</span>)] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">9</span>))
 
   <span class="co"># Compute estimates and store in the appropriate matrix</span>
   res =<span class="st"> </span><span class="kw">apply_methods</span>(Xt)
-  res.xt.MLE[i,]  =<span class="st"> </span>res<span class="op">$</span>res.MLE; res.xt.LS[i,] =<span class="st"> </span>res<span class="op">$</span>res.LS; res.xt.RR[i,] =<span class="st"> </span>res<span class="op">$</span>res.RR
-  res.xt.GMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.GMWM; res.xt.RGMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.RGMWM
+  res.xt.MLE[i,]  =<span class="st"> </span>res$res.MLE; res.xt.LS[i,] =<span class="st"> </span>res$res.LS; res.xt.RR[i,] =<span class="st"> </span>res$res.RR
+  res.xt.GMWM[i,] =<span class="st"> </span>res$res.GMWM; res.xt.RGMWM[i,] =<span class="st"> </span>res$res.RGMWM
   
   res =<span class="st"> </span><span class="kw">apply_methods</span>(Yt)
-  res.yt.MLE[i,]  =<span class="st"> </span>res<span class="op">$</span>res.MLE; res.yt.LS[i,] =<span class="st"> </span>res<span class="op">$</span>res.LS; res.yt.RR[i,] =<span class="st"> </span>res<span class="op">$</span>res.RR
-  res.yt.GMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.GMWM; res.yt.RGMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.RGMWM
+  res.yt.MLE[i,]  =<span class="st"> </span>res$res.MLE; res.yt.LS[i,] =<span class="st"> </span>res$res.LS; res.yt.RR[i,] =<span class="st"> </span>res$res.RR
+  res.yt.GMWM[i,] =<span class="st"> </span>res$res.GMWM; res.yt.RGMWM[i,] =<span class="st"> </span>res$res.RGMWM
 
   res =<span class="st"> </span><span class="kw">apply_methods</span>(Zt)
-  res.zt.MLE[i,]  =<span class="st"> </span>res<span class="op">$</span>res.MLE; res.zt.LS[i,] =<span class="st"> </span>res<span class="op">$</span>res.LS; res.zt.RR[i,] =<span class="st"> </span>res<span class="op">$</span>res.RR
-  res.zt.GMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.GMWM; res.zt.RGMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.RGMWM
-}</code></pre>
+  res.zt.MLE[i,]  =<span class="st"> </span>res$res.MLE; res.zt.LS[i,] =<span class="st"> </span>res$res.LS; res.zt.RR[i,] =<span class="st"> </span>res$res.RR
+  res.zt.GMWM[i,] =<span class="st"> </span>res$res.GMWM; res.zt.RGMWM[i,] =<span class="st"> </span>res$res.RGMWM
+}</code></pre></div>
 <p>Once we run this simulation (which can be time-demanding), we can now represent the results of the estimation methods that are denoted as follows:</p>
 <ul>
 <li><strong>MLE</strong>: Maximum Likelihood Estimator</li>
@@ -611,67 +637,49 @@ res.zt.MLE =<span class="st"> </span>res.zt.LS =<span class="st"> </span>res.zt.
 <li><strong>RGMWM</strong>: the robust version of the GMWM estimator</li>
 </ul>
 <p>The boxplots representing the distributions of estimated values on the process <span class="math inline">\((X_t)\)</span> (i.e. uncontaminated) are shown below.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_study_graph</span>(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Xt&quot;</span>)</code></pre>
-<p><img src="ts_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_study_graph</span>(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Xt&quot;</span>)</code></pre></div>
+<p><img src="ts_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>It can be seen how all methods appear to properly estimate the true parameter values on average. However, the MLE appears to be slightly more efficient (less variable) compared to the other methods and, in addition, the robust methods (RLS and RGMWM) appear to be less efficient than their standard counterparts. Now let us check the performance of the same methods when applied to the two contaminated processes <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_study_graph</span>(res.yt.MLE, res.yt.LS, res.yt.RR, res.yt.GMWM, res.yt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Yt&quot;</span>)
-<span class="kw">sim_study_graph</span>(res.zt.MLE, res.zt.LS, res.zt.RR, res.zt.GMWM, res.zt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Zt&quot;</span>)</code></pre>
-<p><img src="ts_files/figure-html/unnamed-chunk-28-1.png" width="672" /><img src="ts_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_study_graph</span>(res.yt.MLE, res.yt.LS, res.yt.RR, res.yt.GMWM, res.yt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Yt&quot;</span>)
+<span class="kw">sim_study_graph</span>(res.zt.MLE, res.zt.LS, res.zt.RR, res.zt.GMWM, res.zt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Zt&quot;</span>)</code></pre></div>
+<p><img src="ts_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="ts_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
 <p>It can be seen that for these two contaminated processes, the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimators allow to remain close (on average) to the true parameter values that we are aiming to estimate. As you can observe, the type of contamination can be important in the choice of the robust estimator to be used as underlined by the different behaviour of the RLS and RGMWM estimators on <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span>. However, this discussion is out of the scope of this book.</p>
 </div>
 <div id="inference-for-arp-models" class="section level2">
 <h2><span class="header-section-number">4.4</span> Inference for AR(p) models</h2>
-<p>For all the above methods, it would be necessary to understand how “precise”
-their estimates are. To do so we would need to obtain confidence intervals for
-these estimates and this can be done mainly in two manners:</p>
+<p>For all the above methods, it would be necessary to understand how “precise” their estimates are. To do so we would need to obtain confidence intervals for these estimates and this can be done mainly in two manners:</p>
 <ul>
 <li>using the asymptotic distribution of the parameter estimates;</li>
 <li>using parametric bootstrap.</li>
 </ul>
-<p>The first approach consists in using the asymptotic distribution of the
-estimators presented earlier to deliver approximations of the confidence
-intervals which get better as the length of the observed time series increases.
-Hence, for example, if we wanted to find a 95% confidence interval for the
-parameter <span class="math inline">\(\phi\)</span>, we would use the quantiles of the normal distribution
-(given that all methods presented earlier present this asymptotic distribution).
-However, this approach can present some drawbacks, one of which is there
-behaviour when the parameters are close to the boundaries of the parameter space.
-Suppose we consider a realization of length <span class="math inline">\(n = 100\)</span> of the following AR(1) model:</p>
+<p>The first approach consists in using the asymptotic distribution of the estimators presented earlier to deliver approximations of the confidence intervals which get better as the length of the observed time series increases. Hence, for example, if we wanted to find a 95% confidence interval for the parameter <span class="math inline">\(\phi\)</span>, we would use the quantiles of the normal distribution (given that all methods presented earlier present this asymptotic distribution). However, this approach can present some drawbacks, one of which is there behaviour when the parameters are close to the boundaries of the parameter space. Suppose we consider a realization of length <span class="math inline">\(n = 100\)</span> of the following AR(1) model:</p>
 <p><span class="math display">\[X_t = 0.96 X_{t-1} + W_t, \;\;\;\; W_t \sim \mathcal{N}(0,1),\]</span></p>
-<p>which is depicted in Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:simAR1ci">4.2</a></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">7</span>)
+<p>which is depicted in Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:simAR1ci">4.3</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">7</span>)
 x =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">AR1</span>(<span class="fl">0.96</span>, <span class="dv">1</span>))
-<span class="kw">plot</span>(x)</code></pre>
+<span class="kw">plot</span>(x)</code></pre></div>
 <div class="figure"><span id="fig:simAR1ci"></span>
 <img src="ts_files/figure-html/simAR1ci-1.png" alt="AR(1) with $\phi$ close to parameter bound" width="864" />
 <p class="caption">
-Figure 4.2: AR(1) with <span class="math inline">\(\phi\)</span> close to parameter bound
+Figure 4.3: AR(1) with <span class="math inline">\(\phi\)</span> close to parameter bound
 </p>
 </div>
-<p>It can be seen that the parameter <span class="math inline">\(\phi = 0.96\)</span> respects the condition for
-stationarity, <span class="math inline">\(\left| \phi \right| &lt; 1\)</span>, but is very close to its boundary.
-Using the MLE and the GMWM estimators, we first estimate the parameters and
-then compute confidence intervals for <span class="math inline">\(\phi\)</span> using the asymptotic
-normal distribution.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute the parameter estimates using MLE</span>
+<p>It can be seen that the parameter <span class="math inline">\(\phi = 0.96\)</span> respects the condition for stationarity, <span class="math inline">\(\left| \phi \right| &lt; 1\)</span>, but is very close to its boundary. Using the MLE and the GMWM estimators, we first estimate the parameters and then compute confidence intervals for <span class="math inline">\(\phi\)</span> using the asymptotic normal distribution.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute the parameter estimates using MLE</span>
 fit.ML =<span class="st"> </span><span class="kw">arima</span>(x, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)
-<span class="kw">c</span>(<span class="st">&quot;phi&quot;</span> =<span class="st"> </span>fit.ML<span class="op">$</span>coef, <span class="st">&quot;se&quot;</span> =<span class="st"> </span><span class="kw">sqrt</span>(fit.ML<span class="op">$</span>var.coef))</code></pre>
+<span class="kw">c</span>(<span class="st">&quot;phi&quot;</span> =<span class="st"> </span>fit.ML$coef, <span class="st">&quot;se&quot;</span> =<span class="st"> </span><span class="kw">sqrt</span>(fit.ML$var.coef))</code></pre></div>
 <pre><code>##    phi.ar1         se 
 ## 0.96718451 0.02026333</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Construct asymptotic confidence interval for phi</span>
-fit.ML<span class="op">$</span>coef <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="op">*</span><span class="fl">1.96</span><span class="op">*</span><span class="kw">as.numeric</span>(<span class="kw">sqrt</span>(fit.ML<span class="op">$</span>var.coef))</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Construct asymptotic confidence interval for phi</span>
+fit.ML$coef +<span class="st"> </span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>)*<span class="fl">1.96</span>*<span class="kw">as.numeric</span>(<span class="kw">sqrt</span>(fit.ML$var.coef))</code></pre></div>
 <pre><code>## [1] 0.9274684 1.0069006</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute the parameter estimates with inference using GMWM</span>
-fit.gmwm =<span class="st"> </span>gmwm2<span class="op">::</span><span class="kw">gmwm</span>(<span class="kw">AR1</span>(), x)
-<span class="kw">summary</span>(fit.gmwm, <span class="dt">inference =</span> <span class="ot">TRUE</span>)<span class="op">$</span>estimate</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute the parameter estimates with inference using GMWM</span>
+fit.gmwm =<span class="st"> </span>gmwm2::<span class="kw">gmwm</span>(<span class="kw">AR1</span>(), x)
+<span class="kw">summary</span>(fit.gmwm, <span class="dt">inference =</span> <span class="ot">TRUE</span>)$estimate</code></pre></div>
 <pre><code>##        Estimates    CI Low  CI High         SE
 ## AR1    0.9828707 0.8273193 1.063385 0.07175879
 ## SIGMA2 0.9640085 0.6910043 1.156575 0.14152341</code></pre>
-<p>From the estimation summary, we note that both confidence intervals contain
-values that would make the AR(1) non-stationary (i.e. values of <span class="math inline">\(\phi\)</span> larger
-than 1). These estimates are indicating that they represent the
-estimated (asymptotic) distribution of <span class="math inline">\(\hat{\phi}\)</span> as displayed in Figure
-<a href="#fig:asymIC"><strong>??</strong></a>.</p>
+<p>From the estimation summary, we note that both confidence intervals contain values that would make the AR(1) non-stationary (i.e. values of <span class="math inline">\(\phi\)</span> larger than 1). These estimates are indicating that they represent the estimated (asymptotic) distribution of <span class="math inline">\(\hat{\phi}\)</span> as displayed in Figure <a href="#fig:asymIC"><strong>??</strong></a>.</p>
 
 </div>
 </div>
@@ -727,7 +735,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');
