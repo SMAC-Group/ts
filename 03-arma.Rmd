@@ -2,6 +2,7 @@
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(simts)
+library(gmwm2)
 library(ggplot2)
 library(robcor)
 ```
@@ -549,7 +550,7 @@ sim_study_graph = function(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
 Having defined two functions that allow to estimate and summarize the results of the considered estimation techniques, we can now perform the simulation study. For this purpose we simulate 250 time series from the processes $(X_t)$, $(Y_t)$ and $(Z_t)$ and, for each simulation, we apply the five different methods thereby saving the results of the estimations for each simulated time series. By doing so, we will verify the finite sample behaviour of the methods and understand how they behave under the different settings discussed earlier (contaminated and uncontaminated observations).
 
 
-``` {r simuAR2study, eval = TRUE, cache = TRUE, fig.height = 4.5, fig.width = 9}
+``` {r simuAR2study, eval = FALSE, cache = TRUE, fig.height = 4.5, fig.width = 9}
 # Number of bootstrap iterations
 B = 250
 
@@ -602,13 +603,13 @@ Once we run this simulation (which can be time-demanding), we can now represent 
 
 The boxplots representing the distributions of estimated values on the process $(X_t)$ (i.e. uncontaminated) are shown below.
 
-```{r}
+```{r, eval=FALSE, dependson="simuAR2study"}
 sim_study_graph(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM, process_name = "Xt")
 ```
 
 It can be seen how all methods appear to properly estimate the true parameter values on average. However, the MLE appears to be slightly more efficient (less variable) compared to the other methods and, in addition, the robust methods (RLS and RGMWM) appear to be less efficient than their standard counterparts. Now let us check the performance of the same methods when applied to the two contaminated processes $(Y_t)$ and $(Z_t)$.
 
-```{r}
+```{r, eval=FALSE, dependson="simuAR2study"}
 sim_study_graph(res.yt.MLE, res.yt.LS, res.yt.RR, res.yt.GMWM, res.yt.RGMWM, process_name = "Yt")
 sim_study_graph(res.zt.MLE, res.zt.LS, res.zt.RR, res.zt.GMWM, res.zt.RGMWM, process_name = "Zt")
 ```
@@ -669,3 +670,145 @@ values that would make the AR(1) non-stationary (i.e. values of $\phi$ larger
 than 1). These estimates are indicating that they represent the
 estimated (asymptotic) distribution of $\hat{\phi}$ as displayed in Figure
 \@ref(fig:asymIC).
+
+```{r asymIC, cache = TRUE, echo = FALSE, fig.height = 4.5, fig.width = 9, fig.cap = "Estimated asymptotic distribution of $\\hat{\\phi}$ for MLE and GMWM parameter estimates. The dashed vertical line represents the true value of $\\phi$, the solid line denotes the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for both methods."}
+# Define colors
+gg_color_hue = function(n, alpha = 1) {
+  hues = seq(15, 375, length = n + 1)
+  hcl(h = hues, l = 65, c = 100, alpha = alpha)[1:n]
+}
+
+colors = gg_color_hue(6, alpha = 0.2)
+colors2 = gg_color_hue(6, alpha = 1)
+phi.sd.gmwm = summary(fit.gmwm)$estimate[,"SE"][1]
+
+par(mfrow = c(1,2))
+xx = seq(from = 0, to = 1.2, length.out = 10^3)
+yy.ML = dnorm(xx, fit.ML$coef, sqrt(fit.ML$var.coef))
+plot(NA, xlim = c(0.8,1.04), ylim = range(yy.ML), 
+     xlab = expression(phi), ylab = "Density", main = "MLE")
+grid()
+abline(v = 1, lwd = 2, col = "grey60")
+abline(v = 0.96, lwd = 2, lty = 2, col = "grey60")
+polygon(c(xx,rev(xx)), c(rep(0,length(yy.ML)), rev(yy.ML)), border = NA, col = colors[1]) 
+points(qnorm(0.975,fit.ML$coef, sqrt(fit.ML$var.coef)), 0, cex = 3, 
+       col = colors2[1], pch = "|")
+points(qnorm(0.025,fit.ML$coef, sqrt(fit.ML$var.coef)), 0, cex = 3, 
+       col = colors2[1], pch = "|")
+
+yy.gmwm = dnorm(xx, fit.gmwm$estimate[1], phi.sd.gmwm)
+plot(NA, xlim = c(0.7,1.2), ylim = range(yy.gmwm), 
+     xlab = expression(phi), ylab = "Density", main = "GMWM")
+grid()
+abline(v = 1, lwd = 2, col = "grey60")
+abline(v = 0.96, lwd = 2, lty = 2, col = "grey60")
+polygon(c(xx,rev(xx)), c(rep(0,length(yy.gmwm)), rev(yy.gmwm)), border = NA, col = colors[2])
+points(qnorm(0.975, fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3, 
+       col = colors2[2], pch = "|")
+points(qnorm(0.025, fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3, 
+       col = colors2[2], pch = "|")
+```
+
+For this purpose, the confidence intervals are not realistic. Therefore, one viable solution is to employ a parametric bootstrap, detailed in Theorem \@ref(thm:parabootstrap). Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from an AR(1) process. For each simulation, the parameters are estimated again and stored.  Finally, the empirical quantiles at $\alpha/2$ and $1-\alpha/2$ are taken of the saved estimated parameter values to obtrain a confidence interval which does not suffer from boundary problems. The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using $B = 10000$ bootstrap replicates).
+
+``` {r paraAR1ciest, cache = TRUE, warning = FALSE, fig.height= 6, fig.width= 9}
+# Number of Iterations
+B = 10000
+
+# Set up storage for results
+est.phi.gmwm = rep(NA,B)
+est.phi.ML = rep(NA,B)
+
+# Model generation statements
+model.gmwm = AR1(fit.gmwm$estimate[1], fit.gmwm$estimate[2])
+model.mle = AR1(fit.ML$coef, fit.ML$sigma2)
+
+# Begin bootstrap
+for(i in seq_len(B)){
+  
+  # Set seed for reproducibility
+  set.seed(B + i)
+  
+  # Generate process under MLE parameter estimate
+  x.star = gen_gts(100, model.mle)
+  
+  # Attempt to estimate phi by employing a try
+  est.phi.ML[i] = tryCatch(arima(x.star, order = c(1,0,0), include.mean = FALSE)$coef, 
+                           error = function(e) NA)
+  
+  # Generate process under GMWM parameter estimate
+  x.star = gen_gts(100, model.gmwm)
+  est.phi.gmwm[i] = gmwm2::gmwm(model.gmwm, x.star)$estimate[1]
+}
+```
+
+``` {r paraAR1cigraphs, cache = TRUE, warning = FALSE, echo = FALSE, fig.height = 6, fig.width = 9, fig.cap = "Estimated parametric distributions of $\\hat{\\phi}$ for MLE and GMWM parameter estimates. The bar plots represent the results from the parametric bootstrap, the densities represent the estimate asymptotic distribution, the vertical line represents the true value of $\\phi$, the solid lines denotes the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals under both approaches for the estimation methods."}
+par(mfrow = c(1,2))
+
+hist.phi.ML = hist(est.phi.ML, plot = FALSE, breaks = 20)
+hist.phi.ML$counts = hist.phi.ML$counts/sum(hist.phi.ML$counts)/diff(hist.phi.ML$mids)[1]
+plot(NA, xlim = c(0.65,1.04), ylim = range(yy.ML), 
+     xlab = expression(phi), ylab = "Density", main = "MLE")
+grid()
+abline(v = 1, lwd = 2, col = "grey60")
+abline(v = 0.96, lwd = 2, lty = 2, col = "grey60")
+plot(hist.phi.ML, xlim = c(0.6,1.1), ylim = range(yy.ML), 
+     add = T, col = colors[3], border = "grey60")
+polygon(c(xx,rev(xx)), c(rep(0,length(yy.ML)), rev(yy.ML)), border = NA, col = colors[1]) 
+
+points(qnorm(0.975,fit.ML$coef, sqrt(fit.ML$var.coef)), 0, cex = 3, col = colors2[1], pch = "|")
+points(qnorm(0.025,fit.ML$coef, sqrt(fit.ML$var.coef)), 0, cex = 3, col = colors2[1], pch = "|")
+
+points(quantile(est.phi.ML, 0.975, na.rm = T), 0, cex = 3, col = colors2[3], pch = "|")
+points(quantile(est.phi.ML, 0.025, na.rm = T), 0, cex = 3, col = colors2[3], pch = "|")
+
+
+hist.phi.GMWM = hist(na.omit(est.phi.gmwm), plot = FALSE, breaks = 20)
+hist.phi.GMWM$counts = hist.phi.GMWM$counts/sum(hist.phi.GMWM$counts)/diff(hist.phi.GMWM$mids)[1]
+plot(NA, xlim = c(0.53,1.2), ylim = range(hist.phi.GMWM$counts), 
+     xlab = expression(phi), ylab = "Density", main = "GMWM")
+grid()
+abline(v = 1, lwd = 2, col = "grey60")
+abline(v = 0.96, lwd = 2, lty = 2, col = "grey60")
+plot(hist.phi.ML, xlim = c(0.53,1.2), ylim = range(hist.phi.GMWM$counts), 
+     add = T, col = colors[5], border = "grey60")
+polygon(c(xx,rev(xx)), c(rep(0,length(yy.gmwm)), rev(yy.gmwm)), border = NA, col = colors[2]) 
+
+points(qnorm(0.975,fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3, col = colors2[2], pch = "|")
+points(qnorm(0.025,fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3, col = colors2[2], pch = "|")
+
+points(quantile(est.phi.gmwm, 0.975, na.rm = T), 0, cex = 3, col = colors2[5], pch = "|")
+points(quantile(est.phi.gmwm, 0.025, na.rm = T), 0, cex = 3, col = colors2[5], pch = "|")
+```
+
+In Figure \@ref(fig:paraAR1cigraphs), we compare the estimated densities
+for $\hat{\phi}$ using asymptotic results and bootstrap techniques for the MLE 
+and the GMWM estimator. It can be observed that the issue that arose previously 
+with unrealistic confidence intervals have been resolved as the interval regions
+lie entirely within the boundaries of the parameter space.
+
+To emphasize that the effectiveness of parametric bootstrap, let us
+consider one additonal example of an AR(2) process. For this example, discussion
+will focus on observing the behavior exhibited solely by the MLE. Having said
+this, the AR(2) process is defined to be:
+
+\begin{equation}
+{X_t} = {1.98}{X_{t - 1}} - {0.99}{X_{t - 2}} + {W_t}
+(\#eq:ciar2)
+\end{equation}
+
+where $W_t \sim WN(0, 1)$. The generated process is displayed in Figure \@ref(fig:CIAR2data). 
+
+```{r CIAR2data, cache = TRUE, fig.cap="Generated AR(2) Process"}
+set.seed(432)
+Xt = gen_gts(500, AR(phi = c(1.98, -0.99), sigma2 = 1))
+plot(Xt)
+mod = arima(Xt, c(2,0,0), include.mean = FALSE)
+mod
+```
+
+With the model's coefficients readily available, the parametric bootstrap
+is able to be constructed. As before, the bootstrap implementation mirrors prior
+versions with one cavaet regarding the storage of $\phi$ being two dimensional and,
+thus, requiring a `matrix` to store the result instead of a traditional atomic
+vector in _R_. 
