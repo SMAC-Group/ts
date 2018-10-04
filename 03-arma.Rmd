@@ -141,7 +141,7 @@ and $\mu = 0$. We would require the condition that $\left| \phi \right| < 1$ in 
 ```
 
 
-## Autoregressive Models (AR(p))
+## Autoregressive Models - AR(p)
 
 The class of autoregressive models is based on the idea that previous values in the time series are needed to explain current values in the series. For this class of models, we assume that the $p$ previous observations are needed for this purpose and we therefore denote this class as AR($p$). In the previous chapter, the model we introduced was an AR(1) in which only the immediately previous observation is needed to explain the following one and therefore represents a particular model which is part of the more general class of AR(p) models.
 
@@ -164,7 +164,7 @@ where $\mu^{\star} = \mu (1 - \sum_{i = 1}^p \phi_i)$. Therefore, to simplify th
 A useful way of representing AR(p) processes is through the backshift operator introduced in the previous section and is as follows
 
 \[\begin{aligned}
-  {X_t} &= {\phi_1}{X_{t - 1}} + ... + {\phi_p}{X_{t - p}} + {w_t} \\
+  {X_t} &= {\phi_1}{X_{t - 1}} + ... + {\phi_p}{X_{t - p}} + {W_t} \\
    &= {\phi_1}B{X_t} + ... + {\phi_p}B^p{X_t} + {W_t} \\
    &= ({\phi_1}B + ... + {\phi_p}B^p){X_t} + {W_t} \\ 
 \end{aligned},\]
@@ -628,16 +628,16 @@ these estimates and this can be done mainly in two manners:
 The first approach consists in using the asymptotic distribution of the 
 estimators presented earlier to deliver approximations of the confidence
 intervals which get better as the length of the observed time series increases. 
-Hence, for example, if we wanted to find a 95% confidence interval for the 
+Hence, if for example we wanted to find a 95% confidence interval for the 
 parameter $\phi$, we would use the quantiles of the normal distribution 
 (given that all methods presented earlier present this asymptotic distribution).
-However, this approach can present some drawbacks, one of which is there
+However, this approach can present some drawbacks, one of which its
 behaviour when the parameters are close to the boundaries of the parameter space. 
-Suppose we consider a realization of length $n = 100$ of the following AR(1) model:
+Suppose we consider a realization of length $T = 100$ of the following AR(1) model:
 
 \[X_t = 0.96 X_{t-1} + W_t, \;\;\;\; W_t \sim \mathcal{N}(0,1),\]
 
-which is depicted in Figure \@ref(fig:simAR1ci)
+which is represented in Figure \@ref(fig:simAR1ci)
 
 ``` {r simAR1ci, cache = TRUE, fig.height= 4.5, fig.width = 9, fig.cap = "AR(1) with $\\phi$ close to parameter bound"}
 set.seed(7)
@@ -646,7 +646,7 @@ plot(x)
 ```
 
 It can be seen that the parameter $\phi = 0.96$ respects the condition for 
-stationarity, $\left| \phi \right| < 1$, but is very close to its boundary.
+stationarity (i.e.$\left| \phi \right| < 1$) but is very close to its boundary.
 Using the MLE and the GMWM estimators, we first estimate the parameters and
 then compute confidence intervals for $\phi$ using the asymptotic 
 normal distribution.
@@ -665,10 +665,9 @@ summary(fit.gmwm, inference = TRUE)$estimate
 ```
 
 
-From the estimation summary, we note that both confidence intervals contain 
+From the estimation summary, we can notice that both confidence intervals contain 
 values that would make the AR(1) non-stationary (i.e. values of $\phi$ larger
-than 1). These estimates are indicating that they represent the
-estimated (asymptotic) distribution of $\hat{\phi}$ as displayed in Figure
+than 1). However, these confidence intervals are based on the (asymptotic) distributions of $\hat{\phi}$ which are shown in Figure
 \@ref(fig:asymIC).
 
 ```{r asymIC, cache = TRUE, echo = FALSE, fig.height = 4.5, fig.width = 9, fig.cap = "Estimated asymptotic distribution of $\\hat{\\phi}$ for MLE and GMWM parameter estimates. The dashed vertical line represents the true value of $\\phi$, the solid line denotes the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for both methods."}
@@ -709,7 +708,7 @@ points(qnorm(0.025, fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3,
        col = colors2[2], pch = "|")
 ```
 
-For this purpose, the confidence intervals are not realistic. Therefore, one viable solution is to employ a parametric bootstrap, detailed in Theorem \@ref(thm:parabootstrap). Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from an AR(1) process. For each simulation, the parameters are estimated again and stored.  Finally, the empirical quantiles at $\alpha/2$ and $1-\alpha/2$ are taken of the saved estimated parameter values to obtrain a confidence interval which does not suffer from boundary problems. The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using $B = 10000$ bootstrap replicates).
+Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more "realistic" confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap, detailed in Theorem \@ref(thm:parabootstrap). Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from an AR(1) process. For each simulation, the parameters are estimated again and stored.  Finally, the empirical quantiles at $\alpha/2$ and $1-\alpha/2$ are taken of the saved estimated parameter values to obtrain a confidence interval which does not suffer from boundary problems. The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using $B = 10000$ bootstrap replicates).
 
 ``` {r paraAR1ciest, cache = TRUE, warning = FALSE, fig.height= 6, fig.width= 9}
 # Number of Iterations
@@ -812,3 +811,301 @@ is able to be constructed. As before, the bootstrap implementation mirrors prior
 versions with one cavaet regarding the storage of $\phi$ being two dimensional and,
 thus, requiring a `matrix` to store the result instead of a traditional atomic
 vector in _R_. 
+
+```{r CIAR, cache = TRUE, warning = FALSE}
+B = 10000
+est.phi.ML = matrix(NA, B, 2)
+model = AR(phi = mod$coef, sigma2 = mod$sigma2)
+
+for(i in seq_len(B)) {
+  set.seed(B + i)              # Set Seed for reproducibilty
+  
+  x.star = gen_gts(500, model) # Simulate the process 
+  
+  # Obtain parameter estimate with protection
+  # that defaults to NA if unable to estimate
+  est.phi.ML[i,] = tryCatch(arima(x.star, order = c(2,0,0),
+                                  include.mean = FALSE)$coef,
+                            error = function(e) NA)
+}
+```
+
+```{r ciAR2d, cache = TRUE, echo = FALSE, fig.height= 4.5, fig.width= 9, warning = FALSE, fig.cap="Estimated distributions of $\\hat{\\phi_1}$ and $\\hat{\\phi_2}$ of the MLE using asymptotic and parametric bootstrap techniques. The colored contours represent the density of distribution and the dark grey lines represent the boundary constraints of $\\left|\\phi_2\\right|<1$ and $\\phi_2 = 1 - \\phi_1$."}
+# Graphing 
+
+# Requires use of MASS
+library("MASS")
+library("RColorBrewer")
+est.phi.ML = na.omit(est.phi.ML)
+z = kde2d(est.phi.ML[,1],est.phi.ML[,2], n=50)
+k = 11
+my.cols = rev(brewer.pal(k, "RdYlBu"))
+
+bivn = mvrnorm(100000, mu = mod$coef, Sigma = matrix(c(mod$var.coef), 2))
+bivn.kde = kde2d(bivn[,1], bivn[,2], n = 50)
+
+par(mfrow = c(1,2))
+plot(NA, xlim = c(1.96,2), ylim = c(-1.02,-0.97), xlab = expression(phi[1]),
+     ylab = expression(phi[2]), cex.lab = 1.5, main = "Asymptotic")
+grid()
+
+
+# Adding boundary of constraint |phi_2| < 1
+abline(h = c(-1,1), lty = 2, col = "darkgrey")
+
+# Adding boundary of constraint phi_2 = 1 - phi_1 
+phi1 = seq(from = -2, to = 2, length.out = 10^3)
+phi2.c1 = 1 - phi1
+lines(phi1, phi2.c1, lty = 2, col = "darkgrey")
+
+# Adding boundary of constraint phi_2 = 1 + phi_1 
+phi1 = seq(from = -2, to = 2, length.out = 10^3)
+phi2.c2 = 1 + phi1
+lines(phi1, phi2.c2, lty = 2, col = "darkgrey")
+contour(bivn.kde, drawlabels=FALSE, nlevels=k, col=my.cols, add = TRUE)
+
+
+plot(NA, xlim = c(1.96,2), ylim = c(-1.02,-0.97), xlab = expression(phi[1]),
+     ylab = expression(phi[2]), cex.lab = 1.5, main = "Bootstrap")
+grid()
+
+
+# Adding boundary of constraint |phi_2| < 1
+abline(h = c(-1,1), lty = 2, col = "darkgrey")
+
+# Adding boundary of constraint phi_2 = 1 - phi_1 
+phi1 = seq(from = -2, to = 2, length.out = 10^3)
+phi2.c1 = 1 - phi1
+lines(phi1, phi2.c1, lty = 2, col = "darkgrey")
+
+# Adding boundary of constraint phi_2 = 1 + phi_1 
+phi1 = seq(from = -2, to = 2, length.out = 10^3)
+phi2.c2 = 1 + phi1
+lines(phi1, phi2.c2, lty = 2, col = "darkgrey")
+contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add = TRUE)
+```
+
+The cost of this approach is the assumption the model captures the dependency structure that is present within the time series. That is to say, we are able to successfully a regenerate new time series process that follows the appropriate distribution for each sampling phase. However, if we are not confident that the model we have selected is a valid estimation of the truth, then using parametric bootstrap with the estimated model is highly problematic as it does not represent the dependency between observations. To complicate matters further, the traditional bootstrap that  consists of simple random sampling with replacement, in the presence of dependency,  would also be highly inaccurate and downright reckless to use. Therefore, to  preserve the dependency structure of the original data one would have to use _block bootstrapping_, which is a form of non-parametric bootstrap. There  are many different kinds of block bootstraps for time series, which are descendents of the Moving Block Bootstrap (MBB) presented in \@ref(thm:mbb).
+
+```{theorem, label="mbb", "Moving Block Bootstrap"}
+Suppose that $\left(X_t\right)$ is weakly stationary time series with $N$ 
+observations. 
+
+1. Divide time series into overlapping blocks $\left\{S_1, \ldots, S_M\right\}$ of
+   length $\ell$, $1 \le \ell < N$, resulting in $M = N - \ell + 1$ blocks structured as: 
+
+$$\begin{aligned}   
+  {S_1}& = & ({X_1}, &{X_2}, \cdots , {X_\ell}) & && \\
+  {S_2}& = & &( {X_2}, {X_3}, \cdots , {X_{\ell + 1}}) & && \\
+  & \cdots & & {} & \cdots && \\
+  {S_M} & = & & & {} &&( {X_{N-\ell+1}}, {X_{N-\ell+2}}, \cdots , {X_{N}})
+\end{aligned}$$
+
+2. Draw $M = \left\lfloor {\frac{N}{\ell}} \right\rfloor$ blocks with replacement
+   from these $\left\{S_1, \ldots, S_M\right\}$ blocks and place them in order to form
+   $(X_t^*)$. 
+3. Compute the statistic of interest on the simulated 
+   sample $(X_t^*)$.
+4. Repeat Steps 2 and 3 $B$ times where $B$ is sufficiently "large" 
+   (typically $100 \leq B \leq 10000$).
+5. Compute the empirical mean and variance on the statistic of interest based on 
+   the $B$ independent replications. 
+```
+
+
+The approach taken by MBB ensures that within each block the dependency
+between observations is preserved. Though, one particular issue that now arises is that some inaccuracy is introduced as a result of successive blocks potentially being independent from each other. In reality, this is one of the trade-offs of the MBB approach that can be mitigated by selecting an optimal $\ell$. To lower the inaccuracy of the procedure the selection of $\ell = N^{1/3}$ as $N \to \infty$ is optimal (proof left as an exercise to the reader). An earlier variant of MBB was called nonoverlapping block bootstrap (NBB), which prohbited the sharing of data described in \@ref(thm:nbb).
+
+```{theorem, label="nbb", "Nonoverlapping Block Bootstrap"}
+Suppose that $\left(X_t\right)$ is weakly stationary time series with $N$ 
+observations. 
+
+1. Divide time series into nonoverlapping blocks $\left\{S_1, \ldots, S_M\right\}$ of
+   length $\ell$, $1 \le \ell < N$, resulting in $M = \left\lfloor {\frac{N}{\ell}} \right\rfloor$ blocks structured as: 
+
+$$\begin{aligned}   
+  {S_1}& = & ({X_1}, {X_2}, \cdots , {X_\ell})& & && \\
+  {S_2}& = & &( {X_{\ell+1}}, {X_{\ell+2}}, \cdots , {X_{2\ell}}) & && \\
+  & \cdots & & {} & \cdots && \\
+  {S_K} & = & & & {} &&( {X_{\left({}\right)}}, {X_{N-\ell+2}}, \cdots , {X_{N}})
+\end{aligned}$$
+
+2. Draw $M$ blocks with replacement
+   from these $\left\{S_1, \ldots, S_M\right\}$ blocks and place them in order to form
+   $(X_t^*)$. 
+3. Compute the statistic of interest on the simulated 
+   sample $(X_t^*)$.
+4. Repeat Steps 2 and 3 $B$ times where $B$ is sufficiently "large" 
+   (typically $100 \leq B \leq 10000$).
+5. Compute the empirical mean and variance on the statistic of interest based on 
+   the $B$ independent replications. 
+
+```
+
+Alternatively, depending on the case one can also use modification of MBB that seeks to change how the beginning and end of the time series is weighted such as a circular block-bootstrap (CBB), that seeks improve dependency by wrapping observations, or a stationary bootstrap (SB), that randomizes block length by under a geometric distribution of mean $\ell$. Regardless, the outcomes from using MBB on time series is considerably better than just resampling, which is also possible if we set $\ell = 1$ since the length of $(X_t^*)$ is $M\times\ell$.
+
+Having said this, the implementation of Theorem \@ref(thm:nbb) follows the
+similar mold of generating data, estimating, and returning a value. The most notably deviation from Theorem \@ref(thm:nbb) is the use of an indexing trick to indicate the start period of each block that allows for only one copy of the data to be held within memory instead of $m$ blocks of length $\ell$ in addition to the initial copy.
+
+```{r funblockbootstrap}
+ar1_blockboot = function(Xt, block_len = 10, B = 500) {
+  
+  n = length(Xt)            # Length of Time Series
+  res = rep(NA, B)          # Bootstrapped Statistics
+  m = floor(n/block_len)    # Amount of Blocks
+  
+  for (i in seq_len(B)) {   # Begin MMB
+    
+    set.seed(i + 1199)      # Set seed for reproducibility
+    x_star = rep(NA, n)     # Setup storage for new TS
+    
+    for (j in seq_len(m)) { # Simulate new time series 
+      
+      index = sample(m, 1)  # Randomize block starting points
+      
+      # Place block into time series
+      x_star[(block_len*(j - 1) + 1):(block_len*j)] = 
+            Xt[(block_len*(index - 1) + 1):(block_len*index)]
+    }
+    
+    # Calculate parameter with protection
+    res[i] = tryCatch(arima(x_star, order = c(1,0,0), include.mean = FALSE)$coef,
+                      error = function(e) NA)
+  }
+  
+  na.omit(res)              # Release bootstrap result
+}
+```
+
+With the block bootstrapping technique in hand, let us consider a scenario where the model's assumption that the residuals will be Gaussian is violated. Consider two AR(1) processes with the same coefficient but different noise generation procedures:
+
+$$
+\begin{aligned}
+\mathcal{M}_1:&{}& X_t &=0.5 X_{t-1} + W_t,&{}& W_t\sim \mathcal{N} (0,1) \\
+\mathcal{M}_2:&{}& X_t &=0.5 X_{t-1} + V_t,&{}& V_t\sim t_4
+\end{aligned}
+$$
+
+The generation procedure for $\mathcal{M}_1$ is straightforward, use: `gen_gts()`. However, the underlying generating mechanism for `gen_gts()` relies upon the noise being Gaussian. Therefore, to generate $\mathcal{M}_2$, one must use _R_'s `arima.sim()` function with a custom noise generator defined to sample from a $t$ distribution.
+
+```{r mbbdata, cache = TRUE}
+set.seed(1)                                        # Set seed for reproducibilty
+xt_m1 = gen_gts(500, AR1(phi = 0.5, sigma2 = 1))   # Gaussian noise only
+xt_m2 = gts(arima.sim(n = 500, list(ar = 0.5, ma = 0), # Multiple noises supported
+                  rand.gen = function(n, ...) rt(n, df = 4)))
+```
+
+```{r mbbdatavis, echo = F, cache = TRUE, fig.cap="AR(1) processes generated under different noise conditions.", dependson="mbbdata"}
+par(mfrow = c(1,2))
+plot(xt_m1, main = "Model 1")
+plot(xt_m2, main = "Model 2")
+```
+
+From Figure \@ref(fig:mbbdatavis), the time series look remarkably different as a result of the noise process being altered slightly even though the $\phi$ coefficient was held constant. Principally, the difference is the due related to the variance of the $t$ distribution is defined to be $\frac{\nu}{\nu-2}$ for $\nu > 2$ and $\infty$ for $\nu \le 2$. Therefore, the i.i.d white noise processes generated are $\sigma^2_{\mathcal{M}_1} = 1$ when compared to the alternative $\sigma^2_{\mathcal{M}_2} = 2$. With this being said, both the underlying nonparametric and parametric bootstrap estimation procedures betweenthe models will be the same. The implementation for blocking approach regarding an AR(1) was discussed previously and the parametric approach is as follows:
+
+```{r ar1bootstrapper, cache = TRUE}
+ar1_paraboot = function(model, B = 10000) {
+  est.phi = rep(NA,B)    # Define a storage vector
+  
+  for(i in seq_len(B)) { # Perform bootstrap
+    
+    set.seed(B + i)      # Set seed for reproducibility
+    
+    # Simulate time series underneath the estimated model
+    x.star = arima.sim(n = 500, list(ar = model$coef, ma = 0),
+                       sd = sqrt(model$sigma2))
+    
+    # Attempt to estimate parameters with recovery
+    est.phi[i] = tryCatch(arima(x.star, order = c(1,0,0),
+                                   include.mean = FALSE)$coef, 
+                          error = function(e) NA)
+    
+  }
+
+  na.omit(est.phi)       # Return estimated phis.
+}
+```
+
+With both functions in hand, the procedure is regulated to calling them
+on the different sets of data and models. 
+
+```{r blockbootsim, cache = TRUE}
+B = 10000 
+
+# Model 1
+fit_m1_mle = arima(xt_m1, order = c(1,0,0), include.mean = FALSE)
+para_m1_phi  = ar1_paraboot(fit_m1_mle, B = B)
+block_m1_phi = ar1_blockboot(xt_m1, block_len = 25, B = B)
+
+# Model 2
+fit_m2_mle = arima(xt_m2, order = c(1,0,0), include.mean = FALSE)
+para_m2_phi  = ar1_paraboot(fit_m2_mle, B = B)
+block_m2_phi = ar1_blockboot(xt_m2, block_len = 25, B = B) 
+```
+
+```{r blockbootmodels, echo = FALSE, cache = T, warning = FALSE, fig.height= 6, fig.width= 9, fig.cap="Estimated parametric and non-parametric block  bootstrap distributions of $\\hat{\\phi}$ for MLE parameter estimates. The histogram bars represent the empirical results from the bootstraps with the green representing parametric bootstrap and the red represent the block bootstrap approach. The dashed vertical line represents the true value of $\\phi$ and the vertical ticks correspond to the limits of the 95% confidence intervals for both estimation techniques."}
+
+## Rewrite as a function later... 
+# Has a dependency on previously written code.
+
+par(mfrow = c(1,2))
+
+## Model 1
+hist.phi.ML = hist(para_m1_phi, plot = FALSE, breaks = 25)
+hist.phi.ML$counts = hist.phi.ML$counts/sum(hist.phi.ML$counts)/diff(hist.phi.ML$mids)[1]
+
+hist.phi.ML.bboot = hist(block_m1_phi, plot = FALSE, breaks = 25)
+hist.phi.ML.bboot$counts = hist.phi.ML.bboot$counts/sum(hist.phi.ML.bboot$counts)/diff(hist.phi.ML.bboot$mids)[1]
+
+plot(NA, xlim = c(0.28,0.6), ylim = range(yy.ML), 
+     xlab = expression(phi), ylab = "Density", main = "Model 1")
+grid()
+abline(v = 1, lwd = 2, col = "grey60")
+abline(v = 0.95, lwd = 2, lty = 2, col = "grey60")
+plot(hist.phi.ML, xlim = c(0.28,0.6), ylim = range(yy.ML), 
+     add = T, col = colors[3], border = "grey60")
+
+plot(hist.phi.ML.bboot, xlim = c(0.28,0.6), ylim = range(yy.ML), 
+     add = T, col = colors[1], border = "grey60")
+
+points(quantile(para_m1_phi, 0.975), 0, cex = 3, col = colors[3], pch = "|")
+points(quantile(para_m1_phi, 0.025), 0, cex = 3, col = colors[3], pch = "|")
+
+points(quantile(block_m1_phi, 0.975), 0, cex = 3, col = colors[1], pch = "|")
+points(quantile(block_m1_phi, 0.025), 0, cex = 3, col = colors[1], pch = "|")
+abline(v = 0.5, lwd = 2, lty = 2, col = "grey60")
+
+## Model 2
+hist.phi.ML = hist(para_m2_phi, plot = FALSE, breaks = 25)
+hist.phi.ML$counts = hist.phi.ML$counts/sum(hist.phi.ML$counts)/diff(hist.phi.ML$mids)[1]
+
+hist.phi.ML.bboot = hist(block_m2_phi, plot = FALSE, breaks = 25)
+hist.phi.ML.bboot$counts = hist.phi.ML.bboot$counts/sum(hist.phi.ML.bboot$counts)/diff(hist.phi.ML.bboot$mids)[1]
+
+plot(NA, xlim = c(0.28,0.6), ylim = range(yy.ML), 
+     xlab = expression(phi), ylab = "Density", main = "Model 2")
+grid()
+abline(v = 1, lwd = 2, col = "grey60")
+abline(v = 0.95, lwd = 2, lty = 2, col = "grey60")
+plot(hist.phi.ML, xlim = c(0.28,0.6), ylim = range(yy.ML), 
+     add = T, col = colors[3], border = "grey60")
+
+plot(hist.phi.ML.bboot, xlim = c(0.28,0.6), ylim = range(yy.ML), 
+     add = T, col = colors[1], border = "grey60")
+
+points(quantile(para_m2_phi, 0.975), 0, cex = 3, col = colors[3], pch = "|")
+points(quantile(para_m2_phi, 0.025), 0, cex = 3, col = colors[3], pch = "|")
+
+points(quantile(block_m2_phi, 0.975), 0, cex = 3, col = colors[1], pch = "|")
+points(quantile(block_m2_phi, 0.025), 0, cex = 3, col = colors[1], pch = "|")
+
+abline(v = 0.5, lwd = 2, lty = 2, col = "grey60")
+
+```
+
+The results from the parametric and nonparametric block bootstrapping techniques
+are displayed in Figure \@ref(fig:blockbootmodels). In both instances, we can 
+see that the block bootstrap had a narrower distribution. However, there was a
+considerable bias that lead the distribution to be off-centered. The origins of
+bias come from the independence associated between blocks as they are placed
+into $(X^*_t)$. 
