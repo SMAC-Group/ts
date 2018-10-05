@@ -106,7 +106,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.2" data-path=""><a href="#autoregressive-models---arp"><i class="fa fa-check"></i><b>1.2</b> Autoregressive Models - AR(p)</a><ul>
 <li class="chapter" data-level="1.2.1" data-path=""><a href="#properties-of-arp-models"><i class="fa fa-check"></i><b>1.2.1</b> Properties of AR(p) models</a></li>
 <li class="chapter" data-level="1.2.2" data-path=""><a href="#estimation-of-arp-models"><i class="fa fa-check"></i><b>1.2.2</b> Estimation of AR(p) models</a></li>
-<li class="chapter" data-level="1.2.3" data-path=""><a href="#inference-for-arp-models"><i class="fa fa-check"></i><b>1.2.3</b> Inference for AR(p) models</a></li>
+<li class="chapter" data-level="1.2.3" data-path=""><a href="#forecasting-arp-models"><i class="fa fa-check"></i><b>1.2.3</b> Forecasting AR(p) Models</a></li>
+<li class="chapter" data-level="1.2.4" data-path=""><a href="#inference-for-arp-models"><i class="fa fa-check"></i><b>1.2.4</b> Inference for AR(p) Models</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -591,31 +592,228 @@ res.zt.MLE =<span class="st"> </span>res.zt.LS =<span class="st"> </span>res.zt.
 </ul>
 <p>The boxplots representing the distributions of estimated values on the process <span class="math inline">\((X_t)\)</span> (i.e. uncontaminated) are shown below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_study_graph</span>(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Xt&quot;</span>)</code></pre></div>
+<p><img src="03-arma_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>It can be seen how all methods appear to properly estimate the true parameter values on average. However, the MLE appears to be slightly more efficient (less variable) compared to the other methods and, in addition, the robust methods (RLS and RGMWM) appear to be less efficient than their standard counterparts. Now let us check the performance of the same methods when applied to the two contaminated processes <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_study_graph</span>(res.yt.MLE, res.yt.LS, res.yt.RR, res.yt.GMWM, res.yt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Yt&quot;</span>)
 <span class="kw">sim_study_graph</span>(res.zt.MLE, res.zt.LS, res.zt.RR, res.zt.GMWM, res.zt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Zt&quot;</span>)</code></pre></div>
+<p><img src="03-arma_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="03-arma_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
 <p>It can be seen that for these two contaminated processes, the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimators allow to remain close (on average) to the true parameter values that we are aiming to estimate. As you can observe, the type of contamination can be important in the choice of the robust estimator to be used as underlined by the different behaviour of the RLS and RGMWM estimators on <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span>. However, this discussion is out of the scope of this book.</p>
 </div>
+<div id="forecasting-arp-models" class="section level3">
+<h3><span class="header-section-number">1.2.3</span> Forecasting AR(p) Models</h3>
+<p>One of the most interesting things in time series analysis is to predict the future unobserved values based on the observed values up to now. However, it is not possible if the underlying model is unknown, thus in this section we assume the time series <span class="math inline">\(X_t\)</span> is stationary and its model is known. In particular, we denote forecasts by <span class="math inline">\(X^{n}_{n+m}\)</span>, where <span class="math inline">\(n\)</span> represents the data points collected (e.g. <span class="math inline">\(\mathbf{X} = \{X_{1}, X_{2}, \cdots , X_{n-1}, X_n\}\)</span>) and <span class="math inline">\(m\)</span> represents the amount of points in the future we wish to predict. So, <span class="math inline">\(X^{n}_{n+1}\)</span> represents a one-step-ahead prediction <span class="math inline">\(X_{n+1}\)</span> given data <span class="math inline">\(\{X_{1}, X_{2}, \cdots, X_{n-1}, X_{n}\}\)</span>.</p>
+<p>To obtain forecasts, we rely upon the best linear prediction (BLP). Recall that the BLP Definition <a href="#def:blp"><strong>??</strong></a> is mentioned when we calculate the PACF of AR model. In general, the best approach to finding the BLP is to use the Theorem <a href="#thm:projtheo">1.1</a>.</p>
+
+<div class="theorem">
+<p><span id="thm:projtheo" class="theorem"><strong>Theorem 1.1  (Projection Theorem)  </strong></span>Let <span class="math inline">\(\mathcal{M} \subset \mathcal{L}_2\)</span> be a closed linear subspace of Hibert space. For every <span class="math inline">\(y \in \mathcal{L}_2\)</span>, there exists a unique element <span class="math inline">\(\hat{y} \in \mathcal{M}\)</span> that minimizes <span class="math inline">\(||y - l||^2\)</span> over <span class="math inline">\(l \in \mathcal{M}\)</span>. This element is uniquely determined by the requirements</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\hat{y} \in \mathcal{M}\)</span> and</li>
+<li><span class="math inline">\((y - \hat{y}) \perp \mathcal{M}\)</span>.
+</div>
+</li>
+</ol>
+<p>Projection theorem natually leads to an equivalent way to find the best linear predictor by solving the prediction equations, <span class="math display">\[ \mathbb{E}(X_{t+h} - \hat{X}_{t+h}) = 0, \mbox{( it is trivial for TS with zero mean)}\]</span> and <span class="math display">\[ \mathbb{E} [(X_{t+h} - \hat{X}_{t+h})X_j ] = 0, \mbox{ for } i = 1, \dots, t.\]</span></p>
+<p>Write <span class="math inline">\(\mathbb{E}(X_{i}, X_{j})\)</span> as <span class="math inline">\(\gamma(|i - j|)\)</span>, predition equations can be represented by the following form</p>
+<span class="math display">\[\begin{equation}
+  \begin{aligned}
+  \begin{pmatrix}
+    \gamma(0) &amp; \gamma(1) &amp; \cdots &amp; \gamma(N-1) \\
+    \gamma(1) &amp; \gamma(0) &amp; \cdots &amp; \gamma(N-2) \\
+    \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+    \gamma(N-1) &amp; \gamma(N-2) &amp; \cdots &amp;\gamma(0)
+  \end{pmatrix}_{N \times N}
+  \begin{pmatrix}
+    \alpha_1 \\
+    \vdots \\
+    \alpha_N
+  \end{pmatrix}_{N \times 1}
+  &amp;=
+  \begin{pmatrix}
+    \gamma(N+h-1)  \\
+    \vdots \\
+    \gamma(h)
+  \end{pmatrix}_{N \times 1} \\
+  \Gamma_N \bm{\alpha}_N  &amp;= \bm{\gamma}_N
+  \end{aligned}
+\end{equation}\]</span>
+<p>.</p>
+<p>Assuming that <span class="math inline">\(\Gamma_N\)</span> is non-singular, then the values of <span class="math inline">\(\bm{\alpha}_N\)</span> are given as:</p>
+<span class="math display">\[\bm{\alpha}_N  = \Gamma^{-1}_N\bm{\gamma}_N\]</span> 
+<div class="theorem">
+<p><span id="thm:unnamed-chunk-4" class="theorem"><strong>Theorem 1.2  </strong></span><span class="math display">\[X_{t + j}^t = E\left[ {{X_{t + j}}|{X_t}, \cdots ,{X_1}} \right] = {E_t}\left[ {{X_{t + j}}} \right],j &gt; 0\]</span></p>
+Then <span class="math display">\[E\left[ {{{\left( {{X_{t + j}} - m\left( {{X_1}, \cdots ,{X_t}} \right)} \right)}^2}} \right] \ge E\left[ {{{\left( {{X_{t + j}} - X_{t + j}^t} \right)}^2}} \right]\]</span> for function <span class="math inline">\(m(.)\)</span>.
+</div>
+
+
+<div class="proof">
+<p> <span class="proof"><em>Proof. </em></span> Consider:</p>
+<p><span class="math inline">\(\widetilde{\beta}^{*} = \mathop {\arg \min }\limits_\beta \underbrace {E\left[ {{{\left( {{X_{t + h}} - m\left( {{X_{t + 1}}, \cdots ,{X_{t + h}}} \right)} \right)}^2}} \right]}_{MSE\left( \beta \right)}\)</span></p>
+<p>and</p>
+<p><span class="math inline">\(\widetilde{\beta} = \mathop {\arg \min }\limits_\beta \underbrace {E\left[ {{{\left( {{X_{t + h}} - \sum\limits_{j = 1}^{h - 1} {{\beta _j}{X_{t + j}}} } \right)}^2}} \right]}_{MS{E_L}\left( \beta \right)}\)</span></p>
+<p>It is clear that:</p>
+<p><span class="math display">\[MS{E_L}\left( {\tilde \beta } \right) \ge MSE\left( {{{\tilde \beta }^*}} \right)\]</span></p>
+<p>Let’s now consider</p>
+<p><span class="math display">\[{\left( {{X_t} - m} \right)^2} = {\left[ {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right) + \left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right]^2}\]</span></p>
+<p>where we have: <span class="math inline">\(m = m\left( {{X_{t + 1}}, \cdots ,{X_{t + h}}} \right)\)</span> and <span class="math inline">\({\Omega _t} = \left( {{X_{t + 1}}, \cdots ,{X_{t + h}}} \right)\)</span>.</p>
+<p>Therefore,</p>
+<p><span class="math display">\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _T}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)^2} + 2\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)\]</span></p>
+<p>Focusing on only the last term, we have that:</p>
+<p><span class="math display">\[\underbrace {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)}_{ = {\varepsilon _t}}\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)\]</span></p>
+<p><span class="math display">\[E\left[ {{\varepsilon _t}|{\Omega _t}} \right] = E\left[ {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]|{\Omega _t}} \right] = 0\]</span></p>
+<p>So, by the decomposition property, we have that:</p>
+<p><span class="math display">\[E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = E\left[ {E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)|{\Omega _t}} \right]} \right] = E\left[ {\underbrace {E\left[ {{\varepsilon _t}|{\Omega _t}} \right]}_{ = 0}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = 0\]</span></p>
+<p>By the previous discussion, we have that</p>
+<p><span class="math display">\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)^2}\]</span></p>
+is therefore minimized for <span class="math inline">\(m = E\left[ {{X_t}|{\Omega _t}} \right]\)</span>.
+</div>
+
+
+<div class="example">
+<p><span id="exm:ar1forecast" class="example"><strong>Example 1.8  (Forecasting with an AR(1))  </strong></span>We begin the forecasting examples by considering a first order AR(1) process.</p>
+<p><span class="math display">\[{X_t} = \phi {X_{t - 1}} + {W_t}\]</span></p>
+<p>where <span class="math inline">\(W_t \sim WN(0, \sigma^2_W)\)</span>.</p>
+<p>From here, the conditional expected mean and variance are given as:</p>
+<p><span class="math display">\[\begin{aligned}
+  {E_t}\left[ {{X_{t + j}}} \right] &amp;= {\phi ^j}{X_t} \\
+  Va{r_t}\left[ {{X_{t + j}}} \right] &amp;= \left( {1 + {\phi ^2} + {\phi ^4} +  \cdots  + {\phi ^{2\left( {j - 1} \right)}}} \right){\sigma ^2} \\ 
+\end{aligned} \]</span></p>
+<p>Within this derivation, it is important to remember that:</p>
+<p><span class="math display">\[\begin{aligned}
+  \mathop {\lim }\limits_{j \to \infty } {E_t}\left[ {{X_{t + j}}} \right] &amp;= 0 = E\left[ {{X_t}} \right] \\
+  \mathop {\lim }\limits_{j \to \infty } Va{r_t}\left[ {{X_{t + j}}} \right] &amp;= \frac{{{\sigma ^2}}}{{1 - {\phi ^2}}} = \operatorname{var} \left( {{X_t}} \right)  
+\end{aligned} \]</span></p>
+</div>
+
+
+<div class="example">
+<p><span id="exm:ar2forecast" class="example"><strong>Example 1.9  (Forecasting with an AR(2))  </strong></span>Consider an AR(2) process with the following parametrization:</p>
+<p><span class="math display">\[{X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + {W_t}\]</span></p>
+<p>where <span class="math inline">\(W_t \sim WN(0, \sigma^2_W)\)</span>.</p>
+<p>Then, we are able to find the BLP for each step by:</p>
+<p><span class="math display">\[\begin{aligned}
+  {E_t}\left[ {{X_{t + 1}}} \right] &amp;= {\phi _1}{X_t} + {\phi _2}{X_{t - 1}} \\
+  {E_t}\left[ {{X_{t + 2}}} \right] &amp;= {E_t}\left[ {{\phi _1}{X_{t + 1}} + {\phi _2}{X_t}} \right] = {\phi _1}{E_t}\left[ {{X_{t + 1}}} \right] + {\phi _2}{X_t} \\
+   &amp;= {\phi _1}\left( {{\phi _1}{X_t} + {\phi _2}{X_{t - 1}}} \right) + {\phi _2}{X_t} \\
+   &amp;= \left( {\phi _1^2 + {\phi _2}} \right){X_t} + {\phi _1}{\phi _2}{X_{t - 1}} \\ 
+\end{aligned} \]</span></p>
+</div>
+
+
+<div class="example">
+<p><span id="exm:arpforecast" class="example"><strong>Example 1.10  (Forecasting with an AR(P))  </strong></span>Consider AR(P) process given as:</p>
+<p><span class="math display">\[{X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + \cdots + {\phi _p}{X_{t - p}} + {W_t}\]</span></p>
+<p>where <span class="math inline">\(W_t \sim WN(0, \sigma^2_W)\)</span>.</p>
+<p>The process can be rearranged into matrix form denoted by:</p>
+<p><span class="math display">\[\begin{aligned}
+  \underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{X_t}} \\ 
+   \vdots  \\ 
+   \vdots  \\ 
+  {{X_{t - p + 1}}} 
+\end{array}} \right]}_{{Y_t}} &amp;= \underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{\phi _1}}&amp; \cdots &amp;{}&amp;{{\phi _p}} \\ 
+  {}&amp;{}&amp;{}&amp;0 \\ 
+  {}&amp;{{I_{p - 1}}}&amp;{}&amp; \vdots  \\ 
+  {}&amp;{}&amp;{}&amp;0 
+\end{array}} \right]}_A\underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{X_{t - 1}}} \\ 
+   \vdots  \\ 
+   \vdots  \\ 
+  {{X_{t - p}}} 
+\end{array}} \right]}_{{Y_{t - 1}}} + \underbrace {\left[ {\begin{array}{*{20}{c}}
+  1 \\ 
+  0 \\ 
+   \vdots  \\ 
+  0 
+\end{array}} \right]}_C{W_t} \\
+  {Y_t} &amp;= A{Y_{t - 1}} + C{W_t} 
+\end{aligned}\]</span></p>
+<p>From here, the conditional mean and variance are obtainable via:</p>
+<p><span class="math display">\[\begin{aligned}
+  {E_t}\left[ {{Y_{t + j}}} \right] &amp;= {E_t}\left[ {A{Y_{t + j - 1}} + C{W_{t + j}}} \right] = {E_t}\left[ {A{Y_{t + j - 1}}} \right] + \underbrace {{E_t}\left[ {C{W_{t + j}}} \right]}_{ = 0} \\
+   &amp;= {E_t}\left[ {A\left( {A{Y_{t + j - 2}} + C{W_{t + j - 1}}} \right)} \right] = {E_t}\left[ {{A^2}{Y_{t + j - 2}}} \right] = {A^j}{Y_t} \\ 
+  {\operatorname{var} _t}\left( {{Y_{t + j}}} \right) &amp;= {\operatorname{var} _t}\left( {A{Y_{t + j - 1}} + C{W_{t + j}}} \right) \\
+   &amp;= {\sigma ^2}C{C^T} + {\operatorname{var} _t}\left( {A{Y_{t + j - 1}}} \right) = {\sigma ^2}A{\operatorname{var} _t}\left( {{Y_{t + j - 1}}} \right){A^T} \\
+   &amp;= {\sigma ^2}C{C^T} + {\sigma ^2}AC{C^T}A + {\sigma ^2}{A^2}{\operatorname{var} _t}\left( {{Y_{t + j - 2}}} \right){\left( {{A^2}} \right)^T} \\
+   &amp;= {\sigma ^2}\sum\limits_{k = 0}^{j - 1} {{A^k}C{C^T}{{\left( {{A^K}} \right)}^T}}  \\ 
+\end{aligned} \]</span></p>
+By the recursive properties evident within both the conditional mean and variance, the evaluation can be written to take advantage of these features by the following recursive formulation: <span class="math display">\[\begin{aligned}
+  {E_t}\left[ {{Y_{t + j}}} \right] &amp;= A{E_t}\left[ {{Y_{t + j - 1}}} \right] \\
+  {\operatorname{var} _t}\left[ {{Y_{t + j}}} \right] &amp;= {\sigma ^2}C{C^T} + A{\operatorname{var} _t}\left( {{Y_{t + j - 1}}} \right){A^T} \\ 
+\end{aligned} \]</span>
+</div>
+
+
+<div class="example">
+<p><span id="exm:rear2forecast" class="example"><strong>Example 1.11  (Forecasting with an AR(2) in Matrix Form)  </strong></span>With the newfound knowledge regarding the recursive form of matrix predictions in hand, we return to the previous AR(2) forecasting example.</p>
+<p><span class="math display">\[\begin{aligned} \underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{X_t}} \\ 
+  {{X_{t - 1}}} 
+\end{array}} \right]}_{{Y_t}} &amp;= \underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{\phi _1}}&amp;{{\phi _2}} \\ 
+  1&amp;0 
+\end{array}} \right]}_A\underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{X_{t - 1}}} \\ 
+  {{X_{t - 2}}} 
+\end{array}} \right]}_{{Y_{t - 1}}} + \underbrace {\left[ {\begin{array}{*{20}{c}}
+  1 \\ 
+  0 
+\end{array}} \right]}_C{W_t} \\
+  {Y_t} &amp;= A{Y_{t - 1}} + C{W_t} 
+\end{aligned}\]</span></p>
+<p>Then, we are able to calculate the BLP as:</p>
+<span class="math display">\[\begin{aligned}
+  {E_t}\left[ {{Y_{t + 2}}} \right] &amp;= {A^2}{Y_t} = \left[ {\begin{array}{*{20}{c}}
+  {{\phi _1}}&amp;{{\phi _2}} \\ 
+  1&amp;0 
+\end{array}} \right]\left[ {\begin{array}{*{20}{c}}
+  {{\phi _1}}&amp;{{\phi _2}} \\ 
+  1&amp;0 
+\end{array}} \right]\left[ {\begin{array}{*{20}{c}}
+  {{X_t}} \\ 
+  {{X_{t - 1}}} 
+\end{array}} \right] \hfill \\
+   &amp;= \left[ {\begin{array}{*{20}{c}}
+  {\phi _1^2 + {\phi _2}}&amp;{{\phi _1}{\phi _2}} \\ 
+  {{\phi _1}}&amp;{{\phi _2}} 
+\end{array}} \right]\left[ {\begin{array}{*{20}{c}}
+  {{X_t}} \\ 
+  {{X_{t - 1}}} 
+\end{array}} \right] = \left[ {\begin{array}{*{20}{c}}
+  {\left( {\phi _1^2 + {\phi _2}} \right){X_t} + {\phi _1}{\phi _2}{X_{t - 1}}} \\ 
+  {{\phi _1}{X_t} + {\phi _2}{X_{t - 1}}} 
+\end{array}} \right] \hfill \\ 
+\end{aligned} \]</span>
+</div>
+
+<p>Under the recursive formulation, we can see through a simulation study how the predictions for an AR(2) process with <span class="math inline">\(\phi _1 = 0.75\)</span> and <span class="math inline">\(\phi _2 = 0.2\)</span> vary across time in Figure <a href="#fig:predplot">1.3</a>.</p>
+<div class="figure"><span id="fig:predplot"></span>
+<img src="03-arma_files/figure-html/predplot-1.png" alt="Values of the AR(2) predictions with the pink line being the median prediction, red and green lines are respectively 95% and 75% Confidence intervals." width="672" />
+<p class="caption">
+Figure 1.3: Values of the AR(2) predictions with the pink line being the median prediction, red and green lines are respectively 95% and 75% Confidence intervals.
+</p>
+</div>
+</div>
 <div id="inference-for-arp-models" class="section level3">
-<h3><span class="header-section-number">1.2.3</span> Inference for AR(p) models</h3>
+<h3><span class="header-section-number">1.2.4</span> Inference for AR(p) Models</h3>
 <p>For all the above methods, it would be necessary to understand how “precise” their estimates are. To do so we would need to obtain confidence intervals for these estimates and this can be done mainly in two manners:</p>
 <ul>
 <li>using the asymptotic distribution of the parameter estimates;</li>
 <li>using parametric bootstrap.</li>
 </ul>
-<p>The first approach consists in using the asymptotic distribution of the estimators presented earlier to deliver approximations of the confidence intervals which get better as the length of the observed time series increases. Hence, for example, if we wanted to find a 95% confidence interval for the parameter <span class="math inline">\(\phi\)</span>, we would use the quantiles of the normal distribution (given that all methods presented earlier present this asymptotic distribution). However, this approach can present some drawbacks, one of which is there behaviour when the parameters are close to the boundaries of the parameter space. Suppose we consider a realization of length <span class="math inline">\(n = 100\)</span> of the following AR(1) model:</p>
+<p>The first approach consists in using the asymptotic distribution of the estimators presented earlier to deliver approximations of the confidence intervals which get better as the length of the observed time series increases. Hence, if for example we wanted to find a 95% confidence interval for the parameter <span class="math inline">\(\phi\)</span>, we would use the quantiles of the normal distribution (given that all methods presented earlier present this asymptotic distribution). However, this approach can present some drawbacks, one of which its behaviour when the parameters are close to the boundaries of the parameter space. Suppose we consider a realization of length <span class="math inline">\(T = 100\)</span> of the following AR(1) model:</p>
 <p><span class="math display">\[X_t = 0.96 X_{t-1} + W_t, \;\;\;\; W_t \sim \mathcal{N}(0,1),\]</span></p>
-<p>which is depicted in Figure <a href="#fig:simAR1ci">1.3</a></p>
+<p>which is represented in Figure <a href="#fig:simAR1ci">1.4</a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">7</span>)
 x =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">AR1</span>(<span class="fl">0.96</span>, <span class="dv">1</span>))
 <span class="kw">plot</span>(x)</code></pre></div>
 <div class="figure"><span id="fig:simAR1ci"></span>
 <img src="03-arma_files/figure-html/simAR1ci-1.png" alt="AR(1) with $\phi$ close to parameter bound" width="864" />
 <p class="caption">
-Figure 1.3: AR(1) with <span class="math inline">\(\phi\)</span> close to parameter bound
+Figure 1.4: AR(1) with <span class="math inline">\(\phi\)</span> close to parameter bound
 </p>
 </div>
-<p>It can be seen that the parameter <span class="math inline">\(\phi = 0.96\)</span> respects the condition for stationarity, <span class="math inline">\(\left| \phi \right| &lt; 1\)</span>, but is very close to its boundary. Using the MLE and the GMWM estimators, we first estimate the parameters and then compute confidence intervals for <span class="math inline">\(\phi\)</span> using the asymptotic normal distribution.</p>
+<p>It can be seen that the parameter <span class="math inline">\(\phi = 0.96\)</span> respects the condition for stationarity (i.e.<span class="math inline">\(\left| \phi \right| &lt; 1\)</span>) but is very close to its boundary. Using the MLE and the GMWM estimators, we first estimate the parameters and then compute confidence intervals for <span class="math inline">\(\phi\)</span> using the asymptotic normal distribution.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute the parameter estimates using MLE</span>
 fit.ML =<span class="st"> </span><span class="kw">arima</span>(x, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)
 <span class="kw">c</span>(<span class="st">&quot;phi&quot;</span> =<span class="st"> </span>fit.ML<span class="op">$</span>coef, <span class="st">&quot;se&quot;</span> =<span class="st"> </span><span class="kw">sqrt</span>(fit.ML<span class="op">$</span>var.coef))</code></pre></div>
@@ -630,14 +828,14 @@ fit.gmwm =<span class="st"> </span>gmwm2<span class="op">::</span><span class="k
 <pre><code>##        Estimates    CI Low  CI High         SE
 ## AR1    0.9828707 0.8273191 1.063403 0.07176457
 ## SIGMA2 0.9640085 0.6910038 1.156574 0.14152315</code></pre>
-<p>From the estimation summary, we note that both confidence intervals contain values that would make the AR(1) non-stationary (i.e. values of <span class="math inline">\(\phi\)</span> larger than 1). These estimates are indicating that they represent the estimated (asymptotic) distribution of <span class="math inline">\(\hat{\phi}\)</span> as displayed in Figure <a href="#fig:asymIC">1.4</a>.</p>
+<p>From the estimation summary, we can notice that both confidence intervals contain values that would make the AR(1) non-stationary (i.e. values of <span class="math inline">\(\phi\)</span> larger than 1). However, these confidence intervals are based on the (asymptotic) distributions of <span class="math inline">\(\hat{\phi}\)</span> which are shown in Figure <a href="#fig:asymIC">1.5</a>.</p>
 <div class="figure"><span id="fig:asymIC"></span>
 <img src="03-arma_files/figure-html/asymIC-1.png" alt="Estimated asymptotic distribution of $\hat{\phi}$ for MLE and GMWM parameter estimates. The dashed vertical line represents the true value of $\phi$, the solid line denotes the upper bound of the parameter space for $\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for both methods." width="864" />
 <p class="caption">
-Figure 1.4: Estimated asymptotic distribution of <span class="math inline">\(\hat{\phi}\)</span> for MLE and GMWM parameter estimates. The dashed vertical line represents the true value of <span class="math inline">\(\phi\)</span>, the solid line denotes the upper bound of the parameter space for <span class="math inline">\(\phi\)</span> and the vertical ticks represent the limits of the 95% confidence intervals for both methods.
+Figure 1.5: Estimated asymptotic distribution of <span class="math inline">\(\hat{\phi}\)</span> for MLE and GMWM parameter estimates. The dashed vertical line represents the true value of <span class="math inline">\(\phi\)</span>, the solid line denotes the upper bound of the parameter space for <span class="math inline">\(\phi\)</span> and the vertical ticks represent the limits of the 95% confidence intervals for both methods.
 </p>
 </div>
-<p>For this purpose, the confidence intervals are not realistic. Therefore, one viable solution is to employ a parametric bootstrap, detailed in Theorem <a href="#thm:parabootstrap"><strong>??</strong></a>. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from an AR(1) process. For each simulation, the parameters are estimated again and stored. Finally, the empirical quantiles at <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> are taken of the saved estimated parameter values to obtrain a confidence interval which does not suffer from boundary problems. The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using <span class="math inline">\(B = 10000\)</span> bootstrap replicates).</p>
+<p>Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more “realistic” confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap, detailed in Theorem <a href="#thm:parabootstrap"><strong>??</strong></a>. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from an AR(1) process. For each simulation, the parameters are estimated again and stored. Finally, the empirical quantiles at <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> are taken of the saved estimated parameter values to obtrain a confidence interval which does not suffer from boundary problems. The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using <span class="math inline">\(B = 10000\)</span> bootstrap replicates).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Number of Iterations</span>
 B =<span class="st"> </span><span class="dv">10000</span>
 
@@ -669,23 +867,23 @@ model.mle =<span class="st"> </span><span class="kw">AR1</span>(fit.ML<span clas
 <div class="figure"><span id="fig:paraAR1cigraphs"></span>
 <img src="03-arma_files/figure-html/paraAR1cigraphs-1.png" alt="Estimated parametric distributions of $\hat{\phi}$ for MLE and GMWM parameter estimates. The bar plots represent the results from the parametric bootstrap, the densities represent the estimate asymptotic distribution, the vertical line represents the true value of $\phi$, the solid lines denotes the upper bound of the parameter space for $\phi$ and the vertical ticks represent the limits of the 95% confidence intervals under both approaches for the estimation methods." width="864" />
 <p class="caption">
-Figure 1.5: Estimated parametric distributions of <span class="math inline">\(\hat{\phi}\)</span> for MLE and GMWM parameter estimates. The bar plots represent the results from the parametric bootstrap, the densities represent the estimate asymptotic distribution, the vertical line represents the true value of <span class="math inline">\(\phi\)</span>, the solid lines denotes the upper bound of the parameter space for <span class="math inline">\(\phi\)</span> and the vertical ticks represent the limits of the 95% confidence intervals under both approaches for the estimation methods.
+Figure 1.6: Estimated parametric distributions of <span class="math inline">\(\hat{\phi}\)</span> for MLE and GMWM parameter estimates. The bar plots represent the results from the parametric bootstrap, the densities represent the estimate asymptotic distribution, the vertical line represents the true value of <span class="math inline">\(\phi\)</span>, the solid lines denotes the upper bound of the parameter space for <span class="math inline">\(\phi\)</span> and the vertical ticks represent the limits of the 95% confidence intervals under both approaches for the estimation methods.
 </p>
 </div>
-<p>In Figure <a href="#fig:paraAR1cigraphs">1.5</a>, we compare the estimated densities for <span class="math inline">\(\hat{\phi}\)</span> using asymptotic results and bootstrap techniques for the MLE and the GMWM estimator. It can be observed that the issue that arose previously with unrealistic confidence intervals have been resolved as the interval regions lie entirely within the boundaries of the parameter space.</p>
+<p>In Figure <a href="#fig:paraAR1cigraphs">1.6</a>, we compare the estimated densities for <span class="math inline">\(\hat{\phi}\)</span> using asymptotic results and bootstrap techniques for the MLE and the GMWM estimator. It can be observed that the issue that arose previously with unrealistic confidence intervals have been resolved as the interval regions lie entirely within the boundaries of the parameter space.</p>
 <p>To emphasize that the effectiveness of parametric bootstrap, let us consider one additonal example of an AR(2) process. For this example, discussion will focus on observing the behavior exhibited solely by the MLE. Having said this, the AR(2) process is defined to be:</p>
 <span class="math display" id="eq:ciar2">\[\begin{equation}
 {X_t} = {1.98}{X_{t - 1}} - {0.99}{X_{t - 2}} + {W_t}
 \tag{1.2}
 \end{equation}\]</span>
-<p>where <span class="math inline">\(W_t \sim WN(0, 1)\)</span>. The generated process is displayed in Figure <a href="#fig:CIAR2data">1.6</a>.</p>
+<p>where <span class="math inline">\(W_t \sim WN(0, 1)\)</span>. The generated process is displayed in Figure <a href="#fig:CIAR2data">1.7</a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">432</span>)
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">1.98</span>, <span class="op">-</span><span class="fl">0.99</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))
 <span class="kw">plot</span>(Xt)</code></pre></div>
 <div class="figure"><span id="fig:CIAR2data"></span>
 <img src="03-arma_files/figure-html/CIAR2data-1.png" alt="Generated AR(2) Process" width="672" />
 <p class="caption">
-Figure 1.6: Generated AR(2) Process
+Figure 1.7: Generated AR(2) Process
 </p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod =<span class="st"> </span><span class="kw">arima</span>(Xt, <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)
@@ -719,13 +917,13 @@ model =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi 
 <div class="figure"><span id="fig:ciAR2d"></span>
 <img src="03-arma_files/figure-html/ciAR2d-1.png" alt="Estimated distributions of $\hat{\phi_1}$ and $\hat{\phi_2}$ of the MLE using asymptotic and parametric bootstrap techniques. The colored contours represent the density of distribution and the dark grey lines represent the boundary constraints of $\left|\phi_2\right|&lt;1$ and $\phi_2 = 1 - \phi_1$." width="864" />
 <p class="caption">
-Figure 1.7: Estimated distributions of <span class="math inline">\(\hat{\phi_1}\)</span> and <span class="math inline">\(\hat{\phi_2}\)</span> of the MLE using asymptotic and parametric bootstrap techniques. The colored contours represent the density of distribution and the dark grey lines represent the boundary constraints of <span class="math inline">\(\left|\phi_2\right|&lt;1\)</span> and <span class="math inline">\(\phi_2 = 1 - \phi_1\)</span>.
+Figure 1.8: Estimated distributions of <span class="math inline">\(\hat{\phi_1}\)</span> and <span class="math inline">\(\hat{\phi_2}\)</span> of the MLE using asymptotic and parametric bootstrap techniques. The colored contours represent the density of distribution and the dark grey lines represent the boundary constraints of <span class="math inline">\(\left|\phi_2\right|&lt;1\)</span> and <span class="math inline">\(\phi_2 = 1 - \phi_1\)</span>.
 </p>
 </div>
-<p>The cost of this approach is the assumption the model captures the dependency structure that is present within the time series. That is to say, we are able to successfully a regenerate new time series process that follows the appropriate distribution for each sampling phase. However, if we are not confident that the model we have selected is a valid estimation of the truth, then using parametric bootstrap with the estimated model is highly problematic as it does not represent the dependency between observations. To complicate matters further, the traditional bootstrap that consists of simple random sampling with replacement, in the presence of dependency, would also be highly inaccurate and downright reckless to use. Therefore, to preserve the dependency structure of the original data one would have to use <em>block bootstrapping</em>, which is a form of non-parametric bootstrap. There are many different kinds of block bootstraps for time series, which are descendents of the Moving Block Bootstrap (MBB) presented in <a href="#thm:mbb">1.1</a>.</p>
+<p>The cost of this approach is the assumption the model captures the dependency structure that is present within the time series. That is to say, we are able to successfully a regenerate new time series process that follows the appropriate distribution for each sampling phase. However, if we are not confident that the model we have selected is a valid estimation of the truth, then using parametric bootstrap with the estimated model is highly problematic as it does not represent the dependency between observations. To complicate matters further, the traditional bootstrap that consists of simple random sampling with replacement, in the presence of dependency, would also be highly inaccurate and downright reckless to use. Therefore, to preserve the dependency structure of the original data one would have to use <em>block bootstrapping</em>, which is a form of non-parametric bootstrap. There are many different kinds of block bootstraps for time series, which are descendents of the Moving Block Bootstrap (MBB) presented in <a href="#thm:mbb">1.3</a>.</p>
 
 <div class="theorem">
-<p><span id="thm:mbb" class="theorem"><strong>Theorem 1.1  </strong></span>Suppose that <span class="math inline">\(\left(X_t\right)\)</span> is weakly stationary time series with <span class="math inline">\(N\)</span> observations.</p>
+<p><span id="thm:mbb" class="theorem"><strong>Theorem 1.3  </strong></span>Suppose that <span class="math inline">\(\left(X_t\right)\)</span> is weakly stationary time series with <span class="math inline">\(N\)</span> observations.</p>
 <ol style="list-style-type: decimal">
 <li>Divide time series into overlapping blocks <span class="math inline">\(\left\{S_1, \ldots, S_M\right\}\)</span> of length <span class="math inline">\(\ell\)</span>, <span class="math inline">\(1 \le \ell &lt; N\)</span>, resulting in <span class="math inline">\(M = N - \ell + 1\)</span> blocks structured as:</li>
 </ol>
@@ -743,10 +941,10 @@ Figure 1.7: Estimated distributions of <span class="math inline">\(\hat{\phi_1}\
 </div>
 </li>
 </ol>
-<p>The approach taken by MBB ensures that within each block the dependency between observations is preserved. Though, one particular issue that now arises is that some inaccuracy is introduced as a result of successive blocks potentially being independent from each other. In reality, this is one of the trade-offs of the MBB approach that can be mitigated by selecting an optimal <span class="math inline">\(\ell\)</span>. To lower the inaccuracy of the procedure the selection of <span class="math inline">\(\ell = N^{1/3}\)</span> as <span class="math inline">\(N \to \infty\)</span> is optimal (proof left as an exercise to the reader). An earlier variant of MBB was called nonoverlapping block bootstrap (NBB), which prohbited the sharing of data described in <a href="#thm:nbb">1.2</a>.</p>
+<p>The approach taken by MBB ensures that within each block the dependency between observations is preserved. Though, one particular issue that now arises is that some inaccuracy is introduced as a result of successive blocks potentially being independent from each other. In reality, this is one of the trade-offs of the MBB approach that can be mitigated by selecting an optimal <span class="math inline">\(\ell\)</span>. To lower the inaccuracy of the procedure the selection of <span class="math inline">\(\ell = N^{1/3}\)</span> as <span class="math inline">\(N \to \infty\)</span> is optimal (proof left as an exercise to the reader). An earlier variant of MBB was called nonoverlapping block bootstrap (NBB), which prohbited the sharing of data described in <a href="#thm:nbb">1.4</a>.</p>
 
 <div class="theorem">
-<p><span id="thm:nbb" class="theorem"><strong>Theorem 1.2  </strong></span>Suppose that <span class="math inline">\(\left(X_t\right)\)</span> is weakly stationary time series with <span class="math inline">\(N\)</span> observations.</p>
+<p><span id="thm:nbb" class="theorem"><strong>Theorem 1.4  </strong></span>Suppose that <span class="math inline">\(\left(X_t\right)\)</span> is weakly stationary time series with <span class="math inline">\(N\)</span> observations.</p>
 <ol style="list-style-type: decimal">
 <li>Divide time series into nonoverlapping blocks <span class="math inline">\(\left\{S_1, \ldots, S_M\right\}\)</span> of length <span class="math inline">\(\ell\)</span>, <span class="math inline">\(1 \le \ell &lt; N\)</span>, resulting in <span class="math inline">\(M = \left\lfloor {\frac{N}{\ell}} \right\rfloor\)</span> blocks structured as:</li>
 </ol>
@@ -765,7 +963,7 @@ Figure 1.7: Estimated distributions of <span class="math inline">\(\hat{\phi_1}\
 </div>
 
 <p>Alternatively, depending on the case one can also use modification of MBB that seeks to change how the beginning and end of the time series is weighted such as a circular block-bootstrap (CBB), that seeks improve dependency by wrapping observations, or a stationary bootstrap (SB), that randomizes block length by under a geometric distribution of mean <span class="math inline">\(\ell\)</span>. Regardless, the outcomes from using MBB on time series is considerably better than just resampling, which is also possible if we set <span class="math inline">\(\ell = 1\)</span> since the length of <span class="math inline">\((X_t^*)\)</span> is <span class="math inline">\(M\times\ell\)</span>.</p>
-<p>Having said this, the implementation of Theorem <a href="#thm:nbb">1.2</a> follows the similar mold of generating data, estimating, and returning a value. The most notably deviation from Theorem <a href="#thm:nbb">1.2</a> is the use of an indexing trick to indicate the start period of each block that allows for only one copy of the data to be held within memory instead of <span class="math inline">\(m\)</span> blocks of length <span class="math inline">\(\ell\)</span> in addition to the initial copy.</p>
+<p>Having said this, the implementation of Theorem <a href="#thm:nbb">1.4</a> follows the similar mold of generating data, estimating, and returning a value. The most notably deviation from Theorem <a href="#thm:nbb">1.4</a> is the use of an indexing trick to indicate the start period of each block that allows for only one copy of the data to be held within memory instead of <span class="math inline">\(m\)</span> blocks of length <span class="math inline">\(\ell\)</span> in addition to the initial copy.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ar1_blockboot =<span class="st"> </span><span class="cf">function</span>(Xt, <span class="dt">block_len =</span> <span class="dv">10</span>, <span class="dt">B =</span> <span class="dv">500</span>) {
   
   n =<span class="st"> </span><span class="kw">length</span>(Xt)            <span class="co"># Length of Time Series</span>
@@ -808,10 +1006,10 @@ xt_m2 =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">ari
 <div class="figure"><span id="fig:mbbdatavis"></span>
 <img src="03-arma_files/figure-html/mbbdatavis-1.png" alt="AR(1) processes generated under different noise conditions." width="672" />
 <p class="caption">
-Figure 1.8: AR(1) processes generated under different noise conditions.
+Figure 1.9: AR(1) processes generated under different noise conditions.
 </p>
 </div>
-<p>From Figure <a href="#fig:mbbdatavis">1.8</a>, the time series look remarkably different as a result of the noise process being altered slightly even though the <span class="math inline">\(\phi\)</span> coefficient was held constant. Principally, the difference is the due related to the variance of the <span class="math inline">\(t\)</span> distribution is defined to be <span class="math inline">\(\frac{\nu}{\nu-2}\)</span> for <span class="math inline">\(\nu &gt; 2\)</span> and <span class="math inline">\(\infty\)</span> for <span class="math inline">\(\nu \le 2\)</span>. Therefore, the i.i.d white noise processes generated are <span class="math inline">\(\sigma^2_{\mathcal{M}_1} = 1\)</span> when compared to the alternative <span class="math inline">\(\sigma^2_{\mathcal{M}_2} = 2\)</span>. With this being said, both the underlying nonparametric and parametric bootstrap estimation procedures betweenthe models will be the same. The implementation for blocking approach regarding an AR(1) was discussed previously and the parametric approach is as follows:</p>
+<p>From Figure <a href="#fig:mbbdatavis">1.9</a>, the time series look remarkably different as a result of the noise process being altered slightly even though the <span class="math inline">\(\phi\)</span> coefficient was held constant. Principally, the difference is the due related to the variance of the <span class="math inline">\(t\)</span> distribution is defined to be <span class="math inline">\(\frac{\nu}{\nu-2}\)</span> for <span class="math inline">\(\nu &gt; 2\)</span> and <span class="math inline">\(\infty\)</span> for <span class="math inline">\(\nu \le 2\)</span>. Therefore, the i.i.d white noise processes generated are <span class="math inline">\(\sigma^2_{\mathcal{M}_1} = 1\)</span> when compared to the alternative <span class="math inline">\(\sigma^2_{\mathcal{M}_2} = 2\)</span>. With this being said, both the underlying nonparametric and parametric bootstrap estimation procedures betweenthe models will be the same. The implementation for blocking approach regarding an AR(1) was discussed previously and the parametric approach is as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ar1_paraboot =<span class="st"> </span><span class="cf">function</span>(model, <span class="dt">B =</span> <span class="dv">10000</span>) {
   est.phi =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)    <span class="co"># Define a storage vector</span>
   
@@ -847,10 +1045,10 @@ block_m2_phi =<span class="st"> </span><span class="kw">ar1_blockboot</span>(xt_
 <div class="figure"><span id="fig:blockbootmodels"></span>
 <img src="03-arma_files/figure-html/blockbootmodels-1.png" alt="Estimated parametric and non-parametric block  bootstrap distributions of $\hat{\phi}$ for MLE parameter estimates. The histogram bars represent the empirical results from the bootstraps with the green representing parametric bootstrap and the red represent the block bootstrap approach. The dashed vertical line represents the true value of $\phi$ and the vertical ticks correspond to the limits of the 95% confidence intervals for both estimation techniques." width="864" />
 <p class="caption">
-Figure 1.9: Estimated parametric and non-parametric block bootstrap distributions of <span class="math inline">\(\hat{\phi}\)</span> for MLE parameter estimates. The histogram bars represent the empirical results from the bootstraps with the green representing parametric bootstrap and the red represent the block bootstrap approach. The dashed vertical line represents the true value of <span class="math inline">\(\phi\)</span> and the vertical ticks correspond to the limits of the 95% confidence intervals for both estimation techniques.
+Figure 1.10: Estimated parametric and non-parametric block bootstrap distributions of <span class="math inline">\(\hat{\phi}\)</span> for MLE parameter estimates. The histogram bars represent the empirical results from the bootstraps with the green representing parametric bootstrap and the red represent the block bootstrap approach. The dashed vertical line represents the true value of <span class="math inline">\(\phi\)</span> and the vertical ticks correspond to the limits of the 95% confidence intervals for both estimation techniques.
 </p>
 </div>
-<p>The results from the parametric and nonparametric block bootstrapping techniques are displayed in Figure <a href="#fig:blockbootmodels">1.9</a>. In both instances, we can see that the block bootstrap had a narrower distribution. However, there was a considerable bias that lead the distribution to be off-centered. The origins of bias come from the independence associated between blocks as they are placed into <span class="math inline">\((X^*_t)\)</span>.</p>
+<p>The results from the parametric and nonparametric block bootstrapping techniques are displayed in Figure <a href="#fig:blockbootmodels">1.10</a>. In both instances, we can see that the block bootstrap had a narrower distribution. However, there was a considerable bias that lead the distribution to be off-centered. The origins of bias come from the independence associated between blocks as they are placed into <span class="math inline">\((X^*_t)\)</span>.</p>
 </div>
 </div>
 </div>
