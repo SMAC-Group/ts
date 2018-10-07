@@ -618,7 +618,7 @@ It can be seen that for these two contaminated processes, the standard estimator
 
 ### Forecasting AR(p) Models
 
-One of the most interesting things in time series analysis is to predict the future unobserved values based on the observed values up to now. However, it is not possible if the underlying model is unknown, thus in this section we assume the time series $X_t$ is stationary and its model is known. In particular, we denote forecasts by $X^{n}_{n+m}$, where $n$ represents the data points collected (e.g. $\mathbf{X} = \{X_{1}, X_{2}, \cdots , X_{n-1}, X_n\}$) and $m$ represents the amount of points in the future we wish to predict. So, $X^{n}_{n+1}$ represents a one-step-ahead prediction $X_{n+1}$ given data $\{X_{1}, X_{2}, \cdots, X_{n-1}, X_{n}\}$.
+One of the most interesting things in time series analysis is to predict the future unobserved values based on the observed values up to now. However, it is not possible if the underlying model is unknown, thus in this section we assume the time series $X_t$ is stationary and its model is known. In particular, we denote forecasts by $X^{n}_{n+m}$, where $n$ represents the data points collected (e.g. $\mathbf{X} = (X_{1}, X_{2}, \cdots , X_{n-1}, X_n)$) and $m$ represents the amount of points in the future we wish to predict. So, $X^{n}_{n+1}$ represents a one-step-ahead prediction $X_{n+1}$ given data $(X_{1}, X_{2}, \cdots, X_{n-1}, X_{n})$.
 
 To obtain forecasts, we rely upon the best linear prediction (BLP). Recall that the BLP Definition \@ref(def:blp) is mentioned when we calculate the PACF of AR model. In general, the best approach to finding the BLP is to use the Theorem \@ref(thm:projtheo).
 
