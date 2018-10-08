@@ -141,10 +141,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html"><i class="fa fa-check"></i><b>4</b> The Family of Autoregressive Moving Average Models</a><ul>
 <li class="chapter" data-level="4.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#linear-processes"><i class="fa fa-check"></i><b>4.1</b> Linear Processes</a></li>
-<li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autoregressive-models-arp"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models (AR(p))</a><ul>
+<li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autoregressive-models---arp"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models - AR(p)</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#properties-of-arp-models"><i class="fa fa-check"></i><b>4.2.1</b> Properties of AR(p) models</a></li>
 <li class="chapter" data-level="4.2.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.2.2</b> Estimation of AR(p) models</a></li>
-<li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Inference for AR(p) models</a></li>
+<li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#forecasting-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Forecasting AR(p) Models</a></li>
+<li class="chapter" data-level="4.2.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.2.4</b> Inference for AR(p) Models</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -191,7 +192,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><span class="math display">\[{X_t} = \mu + \sum\limits_{j =  - \infty }^\infty  {{\psi _j}{W_{t - j}}} \]</span></p>
 where <span class="math inline">\(W_t \sim WN(0, \sigma^2)\)</span> and <span class="math inline">\(\sum\limits_{j = - \infty }^\infty {\left| {{\psi _j}} \right|} &lt; \infty\)</span>.
 </div>
-<p></p>
+
 <p>Note, the latter assumption is required to ensure that the series has a limit. Furthermore, the set of coefficients <span class="math display">\[{( {\psi _j}) _{j =  - \infty , \cdots ,\infty }}\]</span> can be viewed as a linear filter. These coefficients do not have to be all equal nor symmetric as later examples will show. Generally, the properties of a linear process related to mean and variance are given by:</p>
 <p><span class="math display">\[\begin{aligned}
 \mu_{X} &amp;= \mu \\
@@ -216,7 +217,7 @@ where <span class="math inline">\(W_t \sim WN(0, \sigma^2)\)</span> and <span cl
 <div class="example">
 <span id="exm:backdiff" class="example"><strong>Example 4.1  (d-order Differences)  </strong></span>We can re-express <span class="math inline">\(X_t - X_{t-1}\)</span> as <span class="math display">\[\delta X_t = (1 - B) X_t\]</span> or a second order difference as <span class="math display">\[\delta^2 X_t = (1 - B)^2 X_t\]</span> thereby generalizing to a d-order difference as follows: <span class="math display">\[\delta^d X_t = (1 - B)^d X_t.\]</span>
 </div>
-<p></p>
+
 <p>Having defined the backshift operator, we can now provide an alternative definition of a linear process as follows:</p>
 <p><span class="math display">\[{X_t} = \mu + \psi \left( B \right){W_t}\]</span></p>
 <p>where <span class="math inline">\(\psi ( B )\)</span> is a polynomial function in <span class="math inline">\(B\)</span> whose coefficients are given by the linear filters <span class="math inline">\((\psi_j)\)</span> (we’ll describe these polynomials further on).</p>
@@ -230,7 +231,7 @@ where <span class="math inline">\(W_t \sim WN(0, \sigma^2)\)</span> and <span cl
 <p>and <span class="math inline">\(\mu = 0\)</span>.</p>
 Therefore, <span class="math inline">\(X_t = W_t\)</span>, where <span class="math inline">\(W_t \sim WN(0, \sigma^2_W)\)</span>
 </div>
-<p></p>
+
 
 <div class="example">
 <p><span id="exm:lpma1" class="example"><strong>Example 4.3  (Linear Process of Moving Average Order 1)  </strong></span> Similarly, consider <span class="math inline">\((X_t)\)</span> to be a MA(1) process, given by <a href="basic-elements-of-time-series.html#ma1">2.4.4</a>. The process can be expressed linearly through the following filters:</p>
@@ -242,7 +243,7 @@ Therefore, <span class="math inline">\(X_t = W_t\)</span>, where <span class="ma
 <p>and <span class="math inline">\(\mu = 0\)</span>.</p>
 Thus, we have: <span class="math inline">\(X_t = W_t + \theta W_{t-1}\)</span>
 </div>
-<p></p>
+
 
 <div class="example">
 <p><span id="exm:lpsma" class="example"><strong>Example 4.4  (Linear Process and Symmetric Moving Average)  </strong></span> Consider a symmetric moving average given by:</p>
@@ -256,7 +257,7 @@ Thus, we have: <span class="math inline">\(X_t = W_t + \theta W_{t-1}\)</span>
 <p>In practice, if <span class="math inline">\(q = 1\)</span>, we would have:</p>
 <span class="math display">\[{X_t} = \frac{1}{3}\left( {{W_{t - 1}} + {W_t} + {W_{t + 1}}} \right)\]</span>
 </div>
-<p></p>
+
 
 <div class="example">
 <p><span id="exm:lpar1" class="example"><strong>Example 4.5  (Autoregressive Process of Order 1)  </strong></span>If <span class="math inline">\(\left\{X_t\right\}\)</span> follows an AR(1) model defined in <a href="basic-elements-of-time-series.html#ar1">2.4.3</a>, the linear filters are a function of the time lag:</p>
@@ -266,16 +267,16 @@ Thus, we have: <span class="math inline">\(X_t = W_t + \theta W_{t-1}\)</span>
 \end{cases}.\]</span></p>
 and <span class="math inline">\(\mu = 0\)</span>. We would require the condition that <span class="math inline">\(\left| \phi \right| &lt; 1\)</span> in order to respect the condition on the filters (i.e. <span class="math inline">\(\sum\limits_{j = - \infty }^\infty {\left| {{\psi _j}} \right|} &lt; \infty\)</span>).
 </div>
-<p></p>
+
 </div>
-<div id="autoregressive-models-arp" class="section level2">
-<h2><span class="header-section-number">4.2</span> Autoregressive Models (AR(p))</h2>
+<div id="autoregressive-models---arp" class="section level2">
+<h2><span class="header-section-number">4.2</span> Autoregressive Models - AR(p)</h2>
 <p>The class of autoregressive models is based on the idea that previous values in the time series are needed to explain current values in the series. For this class of models, we assume that the <span class="math inline">\(p\)</span> previous observations are needed for this purpose and we therefore denote this class as AR(<span class="math inline">\(p\)</span>). In the previous chapter, the model we introduced was an AR(1) in which only the immediately previous observation is needed to explain the following one and therefore represents a particular model which is part of the more general class of AR(p) models.</p>
 
 <div class="definition">
 <span id="def:arp" class="definition"><strong>Definition 4.2  (Autoregressive Models of Order p)  </strong></span>The AR(p) models can be formally represented as follows <span class="math display">\[(X_t) = {\phi_1}{X_{t - 1}} + ... + {\phi_p}{X_{t - p}} + {W_t},\]</span> where <span class="math inline">\(\phi_i \neq 0\)</span> (for <span class="math inline">\(i = 1, ..., p\)</span>) and <span class="math inline">\(W_t\)</span> is a (Gaussian) white noise process with variance <span class="math inline">\(\sigma^2\)</span>.
 </div>
-<p></p>
+
 <p>As earlier in this book, we will assume that the expectation of the process <span class="math inline">\(({X_t})\)</span>, as well as that of the following ones in this chapter, is zero. The reason for this simplification is that if <span class="math inline">\(\mathbb{E} [ X_t ] = \mu\)</span>, we can define an AR process <em>around</em> <span class="math inline">\(\mu\)</span> as follows:</p>
 <p><span class="math display">\[X_t - \mu = \sum_{i = 1}^p \phi_i \left(X_{t-i} - \mu \right) + W_t,\]</span></p>
 <p>which is equivalent to</p>
@@ -283,7 +284,7 @@ and <span class="math inline">\(\mu = 0\)</span>. We would require the condition
 <p>where <span class="math inline">\(\mu^{\star} = \mu (1 - \sum_{i = 1}^p \phi_i)\)</span>. Therefore, to simplify the notation we will generally consider only zero mean processes, since adding means (as well as other deterministic trends) is easy.</p>
 <p>A useful way of representing AR(p) processes is through the backshift operator introduced in the previous section and is as follows</p>
 <p><span class="math display">\[\begin{aligned}
-  {X_t} &amp;= {\phi_1}{X_{t - 1}} + ... + {\phi_p}{X_{t - p}} + {w_t} \\
+  {X_t} &amp;= {\phi_1}{X_{t - 1}} + ... + {\phi_p}{X_{t - p}} + {W_t} \\
    &amp;= {\phi_1}B{X_t} + ... + {\phi_p}B^p{X_t} + {W_t} \\
    &amp;= ({\phi_1}B + ... + {\phi_p}B^p){X_t} + {W_t} \\ 
 \end{aligned},\]</span></p>
@@ -392,8 +393,8 @@ X_t = \phi_1 X_{t-1} + \phi_2 X_{t-2} + W_t = \phi_1 BX_t + \phi_2 B^2 X_t + W_t
 \]</span></p>
 Finally, the causal region of an AR(2) is demonstrated as
 </div>
-<p></p>
-<div class="figure" style="text-align: center"><span id="fig:correxample"></span>
+
+<div class="figure" style="text-align: center"><span id="fig:correxample2"></span>
 <img src="images/causal_AR2.png" alt="Causal Region for Parameters of an AR(2) Process"  />
 <p class="caption">
 Figure 4.1: Causal Region for Parameters of an AR(2) Process
@@ -506,7 +507,7 @@ where <span class="math inline">\(\psi(\cdot)\)</span> is a function of bounded 
 <p>In particular, we simulate three different processes <span class="math inline">\(X_t, Y_t, Z_t\)</span> from <span class="math display">\[X_t = 0.5 X_{t-1} - 0.25 X_{t-2} + W_t,\]</span> with <span class="math inline">\(W_t \overset{iid}{\sim} N(0, 1)\)</span>. The first process <span class="math inline">\((X_t)\)</span> is uncontaminated while the other two processes are contaminated versions of the first that can often be observed in practice. The first type of contamination can be seen in <span class="math inline">\((Y_t)\)</span> and is delivered by replacing a portion of the original process with a process defined as <span class="math display">\[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t,\]</span> where <span class="math inline">\(V_t \overset{iid}{\sim} N(0, 9)\)</span>. The second form of contamination can be seen in <span class="math inline">\((Z_t)\)</span> and consists in the so-called point-wise contamination where randomly selected points from <span class="math inline">\(X_t\)</span> are replaced with <span class="math inline">\(N_t \overset{iid}{\sim} N(0, 9)\)</span>. An example of how to simulate a time series from each of these processes is in the code below followed by the relative plots.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n         =<span class="st"> </span><span class="dv">1000</span>           <span class="co"># Sample Size (T)</span>
 eps       =<span class="st"> </span><span class="fl">0.05</span>           <span class="co"># Proportion of contamination</span>
-cont      =<span class="st"> </span><span class="kw">round</span>(eps*n)   <span class="co"># Number of contaminated observations</span>
+cont      =<span class="st"> </span><span class="kw">round</span>(eps<span class="op">*</span>n)   <span class="co"># Number of contaminated observations</span>
 
 <span class="kw">set.seed</span>(<span class="dv">19</span>)               <span class="co"># Set seed for reproducibility</span>
 
@@ -516,12 +517,12 @@ Yt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw"
 Zt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.5</span>,<span class="fl">0.25</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))
 
 <span class="co"># Contaminate a portion of Yt with a process</span>
-index_start =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span>:(n-cont<span class="dv">-1</span>), <span class="dv">1</span>)
-index_end =<span class="st"> </span>index_start +<span class="st"> </span>cont -<span class="st"> </span><span class="dv">1</span>
-Yt[index_start:index_end,] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.9</span>,-<span class="fl">0.4</span>), <span class="dt">sigma2 =</span> <span class="dv">9</span>))
+index_start =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>(n<span class="op">-</span>cont<span class="op">-</span><span class="dv">1</span>), <span class="dv">1</span>)
+index_end =<span class="st"> </span>index_start <span class="op">+</span><span class="st"> </span>cont <span class="op">-</span><span class="st"> </span><span class="dv">1</span>
+Yt[index_start<span class="op">:</span>index_end,] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.9</span>,<span class="op">-</span><span class="fl">0.4</span>), <span class="dt">sigma2 =</span> <span class="dv">9</span>))
 
 <span class="co"># Contaminate at random Zt with noise</span>
-Zt[<span class="kw">sample</span>(<span class="dv">1</span>:n, cont, <span class="dt">replace =</span> <span class="ot">FALSE</span>),] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">9</span>))</code></pre></div>
+Zt[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>n, cont, <span class="dt">replace =</span> <span class="ot">FALSE</span>),] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">9</span>))</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:visualizesimuAR2data"></span>
 <img src="ts_files/figure-html/visualizesimuAR2data-1.png" alt="Contaminated AR(2) Processes" width="576" />
 <p class="caption">
@@ -529,45 +530,45 @@ Figure 4.2: Contaminated AR(2) Processes
 </p>
 </div>
 <p>Having highlighted the kind of processes we will be simulating from, we will now create a code that allows to apply the different methods in order to estimate the parameters of an AR(2) model from a given time series. The result of this code therefore will consist in the parameter estimates for the five methods discussed above (i.e. MLE, Yule-Walker (standard and robust), GMWM (standard and robust)) on an observed (simulated) time series. The code that follows this function allows to deliver separate boxplots for each method in order to assess the performance of these approaches within the simulation procedure (which will be described further on).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">apply_methods =<span class="st"> </span>function(Xt){
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">apply_methods =<span class="st"> </span><span class="cf">function</span>(Xt){
   <span class="co"># Estimate ARIMA parameters using MLE</span>
   mod =<span class="st"> </span><span class="kw">arima</span>(Xt, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.mean  =</span> <span class="ot">FALSE</span>)
   
   <span class="co"># Extract MLE Parameters (including sigma)</span>
-  res.MLE =<span class="st"> </span><span class="kw">c</span>(mod$coef, mod$sigma)
+  res.MLE =<span class="st"> </span><span class="kw">c</span>(mod<span class="op">$</span>coef, mod<span class="op">$</span>sigma)
   
   <span class="co"># Calculate ACF</span>
-  autocorr =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">acf</span>(Xt, <span class="dt">lag.max =</span> <span class="dv">2</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)$acf)
+  autocorr =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">acf</span>(Xt, <span class="dt">lag.max =</span> <span class="dv">2</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)<span class="op">$</span>acf)
   X =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>)
   X[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span>X[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span>autocorr[<span class="dv">2</span>]
-  y =<span class="st"> </span>autocorr[<span class="dv">2</span>:<span class="dv">3</span>]
+  y =<span class="st"> </span>autocorr[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]
   
   <span class="co"># Compute Least Squares on ACF</span>
   svmat =<span class="st"> </span><span class="kw">solve</span>(X)
-  phi.LS =<span class="st"> </span>svmat%*%y
-  sig2.LS =<span class="st"> </span><span class="kw">var</span>(Xt)*(<span class="dv">1</span> -<span class="st"> </span><span class="kw">t</span>(y)%*%svmat%*%y)
+  phi.LS =<span class="st"> </span>svmat<span class="op">%*%</span>y
+  sig2.LS =<span class="st"> </span><span class="kw">var</span>(Xt)<span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">t</span>(y)<span class="op">%*%</span>svmat<span class="op">%*%</span>y)
   res.LS =<span class="st"> </span><span class="kw">c</span>(phi.LS, sig2.LS)
   
   <span class="co"># Calculate RACF</span>
-  rob.ccf =<span class="st"> </span><span class="kw">as.numeric</span>(robcor::<span class="kw">robacf</span>(Xt, <span class="dt">plot=</span><span class="ot">FALSE</span>, <span class="dt">type =</span> <span class="st">&quot;covariance&quot;</span>)$acf)
-  X[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span>X[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span>rob.ccf[<span class="dv">2</span>]/rob.ccf[<span class="dv">1</span>]
-  y =<span class="st"> </span>rob.ccf[<span class="dv">2</span>:<span class="dv">3</span>]/rob.ccf[<span class="dv">1</span>]
+  rob.ccf =<span class="st"> </span><span class="kw">as.numeric</span>(robcor<span class="op">::</span><span class="kw">robacf</span>(Xt, <span class="dt">plot=</span><span class="ot">FALSE</span>, <span class="dt">type =</span> <span class="st">&quot;covariance&quot;</span>)<span class="op">$</span>acf)
+  X[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span>X[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span>rob.ccf[<span class="dv">2</span>]<span class="op">/</span>rob.ccf[<span class="dv">1</span>]
+  y =<span class="st"> </span>rob.ccf[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>]<span class="op">/</span>rob.ccf[<span class="dv">1</span>]
   
   <span class="co"># Compute Least Squares on RACF</span>
   svmat =<span class="st"> </span><span class="kw">solve</span>(X)
-  phi.RR =<span class="st"> </span>svmat%*%y
-  sig2.RR =<span class="st"> </span>rob.ccf[<span class="dv">1</span>]*(<span class="dv">1</span> -<span class="st"> </span><span class="kw">t</span>(y)%*%svmat%*%y)
+  phi.RR =<span class="st"> </span>svmat<span class="op">%*%</span>y
+  sig2.RR =<span class="st"> </span>rob.ccf[<span class="dv">1</span>]<span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">t</span>(y)<span class="op">%*%</span>svmat<span class="op">%*%</span>y)
   res.RR =<span class="st"> </span><span class="kw">c</span>(phi.RR, sig2.RR)
   
   <span class="co"># Compute the GMWM Estimator</span>
-  res.GMWM =<span class="st"> </span>gmwm2::<span class="kw">gmwm</span>(<span class="kw">ARMA</span>(<span class="dv">2</span>,<span class="dv">0</span>), Xt)$estimate
-  res.RGMWM =<span class="st"> </span>gmwm2::<span class="kw">gmwm</span>(<span class="kw">ARMA</span>(<span class="dv">2</span>,<span class="dv">0</span>), Xt, <span class="dt">robust =</span> <span class="ot">TRUE</span>)$estimate
+  res.GMWM =<span class="st"> </span>gmwm2<span class="op">::</span><span class="kw">gmwm</span>(<span class="kw">ARMA</span>(<span class="dv">2</span>,<span class="dv">0</span>), Xt)<span class="op">$</span>estimate
+  res.RGMWM =<span class="st"> </span>gmwm2<span class="op">::</span><span class="kw">gmwm</span>(<span class="kw">ARMA</span>(<span class="dv">2</span>,<span class="dv">0</span>), Xt, <span class="dt">robust =</span> <span class="ot">TRUE</span>)<span class="op">$</span>estimate
 
   <span class="co"># Return results</span>
   <span class="kw">list</span>(<span class="dt">res.MLE =</span> res.MLE, <span class="dt">res.LS =</span> res.LS, <span class="dt">res.RR =</span> res.RR,
        <span class="dt">res.GMWM =</span> res.GMWM, <span class="dt">res.RGMWM =</span> res.RGMWM)
 } </code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim_study_graph =<span class="st"> </span>function(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim_study_graph =<span class="st"> </span><span class="cf">function</span>(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM,
                            <span class="dt">theta =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="dv">1</span>), <span class="dt">process_name =</span> <span class="st">&quot;NA&quot;</span>) {
   
   labels =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;MLE&quot;</span>, <span class="st">&quot;LS&quot;</span>, <span class="st">&quot;RLS&quot;</span>, <span class="st">&quot;GMWM&quot;</span>, <span class="st">&quot;RGMWM&quot;</span>)
@@ -575,7 +576,7 @@ Figure 4.2: Contaminated AR(2) Processes
   
   <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">0</span>))
   
-  for(i in <span class="dv">1</span>:<span class="kw">length</span>(theta)) {
+  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(theta)) {
     
     <span class="kw">boxplot</span>(res.MLE[, i], res.LS[, i], res.RR[, i], res.GMWM[, i], res.RGMWM[, i], <span class="dt">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">main =</span> title[i], <span class="dt">names =</span> labels, <span class="dt">las =</span> <span class="dv">3</span>)
     <span class="kw">abline</span>(<span class="dt">h =</span> theta[i], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
@@ -596,7 +597,7 @@ res.yt.MLE =<span class="st"> </span>res.yt.LS =<span class="st"> </span>res.yt.
 res.zt.MLE =<span class="st"> </span>res.zt.LS =<span class="st"> </span>res.zt.RR =<span class="st"> </span>res.zt.GMWM =<span class="st"> </span>res.zt.RGMWM =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">3</span>)
 
 <span class="co"># Begin bootstrap</span>
-for (i in <span class="kw">seq_len</span>(B)){
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){
   
   <span class="co"># Set seed for reproducibility</span>
   <span class="kw">set.seed</span>(i)
@@ -607,25 +608,25 @@ for (i in <span class="kw">seq_len</span>(B)){
   Zt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))
   
   <span class="co"># Generate Ut contamination process that replaces a portion of original signal</span>
-  index_start =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span>:(n-cont<span class="dv">-1</span>), <span class="dv">1</span>)
-  index_end =<span class="st"> </span>index_start +<span class="st"> </span>cont -<span class="st"> </span><span class="dv">1</span>
-  Yt[index_start:index_end] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.9</span>,-<span class="fl">0.4</span>), <span class="dt">sigma2 =</span> <span class="dv">9</span>))
+  index_start =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>(n<span class="op">-</span>cont<span class="op">-</span><span class="dv">1</span>), <span class="dv">1</span>)
+  index_end =<span class="st"> </span>index_start <span class="op">+</span><span class="st"> </span>cont <span class="op">-</span><span class="st"> </span><span class="dv">1</span>
+  Yt[index_start<span class="op">:</span>index_end] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.9</span>,<span class="op">-</span><span class="fl">0.4</span>), <span class="dt">sigma2 =</span> <span class="dv">9</span>))
   
   <span class="co"># Generate Nt contamination that inject noise at random</span>
   Zt[<span class="kw">sample</span>(n, cont, <span class="dt">replace =</span> <span class="ot">FALSE</span>)] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">9</span>))
 
   <span class="co"># Compute estimates and store in the appropriate matrix</span>
   res =<span class="st"> </span><span class="kw">apply_methods</span>(Xt)
-  res.xt.MLE[i,]  =<span class="st"> </span>res$res.MLE; res.xt.LS[i,] =<span class="st"> </span>res$res.LS; res.xt.RR[i,] =<span class="st"> </span>res$res.RR
-  res.xt.GMWM[i,] =<span class="st"> </span>res$res.GMWM; res.xt.RGMWM[i,] =<span class="st"> </span>res$res.RGMWM
+  res.xt.MLE[i,]  =<span class="st"> </span>res<span class="op">$</span>res.MLE; res.xt.LS[i,] =<span class="st"> </span>res<span class="op">$</span>res.LS; res.xt.RR[i,] =<span class="st"> </span>res<span class="op">$</span>res.RR
+  res.xt.GMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.GMWM; res.xt.RGMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.RGMWM
   
   res =<span class="st"> </span><span class="kw">apply_methods</span>(Yt)
-  res.yt.MLE[i,]  =<span class="st"> </span>res$res.MLE; res.yt.LS[i,] =<span class="st"> </span>res$res.LS; res.yt.RR[i,] =<span class="st"> </span>res$res.RR
-  res.yt.GMWM[i,] =<span class="st"> </span>res$res.GMWM; res.yt.RGMWM[i,] =<span class="st"> </span>res$res.RGMWM
+  res.yt.MLE[i,]  =<span class="st"> </span>res<span class="op">$</span>res.MLE; res.yt.LS[i,] =<span class="st"> </span>res<span class="op">$</span>res.LS; res.yt.RR[i,] =<span class="st"> </span>res<span class="op">$</span>res.RR
+  res.yt.GMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.GMWM; res.yt.RGMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.RGMWM
 
   res =<span class="st"> </span><span class="kw">apply_methods</span>(Zt)
-  res.zt.MLE[i,]  =<span class="st"> </span>res$res.MLE; res.zt.LS[i,] =<span class="st"> </span>res$res.LS; res.zt.RR[i,] =<span class="st"> </span>res$res.RR
-  res.zt.GMWM[i,] =<span class="st"> </span>res$res.GMWM; res.zt.RGMWM[i,] =<span class="st"> </span>res$res.RGMWM
+  res.zt.MLE[i,]  =<span class="st"> </span>res<span class="op">$</span>res.MLE; res.zt.LS[i,] =<span class="st"> </span>res<span class="op">$</span>res.LS; res.zt.RR[i,] =<span class="st"> </span>res<span class="op">$</span>res.RR
+  res.zt.GMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.GMWM; res.zt.RGMWM[i,] =<span class="st"> </span>res<span class="op">$</span>res.RGMWM
 }</code></pre></div>
 <p>Once we run this simulation (which can be time-demanding), we can now represent the results of the estimation methods that are denoted as follows:</p>
 <ul>
@@ -637,23 +638,65 @@ for (i in <span class="kw">seq_len</span>(B)){
 </ul>
 <p>The boxplots representing the distributions of estimated values on the process <span class="math inline">\((X_t)\)</span> (i.e. uncontaminated) are shown below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_study_graph</span>(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Xt&quot;</span>)</code></pre></div>
-<p><img src="ts_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="ts_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>It can be seen how all methods appear to properly estimate the true parameter values on average. However, the MLE appears to be slightly more efficient (less variable) compared to the other methods and, in addition, the robust methods (RLS and RGMWM) appear to be less efficient than their standard counterparts. Now let us check the performance of the same methods when applied to the two contaminated processes <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_study_graph</span>(res.yt.MLE, res.yt.LS, res.yt.RR, res.yt.GMWM, res.yt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Yt&quot;</span>)
 <span class="kw">sim_study_graph</span>(res.zt.MLE, res.zt.LS, res.zt.RR, res.zt.GMWM, res.zt.RGMWM, <span class="dt">process_name =</span> <span class="st">&quot;Zt&quot;</span>)</code></pre></div>
-<p><img src="ts_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="ts_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p><img src="ts_files/figure-html/unnamed-chunk-28-1.png" width="672" /><img src="ts_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
 <p>It can be seen that for these two contaminated processes, the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimators allow to remain close (on average) to the true parameter values that we are aiming to estimate. As you can observe, the type of contamination can be important in the choice of the robust estimator to be used as underlined by the different behaviour of the RLS and RGMWM estimators on <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span>. However, this discussion is out of the scope of this book.</p>
 </div>
+<div id="forecasting-arp-models" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Forecasting AR(p) Models</h3>
+<p>One of the most interesting things in time series analysis is to predict the future unobserved values based on the values that have been observed up to now. However, this is not possible if the underlying (parametric) model is unknown, thus in this section we assume the time series <span class="math inline">\(X_t\)</span> is stationary and its model is known. In particular, we denote forecasts by <span class="math inline">\(X^{T}_{T+m}\)</span>, where <span class="math inline">\(n\)</span> represents the data points collected (e.g. <span class="math inline">\(\mathbf{X} = (X_{1}, X_{2}, \cdots , X_{T-1}, X_T)\)</span>) and <span class="math inline">\(m\)</span> represents the amount of points in the future we wish to predict. So, <span class="math inline">\(X^{T}_{T+1}\)</span> represents a one-step-ahead prediction <span class="math inline">\(X_{T+1}\)</span> given data <span class="math inline">\((X_{1}, X_{2}, \cdots, X_{T-1}, X_{T})\)</span>.</p>
+<p>To obtain forecasts, we rely upon the best linear prediction (BLP). Recall that the BLP Definition <a href="#def:blp"><strong>??</strong></a> is mentioned when we calculate the PACF of AR model. In general, the best approach to finding the BLP is to use the Theorem <a href="the-family-of-autoregressive-moving-average-models.html#thm:projtheo">4.1</a>.</p>
+
+<div class="theorem">
+<p><span id="thm:projtheo" class="theorem"><strong>Theorem 4.1  (Projection Theorem)  </strong></span>Let <span class="math inline">\(\mathcal{M} \subset \mathcal{L}_2\)</span> be a closed linear subspace of Hibert space. For every <span class="math inline">\(y \in \mathcal{L}_2\)</span>, there exists a unique element <span class="math inline">\(\hat{y} \in \mathcal{M}\)</span> that minimizes <span class="math inline">\(||y - l||^2\)</span> over <span class="math inline">\(l \in \mathcal{M}\)</span>. This element is uniquely determined by the requirements</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\hat{y} \in \mathcal{M}\)</span> and</li>
+<li><span class="math inline">\((y - \hat{y}) \perp \mathcal{M}\)</span>.
+</div>
+</li>
+</ol>
+<!-- \mbox{(trivial for time series with zero mean)} -->
+<p>The projection theorem naturally leads to an equivalent way to find the best linear predictor by solving the prediction equations, <span class="math display">\[ \mathbb{E}(X_{t+h} - \hat{X}_{t+h}) = 0,\]</span> and <span class="math display">\[ \mathbb{E} [(X_{t+h} - \hat{X}_{t+h})X_j ] = 0, \mbox{ for } i = 1, \dots, t.\]</span></p>
+<p>If we denote <span class="math inline">\(\mathbb{E}(X_{i}, X_{j})\)</span> as <span class="math inline">\(\gamma(|i - j|)\)</span>, the predition equations can be represented in the following form</p>
+<span class="math display">\[\begin{equation}
+  \begin{aligned}
+  \begin{pmatrix}
+    \gamma(0) &amp; \gamma(1) &amp; \cdots &amp; \gamma(T-1) \\
+    \gamma(1) &amp; \gamma(0) &amp; \cdots &amp; \gamma(T-2) \\
+    \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+    \gamma(T-1) &amp; \gamma(T-2) &amp; \cdots &amp;\gamma(0)
+  \end{pmatrix}_{T \times T}
+  \begin{pmatrix}
+    \alpha_1 \\
+    \vdots \\
+    \alpha_T
+  \end{pmatrix}_{T \times 1}
+  &amp;=
+  \begin{pmatrix}
+    \gamma(T+h-1)  \\
+    \vdots \\
+    \gamma(h)
+  \end{pmatrix}_{T \times 1} \\
+  \Gamma_T \mathbf{\alpha}_T  &amp;= \mathbf{\gamma}_T
+  \end{aligned}
+\end{equation}\]</span>
+<p>.</p>
+<p>Assuming that <span class="math inline">\(\Gamma_T\)</span> is non-singular, then the values of <span class="math inline">\(\mathbf{\alpha}_T\)</span> are given as:</p>
+<p><span class="math display">\[\mathbf{\alpha}_T  = \Gamma^{-1}_T\mathbf{\gamma}_T\]</span></p>
+</div>
 <div id="inference-for-arp-models" class="section level3">
-<h3><span class="header-section-number">4.2.3</span> Inference for AR(p) models</h3>
+<h3><span class="header-section-number">4.2.4</span> Inference for AR(p) Models</h3>
 <p>For all the above methods, it would be necessary to understand how “precise” their estimates are. To do so we would need to obtain confidence intervals for these estimates and this can be done mainly in two manners:</p>
 <ul>
 <li>using the asymptotic distribution of the parameter estimates;</li>
 <li>using parametric bootstrap.</li>
 </ul>
-<p>The first approach consists in using the asymptotic distribution of the estimators presented earlier to deliver approximations of the confidence intervals which get better as the length of the observed time series increases. Hence, for example, if we wanted to find a 95% confidence interval for the parameter <span class="math inline">\(\phi\)</span>, we would use the quantiles of the normal distribution (given that all methods presented earlier present this asymptotic distribution). However, this approach can present some drawbacks, one of which is there behaviour when the parameters are close to the boundaries of the parameter space. Suppose we consider a realization of length <span class="math inline">\(n = 100\)</span> of the following AR(1) model:</p>
+<p>The first approach consists in using the asymptotic distribution of the estimators presented earlier to deliver approximations of the confidence intervals which get better as the length of the observed time series increases. Hence, if for example we wanted to find a 95% confidence interval for the parameter <span class="math inline">\(\phi\)</span>, we would use the quantiles of the normal distribution (given that all methods presented earlier present this asymptotic distribution). However, this approach can present some drawbacks, one of which its behaviour when the parameters are close to the boundaries of the parameter space. Suppose we consider a realization of length <span class="math inline">\(T = 100\)</span> of the following AR(1) model:</p>
 <p><span class="math display">\[X_t = 0.96 X_{t-1} + W_t, \;\;\;\; W_t \sim \mathcal{N}(0,1),\]</span></p>
-<p>which is depicted in Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:simAR1ci">4.3</a></p>
+<p>which is represented in Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:simAR1ci">4.3</a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">7</span>)
 x =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">AR1</span>(<span class="fl">0.96</span>, <span class="dv">1</span>))
 <span class="kw">plot</span>(x)</code></pre></div>
@@ -663,22 +706,242 @@ x =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =
 Figure 4.3: AR(1) with <span class="math inline">\(\phi\)</span> close to parameter bound
 </p>
 </div>
-<p>It can be seen that the parameter <span class="math inline">\(\phi = 0.96\)</span> respects the condition for stationarity, <span class="math inline">\(\left| \phi \right| &lt; 1\)</span>, but is very close to its boundary. Using the MLE and the GMWM estimators, we first estimate the parameters and then compute confidence intervals for <span class="math inline">\(\phi\)</span> using the asymptotic normal distribution.</p>
+<p>It can be seen that the parameter <span class="math inline">\(\phi = 0.96\)</span> respects the condition for stationarity (i.e.<span class="math inline">\(\left| \phi \right| &lt; 1\)</span>) but is very close to its boundary. Using the MLE and the GMWM estimators, we first estimate the parameters and then compute confidence intervals for <span class="math inline">\(\phi\)</span> using the asymptotic normal distribution.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute the parameter estimates using MLE</span>
 fit.ML =<span class="st"> </span><span class="kw">arima</span>(x, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)
-<span class="kw">c</span>(<span class="st">&quot;phi&quot;</span> =<span class="st"> </span>fit.ML$coef, <span class="st">&quot;se&quot;</span> =<span class="st"> </span><span class="kw">sqrt</span>(fit.ML$var.coef))</code></pre></div>
+<span class="kw">c</span>(<span class="st">&quot;phi&quot;</span> =<span class="st"> </span>fit.ML<span class="op">$</span>coef, <span class="st">&quot;se&quot;</span> =<span class="st"> </span><span class="kw">sqrt</span>(fit.ML<span class="op">$</span>var.coef))</code></pre></div>
 <pre><code>##    phi.ar1         se 
 ## 0.96718451 0.02026333</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Construct asymptotic confidence interval for phi</span>
-fit.ML$coef +<span class="st"> </span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>)*<span class="fl">1.96</span>*<span class="kw">as.numeric</span>(<span class="kw">sqrt</span>(fit.ML$var.coef))</code></pre></div>
+fit.ML<span class="op">$</span>coef <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="op">*</span><span class="fl">1.96</span><span class="op">*</span><span class="kw">as.numeric</span>(<span class="kw">sqrt</span>(fit.ML<span class="op">$</span>var.coef))</code></pre></div>
 <pre><code>## [1] 0.9274684 1.0069006</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute the parameter estimates with inference using GMWM</span>
-fit.gmwm =<span class="st"> </span>gmwm2::<span class="kw">gmwm</span>(<span class="kw">AR1</span>(), x)
-<span class="kw">summary</span>(fit.gmwm, <span class="dt">inference =</span> <span class="ot">TRUE</span>)$estimate</code></pre></div>
+fit.gmwm =<span class="st"> </span>gmwm2<span class="op">::</span><span class="kw">gmwm</span>(<span class="kw">AR1</span>(), x)
+<span class="kw">summary</span>(fit.gmwm, <span class="dt">inference =</span> <span class="ot">TRUE</span>)<span class="op">$</span>estimate</code></pre></div>
 <pre><code>##        Estimates    CI Low  CI High         SE
 ## AR1    0.9828707 0.8273193 1.063385 0.07175879
 ## SIGMA2 0.9640085 0.6910043 1.156575 0.14152341</code></pre>
-<p>From the estimation summary, we note that both confidence intervals contain values that would make the AR(1) non-stationary (i.e. values of <span class="math inline">\(\phi\)</span> larger than 1). These estimates are indicating that they represent the estimated (asymptotic) distribution of <span class="math inline">\(\hat{\phi}\)</span> as displayed in Figure <a href="#fig:asymIC"><strong>??</strong></a>.</p>
+<p>From the estimation summary, we can notice that both confidence intervals contain values that would make the AR(1) non-stationary (i.e. values of <span class="math inline">\(\phi\)</span> larger than 1). However, these confidence intervals are based on the (asymptotic) distributions of <span class="math inline">\(\hat{\phi}\)</span> which are shown in Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:asymIC">4.4</a>.</p>
+<div class="figure"><span id="fig:asymIC"></span>
+<img src="ts_files/figure-html/asymIC-1.png" alt="Estimated asymptotic distribution of $\hat{\phi}$ for MLE and GMWM parameter estimates. The dashed vertical line represents the true value of $\phi$, the solid line denotes the upper bound of the parameter space for $\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for both methods." width="864" />
+<p class="caption">
+Figure 4.4: Estimated asymptotic distribution of <span class="math inline">\(\hat{\phi}\)</span> for MLE and GMWM parameter estimates. The dashed vertical line represents the true value of <span class="math inline">\(\phi\)</span>, the solid line denotes the upper bound of the parameter space for <span class="math inline">\(\phi\)</span> and the vertical ticks represent the limits of the 95% confidence intervals for both methods.
+</p>
+</div>
+<p>Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more “realistic” confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap, detailed in Theorem <a href="#thm:parabootstrap"><strong>??</strong></a>. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from an AR(1) process. For each simulation, the parameters are estimated again and stored. Finally, the empirical quantiles at <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> are taken of the saved estimated parameter values to obtrain a confidence interval which does not suffer from boundary problems. The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using <span class="math inline">\(B = 10000\)</span> bootstrap replicates).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Number of Iterations</span>
+B =<span class="st"> </span><span class="dv">10000</span>
+
+<span class="co"># Set up storage for results</span>
+est.phi.gmwm =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)
+est.phi.ML =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)
+
+<span class="co"># Model generation statements</span>
+model.gmwm =<span class="st"> </span><span class="kw">AR1</span>(fit.gmwm<span class="op">$</span>estimate[<span class="dv">1</span>], fit.gmwm<span class="op">$</span>estimate[<span class="dv">2</span>])
+model.mle =<span class="st"> </span><span class="kw">AR1</span>(fit.ML<span class="op">$</span>coef, fit.ML<span class="op">$</span>sigma2)
+
+<span class="co"># Begin bootstrap</span>
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){
+  
+  <span class="co"># Set seed for reproducibility</span>
+  <span class="kw">set.seed</span>(B <span class="op">+</span><span class="st"> </span>i)
+  
+  <span class="co"># Generate process under MLE parameter estimate</span>
+  x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">100</span>, model.mle)
+  
+  <span class="co"># Attempt to estimate phi by employing a try</span>
+  est.phi.ML[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">arima</span>(x.star, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>coef, 
+                           <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)
+  
+  <span class="co"># Generate process under GMWM parameter estimate</span>
+  x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">100</span>, model.gmwm)
+  est.phi.gmwm[i] =<span class="st"> </span>gmwm2<span class="op">::</span><span class="kw">gmwm</span>(model.gmwm, x.star)<span class="op">$</span>estimate[<span class="dv">1</span>]
+}</code></pre></div>
+<div class="figure"><span id="fig:paraAR1cigraphs"></span>
+<img src="ts_files/figure-html/paraAR1cigraphs-1.png" alt="Estimated parametric distributions of $\hat{\phi}$ for MLE and GMWM parameter estimates. The bar plots represent the results from the parametric bootstrap, the densities represent the estimate asymptotic distribution, the vertical line represents the true value of $\phi$, the solid lines denotes the upper bound of the parameter space for $\phi$ and the vertical ticks represent the limits of the 95% confidence intervals under both approaches for the estimation methods." width="864" />
+<p class="caption">
+Figure 4.5: Estimated parametric distributions of <span class="math inline">\(\hat{\phi}\)</span> for MLE and GMWM parameter estimates. The bar plots represent the results from the parametric bootstrap, the densities represent the estimate asymptotic distribution, the vertical line represents the true value of <span class="math inline">\(\phi\)</span>, the solid lines denotes the upper bound of the parameter space for <span class="math inline">\(\phi\)</span> and the vertical ticks represent the limits of the 95% confidence intervals under both approaches for the estimation methods.
+</p>
+</div>
+<p>In Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:paraAR1cigraphs">4.5</a>, we compare the estimated densities for <span class="math inline">\(\hat{\phi}\)</span> using asymptotic results and bootstrap techniques for the MLE and the GMWM estimator. It can be observed that the issue that arose previously with unrealistic confidence intervals have been resolved as the interval regions lie entirely within the boundaries of the parameter space.</p>
+<p>To emphasize that the effectiveness of parametric bootstrap, let us consider one additonal example of an AR(2) process. For this example, discussion will focus on observing the behavior exhibited solely by the MLE. Having said this, the AR(2) process is defined to be:</p>
+<span class="math display" id="eq:ciar2">\[\begin{equation}
+{X_t} = {1.98}{X_{t - 1}} - {0.99}{X_{t - 2}} + {W_t}
+\tag{4.2}
+\end{equation}\]</span>
+<p>where <span class="math inline">\(W_t \sim WN(0, 1)\)</span>. The generated process is displayed in Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:CIAR2data">4.6</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">432</span>)
+Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">1.98</span>, <span class="op">-</span><span class="fl">0.99</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))
+<span class="kw">plot</span>(Xt)</code></pre></div>
+<div class="figure"><span id="fig:CIAR2data"></span>
+<img src="ts_files/figure-html/CIAR2data-1.png" alt="Generated AR(2) Process" width="672" />
+<p class="caption">
+Figure 4.6: Generated AR(2) Process
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod =<span class="st"> </span><span class="kw">arima</span>(Xt, <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)
+mod</code></pre></div>
+<pre><code>## 
+## Call:
+## arima(x = Xt, order = c(2, 0, 0), include.mean = FALSE)
+## 
+## Coefficients:
+##          ar1      ar2
+##       1.9787  -0.9892
+## s.e.  0.0053   0.0052
+## 
+## sigma^2 estimated as 0.8419:  log likelihood = -672.58,  aic = 1351.15</code></pre>
+<p>With the model’s coefficients readily available, the parametric bootstrap is able to be constructed. As before, the bootstrap implementation mirrors prior versions with one cavaet regarding the storage of <span class="math inline">\(\phi\)</span> being two dimensional and, thus, requiring a <code>matrix</code> to store the result instead of a traditional atomic vector in <em>R</em>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">B =<span class="st"> </span><span class="dv">10000</span>
+est.phi.ML =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">2</span>)
+model =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> mod<span class="op">$</span>coef, <span class="dt">sigma2 =</span> mod<span class="op">$</span>sigma2)
+
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {
+  <span class="kw">set.seed</span>(B <span class="op">+</span><span class="st"> </span>i)              <span class="co"># Set Seed for reproducibilty</span>
+  
+  x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, model) <span class="co"># Simulate the process </span>
+  
+  <span class="co"># Obtain parameter estimate with protection</span>
+  <span class="co"># that defaults to NA if unable to estimate</span>
+  est.phi.ML[i,] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">arima</span>(x.star, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>),
+                                  <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>coef,
+                            <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)
+}</code></pre></div>
+<div class="figure"><span id="fig:ciAR2d"></span>
+<img src="ts_files/figure-html/ciAR2d-1.png" alt="Estimated distributions of $\hat{\phi_1}$ and $\hat{\phi_2}$ of the MLE using asymptotic and parametric bootstrap techniques. The colored contours represent the density of distribution and the dark grey lines represent the boundary constraints of $\left|\phi_2\right|&lt;1$ and $\phi_2 = 1 - \phi_1$." width="864" />
+<p class="caption">
+Figure 4.7: Estimated distributions of <span class="math inline">\(\hat{\phi_1}\)</span> and <span class="math inline">\(\hat{\phi_2}\)</span> of the MLE using asymptotic and parametric bootstrap techniques. The colored contours represent the density of distribution and the dark grey lines represent the boundary constraints of <span class="math inline">\(\left|\phi_2\right|&lt;1\)</span> and <span class="math inline">\(\phi_2 = 1 - \phi_1\)</span>.
+</p>
+</div>
+<p>The cost of this approach is the assumption the model captures the dependency structure that is present within the time series. That is to say, we are able to successfully a regenerate new time series process that follows the appropriate distribution for each sampling phase. However, if we are not confident that the model we have selected is a valid estimation of the truth, then using parametric bootstrap with the estimated model is highly problematic as it does not represent the dependency between observations. To complicate matters further, the traditional bootstrap that consists of simple random sampling with replacement, in the presence of dependency, would also be highly inaccurate and downright reckless to use. Therefore, to preserve the dependency structure of the original data one would have to use <em>block bootstrapping</em>, which is a form of non-parametric bootstrap. There are many different kinds of block bootstraps for time series, which are descendents of the Moving Block Bootstrap (MBB) presented in <a href="the-family-of-autoregressive-moving-average-models.html#thm:mbb">4.2</a>.</p>
+
+<div class="theorem">
+<p><span id="thm:mbb" class="theorem"><strong>Theorem 4.2  </strong></span>Suppose that <span class="math inline">\(\left(X_t\right)\)</span> is weakly stationary time series with <span class="math inline">\(N\)</span> observations.</p>
+<ol style="list-style-type: decimal">
+<li>Divide time series into overlapping blocks <span class="math inline">\(\left\{S_1, \ldots, S_M\right\}\)</span> of length <span class="math inline">\(\ell\)</span>, <span class="math inline">\(1 \le \ell &lt; N\)</span>, resulting in <span class="math inline">\(M = N - \ell + 1\)</span> blocks structured as:</li>
+</ol>
+<p><span class="math display">\[\begin{aligned}   
+  {S_1}&amp; = &amp; ({X_1}, &amp;{X_2}, \cdots , {X_\ell}) &amp; &amp;&amp; \\
+  {S_2}&amp; = &amp; &amp;( {X_2}, {X_3}, \cdots , {X_{\ell + 1}}) &amp; &amp;&amp; \\
+  &amp; \cdots &amp; &amp; {} &amp; \cdots &amp;&amp; \\
+  {S_M} &amp; = &amp; &amp; &amp; {} &amp;&amp;( {X_{N-\ell+1}}, {X_{N-\ell+2}}, \cdots , {X_{N}})
+\end{aligned}\]</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Draw <span class="math inline">\(M = \left\lfloor {\frac{N}{\ell}} \right\rfloor\)</span> blocks with replacement from these <span class="math inline">\(\left\{S_1, \ldots, S_M\right\}\)</span> blocks and place them in order to form <span class="math inline">\((X_t^*)\)</span>.</li>
+<li>Compute the statistic of interest on the simulated sample <span class="math inline">\((X_t^*)\)</span>.</li>
+<li>Repeat Steps 2 and 3 <span class="math inline">\(B\)</span> times where <span class="math inline">\(B\)</span> is sufficiently “large” (typically <span class="math inline">\(100 \leq B \leq 10000\)</span>).</li>
+<li>Compute the empirical mean and variance on the statistic of interest based on the <span class="math inline">\(B\)</span> independent replications.
+</div>
+</li>
+</ol>
+<p>The approach taken by MBB ensures that within each block the dependency between observations is preserved. Though, one particular issue that now arises is that some inaccuracy is introduced as a result of successive blocks potentially being independent from each other. In reality, this is one of the trade-offs of the MBB approach that can be mitigated by selecting an optimal <span class="math inline">\(\ell\)</span>. To lower the inaccuracy of the procedure the selection of <span class="math inline">\(\ell = N^{1/3}\)</span> as <span class="math inline">\(N \to \infty\)</span> is optimal (proof left as an exercise to the reader). An earlier variant of MBB was called nonoverlapping block bootstrap (NBB), which prohbited the sharing of data described in <a href="the-family-of-autoregressive-moving-average-models.html#thm:nbb">4.3</a>.</p>
+
+<div class="theorem">
+<p><span id="thm:nbb" class="theorem"><strong>Theorem 4.3  </strong></span>Suppose that <span class="math inline">\(\left(X_t\right)\)</span> is weakly stationary time series with <span class="math inline">\(N\)</span> observations.</p>
+<ol style="list-style-type: decimal">
+<li>Divide time series into nonoverlapping blocks <span class="math inline">\(\left\{S_1, \ldots, S_M\right\}\)</span> of length <span class="math inline">\(\ell\)</span>, <span class="math inline">\(1 \le \ell &lt; N\)</span>, resulting in <span class="math inline">\(M = \left\lfloor {\frac{N}{\ell}} \right\rfloor\)</span> blocks structured as:</li>
+</ol>
+<p><span class="math display">\[\begin{aligned}   
+  {S_1}&amp; = &amp; ({X_1}, {X_2}, \cdots , {X_\ell})&amp; &amp; &amp;&amp; \\
+  {S_2}&amp; = &amp; &amp;( {X_{\ell+1}}, {X_{\ell+2}}, \cdots , {X_{2\ell}}) &amp; &amp;&amp; \\
+  &amp; \cdots &amp; &amp; {} &amp; \cdots &amp;&amp; \\
+  {S_K} &amp; = &amp; &amp; &amp; {} &amp;&amp;( {X_{\left({}\right)}}, {X_{N-\ell+2}}, \cdots , {X_{N}})
+\end{aligned}\]</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Draw <span class="math inline">\(M\)</span> blocks with replacement from these <span class="math inline">\(\left\{S_1, \ldots, S_M\right\}\)</span> blocks and place them in order to form <span class="math inline">\((X_t^*)\)</span>.</li>
+<li>Compute the statistic of interest on the simulated sample <span class="math inline">\((X_t^*)\)</span>.</li>
+<li>Repeat Steps 2 and 3 <span class="math inline">\(B\)</span> times where <span class="math inline">\(B\)</span> is sufficiently “large” (typically <span class="math inline">\(100 \leq B \leq 10000\)</span>).</li>
+<li>Compute the empirical mean and variance on the statistic of interest based on the <span class="math inline">\(B\)</span> independent replications.</li>
+</ol>
+</div>
+
+<p>Alternatively, depending on the case one can also use modification of MBB that seeks to change how the beginning and end of the time series is weighted such as a circular block-bootstrap (CBB), that seeks improve dependency by wrapping observations, or a stationary bootstrap (SB), that randomizes block length by under a geometric distribution of mean <span class="math inline">\(\ell\)</span>. Regardless, the outcomes from using MBB on time series is considerably better than just resampling, which is also possible if we set <span class="math inline">\(\ell = 1\)</span> since the length of <span class="math inline">\((X_t^*)\)</span> is <span class="math inline">\(M\times\ell\)</span>.</p>
+<p>Having said this, the implementation of Theorem <a href="the-family-of-autoregressive-moving-average-models.html#thm:nbb">4.3</a> follows the similar mold of generating data, estimating, and returning a value. The most notably deviation from Theorem <a href="the-family-of-autoregressive-moving-average-models.html#thm:nbb">4.3</a> is the use of an indexing trick to indicate the start period of each block that allows for only one copy of the data to be held within memory instead of <span class="math inline">\(m\)</span> blocks of length <span class="math inline">\(\ell\)</span> in addition to the initial copy.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ar1_blockboot =<span class="st"> </span><span class="cf">function</span>(Xt, <span class="dt">block_len =</span> <span class="dv">10</span>, <span class="dt">B =</span> <span class="dv">500</span>) {
+  
+  n =<span class="st"> </span><span class="kw">length</span>(Xt)            <span class="co"># Length of Time Series</span>
+  res =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, B)          <span class="co"># Bootstrapped Statistics</span>
+  m =<span class="st"> </span><span class="kw">floor</span>(n<span class="op">/</span>block_len)    <span class="co"># Amount of Blocks</span>
+  
+  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {   <span class="co"># Begin MMB</span>
+    
+    <span class="kw">set.seed</span>(i <span class="op">+</span><span class="st"> </span><span class="dv">1199</span>)      <span class="co"># Set seed for reproducibility</span>
+    x_star =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, n)     <span class="co"># Setup storage for new TS</span>
+    
+    <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_len</span>(m)) { <span class="co"># Simulate new time series </span>
+      
+      index =<span class="st"> </span><span class="kw">sample</span>(m, <span class="dv">1</span>)  <span class="co"># Randomize block starting points</span>
+      
+      <span class="co"># Place block into time series</span>
+      x_star[(block_len<span class="op">*</span>(j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(block_len<span class="op">*</span>j)] =<span class="st"> </span>
+<span class="st">            </span>Xt[(block_len<span class="op">*</span>(index <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(block_len<span class="op">*</span>index)]
+    }
+    
+    <span class="co"># Calculate parameter with protection</span>
+    res[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">arima</span>(x_star, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>coef,
+                      <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)
+  }
+  
+  <span class="kw">na.omit</span>(res)              <span class="co"># Release bootstrap result</span>
+}</code></pre></div>
+<p>With the block bootstrapping technique in hand, let us consider a scenario where the model’s assumption that the residuals will be Gaussian is violated. Consider two AR(1) processes with the same coefficient but different noise generation procedures:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{M}_1:&amp;{}&amp; X_t &amp;=0.5 X_{t-1} + W_t,&amp;{}&amp; W_t\sim \mathcal{N} (0,1) \\
+\mathcal{M}_2:&amp;{}&amp; X_t &amp;=0.5 X_{t-1} + V_t,&amp;{}&amp; V_t\sim t_4
+\end{aligned}
+\]</span></p>
+<p>The generation procedure for <span class="math inline">\(\mathcal{M}_1\)</span> is straightforward, use: <code>gen_gts()</code>. However, the underlying generating mechanism for <code>gen_gts()</code> relies upon the noise being Gaussian. Therefore, to generate <span class="math inline">\(\mathcal{M}_2\)</span>, one must use <em>R</em>’s <code>arima.sim()</code> function with a custom noise generator defined to sample from a <span class="math inline">\(t\)</span> distribution.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)                                        <span class="co"># Set seed for reproducibilty</span>
+xt_m1 =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR1</span>(<span class="dt">phi =</span> <span class="fl">0.5</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))   <span class="co"># Gaussian noise only</span>
+xt_m2 =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">arima.sim</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="kw">list</span>(<span class="dt">ar =</span> <span class="fl">0.5</span>, <span class="dt">ma =</span> <span class="dv">0</span>), <span class="co"># Multiple noises supported</span>
+                  <span class="dt">rand.gen =</span> <span class="cf">function</span>(n, ...) <span class="kw">rt</span>(n, <span class="dt">df =</span> <span class="dv">4</span>)))</code></pre></div>
+<div class="figure"><span id="fig:mbbdatavis"></span>
+<img src="ts_files/figure-html/mbbdatavis-1.png" alt="AR(1) processes generated under different noise conditions." width="672" />
+<p class="caption">
+Figure 4.8: AR(1) processes generated under different noise conditions.
+</p>
+</div>
+<p>From Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:mbbdatavis">4.8</a>, the time series look remarkably different as a result of the noise process being altered slightly even though the <span class="math inline">\(\phi\)</span> coefficient was held constant. Principally, the difference is the due related to the variance of the <span class="math inline">\(t\)</span> distribution is defined to be <span class="math inline">\(\frac{\nu}{\nu-2}\)</span> for <span class="math inline">\(\nu &gt; 2\)</span> and <span class="math inline">\(\infty\)</span> for <span class="math inline">\(\nu \le 2\)</span>. Therefore, the i.i.d white noise processes generated are <span class="math inline">\(\sigma^2_{\mathcal{M}_1} = 1\)</span> when compared to the alternative <span class="math inline">\(\sigma^2_{\mathcal{M}_2} = 2\)</span>. With this being said, both the underlying nonparametric and parametric bootstrap estimation procedures betweenthe models will be the same. The implementation for blocking approach regarding an AR(1) was discussed previously and the parametric approach is as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ar1_paraboot =<span class="st"> </span><span class="cf">function</span>(model, <span class="dt">B =</span> <span class="dv">10000</span>) {
+  est.phi =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)    <span class="co"># Define a storage vector</span>
+  
+  <span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) { <span class="co"># Perform bootstrap</span>
+    
+    <span class="kw">set.seed</span>(B <span class="op">+</span><span class="st"> </span>i)      <span class="co"># Set seed for reproducibility</span>
+    
+    <span class="co"># Simulate time series underneath the estimated model</span>
+    x.star =<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="kw">list</span>(<span class="dt">ar =</span> model<span class="op">$</span>coef, <span class="dt">ma =</span> <span class="dv">0</span>),
+                       <span class="dt">sd =</span> <span class="kw">sqrt</span>(model<span class="op">$</span>sigma2))
+    
+    <span class="co"># Attempt to estimate parameters with recovery</span>
+    est.phi[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">arima</span>(x.star, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),
+                                   <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>coef, 
+                          <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)
+    
+  }
+
+  <span class="kw">na.omit</span>(est.phi)       <span class="co"># Return estimated phis.</span>
+}</code></pre></div>
+<p>With both functions in hand, the procedure is regulated to calling them on the different sets of data and models.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">B =<span class="st"> </span><span class="dv">10000</span> 
+
+<span class="co"># Model 1</span>
+fit_m1_mle =<span class="st"> </span><span class="kw">arima</span>(xt_m1, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)
+para_m1_phi  =<span class="st"> </span><span class="kw">ar1_paraboot</span>(fit_m1_mle, <span class="dt">B =</span> B)
+block_m1_phi =<span class="st"> </span><span class="kw">ar1_blockboot</span>(xt_m1, <span class="dt">block_len =</span> <span class="dv">25</span>, <span class="dt">B =</span> B)
+
+<span class="co"># Model 2</span>
+fit_m2_mle =<span class="st"> </span><span class="kw">arima</span>(xt_m2, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)
+para_m2_phi  =<span class="st"> </span><span class="kw">ar1_paraboot</span>(fit_m2_mle, <span class="dt">B =</span> B)
+block_m2_phi =<span class="st"> </span><span class="kw">ar1_blockboot</span>(xt_m2, <span class="dt">block_len =</span> <span class="dv">25</span>, <span class="dt">B =</span> B) </code></pre></div>
+<div class="figure"><span id="fig:blockbootmodels"></span>
+<img src="ts_files/figure-html/blockbootmodels-1.png" alt="Estimated parametric and non-parametric block  bootstrap distributions of $\hat{\phi}$ for MLE parameter estimates. The histogram bars represent the empirical results from the bootstraps with the green representing parametric bootstrap and the red represent the block bootstrap approach. The dashed vertical line represents the true value of $\phi$ and the vertical ticks correspond to the limits of the 95% confidence intervals for both estimation techniques." width="864" />
+<p class="caption">
+Figure 4.9: Estimated parametric and non-parametric block bootstrap distributions of <span class="math inline">\(\hat{\phi}\)</span> for MLE parameter estimates. The histogram bars represent the empirical results from the bootstraps with the green representing parametric bootstrap and the red represent the block bootstrap approach. The dashed vertical line represents the true value of <span class="math inline">\(\phi\)</span> and the vertical ticks correspond to the limits of the 95% confidence intervals for both estimation techniques.
+</p>
+</div>
+<p>The results from the parametric and nonparametric block bootstrapping techniques are displayed in Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:blockbootmodels">4.9</a>. In both instances, we can see that the block bootstrap had a narrower distribution. However, there was a considerable bias that lead the distribution to be off-centered. The origins of bias come from the independence associated between blocks as they are placed into <span class="math inline">\((X^*_t)\)</span>.</p>
 
 </div>
 </div>

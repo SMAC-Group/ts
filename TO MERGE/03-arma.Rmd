@@ -581,10 +581,12 @@ given as:
 
 $$\bm{\alpha}_N  = \Gamma^{-1}_N\bm{\gamma}_N$$
 ```{theorem}
+Let us define
 \[X_{t + j}^t = E\left[ {{X_{t + j}}|{X_t}, \cdots ,{X_1}} \right] = {E_t}\left[ {{X_{t + j}}} \right],j > 0\]
 
-Then \[E\left[ {{{\left( {{X_{t + j}} - m\left( {{X_1}, \cdots ,{X_t}} \right)} \right)}^2}} \right] \ge E\left[ {{{\left( {{X_{t + j}} - X_{t + j}^t} \right)}^2}} \right]\] for function $m(.)$.
+Then \[E\left[ {{{\left( {{X_{t + j}} - m\left( {{X_1}, \cdots ,{X_t}} \right)} \right)}^2}} \right] \ge E\left[ {{{\left( {{X_{t + j}} - X_{t + j}^t} \right)}^2}} \right]\] for any function $m(.)$.
 ```
+
 
 ```{proof}
 Consider:

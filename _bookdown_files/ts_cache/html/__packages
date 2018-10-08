@@ -12,3 +12,6 @@ xts
 TTR
 quantmod
 robustbase
+gmwm2
+MASS
+RColorBrewer

@@ -323,7 +323,7 @@ $$
 Finally, the causal region of an AR(2) is demonstrated as
 ```
 
-```{r correxample, cache = TRUE, echo = FALSE, fig.cap="Causal Region for Parameters of an AR(2) Process", fig.align = 'center'}
+```{r correxample2, cache = TRUE, echo = FALSE, fig.cap="Causal Region for Parameters of an AR(2) Process", fig.align = 'center'}
 knitr::include_graphics("images/causal_AR2.png")
 ```
 
@@ -618,7 +618,7 @@ It can be seen that for these two contaminated processes, the standard estimator
 
 ### Forecasting AR(p) Models
 
-One of the most interesting things in time series analysis is to predict the future unobserved values based on the observed values up to now. However, it is not possible if the underlying model is unknown, thus in this section we assume the time series $X_t$ is stationary and its model is known. In particular, we denote forecasts by $X^{n}_{n+m}$, where $n$ represents the data points collected (e.g. $\mathbf{X} = (X_{1}, X_{2}, \cdots , X_{n-1}, X_n)$) and $m$ represents the amount of points in the future we wish to predict. So, $X^{n}_{n+1}$ represents a one-step-ahead prediction $X_{n+1}$ given data $(X_{1}, X_{2}, \cdots, X_{n-1}, X_{n})$.
+One of the most interesting things in time series analysis is to predict the future unobserved values based on the values that have been observed up to now. However, this is not possible if the underlying (parametric) model is unknown, thus in this section we assume the time series $X_t$ is stationary and its model is known. In particular, we denote forecasts by $X^{T}_{T+m}$, where $n$ represents the data points collected (e.g. $\mathbf{X} = (X_{1}, X_{2}, \cdots , X_{T-1}, X_T)$) and $m$ represents the amount of points in the future we wish to predict. So, $X^{T}_{T+1}$ represents a one-step-ahead prediction $X_{T+1}$ given data $(X_{1}, X_{2}, \cdots, X_{T-1}, X_{T})$.
 
 To obtain forecasts, we rely upon the best linear prediction (BLP). Recall that the BLP Definition \@ref(def:blp) is mentioned when we calculate the PACF of AR model. In general, the best approach to finding the BLP is to use the Theorem \@ref(thm:projtheo).
 
@@ -632,282 +632,44 @@ determined by the requirements
 2. $(y - \hat{y}) \perp \mathcal{M}$.
 ```
 
-Projection theorem natually leads to an equivalent way to find the best linear 
+<!-- \mbox{(trivial for time series with zero mean)} -->
+
+The projection theorem naturally leads to an equivalent way to find the best linear 
 predictor by solving the prediction equations,
-\[ \mathbb{E}(X_{t+h} - \hat{X}_{t+h}) = 0, \mbox{( it is trivial for TS with zero mean)}\]
+\[ \mathbb{E}(X_{t+h} - \hat{X}_{t+h}) = 0,\]
 and
 \[ \mathbb{E} [(X_{t+h} - \hat{X}_{t+h})X_j ] = 0, \mbox{ for } i = 1, \dots, t.\]
 
-Write $\mathbb{E}(X_{i}, X_{j})$ as $\gamma(|i - j|)$, predition equations can
-be represented by the following form
+If we denote $\mathbb{E}(X_{i}, X_{j})$ as $\gamma(|i - j|)$, the predition equations can
+be represented in the following form
 
 \begin{equation}
   \begin{aligned}
   \begin{pmatrix}
-    \gamma(0) & \gamma(1) & \cdots & \gamma(N-1) \\
-    \gamma(1) & \gamma(0) & \cdots & \gamma(N-2) \\
+    \gamma(0) & \gamma(1) & \cdots & \gamma(T-1) \\
+    \gamma(1) & \gamma(0) & \cdots & \gamma(T-2) \\
     \vdots & \vdots & \ddots & \vdots \\
-    \gamma(N-1) & \gamma(N-2) & \cdots &\gamma(0)
-  \end{pmatrix}_{N \times N}
+    \gamma(T-1) & \gamma(T-2) & \cdots &\gamma(0)
+  \end{pmatrix}_{T \times T}
   \begin{pmatrix}
     \alpha_1 \\
     \vdots \\
-    \alpha_N
-  \end{pmatrix}_{N \times 1}
+    \alpha_T
+  \end{pmatrix}_{T \times 1}
   &=
   \begin{pmatrix}
-    \gamma(N+h-1)  \\
+    \gamma(T+h-1)  \\
     \vdots \\
     \gamma(h)
-  \end{pmatrix}_{N \times 1} \\
-  \Gamma_N \bm{\alpha}_N  &= \bm{\gamma}_N
+  \end{pmatrix}_{T \times 1} \\
+  \Gamma_T \mathbf{\alpha}_T  &= \mathbf{\gamma}_T
   \end{aligned}
 \end{equation}.
 
-Assuming that $\Gamma_N$ is non-singular, then the values of $\bm{\alpha}_N$ are
+Assuming that $\Gamma_T$ is non-singular, then the values of $\mathbf{\alpha}_T$ are
 given as:
 
-$$\bm{\alpha}_N  = \Gamma^{-1}_N\bm{\gamma}_N$$
-```{theorem}
-\[X_{t + j}^t = E\left[ {{X_{t + j}}|{X_t}, \cdots ,{X_1}} \right] = {E_t}\left[ {{X_{t + j}}} \right],j > 0\]
-
-Then \[E\left[ {{{\left( {{X_{t + j}} - m\left( {{X_1}, \cdots ,{X_t}} \right)} \right)}^2}} \right] \ge E\left[ {{{\left( {{X_{t + j}} - X_{t + j}^t} \right)}^2}} \right]\] for function $m(.)$.
-```
-
-```{proof}
-Consider:
-
-$\widetilde{\beta}^{*} = \mathop {\arg \min }\limits_\beta  \underbrace {E\left[ {{{\left( {{X_{t + h}} - m\left( {{X_{t + 1}}, \cdots ,{X_{t + h}}} \right)} \right)}^2}} \right]}_{MSE\left( \beta  \right)}$
-
-and
-
-$\widetilde{\beta} = \mathop {\arg \min }\limits_\beta  \underbrace {E\left[ {{{\left( {{X_{t + h}} - \sum\limits_{j = 1}^{h - 1} {{\beta _j}{X_{t + j}}} } \right)}^2}} \right]}_{MS{E_L}\left( \beta  \right)}$
-
-
-It is clear that:
-
-\[MS{E_L}\left( {\tilde \beta } \right) \ge MSE\left( {{{\tilde \beta }^*}} \right)\]
-
-Let's now consider 
-
-\[{\left( {{X_t} - m} \right)^2} = {\left[ {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right) + \left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right]^2}\]
-
-where we have: $m = m\left( {{X_{t + 1}}, \cdots ,{X_{t + h}}} \right)$ and ${\Omega _t} = \left( {{X_{t + 1}}, \cdots ,{X_{t + h}}} \right)$.
-
-Therefore, 
-
-\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _T}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)^2} + 2\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)\]
-
-
-Focusing on only the last term, we have that:
-
-\[\underbrace {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)}_{ = {\varepsilon _t}}\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)\]
-
-\[E\left[ {{\varepsilon _t}|{\Omega _t}} \right] = E\left[ {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]|{\Omega _t}} \right] = 0\]
-
-So, by the decomposition property, we have that:
-
-\[E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = E\left[ {E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)|{\Omega _t}} \right]} \right] = E\left[ {\underbrace {E\left[ {{\varepsilon _t}|{\Omega _t}} \right]}_{ = 0}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = 0\]
-
-By the previous discussion, we have that
-
-\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)^2}\]
-
-is therefore minimized for $m = E\left[ {{X_t}|{\Omega _t}} \right]$.
-```
-
-```{example, label="ar1forecast", name="Forecasting with an AR(1)"}
-We begin the forecasting examples by considering a first order AR(1) process.
-
-$${X_t} = \phi {X_{t - 1}} + {W_t}$$
-
-where $W_t \sim WN(0, \sigma^2_W)$.
-
-From here, the conditional expected mean and variance are given as:
-
-\[\begin{aligned}
-  {E_t}\left[ {{X_{t + j}}} \right] &= {\phi ^j}{X_t} \\
-  Va{r_t}\left[ {{X_{t + j}}} \right] &= \left( {1 + {\phi ^2} + {\phi ^4} +  \cdots  + {\phi ^{2\left( {j - 1} \right)}}} \right){\sigma ^2} \\ 
-\end{aligned} \]
-
-Within this derivation, it is important to remember that:
-
-\[\begin{aligned}
-  \mathop {\lim }\limits_{j \to \infty } {E_t}\left[ {{X_{t + j}}} \right] &= 0 = E\left[ {{X_t}} \right] \\
-  \mathop {\lim }\limits_{j \to \infty } Va{r_t}\left[ {{X_{t + j}}} \right] &= \frac{{{\sigma ^2}}}{{1 - {\phi ^2}}} = \operatorname{var} \left( {{X_t}} \right)  
-\end{aligned} \]
-
-```
-
-
-```{example, label="ar2forecast", name="Forecasting with an AR(2)"}
-Consider an AR(2) process with the following parametrization:
-
-$${X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + {W_t}$$
-
-where $W_t \sim WN(0, \sigma^2_W)$.
-
-Then, we are able to find the BLP for each step by:
-
-\[\begin{aligned}
-  {E_t}\left[ {{X_{t + 1}}} \right] &= {\phi _1}{X_t} + {\phi _2}{X_{t - 1}} \\
-  {E_t}\left[ {{X_{t + 2}}} \right] &= {E_t}\left[ {{\phi _1}{X_{t + 1}} + {\phi _2}{X_t}} \right] = {\phi _1}{E_t}\left[ {{X_{t + 1}}} \right] + {\phi _2}{X_t} \\
-   &= {\phi _1}\left( {{\phi _1}{X_t} + {\phi _2}{X_{t - 1}}} \right) + {\phi _2}{X_t} \\
-   &= \left( {\phi _1^2 + {\phi _2}} \right){X_t} + {\phi _1}{\phi _2}{X_{t - 1}} \\ 
-\end{aligned} \]
-
-```
-
-
-```{example, label="arpforecast", name="Forecasting with an AR(P)"}
-Consider AR(P) process given as:
-
-$${X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + \cdots + {\phi _p}{X_{t - p}} + {W_t}$$
-
-where $W_t \sim WN(0, \sigma^2_W)$.
-
-The process can be rearranged into matrix form denoted by:
-
-\[\begin{aligned}
-  \underbrace {\left[ {\begin{array}{*{20}{c}}
-  {{X_t}} \\ 
-   \vdots  \\ 
-   \vdots  \\ 
-  {{X_{t - p + 1}}} 
-\end{array}} \right]}_{{Y_t}} &= \underbrace {\left[ {\begin{array}{*{20}{c}}
-  {{\phi _1}}& \cdots &{}&{{\phi _p}} \\ 
-  {}&{}&{}&0 \\ 
-  {}&{{I_{p - 1}}}&{}& \vdots  \\ 
-  {}&{}&{}&0 
-\end{array}} \right]}_A\underbrace {\left[ {\begin{array}{*{20}{c}}
-  {{X_{t - 1}}} \\ 
-   \vdots  \\ 
-   \vdots  \\ 
-  {{X_{t - p}}} 
-\end{array}} \right]}_{{Y_{t - 1}}} + \underbrace {\left[ {\begin{array}{*{20}{c}}
-  1 \\ 
-  0 \\ 
-   \vdots  \\ 
-  0 
-\end{array}} \right]}_C{W_t} \\
-  {Y_t} &= A{Y_{t - 1}} + C{W_t} 
-\end{aligned}\]
-
-From here, the conditional mean and variance are obtainable via:
-
-\[\begin{aligned}
-  {E_t}\left[ {{Y_{t + j}}} \right] &= {E_t}\left[ {A{Y_{t + j - 1}} + C{W_{t + j}}} \right] = {E_t}\left[ {A{Y_{t + j - 1}}} \right] + \underbrace {{E_t}\left[ {C{W_{t + j}}} \right]}_{ = 0} \\
-   &= {E_t}\left[ {A\left( {A{Y_{t + j - 2}} + C{W_{t + j - 1}}} \right)} \right] = {E_t}\left[ {{A^2}{Y_{t + j - 2}}} \right] = {A^j}{Y_t} \\ 
-  {\operatorname{var} _t}\left( {{Y_{t + j}}} \right) &= {\operatorname{var} _t}\left( {A{Y_{t + j - 1}} + C{W_{t + j}}} \right) \\
-   &= {\sigma ^2}C{C^T} + {\operatorname{var} _t}\left( {A{Y_{t + j - 1}}} \right) = {\sigma ^2}A{\operatorname{var} _t}\left( {{Y_{t + j - 1}}} \right){A^T} \\
-   &= {\sigma ^2}C{C^T} + {\sigma ^2}AC{C^T}A + {\sigma ^2}{A^2}{\operatorname{var} _t}\left( {{Y_{t + j - 2}}} \right){\left( {{A^2}} \right)^T} \\
-   &= {\sigma ^2}\sum\limits_{k = 0}^{j - 1} {{A^k}C{C^T}{{\left( {{A^K}} \right)}^T}}  \\ 
-\end{aligned} \]
-
-By the recursive properties evident within both the conditional mean and variance,
-the evaluation can be written to take advantage of these features by the following
-recursive formulation:
-\[\begin{aligned}
-  {E_t}\left[ {{Y_{t + j}}} \right] &= A{E_t}\left[ {{Y_{t + j - 1}}} \right] \\
-  {\operatorname{var} _t}\left[ {{Y_{t + j}}} \right] &= {\sigma ^2}C{C^T} + A{\operatorname{var} _t}\left( {{Y_{t + j - 1}}} \right){A^T} \\ 
-\end{aligned} \]
-```
-
-```{example, label="rear2forecast", name="Forecasting with an AR(2) in Matrix Form"}
-With the newfound knowledge regarding the recursive form of matrix predictions in hand,
-we return to the previous AR(2) forecasting example.
-
-\[\begin{aligned} \underbrace {\left[ {\begin{array}{*{20}{c}}
-  {{X_t}} \\ 
-  {{X_{t - 1}}} 
-\end{array}} \right]}_{{Y_t}} &= \underbrace {\left[ {\begin{array}{*{20}{c}}
-  {{\phi _1}}&{{\phi _2}} \\ 
-  1&0 
-\end{array}} \right]}_A\underbrace {\left[ {\begin{array}{*{20}{c}}
-  {{X_{t - 1}}} \\ 
-  {{X_{t - 2}}} 
-\end{array}} \right]}_{{Y_{t - 1}}} + \underbrace {\left[ {\begin{array}{*{20}{c}}
-  1 \\ 
-  0 
-\end{array}} \right]}_C{W_t} \\
-  {Y_t} &= A{Y_{t - 1}} + C{W_t} 
-\end{aligned}\]
-
-Then, we are able to calculate the BLP as:
-
-\[\begin{aligned}
-  {E_t}\left[ {{Y_{t + 2}}} \right] &= {A^2}{Y_t} = \left[ {\begin{array}{*{20}{c}}
-  {{\phi _1}}&{{\phi _2}} \\ 
-  1&0 
-\end{array}} \right]\left[ {\begin{array}{*{20}{c}}
-  {{\phi _1}}&{{\phi _2}} \\ 
-  1&0 
-\end{array}} \right]\left[ {\begin{array}{*{20}{c}}
-  {{X_t}} \\ 
-  {{X_{t - 1}}} 
-\end{array}} \right] \hfill \\
-   &= \left[ {\begin{array}{*{20}{c}}
-  {\phi _1^2 + {\phi _2}}&{{\phi _1}{\phi _2}} \\ 
-  {{\phi _1}}&{{\phi _2}} 
-\end{array}} \right]\left[ {\begin{array}{*{20}{c}}
-  {{X_t}} \\ 
-  {{X_{t - 1}}} 
-\end{array}} \right] = \left[ {\begin{array}{*{20}{c}}
-  {\left( {\phi _1^2 + {\phi _2}} \right){X_t} + {\phi _1}{\phi _2}{X_{t - 1}}} \\ 
-  {{\phi _1}{X_t} + {\phi _2}{X_{t - 1}}} 
-\end{array}} \right] \hfill \\ 
-\end{aligned} \]
-```
-
-Under the recursive formulation, we can see through a simulation study
-how the predictions for an AR(2) process with $\phi _1 = 0.75$ and $\phi _2 = 0.2$
-vary across time in Figure \@ref(fig:predplot).
-
-```{r predplot, cache = TRUE, echo = FALSE, fig.cap="Values of the AR(2) predictions with the pink line being the median prediction, red and green lines are respectively 95% and 75% Confidence intervals."}
-
-gg_color_hue <- function(n, alpha = 1) {
-  hues = seq(15, 375, length = n + 1)
-  hcl(h = hues, l = 65, c = 100, alpha = alpha)[1:n]
-}
-
-color = gg_color_hue(5, alpha = 1)
-color2 = gg_color_hue(3, alpha = 0.01)
-
-set.seed(2)
-Xt = gen_gts(n = 200, AR(phi = c(0.75, 0.2), sigma2 = 1))
-
-plot(NA, xlim = c(0,250), ylim  = c(-10,15), ylab="Prediction", xlab="Time")
-grid()
-lines(1:200, Xt, col = color[4])
-
-
-B = 5000
-mat = matrix(0,B,52)
-mat[,1] = rep(Xt[199], B)
-mat[,2] = rep(Xt[200], B)
-
-for (i in 1:B){
-  for (j in 3:52){
-    mat[i,j] = 0.75*mat[i,(j-1)] + 0.2*mat[i,(j-2)] + rnorm(1)
-  }
-  lines(200:250, mat[i,2:52], col = color2[3])
-}
-
-quant = matrix(NA, 51,5)
-quant[1,] = rep(Xt[200],1)
-
-for (i in 2:51){
-  quant[i,] = quantile(mat[,i+1], c(0.95,0.75,0.5,0.25,0.05))
-}
-
-lines(200:250, quant[,1], col = color[1], lty = 1)
-lines(200:250, quant[,5], col = color[1], lty = 1)
-
-lines(200:250, quant[,2], col = color[3], lty = 1)
-lines(200:250, quant[,4], col = color[3], lty = 1)
-
-lines(200:250, quant[,3], col = color[5], lty = 1)
-```
+$$\mathbf{\alpha}_T  = \Gamma^{-1}_T\mathbf{\gamma}_T$$
 
 
 ### Inference for AR(p) Models

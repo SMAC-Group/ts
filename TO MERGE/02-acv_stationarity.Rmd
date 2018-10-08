@@ -27,7 +27,7 @@ only appropriate to measure a very specific kind of dependence, i.e. the linear
 dependence. There are many other forms of dependence as illustrated in the
 bottom panels of the graph below, which all have a (true) zero correlation:
 
-```{r correxample, cache = TRUE, echo = FALSE, fig.cap="Different forms of dependence and their Pearson's r values", fig.align = 'center'}
+```{r correxample1, cache = TRUE, echo = FALSE, fig.cap="Different forms of dependence and their Pearson's r values", fig.align = 'center'}
 knitr::include_graphics("images/corr_example.png")
 ```
 
