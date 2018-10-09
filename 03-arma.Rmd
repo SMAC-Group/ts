@@ -775,4 +775,32 @@ On the other hand, when checking the performance of the same methods when applie
 
 <!-- It can be seen that for these two contaminated processes, the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimators allow to remain close (on average) to the true parameter values that we are aiming to estimate. As you can observe, the type of contamination can be important in the choice of the robust estimator to be used as underlined by the different behaviour of the RLS and RGMWM estimators on $(Y_t)$ and $(Z_t)$. However, this discussion is out of the scope of this book. -->
 
-To conclude this section on estimation, we now compare the above studied estimators in different applied settings where we can highlight how to assess which estimator is more appropriate according to the type of setting. For this purpose, let us start with an example we have already checked in the previous chapter when discussing standard and robust estimators of the ACF, more specifically the data on monthly precipitations. As mentioned before when discussing this example, the importance of modelling precipitation data lies in the fact that its usually used to successively model the entire water cycle. Common models for this purpose are either the white noise (WN) model or the AR(1) model
+To conclude this section on estimation, we now compare the above studied estimators in different applied settings where we can highlight how to assess which estimator is more appropriate according to the type of setting. For this purpose, let us start with an example we have already checked in the previous chapter when discussing standard and robust estimators of the ACF, more specifically the data on monthly precipitations. As mentioned before when discussing this example, the importance of modelling precipitation data lies in the fact that its usually used to successively model the entire water cycle. Common models for this purpose are either the white noise (WN) model or the AR(1) model. Let us compare the standard and robust ACF again to understand which of these two models seems more appropriate for the data at hand.
+
+```{r}
+compare_acf(hydro)
+```
+
+As we had underlined in the previous chapter, the standard ACF estimates would suggest that there appears to be no correlation among lags and consequently, the WN model would be the most appropriate. However, the robust ACF estimates depict an entirely different picture where it can be seen that there appears to be a significant autocorrelation over different lags which exponentially decay. Although there appears to be some seasonality in the plot, we will assume that the correct model for this data is an AR(1) since that's what hydrology theory suggests. Let us therefore estimate the parameters of this model by using a standard estimator (MLE) and a robust estimator (RGMWM). The estimates for the MLE are the following:
+
+```{r}
+mle_hydro = ar(as.vector(hydro), order.max = 1, method = "mle", demean = TRUE, aic = FALSE)
+
+# MLE Estimates
+c(mle_hydro$ar, mle_hydro$var.pred)
+```
+
+From these estimates it would appear that the autocorrelation between lagged variables (i.e. lags of order 1) is extremely low and that (as suggested by the standard ACF plot) a WN model may be more appropriate. Considering the robust ACF however, it is possible that the MLE estimates may not be reliable in this setting. Hence, let us use the RGMWM to estimate the same parameters.
+
+```{r}
+rgmwm_hydro = gmwm(AR(1), hydro, robust = TRUE)$estimate
+
+# MLE Estimates
+c(rgmwm_hydro$ar, rgmwm_hydro$var.pred)
+```
+
+In this case, we see how the autocorrelation between lagged values is much higher (0.4 compared to 0.06) indicating that there is a stronger dependence in the data than what is suggested by standard estimators. Moreover, the innovation variance is smaller compared to that of the MLE. This is also a known phenomenon when there's contamination in the data since it leads to less dependence and more variability being detected by non-robust estimators. This estimate of the variance also has a considerable impact on forecast precision (as we'll see in the next section).
+
+A final applied example that highlights the (potential) difference between estimators according to the type of setting is given by the 
+
+```
