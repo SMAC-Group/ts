@@ -839,5 +839,14 @@ yw_fish = ar(rec, order.max = 2, method = "yule-walker", demean = TRUE, aic = FA
 mle_fish = ar(rec, order.max = 2, method = "mle", demean = TRUE, aic = FALSE)
 
 # Compare estimates
+# Yule-Walker Estimation
 c(yw_fish$ar, yw_fish$var.pred)
+
+# MLE Estimation
+c(mle_fish$ar, mle_fish$var.pred)
 ```
+
+It can be seen that, in this setting, the two estimators deliver very similar results (at least in terms of the $\phi_1$ and $\phi_2$ coefficients). Indeed, there doesn't appear to be need for robust estimation and the choice of a standard estimator is justified by the will to obtain efficient estimations. The only slight difference between the two estimations is in the innovation variance parameter $\sigma^2$ and this could be (evenutally) due to the normality assumption that the MLE estimator upholds in this case. If there is therefore a doubt on the fact that the Gaussian assumption does not hold for this data, then it is probably more convenient to use the Yule-Walker estimates.
+
+Until now we have focussed on estimation based on an assumed model. However, how do we choose a model? How can we make inference on the models and their parameters? To perform all these tasks we will need to compute residuals (as, for example, in the linear regression framework). In order to obtain residuals, we need to be able to predict (forecast) values of the time series and, consequently, the next section focuses on forecasting time series.
+
