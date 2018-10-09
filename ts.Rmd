@@ -1,3 +1,73 @@
+--- 
+title: "Applied Time Series Analysis with R"
+author: "Stéphane Guerrier, Roberto Molinari and Haotian Xu"
+date: "`r format(Sys.time(), '%B %d %Y')`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: "acm"
+link-citations: yes
+github-repo: SMAC-Group/ts
+description: ""
+favicon: "favicon.ico"
+---
+
+# (PART) Foundation {-}
+
+Placeholder
+
+# Introduction
+
+Placeholder
+
+
+## Conventions
+## Bibliographic Note 
+## Acknowledgements
+## License 
+
+<!--chapter:end:index.Rmd-->
+
+
+# Basic Elements of Time Series 
+
+Placeholder
+
+
+## The Wold Decomposition
+### The Deterministic Component (Signal)
+### The Random Component (Noise)
+## Exploratory Data Analysis for Time Series {#eda}
+## Dependence in Time Series 
+## Basic Time Series Models {#basicmodels}
+### White Noise {#wn}
+### Random Walk {#rw}
+### First-Order Autoregressive Model {#ar1}
+### Moving Average Process of Order 1 {#ma1}
+### Linear Drift {#drift}
+## Composite Stochastic Processes {#lts}
+
+<!--chapter:end:01-intro.Rmd-->
+
+
+# Fundamental Properties of Time Series {#fundtimeseries}
+
+Placeholder
+
+
+## The Autocorrelation and Autocovariance Functions 
+### A Fundamental Representation
+### Admissible Autocorrelation Functions `r emo::ji("scream")`
+## Stationarity {#stationary}
+### Assessing Weak Stationarity of Time Series Models
+## Estimation of Moments (Stationary Processes)
+### Estimation of the Mean Function
+### Sample Autocovariance and Autocorrelation Functions
+### Robustness Issues
+
+<!--chapter:end:02-fundamental_rep.Rmd-->
+
 # The Family of Autoregressive Moving Average Models
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -795,19 +865,19 @@ From these estimates it would appear that the autocorrelation between lagged var
 ```{r}
 rgmwm_hydro = gmwm(AR(1), hydro, robust = TRUE)$estimate
 
-# RGMWM Estimates
-t(rgmwm_hydro)
+# MLE Estimates
+c(rgmwm_hydro$ar, rgmwm_hydro$var.pred)
 ```
 
 In this case, we see how the autocorrelation between lagged values is much higher (0.4 compared to 0.06) indicating that there is a stronger dependence in the data than what is suggested by standard estimators. Moreover, the innovation variance is smaller compared to that of the MLE. This is also a known phenomenon when there's contamination in the data since it leads to less dependence and more variability being detected by non-robust estimators. This estimate of the variance also has a considerable impact on forecast precision (as we'll see in the next section).
 
-A final applied example that highlights the (potential) difference between estimators according to the type of setting is given by the "Recruitment" data set (in the "astsa" library). This data refers to the presence of new fish in the population of the Pacific Ocean and is often linked to the currents and temperatures passing through the ocean. As for the previous data set, let us take a look at the data itself and then analyse the standard and robust estimations of the ACF.
+A final applied example that highlights the (potential) difference between estimators according to the type of setting is given by the "Recruitment" data set (in the "astsa" library). This data refers to the presence of new fish in the population of the Pacific Ocean and is often linked to the currents and temperatures passing through the ocean.
 
 ```{r}
 library(astsa)
 
 # Format data
-fish = gts(rec, start = 1950, freq = 12, unit_time = 'month', name_ts = 'Recruitment')
+fish = gts(rec, start = 1950, freq = 12, unit_time = 'month', name_ts = 'Recruitment', time_format = "%Y-%m")
 
 # Plot data
 par(mfrow = c(2, 1))
@@ -819,25 +889,35 @@ compare_acf(fish)
 par(mfrow = c(1,1))
 ```
 
-We can see that there appears to be a considerable dependence between the lagged variables which decays exponentially (as an AR(p) process ACF generally does). Also in this case we see a seasonality in the data but we won't consider this for the purpose of this example. Given that there doesn't appear to be any significant contamination in the data, let us consider the Yule-Walker and MLE estimators. The MLE highly depends on the assumed parametric distribution of the time series (i.e. usually Gaussian) and, if this is not respected, the resulting estimations could be unreliable. Hence, a first difference of the time series can often give an idea of the marginal distribution of the time series.
+<!--chapter:end:03-arma.Rmd-->
 
-```{r}
-# Take first differencing of the recruitment data
-diff_fish = gts(diff(rec), start = 1950, freq = 12, unit_time = 'month', name_ts = 'Recruitment')
+`r if (knitr::is_html_output()) '# References {-}'`
 
-# Plot first differencing of the recruitment data
-plot(diff_fish)
-```
+<!--chapter:end:33-Ref.Rmd-->
 
-From the plot we can see that observations appear to be collected around a constant value and fewer appear to be further from this value (as would be the case for a normal distribution). However, various of these "more extreme" observations appear to be quite frequent suggesting that the underlying distribution may have a heavier tail compared to the normal distribution. With this in mind, let us estimate an AR(2) model for this data using the Yule-Walker and MLE.
+# (APPENDIX) Appendix {-} 
 
-```{r}
-# MLE of Recruitment data
-yw_fish = ar(rec, order.max = 2, method = "yule-walker", demean = TRUE, aic = FALSE)
+<!--chapter:end:90-appendix.Rmd-->
 
-# MLE of Recruitment data
-mle_fish = ar(rec, order.max = 2, method = "mle", demean = TRUE, aic = FALSE)
 
-# Compare estimates
-c(yw_fish$ar, yw_fish$var.pred)
-```
+# Proofs {#appendixa}
+
+Placeholder
+
+
+## Proof of Theorem 1 `r emo::ji("scream")`
+
+<!--chapter:end:91-appendix-a.Rmd-->
+
+
+# Robust Regression Methods {#appendixb}
+
+Placeholder
+
+
+## The Classical Least-Squares Estimator
+## Robust Estimators for Linear Regression Models
+## Applications of Robust Estimation
+
+<!--chapter:end:91-appendix-b.Rmd-->
+
