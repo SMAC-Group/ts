@@ -331,7 +331,7 @@ knitr::include_graphics("images/causal_AR2.png")
 
 Given the above defined properties of AR(p) models, we will now discuss how these models can be estimated, more specifically how the $p+1$ parameters can be obtained from an observed time series. Indeed, a reliable estimation of these models is necessary in order to intepret and describe different natural phenomena and/or forecast possible future values of the time series.
 
-A first approach builds upon the earlier definition of AR(p) models being a linear process. Recall that
+A first approach builds upon the earlier definition of AR($p$) models being a linear process. Recall that
 \begin{equation}
     X_t = \sum_{j = 1}^{p} \phi_j X_{t-j}
 \end{equation}
@@ -487,7 +487,7 @@ The code below performs the simulation study where it can be seen how the contam
 
 ```{r simuAR2study, eval = TRUE, cache = TRUE}
 # Load gmwm
-library(gmwm)
+library(gmwm2)
 
 # Number of bootstrap iterations
 B = 250
@@ -557,14 +557,14 @@ for (i in seq_len(B)){
 }
 ```
 
-Having performed the estimation, we should now have `r B` estimates for each AR(2) parameter and each estimation method. The code below takes the results of the simulation and shows them in the shape of boxplots along with the true values of the parameters. The estimation methods that are denoted as follows: -->
+Having performed the estimation, we should now have `r B` estimates for each AR(2) parameter and each estimation method. The code below takes the results of the simulation and shows them in the shape of boxplots along with the true values of the parameters. The estimation methods that are denoted as follows:
 
 - **YW**: Yule-Walker estimator
 - **MLE**: Maximum Likelihood Estimator
 - **RGMWM**: the robust version of the GMWM estimator
 
 
-```{r, echo=FALSE, fig.height = 6, fig.width = 8, cache = TRUE, fig.align='center'}
+```{r, echo=FALSE, fig.asp = 0.75, fig.width = 9, cache = TRUE, fig.align='center', fig.cap="TO DO"}
 # Define colors
 hues = seq(15, 375, length = 4)
 cols = hcl(h = hues, l = 65, c = 100, alpha = 0.8)[1:3]
@@ -573,7 +573,7 @@ cols = hcl(h = hues, l = 65, c = 100, alpha = 0.8)[1:3]
 theta0 = c(0.5, 0.25, 1)
 
 # Define windows params
-par(mfrow = c(3, 3), oma = c(5,4,0,0) + 1.5, mar = c(0,0,1,1) + 1.5)
+par(mfrow = c(3, 3), oma = c(2.5,2.5,0,0) + 1.5, mar = c(0,0,2.5,1) + 1.5)
 
 # Make boxplots - Xt
 main = c(expression(paste("Simulated process ", X[t], " - ", phi[1])),
@@ -581,7 +581,8 @@ main = c(expression(paste("Simulated process ", X[t], " - ", phi[1])),
          expression(paste("Simulated process ", X[t], " - ", sigma^2)))
 
 for (i in 1:3){
-  boxplot(res.Xt.YW[,i], res.Xt.MLE[,i], res.Xt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i])
+  boxplot(res.Xt.YW[,i], res.Xt.MLE[,i], res.Xt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i],
+          outline = FALSE)
   abline(h = theta0[i], col = 2, lwd = 2)
 }
 
@@ -591,7 +592,8 @@ main = c(expression(paste("Simulated process ", Y[t], " - ", phi[1])),
          expression(paste("Simulated process ", Y[t], " - ", sigma^2)))
 
 for (i in 1:3){
-  boxplot(res.Yt.YW[,i], res.Yt.MLE[,i], res.Yt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i])
+  boxplot(res.Yt.YW[,i], res.Yt.MLE[,i], res.Yt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i],
+          outline = FALSE)
   abline(h = theta0[i], col = 2, lwd = 2)
 }
 
@@ -601,7 +603,8 @@ main = c(expression(paste("Simulated process ", Z[t], " - ", phi[1])),
          expression(paste("Simulated process ", Z[t], " - ", sigma^2)))
 
 for (i in 1:3){
-  boxplot(res.Zt.YW[,i], res.Zt.MLE[,i], res.Zt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i])
+  boxplot(res.Zt.YW[,i], res.Zt.MLE[,i], res.Zt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i],
+          outline = FALSE)
   abline(h = theta0[i], col = 2, lwd = 2)
 }
 ```
@@ -777,7 +780,7 @@ On the other hand, when checking the performance of the same methods when applie
 
 To conclude this section on estimation, we now compare the above studied estimators in different applied settings where we can highlight how to assess which estimator is more appropriate according to the type of setting. For this purpose, let us start with an example we have already checked in the previous chapter when discussing standard and robust estimators of the ACF, more specifically the data on monthly precipitations. As mentioned before when discussing this example, the importance of modelling precipitation data lies in the fact that its usually used to successively model the entire water cycle. Common models for this purpose are either the white noise (WN) model or the AR(1) model. Let us compare the standard and robust ACF again to understand which of these two models seems more appropriate for the data at hand.
 
-```{r}
+```{r, fig.asp = 0.5, fig.width = 9, fig.align='center', fig.cap="TO DO"}
 compare_acf(hydro)
 ```
 
@@ -801,17 +804,23 @@ t(rgmwm_hydro)
 
 In this case, we see how the autocorrelation between lagged values is much higher (0.4 compared to 0.06) indicating that there is a stronger dependence in the data than what is suggested by standard estimators. Moreover, the innovation variance is smaller compared to that of the MLE. This is also a known phenomenon when there's contamination in the data since it leads to less dependence and more variability being detected by non-robust estimators. This estimate of the variance also has a considerable impact on forecast precision (as we'll see in the next section).
 
-A final applied example that highlights the (potential) difference between estimators according to the type of setting is given by the "Recruitment" data set (in the "astsa" library). This data refers to the presence of new fish in the population of the Pacific Ocean and is often linked to the currents and temperatures passing through the ocean. As for the previous data set, let us take a look at the data itself and then analyse the standard and robust estimations of the ACF.
+A final applied example that highlights the (potential) difference between estimators according to the type of setting is given by the "Recruitment" data set (in the `astsa` library). This data refers to the presence of new fish in the population of the Pacific Ocean and is often linked to the currents and temperatures passing through the ocean. As for the previous data set, let us take a look at the data itself and then analyse the standard and robust estimations of the ACF.
 
-```{r}
+```{r, echo = FALSE}
+library(astsa)
+```
+
+```{r, fig.asp = 0.5, fig.width = 8, fig.align='center', fig.cap="TO DO"}
 library(astsa)
 
 # Format data
 fish = gts(rec, start = 1950, freq = 12, unit_time = 'month', name_ts = 'Recruitment')
 
 # Plot data
-par(mfrow = c(2, 1))
 plot(fish)
+```
+
+```{r, fig.asp = 0.5, fig.width = 9, fig.align='center', fig.cap="TO DO"}
 compare_acf(fish)
 ```
 
@@ -819,14 +828,19 @@ compare_acf(fish)
 par(mfrow = c(1,1))
 ```
 
-We can see that there appears to be a considerable dependence between the lagged variables which decays exponentially (as an AR(p) process ACF generally does). Also in this case we see a seasonality in the data but we won't consider this for the purpose of this example. Given that there doesn't appear to be any significant contamination in the data, let us consider the Yule-Walker and MLE estimators. The MLE highly depends on the assumed parametric distribution of the time series (i.e. usually Gaussian) and, if this is not respected, the resulting estimations could be unreliable. Hence, a first difference of the time series can often give an idea of the marginal distribution of the time series.
+We can see that there appears to be a considerable dependence between the lagged variables which decays exponentially (as an AR($p$) process ACF generally does). Also in this case we see a seasonality in the data but we won't consider this for the purpose of this example. Given that there doesn't appear to be any significant contamination in the data, let us consider the Yule-Walker and MLE estimators. The MLE highly depends on the assumed parametric distribution of the time series (i.e. usually Gaussian) and, if this is not respected, the resulting estimations could be unreliable. Hence, a first difference of the time series can often give an idea of the marginal distribution of the time series.
 
-```{r}
+```{r, fig.asp = 0.5, fig.width = 8, fig.align='center', fig.cap="TO DO"}
 # Take first differencing of the recruitment data
 diff_fish = gts(diff(rec), start = 1950, freq = 12, unit_time = 'month', name_ts = 'Recruitment')
 
 # Plot first differencing of the recruitment data
 plot(diff_fish)
+```
+
+
+```{r, fig.asp = 0.5, fig.width = 9, fig.align='center', fig.cap="TO DO"}
+compare_acf(diff_fish)
 ```
 
 From the plot we can see that observations appear to be collected around a constant value and fewer appear to be further from this value (as would be the case for a normal distribution). However, various of these "more extreme" observations appear to be quite frequent suggesting that the underlying distribution may have a heavier tail compared to the normal distribution. With this in mind, let us estimate an AR(2) model for this data using the Yule-Walker and MLE.
