@@ -1,3 +1,168 @@
+<!-- In particular, we simulate three different processes $X_t, Y_t, Z_t$ from \[X_t = 0.5 X_{t-1} - 0.25 X_{t-2} + W_t,\] with $W_t \overset{iid}{\sim} N(0, 1)$. The first process $(X_t)$ is uncontaminated while the other two processes are contaminated versions of the first that can often be observed in practice. The first type of contamination can be seen in $(Y_t)$ and is delivered by replacing a portion of the original process with a process defined as \[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t,\] where $V_t \overset{iid}{\sim} N(0, 9)$. The second form of contamination can be seen in $(Z_t)$ and consists in the so-called point-wise contamination where randomly selected points from $X_t$ are replaced with $N_t \overset{iid}{\sim} N(0, 9)$. An example of how to simulate a time series from each of these processes is in the code below followed by the relative plots. -->
+  
+  <!-- ``` {r simuAR2data, cache = TRUE} -->
+  <!-- n         = 1000           # Sample Size (T) -->
+  <!-- eps       = 0.05           # Proportion of contamination -->
+  <!-- cont      = round(eps*n)   # Number of contaminated observations -->
+  
+  <!-- set.seed(19)               # Set seed for reproducibility -->
+  
+  <!-- # Generate time series -->
+    <!-- Xt = gen_gts(n, AR(phi = c(0.5,0.25), sigma2 = 1)) -->
+      <!-- Yt = gen_gts(n, AR(phi = c(0.5,0.25), sigma2 = 1)) -->
+        <!-- Zt = gen_gts(n, AR(phi = c(0.5,0.25), sigma2 = 1)) -->
+          
+          <!-- # Contaminate a portion of Yt with a process -->
+          <!-- index_start = sample(1:(n-cont-1), 1) -->
+            <!-- index_end = index_start + cont - 1 -->
+              <!-- Yt[index_start:index_end,] = gen_gts(cont, AR(phi = c(0.9,-0.4), sigma2 = 9)) -->
+                
+                <!-- # Contaminate at random Zt with noise -->
+                <!-- Zt[sample(1:n, cont, replace = FALSE),] = gen_gts(cont, WN(sigma2 = 9)) -->
+                  <!-- ``` -->
+                  
+                  <!-- ```{r visualizesimuAR2data, cache = TRUE, echo = FALSE, fig.height = 9, fig.width = 6, fig.cap = "Contaminated AR(2) Processes", fig.align='center'} -->
+                  <!-- # Graph points -->
+                  <!-- par(mfrow = c(3,1)) -->
+                  <!-- plot(Xt, main = expression(paste("Simulated process ",X[t])), ylim = range(c(Xt, Yt, Zt))) -->
+                  <!-- plot(Yt, main = expression(paste("Simulated process ",Y[t])), ylim = range(c(Xt, Yt, Zt))) -->
+                  <!-- plot(Zt, main = expression(paste("Simulated process ",Z[t])), ylim = range(c(Xt, Yt, Zt))) -->
+                  <!-- ``` -->
+                  
+                  <!-- Having highlighted the kind of processes we will be simulating from, we will now create a code that allows to apply the different methods in order to estimate the parameters of an AR(2) model from a given time series. The result of this code therefore will consist in the parameter estimates for the five methods discussed above (i.e. MLE, Yule-Walker (standard and robust), GMWM (standard and robust)) on an observed (simulated) time series. The code that follows this function allows to deliver separate boxplots for each method in order to assess the performance of these approaches within the simulation procedure (which will be described further on).  -->
+                  
+                  <!-- ```{r simengine, cache = TRUE} -->
+                  <!-- apply_methods = function(Xt){ -->
+                      <!--   # Estimate ARIMA parameters using MLE -->
+                      <!--   mod = arima(Xt, order = c(2, 0, 0), include.mean  = FALSE) -->
+                        
+                        <!--   # Extract MLE Parameters (including sigma) -->
+                        <!--   res.MLE = c(mod$coef, mod$sigma) -->
+                          
+                          <!--   # Calculate ACF -->
+                          <!--   autocorr = as.numeric(acf(Xt, lag.max = 2, plot = FALSE)$acf) -->
+                            <!--   X = matrix(1,2,2) -->
+                              <!--   X[1,2] = X[2,1] = autocorr[2] -->
+                                <!--   y = autocorr[2:3] -->
+                                  
+                                  <!--   # Compute Least Squares on ACF -->
+                                  <!--   svmat = solve(X) -->
+                                    <!--   phi.LS = svmat%*%y -->
+                                      <!--   sig2.LS = var(Xt)*(1 - t(y)%*%svmat%*%y) -->
+                                        <!--   res.LS = c(phi.LS, sig2.LS) -->
+                                          
+                                          <!--   # Calculate RACF -->
+                                          <!--   rob.ccf = as.numeric(robcor::robacf(Xt, plot=FALSE, type = "covariance")$acf) -->
+                                            <!--   X[1,2] = X[2,1] = rob.ccf[2]/rob.ccf[1] -->
+                                              <!--   y = rob.ccf[2:3]/rob.ccf[1] -->
+                                                
+                                                <!--   # Compute Least Squares on RACF -->
+                                                <!--   svmat = solve(X) -->
+                                                  <!--   phi.RR = svmat%*%y -->
+                                                    <!--   sig2.RR = rob.ccf[1]*(1 - t(y)%*%svmat%*%y) -->
+                                                      <!--   res.RR = c(phi.RR, sig2.RR) -->
+                                                        
+                                                        <!--   # Compute the GMWM Estimator -->
+                                                        <!--   res.GMWM = gmwm2::gmwm(ARMA(2,0), Xt)$estimate -->
+                                                          <!--   res.RGMWM = gmwm2::gmwm(ARMA(2,0), Xt, robust = TRUE)$estimate -->
+                                                            
+                                                            <!--   # Return results -->
+                                                            <!--   list(res.MLE = res.MLE, res.LS = res.LS, res.RR = res.RR, -->
+                                                                          <!--        res.GMWM = res.GMWM, res.RGMWM = res.RGMWM) -->
+                                                            <!-- }  -->
+                    <!-- ``` -->
+                    
+                    <!-- ```{r simgraphcreator} -->
+                    <!-- sim_study_graph = function(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM, -->
+                                                      <!--                            theta = c(0.5, 0.25, 1), process_name = "NA") { -->
+                        
+                        <!--   labels = c("MLE", "LS", "RLS", "GMWM", "RGMWM") -->
+                          <!--   title = c(expression(phi [1]), expression(phi [2]), expression(sigma)) -->
+                            
+                            <!--   par(mfrow=c(2,2), oma=c(0,0,2,0)) -->
+                            
+                            <!--   for(i in 1:length(theta)) { -->
+                                
+                                <!--     boxplot(res.MLE[, i], res.LS[, i], res.RR[, i], res.GMWM[, i], res.RGMWM[, i], col = "grey80", main = title[i], names = labels, las = 3) -->
+                                <!--     abline(h = theta[i], col = "red") -->
+                                
+                                <!--   } -->
+                            
+                            <!--   title(paste("Estimations on process", process_name), outer=TRUE) -->
+                            
+                            
+                            <!-- } -->
+                      <!-- ``` -->
+                      
+                      <!-- Having defined two functions that allow to estimate and summarize the results of the considered estimation techniques, we can now perform the simulation study. For this purpose we simulate 250 time series from the processes $(X_t)$, $(Y_t)$ and $(Z_t)$ and, for each simulation, we apply the five different methods thereby saving the results of the estimations for each simulated time series. By doing so, we will verify the finite sample behaviour of the methods and understand how they behave under the different settings discussed earlier (contaminated and uncontaminated observations). -->
+                      
+                      
+                      <!-- ``` {r simuAR2study, cache = TRUE, fig.height = 4.5, fig.width = 9} -->
+                      <!-- # Number of bootstrap iterations -->
+                      <!-- B = 250 -->
+                        
+                        <!-- # Simulation storage -->
+                        <!-- res.xt.MLE = res.xt.LS = res.xt.RR = res.xt.GMWM = res.xt.RGMWM = matrix(NA, B, 3) -->
+                          <!-- res.yt.MLE = res.yt.LS = res.yt.RR = res.yt.GMWM = res.yt.RGMWM = matrix(NA, B, 3) -->
+                            <!-- res.zt.MLE = res.zt.LS = res.zt.RR = res.zt.GMWM = res.zt.RGMWM = matrix(NA, B, 3) -->
+                              
+                              <!-- # Begin bootstrap -->
+                              <!-- for (i in seq_len(B)){ -->
+                                  
+                                  <!--   # Set seed for reproducibility -->
+                                  <!--   set.seed(i) -->
+                                  
+                                  <!--   # Generate processes -->
+                                  <!--   Xt = gen_gts(n, AR(phi = c(0.5, 0.25), sigma2 = 1)) -->
+                                    <!--   Yt = gen_gts(n, AR(phi = c(0.5, 0.25), sigma2 = 1)) -->
+                                      <!--   Zt = gen_gts(n, AR(phi = c(0.5, 0.25), sigma2 = 1)) -->
+                                        
+                                        <!--   # Generate Ut contamination process that replaces a portion of original signal -->
+                                        <!--   index_start = sample(1:(n-cont-1), 1) -->
+                                          <!--   index_end = index_start + cont - 1 -->
+                                            <!--   Yt[index_start:index_end] = gen_gts(cont, AR(phi = c(0.9,-0.4), sigma2 = 9)) -->
+                                              
+                                              <!--   # Generate Nt contamination that inject noise at random -->
+                                              <!--   Zt[sample(n, cont, replace = FALSE)] = gen_gts(cont, WN(sigma2 = 9)) -->
+                                                
+                                                <!--   # Compute estimates and store in the appropriate matrix -->
+                                                <!--   res = apply_methods(Xt) -->
+                                                  <!--   res.xt.MLE[i,]  = res$res.MLE; res.xt.LS[i,] = res$res.LS; res.xt.RR[i,] = res$res.RR -->
+                                                    <!--   res.xt.GMWM[i,] = res$res.GMWM; res.xt.RGMWM[i,] = res$res.RGMWM -->
+                                                      
+                                                      <!--   res = apply_methods(Yt) -->
+                                                        <!--   res.yt.MLE[i,]  = res$res.MLE; res.yt.LS[i,] = res$res.LS; res.yt.RR[i,] = res$res.RR -->
+                                                          <!--   res.yt.GMWM[i,] = res$res.GMWM; res.yt.RGMWM[i,] = res$res.RGMWM -->
+                                                            
+                                                            <!--   res = apply_methods(Zt) -->
+                                                              <!--   res.zt.MLE[i,]  = res$res.MLE; res.zt.LS[i,] = res$res.LS; res.zt.RR[i,] = res$res.RR -->
+                                                                <!--   res.zt.GMWM[i,] = res$res.GMWM; res.zt.RGMWM[i,] = res$res.RGMWM -->
+                                                                  <!-- } -->
+                              <!-- ``` -->
+                              
+                              <!-- Once we run this simulation (which can be time-demanding), we can now represent the results of the estimation methods that are denoted as follows: -->
+                              
+                              <!-- - **MLE**: Maximum Likelihood Estimator -->
+                              <!-- - **LS**: Yule-Walker estimator (based on a least-squares distance) -->
+                              <!-- - **RLS**: the robust version of the Yule-Walker estimator -->
+                              <!-- - **GMWM**: the standard version of the GMWM estimator -->
+                              <!-- - **RGMWM**: the robust version of the GMWM estimator -->
+                              
+                              <!-- The boxplots representing the distributions of estimated values on the process $(X_t)$ (i.e. uncontaminated) are shown below. -->
+                              
+                              <!-- ```{r, dependson="simuAR2study"} -->
+                              <!-- sim_study_graph(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM, process_name = "Xt") -->
+                              <!-- ``` -->
+                              
+                              <!-- It can be seen how all methods appear to properly estimate the true parameter values on average. However, the MLE appears to be slightly more efficient (less variable) compared to the other methods and, in addition, the robust methods (RLS and RGMWM) appear to be less efficient than their standard counterparts. Now let us check the performance of the same methods when applied to the two contaminated processes $(Y_t)$ and $(Z_t)$. -->
+                              
+                              <!-- ```{r, dependson="simuAR2study"} -->
+                              <!-- sim_study_graph(res.yt.MLE, res.yt.LS, res.yt.RR, res.yt.GMWM, res.yt.RGMWM, process_name = "Yt") -->
+                              <!-- sim_study_graph(res.zt.MLE, res.zt.LS, res.zt.RR, res.zt.GMWM, res.zt.RGMWM, process_name = "Zt") -->
+                              <!-- ``` -->
+                              
+                              <!-- It can be seen that for these two contaminated processes, the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimators allow to remain close (on average) to the true parameter values that we are aiming to estimate. As you can observe, the type of contamination can be important in the choice of the robust estimator to be used as underlined by the different behaviour of the RLS and RGMWM estimators on $(Y_t)$ and $(Z_t)$. However, this discussion is out of the scope of this book. -->
+
 ### Forecasting AR(p) Models
 
 One of the most interesting things in time series analysis is to predict the future unobserved values based on the values that have been observed up to now. However, this is not possible if the underlying (parametric) model is unknown, thus in this section we assume the time series $X_t$ is stationary and its model is known. In particular, we denote forecasts by $X^{T}_{T+m}$, where $n$ represents the data points collected (e.g. $\mathbf{X} = (X_{1}, X_{2}, \cdots , X_{T-1}, X_T)$) and $m$ represents the amount of points in the future we wish to predict. So, $X^{T}_{T+1}$ represents a one-step-ahead prediction $X_{T+1}$ given data $(X_{1}, X_{2}, \cdots, X_{T-1}, X_{T})$.

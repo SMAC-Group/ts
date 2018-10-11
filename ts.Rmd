@@ -401,7 +401,7 @@ knitr::include_graphics("images/causal_AR2.png")
 
 Given the above defined properties of AR(p) models, we will now discuss how these models can be estimated, more specifically how the $p+1$ parameters can be obtained from an observed time series. Indeed, a reliable estimation of these models is necessary in order to intepret and describe different natural phenomena and/or forecast possible future values of the time series.
 
-A first approach builds upon the earlier definition of AR(p) models being a linear process. Recall that
+A first approach builds upon the earlier definition of AR($p$) models being a linear process. Recall that
 \begin{equation}
     X_t = \sum_{j = 1}^{p} \phi_j X_{t-j}
 \end{equation}
@@ -533,10 +533,10 @@ In the above sample code `Xt` denotes the time series (a vector of length $T$), 
 mod = ar(Xt, order.max = 3, method = "mle", demean = FALSE, aic = FALSE)
 ```
 
-On the other hand, the RGMWM is implemented in the `gmwm` R package which can be downloaded and installed as follows:
+On the other hand, the RGMWM is implemented in the `gmwm2` R package which can be downloaded and installed as follows:
 
 ```{r, eval = FALSE}
-devtools::install_github("smac-group/gmwm")
+devtools::install_github("smac-group/gmwm2")
 ```
 
 Once this package is installed, you can estimate robust AR models using the following syntax:
@@ -545,7 +545,7 @@ Once this package is installed, you can estimate robust AR models using the foll
 mod = gmwm(AR(p), Xt, robust = TRUE)
 ```
 
-This syntax assumes that `Xt` is a zero mean process so if this is not case simply remove the empirical mean (or median) before using the `gmwm` function. For example, to estimate a robust AR(3) you can use the code:
+Removing the mean is not strictly necessary for the `gmwm` function since it won't estimate it and can consistently estimate the parameters of the time series model anyway. However, if you want to estimate the mean assuming the time series is stationary, this can be done via the sample mean (or median) which can then be removed from the observed time series to obtain a zero mean `Xt`. For example, to estimate a robust AR(3) you can use the code:
 
 ```{r, eval=FALSE}
 mod = gmwm(AR(3), Xt, robust = TRUE)
@@ -556,8 +556,8 @@ We now have the necessary `R` functions to deliver the above mentioned estimator
 The code below performs the simulation study where it can be seen how the contaminated processes $(Y_t)$ and $(Z_t)$ are generated. Once this is done, for each simultation the code estimates the parameters of the AR(2) model using the three different estimation methods.
 
 ```{r simuAR2study, eval = TRUE, cache = TRUE}
-# Load gmwm
-library(gmwm)
+# Load gmwm2
+library(gmwm2)
 
 # Number of bootstrap iterations
 B = 250
@@ -621,20 +621,20 @@ for (i in seq_len(B)){
   res.Zt.MLE[i, ] = c(mod.Zt.MLE$ar, mod.Zt.MLE$var.pred)
   
   # Fit RGMWM on the three time series
-  res.Xt.RGMWM[i, ] = gmwm(AR(2), Xt, robust = TRUE)$estimate
-  res.Yt.RGMWM[i, ] = gmwm(AR(2), Yt, robust = TRUE)$estimate
-  res.Zt.RGMWM[i, ] = gmwm(AR(2), Zt, robust = TRUE)$estimate
+  res.Xt.RGMWM[i, ] = gmwm2::gmwm(AR(2), Xt, robust = TRUE)$estimate
+  res.Yt.RGMWM[i, ] = gmwm2::gmwm(AR(2), Yt, robust = TRUE)$estimate
+  res.Zt.RGMWM[i, ] = gmwm2::gmwm(AR(2), Zt, robust = TRUE)$estimate
 }
 ```
 
-Having performed the estimation, we should now have `r B` estimates for each AR(2) parameter and each estimation method. The code below takes the results of the simulation and shows them in the shape of boxplots along with the true values of the parameters. The estimation methods that are denoted as follows: -->
+Having performed the estimation, we should now have `r B` estimates for each AR(2) parameter and each estimation method. The code below takes the results of the simulation and shows them in the shape of boxplots along with the true values of the parameters. The estimation methods that are denoted as follows:
 
 - **YW**: Yule-Walker estimator
 - **MLE**: Maximum Likelihood Estimator
 - **RGMWM**: the robust version of the GMWM estimator
 
 
-```{r, echo=FALSE, fig.height = 6, fig.width = 8, cache = TRUE, fig.align='center'}
+```{r, echo=FALSE, fig.asp = 0.75, fig.width = 9, cache = TRUE, fig.align='center', fig.cap="Boxplots of the empirical distribution functions of the Yule-Walker (YW), MLE and GMWM estimators for the parameters of the AR(2) model when using the Xt process (first row of boxplots), Yt process (second row of boxplots) and Zt (third row of boxplots)."}
 # Define colors
 hues = seq(15, 375, length = 4)
 cols = hcl(h = hues, l = 65, c = 100, alpha = 0.8)[1:3]
@@ -643,7 +643,7 @@ cols = hcl(h = hues, l = 65, c = 100, alpha = 0.8)[1:3]
 theta0 = c(0.5, 0.25, 1)
 
 # Define windows params
-par(mfrow = c(3, 3), oma = c(5,4,0,0) + 1.5, mar = c(0,0,1,1) + 1.5)
+par(mfrow = c(3, 3), oma = c(2.5,2.5,0,0) + 1.5, mar = c(0,0,2.5,1) + 1.5)
 
 # Make boxplots - Xt
 main = c(expression(paste("Simulated process ", X[t], " - ", phi[1])),
@@ -651,7 +651,8 @@ main = c(expression(paste("Simulated process ", X[t], " - ", phi[1])),
          expression(paste("Simulated process ", X[t], " - ", sigma^2)))
 
 for (i in 1:3){
-  boxplot(res.Xt.YW[,i], res.Xt.MLE[,i], res.Xt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i])
+  boxplot(res.Xt.YW[,i], res.Xt.MLE[,i], res.Xt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i],
+          outline = FALSE)
   abline(h = theta0[i], col = 2, lwd = 2)
 }
 
@@ -661,7 +662,8 @@ main = c(expression(paste("Simulated process ", Y[t], " - ", phi[1])),
          expression(paste("Simulated process ", Y[t], " - ", sigma^2)))
 
 for (i in 1:3){
-  boxplot(res.Yt.YW[,i], res.Yt.MLE[,i], res.Yt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i])
+  boxplot(res.Yt.YW[,i], res.Yt.MLE[,i], res.Yt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i],
+          outline = FALSE)
   abline(h = theta0[i], col = 2, lwd = 2)
 }
 
@@ -671,7 +673,8 @@ main = c(expression(paste("Simulated process ", Z[t], " - ", phi[1])),
          expression(paste("Simulated process ", Z[t], " - ", sigma^2)))
 
 for (i in 1:3){
-  boxplot(res.Zt.YW[,i], res.Zt.MLE[,i], res.Zt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i])
+  boxplot(res.Zt.YW[,i], res.Zt.MLE[,i], res.Zt.RGMWM[,i], names = c("YW", "MLE", "RGMWM"), col = cols, main = main[i],
+          outline = FALSE)
   abline(h = theta0[i], col = 2, lwd = 2)
 }
 ```
@@ -680,174 +683,9 @@ It can be seen how all methods appear to properly estimate the true parameter va
 
 On the other hand, when checking the performance of the same methods when applied to the two contaminated processes $(Y_t)$ and $(Z_t)$ it can be seen that the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimator remains close (on average) to the true parameter values that we are aiming to estimate. Therefore, when there's a suspicion that there could be some (small) contamination in the observed time series, it may be more appropriate to use a robust estimator.
 
-<!-- In particular, we simulate three different processes $X_t, Y_t, Z_t$ from \[X_t = 0.5 X_{t-1} - 0.25 X_{t-2} + W_t,\] with $W_t \overset{iid}{\sim} N(0, 1)$. The first process $(X_t)$ is uncontaminated while the other two processes are contaminated versions of the first that can often be observed in practice. The first type of contamination can be seen in $(Y_t)$ and is delivered by replacing a portion of the original process with a process defined as \[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t,\] where $V_t \overset{iid}{\sim} N(0, 9)$. The second form of contamination can be seen in $(Z_t)$ and consists in the so-called point-wise contamination where randomly selected points from $X_t$ are replaced with $N_t \overset{iid}{\sim} N(0, 9)$. An example of how to simulate a time series from each of these processes is in the code below followed by the relative plots. -->
-
-<!-- ``` {r simuAR2data, cache = TRUE} -->
-<!-- n         = 1000           # Sample Size (T) -->
-<!-- eps       = 0.05           # Proportion of contamination -->
-<!-- cont      = round(eps*n)   # Number of contaminated observations -->
-
-<!-- set.seed(19)               # Set seed for reproducibility -->
-
-<!-- # Generate time series -->
-<!-- Xt = gen_gts(n, AR(phi = c(0.5,0.25), sigma2 = 1)) -->
-<!-- Yt = gen_gts(n, AR(phi = c(0.5,0.25), sigma2 = 1)) -->
-<!-- Zt = gen_gts(n, AR(phi = c(0.5,0.25), sigma2 = 1)) -->
-
-<!-- # Contaminate a portion of Yt with a process -->
-<!-- index_start = sample(1:(n-cont-1), 1) -->
-<!-- index_end = index_start + cont - 1 -->
-<!-- Yt[index_start:index_end,] = gen_gts(cont, AR(phi = c(0.9,-0.4), sigma2 = 9)) -->
-
-<!-- # Contaminate at random Zt with noise -->
-<!-- Zt[sample(1:n, cont, replace = FALSE),] = gen_gts(cont, WN(sigma2 = 9)) -->
-<!-- ``` -->
-
-<!-- ```{r visualizesimuAR2data, cache = TRUE, echo = FALSE, fig.height = 9, fig.width = 6, fig.cap = "Contaminated AR(2) Processes", fig.align='center'} -->
-<!-- # Graph points -->
-<!-- par(mfrow = c(3,1)) -->
-<!-- plot(Xt, main = expression(paste("Simulated process ",X[t])), ylim = range(c(Xt, Yt, Zt))) -->
-<!-- plot(Yt, main = expression(paste("Simulated process ",Y[t])), ylim = range(c(Xt, Yt, Zt))) -->
-<!-- plot(Zt, main = expression(paste("Simulated process ",Z[t])), ylim = range(c(Xt, Yt, Zt))) -->
-<!-- ``` -->
-
-<!-- Having highlighted the kind of processes we will be simulating from, we will now create a code that allows to apply the different methods in order to estimate the parameters of an AR(2) model from a given time series. The result of this code therefore will consist in the parameter estimates for the five methods discussed above (i.e. MLE, Yule-Walker (standard and robust), GMWM (standard and robust)) on an observed (simulated) time series. The code that follows this function allows to deliver separate boxplots for each method in order to assess the performance of these approaches within the simulation procedure (which will be described further on).  -->
-
-<!-- ```{r simengine, cache = TRUE} -->
-<!-- apply_methods = function(Xt){ -->
-<!--   # Estimate ARIMA parameters using MLE -->
-<!--   mod = arima(Xt, order = c(2, 0, 0), include.mean  = FALSE) -->
-
-<!--   # Extract MLE Parameters (including sigma) -->
-<!--   res.MLE = c(mod$coef, mod$sigma) -->
-
-<!--   # Calculate ACF -->
-<!--   autocorr = as.numeric(acf(Xt, lag.max = 2, plot = FALSE)$acf) -->
-<!--   X = matrix(1,2,2) -->
-<!--   X[1,2] = X[2,1] = autocorr[2] -->
-<!--   y = autocorr[2:3] -->
-
-<!--   # Compute Least Squares on ACF -->
-<!--   svmat = solve(X) -->
-<!--   phi.LS = svmat%*%y -->
-<!--   sig2.LS = var(Xt)*(1 - t(y)%*%svmat%*%y) -->
-<!--   res.LS = c(phi.LS, sig2.LS) -->
-
-<!--   # Calculate RACF -->
-<!--   rob.ccf = as.numeric(robcor::robacf(Xt, plot=FALSE, type = "covariance")$acf) -->
-<!--   X[1,2] = X[2,1] = rob.ccf[2]/rob.ccf[1] -->
-<!--   y = rob.ccf[2:3]/rob.ccf[1] -->
-
-<!--   # Compute Least Squares on RACF -->
-<!--   svmat = solve(X) -->
-<!--   phi.RR = svmat%*%y -->
-<!--   sig2.RR = rob.ccf[1]*(1 - t(y)%*%svmat%*%y) -->
-<!--   res.RR = c(phi.RR, sig2.RR) -->
-
-<!--   # Compute the GMWM Estimator -->
-<!--   res.GMWM = gmwm2::gmwm(ARMA(2,0), Xt)$estimate -->
-<!--   res.RGMWM = gmwm2::gmwm(ARMA(2,0), Xt, robust = TRUE)$estimate -->
-
-<!--   # Return results -->
-<!--   list(res.MLE = res.MLE, res.LS = res.LS, res.RR = res.RR, -->
-<!--        res.GMWM = res.GMWM, res.RGMWM = res.RGMWM) -->
-<!-- }  -->
-<!-- ``` -->
-
-<!-- ```{r simgraphcreator} -->
-<!-- sim_study_graph = function(res.MLE, res.LS, res.RR, res.GMWM, res.RGMWM, -->
-<!--                            theta = c(0.5, 0.25, 1), process_name = "NA") { -->
-
-<!--   labels = c("MLE", "LS", "RLS", "GMWM", "RGMWM") -->
-<!--   title = c(expression(phi [1]), expression(phi [2]), expression(sigma)) -->
-
-<!--   par(mfrow=c(2,2), oma=c(0,0,2,0)) -->
-
-<!--   for(i in 1:length(theta)) { -->
-
-<!--     boxplot(res.MLE[, i], res.LS[, i], res.RR[, i], res.GMWM[, i], res.RGMWM[, i], col = "grey80", main = title[i], names = labels, las = 3) -->
-<!--     abline(h = theta[i], col = "red") -->
-
-<!--   } -->
-
-<!--   title(paste("Estimations on process", process_name), outer=TRUE) -->
-
-
-<!-- } -->
-<!-- ``` -->
-
-<!-- Having defined two functions that allow to estimate and summarize the results of the considered estimation techniques, we can now perform the simulation study. For this purpose we simulate 250 time series from the processes $(X_t)$, $(Y_t)$ and $(Z_t)$ and, for each simulation, we apply the five different methods thereby saving the results of the estimations for each simulated time series. By doing so, we will verify the finite sample behaviour of the methods and understand how they behave under the different settings discussed earlier (contaminated and uncontaminated observations). -->
-
-
-<!-- ``` {r simuAR2study, cache = TRUE, fig.height = 4.5, fig.width = 9} -->
-<!-- # Number of bootstrap iterations -->
-<!-- B = 250 -->
-
-<!-- # Simulation storage -->
-<!-- res.xt.MLE = res.xt.LS = res.xt.RR = res.xt.GMWM = res.xt.RGMWM = matrix(NA, B, 3) -->
-<!-- res.yt.MLE = res.yt.LS = res.yt.RR = res.yt.GMWM = res.yt.RGMWM = matrix(NA, B, 3) -->
-<!-- res.zt.MLE = res.zt.LS = res.zt.RR = res.zt.GMWM = res.zt.RGMWM = matrix(NA, B, 3) -->
-
-<!-- # Begin bootstrap -->
-<!-- for (i in seq_len(B)){ -->
-
-<!--   # Set seed for reproducibility -->
-<!--   set.seed(i) -->
-
-<!--   # Generate processes -->
-<!--   Xt = gen_gts(n, AR(phi = c(0.5, 0.25), sigma2 = 1)) -->
-<!--   Yt = gen_gts(n, AR(phi = c(0.5, 0.25), sigma2 = 1)) -->
-<!--   Zt = gen_gts(n, AR(phi = c(0.5, 0.25), sigma2 = 1)) -->
-
-<!--   # Generate Ut contamination process that replaces a portion of original signal -->
-<!--   index_start = sample(1:(n-cont-1), 1) -->
-<!--   index_end = index_start + cont - 1 -->
-<!--   Yt[index_start:index_end] = gen_gts(cont, AR(phi = c(0.9,-0.4), sigma2 = 9)) -->
-
-<!--   # Generate Nt contamination that inject noise at random -->
-<!--   Zt[sample(n, cont, replace = FALSE)] = gen_gts(cont, WN(sigma2 = 9)) -->
-
-<!--   # Compute estimates and store in the appropriate matrix -->
-<!--   res = apply_methods(Xt) -->
-<!--   res.xt.MLE[i,]  = res$res.MLE; res.xt.LS[i,] = res$res.LS; res.xt.RR[i,] = res$res.RR -->
-<!--   res.xt.GMWM[i,] = res$res.GMWM; res.xt.RGMWM[i,] = res$res.RGMWM -->
-
-<!--   res = apply_methods(Yt) -->
-<!--   res.yt.MLE[i,]  = res$res.MLE; res.yt.LS[i,] = res$res.LS; res.yt.RR[i,] = res$res.RR -->
-<!--   res.yt.GMWM[i,] = res$res.GMWM; res.yt.RGMWM[i,] = res$res.RGMWM -->
-
-<!--   res = apply_methods(Zt) -->
-<!--   res.zt.MLE[i,]  = res$res.MLE; res.zt.LS[i,] = res$res.LS; res.zt.RR[i,] = res$res.RR -->
-<!--   res.zt.GMWM[i,] = res$res.GMWM; res.zt.RGMWM[i,] = res$res.RGMWM -->
-<!-- } -->
-<!-- ``` -->
-
-<!-- Once we run this simulation (which can be time-demanding), we can now represent the results of the estimation methods that are denoted as follows: -->
-
-<!-- - **MLE**: Maximum Likelihood Estimator -->
-<!-- - **LS**: Yule-Walker estimator (based on a least-squares distance) -->
-<!-- - **RLS**: the robust version of the Yule-Walker estimator -->
-<!-- - **GMWM**: the standard version of the GMWM estimator -->
-<!-- - **RGMWM**: the robust version of the GMWM estimator -->
-
-<!-- The boxplots representing the distributions of estimated values on the process $(X_t)$ (i.e. uncontaminated) are shown below. -->
-
-<!-- ```{r, dependson="simuAR2study"} -->
-<!-- sim_study_graph(res.xt.MLE, res.xt.LS, res.xt.RR, res.xt.GMWM, res.xt.RGMWM, process_name = "Xt") -->
-<!-- ``` -->
-
-<!-- It can be seen how all methods appear to properly estimate the true parameter values on average. However, the MLE appears to be slightly more efficient (less variable) compared to the other methods and, in addition, the robust methods (RLS and RGMWM) appear to be less efficient than their standard counterparts. Now let us check the performance of the same methods when applied to the two contaminated processes $(Y_t)$ and $(Z_t)$. -->
-
-<!-- ```{r, dependson="simuAR2study"} -->
-<!-- sim_study_graph(res.yt.MLE, res.yt.LS, res.yt.RR, res.yt.GMWM, res.yt.RGMWM, process_name = "Yt") -->
-<!-- sim_study_graph(res.zt.MLE, res.zt.LS, res.zt.RR, res.zt.GMWM, res.zt.RGMWM, process_name = "Zt") -->
-<!-- ``` -->
-
-<!-- It can be seen that for these two contaminated processes, the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimators allow to remain close (on average) to the true parameter values that we are aiming to estimate. As you can observe, the type of contamination can be important in the choice of the robust estimator to be used as underlined by the different behaviour of the RLS and RGMWM estimators on $(Y_t)$ and $(Z_t)$. However, this discussion is out of the scope of this book. -->
-
 To conclude this section on estimation, we now compare the above studied estimators in different applied settings where we can highlight how to assess which estimator is more appropriate according to the type of setting. For this purpose, let us start with an example we have already checked in the previous chapter when discussing standard and robust estimators of the ACF, more specifically the data on monthly precipitations. As mentioned before when discussing this example, the importance of modelling precipitation data lies in the fact that its usually used to successively model the entire water cycle. Common models for this purpose are either the white noise (WN) model or the AR(1) model. Let us compare the standard and robust ACF again to understand which of these two models seems more appropriate for the data at hand.
 
-```{r}
+```{r, fig.asp = 0.5, fig.width = 9, fig.align='center', fig.cap="Standard (left) and robust (left) estimates of the ACF function on the monthly precipitation data (hydro)"}
 compare_acf(hydro)
 ```
 
@@ -871,17 +709,23 @@ t(rgmwm_hydro)
 
 In this case, we see how the autocorrelation between lagged values is much higher (0.4 compared to 0.06) indicating that there is a stronger dependence in the data than what is suggested by standard estimators. Moreover, the innovation variance is smaller compared to that of the MLE. This is also a known phenomenon when there's contamination in the data since it leads to less dependence and more variability being detected by non-robust estimators. This estimate of the variance also has a considerable impact on forecast precision (as we'll see in the next section).
 
-A final applied example that highlights the (potential) difference between estimators according to the type of setting is given by the "Recruitment" data set (in the "astsa" library). This data refers to the presence of new fish in the population of the Pacific Ocean and is often linked to the currents and temperatures passing through the ocean. As for the previous data set, let us take a look at the data itself and then analyse the standard and robust estimations of the ACF.
+A final applied example that highlights the (potential) difference between estimators according to the type of setting is given by the "Recruitment" data set (in the `astsa` library). This data refers to the presence of new fish in the population of the Pacific Ocean and is often linked to the currents and temperatures passing through the ocean. As for the previous data set, let us take a look at the data itself and then analyse the standard and robust estimations of the ACF.
 
-```{r}
+```{r, echo = FALSE}
+library(astsa)
+```
+
+```{r, fig.asp = 0.5, fig.width = 8, fig.align='center', fig.cap="Plot of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987"}
 library(astsa)
 
 # Format data
 fish = gts(rec, start = 1950, freq = 12, unit_time = 'month', name_ts = 'Recruitment')
 
 # Plot data
-par(mfrow = c(2, 1))
 plot(fish)
+```
+
+```{r, fig.asp = 0.5, fig.width = 9, fig.align='center', fig.cap="Standard (left) and robust (left) estimates of the ACF function on the monthly fish recruitment data (rec)"}
 compare_acf(fish)
 ```
 
@@ -889,9 +733,9 @@ compare_acf(fish)
 par(mfrow = c(1,1))
 ```
 
-We can see that there appears to be a considerable dependence between the lagged variables which decays exponentially (as an AR(p) process ACF generally does). Also in this case we see a seasonality in the data but we won't consider this for the purpose of this example. Given that there doesn't appear to be any significant contamination in the data, let us consider the Yule-Walker and MLE estimators. The MLE highly depends on the assumed parametric distribution of the time series (i.e. usually Gaussian) and, if this is not respected, the resulting estimations could be unreliable. Hence, a first difference of the time series can often give an idea of the marginal distribution of the time series.
+We can see that there appears to be a considerable dependence between the lagged variables which decays exponentially (as an AR($p$) process ACF generally does). Also in this case we see a seasonality in the data but we won't consider this for the purpose of this example. Given that there doesn't appear to be any significant contamination in the data, let us consider the Yule-Walker and MLE estimators. The MLE highly depends on the assumed parametric distribution of the time series (i.e. usually Gaussian) and, if this is not respected, the resulting estimations could be unreliable. Hence, a first difference of the time series can often give an idea of the marginal distribution of the time series.
 
-```{r}
+```{r, fig.asp = 0.5, fig.width = 8, fig.align='center', fig.cap="Plot of the first difference of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987"}
 # Take first differencing of the recruitment data
 diff_fish = gts(diff(rec), start = 1950, freq = 12, unit_time = 'month', name_ts = 'Recruitment')
 
@@ -899,7 +743,14 @@ diff_fish = gts(diff(rec), start = 1950, freq = 12, unit_time = 'month', name_ts
 plot(diff_fish)
 ```
 
-From the plot we can see that observations appear to be collected around a constant value and fewer appear to be further from this value (as would be the case for a normal distribution). However, various of these "more extreme" observations appear to be quite frequent suggesting that the underlying distribution may have a heavier tail compared to the normal distribution. With this in mind, let us estimate an AR(2) model for this data using the Yule-Walker and MLE.
+From the plot we can see that observations appear to be collected around a constant value and fewer appear to be further from this value (as would be the case for a normal distribution). However, various of these "more extreme" observations appear to be quite frequent suggesting that the underlying distribution may have a heavier tail compared to the normal distribution. 
+
+```{r, fig.asp = 0.5, fig.width = 9, fig.align='center', fig.cap="Standard (left) and robust (left) estimates of the ACF function on the first difference of the monthly fish recruitment data (rec)"}
+compare_acf(diff_fish)
+```
+
+With this in mind, let us estimate an AR(2) model for this data using the Yule-Walker and MLE.
+
 
 ```{r}
 # MLE of Recruitment data
@@ -927,9 +778,9 @@ One of the most interesting things in time series analysis is to predict the fut
 To obtain forecasts, we rely upon the best linear prediction (BLP). Recall that the BLP Definition \@ref(def:blp) is mentioned when we calculate the PACF of AR model. In general, the best approach to finding the BLP is to use the Theorem \@ref(thm:projtheo).
 
 ```{theorem, label="projtheo", name="Projection Theorem"}
-Let $\mathcal{M} \subset \mathcal{L}_2$ be a closed linear subspace of Hibert space. 
+Let $\mathcal{M} \subset \mathcal{L}_2$ be a closed linear subspace of a Hibert space. 
 For every $y \in \mathcal{L}_2$, there exists a unique element $\hat{y} \in \mathcal{M}$ that
-minimizes $||y - l||^2$ over $l \in \mathcal{M}$. This element is uniquely 
+minimizes $||y - z||^2$ over $z \in \mathcal{M}$. This element is uniquely 
 determined by the requirements
 
 1. $\hat{y} \in \mathcal{M}$ and 
@@ -965,12 +816,11 @@ be represented in the following form
 \gamma(T+h-1)  \\
 \vdots \\
 \gamma(h)
-\end{pmatrix}_{T \times 1} \\
-\Gamma_T \mathbf{\alpha}_T  &= \mathbf{\gamma}_T
+\end{pmatrix}_{T \times 1}
+
 \end{aligned}
 \end{equation}.
-
-Assuming that $\Gamma_T$ is non-singular, then the values of $\mathbf{\alpha}_T$ are
+which can be written in a compact matrix form as $\Gamma_T \mathbf{\alpha}_T  &= \mathbf{\gamma}_T$. Assuming that $\Gamma_T$ is non-singular, then the values of $\mathbf{\alpha}_T$ are
 given as:
   
   $$\mathbf{\alpha}_T  = \Gamma^{-1}_T\mathbf{\gamma}_T.$$
@@ -981,6 +831,8 @@ Let us define
 
 Then \[E\left[ {{{\left( {{X_{t + j}} - m\left( {{X_1}, \cdots ,{X_t}} \right)} \right)}^2}} \right] \ge E\left[ {{{\left( {{X_{t + j}} - X_{t + j}^t} \right)}^2}} \right]\] for any function $m(.)$.
 ```
+
+The proof of this 
 
 <!--chapter:end:03-arma.Rmd-->
 
