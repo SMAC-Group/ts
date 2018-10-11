@@ -865,19 +865,19 @@ From these estimates it would appear that the autocorrelation between lagged var
 ```{r}
 rgmwm_hydro = gmwm(AR(1), hydro, robust = TRUE)$estimate
 
-# MLE Estimates
-c(rgmwm_hydro$ar, rgmwm_hydro$var.pred)
+# RGMWM Estimates
+t(rgmwm_hydro)
 ```
 
 In this case, we see how the autocorrelation between lagged values is much higher (0.4 compared to 0.06) indicating that there is a stronger dependence in the data than what is suggested by standard estimators. Moreover, the innovation variance is smaller compared to that of the MLE. This is also a known phenomenon when there's contamination in the data since it leads to less dependence and more variability being detected by non-robust estimators. This estimate of the variance also has a considerable impact on forecast precision (as we'll see in the next section).
 
-A final applied example that highlights the (potential) difference between estimators according to the type of setting is given by the "Recruitment" data set (in the "astsa" library). This data refers to the presence of new fish in the population of the Pacific Ocean and is often linked to the currents and temperatures passing through the ocean.
+A final applied example that highlights the (potential) difference between estimators according to the type of setting is given by the "Recruitment" data set (in the "astsa" library). This data refers to the presence of new fish in the population of the Pacific Ocean and is often linked to the currents and temperatures passing through the ocean. As for the previous data set, let us take a look at the data itself and then analyse the standard and robust estimations of the ACF.
 
 ```{r}
 library(astsa)
 
 # Format data
-fish = gts(rec, start = 1950, freq = 12, unit_time = 'month', name_ts = 'Recruitment', time_format = "%Y-%m")
+fish = gts(rec, start = 1950, freq = 12, unit_time = 'month', name_ts = 'Recruitment')
 
 # Plot data
 par(mfrow = c(2, 1))
@@ -887,6 +887,99 @@ compare_acf(fish)
 
 ```{r, echo=FALSE}
 par(mfrow = c(1,1))
+```
+
+We can see that there appears to be a considerable dependence between the lagged variables which decays exponentially (as an AR(p) process ACF generally does). Also in this case we see a seasonality in the data but we won't consider this for the purpose of this example. Given that there doesn't appear to be any significant contamination in the data, let us consider the Yule-Walker and MLE estimators. The MLE highly depends on the assumed parametric distribution of the time series (i.e. usually Gaussian) and, if this is not respected, the resulting estimations could be unreliable. Hence, a first difference of the time series can often give an idea of the marginal distribution of the time series.
+
+```{r}
+# Take first differencing of the recruitment data
+diff_fish = gts(diff(rec), start = 1950, freq = 12, unit_time = 'month', name_ts = 'Recruitment')
+
+# Plot first differencing of the recruitment data
+plot(diff_fish)
+```
+
+From the plot we can see that observations appear to be collected around a constant value and fewer appear to be further from this value (as would be the case for a normal distribution). However, various of these "more extreme" observations appear to be quite frequent suggesting that the underlying distribution may have a heavier tail compared to the normal distribution. With this in mind, let us estimate an AR(2) model for this data using the Yule-Walker and MLE.
+
+```{r}
+# MLE of Recruitment data
+yw_fish = ar(rec, order.max = 2, method = "yule-walker", demean = TRUE, aic = FALSE)
+
+# MLE of Recruitment data
+mle_fish = ar(rec, order.max = 2, method = "mle", demean = TRUE, aic = FALSE)
+
+# Compare estimates
+# Yule-Walker Estimation
+c(yw_fish$ar, yw_fish$var.pred)
+
+# MLE Estimation
+c(mle_fish$ar, mle_fish$var.pred)
+```
+
+It can be seen that, in this setting, the two estimators deliver very similar results (at least in terms of the $\phi_1$ and $\phi_2$ coefficients). Indeed, there doesn't appear to be need for robust estimation and the choice of a standard estimator is justified by the will to obtain efficient estimations. The only slight difference between the two estimations is in the innovation variance parameter $\sigma^2$ and this could be (evenutally) due to the normality assumption that the MLE estimator upholds in this case. If there is therefore a doubt on the fact that the Gaussian assumption does not hold for this data, then it is probably more convenient to use the Yule-Walker estimates.
+
+Until now we have focussed on estimation based on an assumed model. However, how do we choose a model? How can we make inference on the models and their parameters? To perform all these tasks we will need to compute residuals (as, for example, in the linear regression framework). In order to obtain residuals, we need to be able to predict (forecast) values of the time series and, consequently, the next section focuses on forecasting time series.
+
+### Forecasting AR(p) Models
+
+One of the most interesting things in time series analysis is to predict the future unobserved values based on the values that have been observed up to now. However, this is not possible if the underlying (parametric) model is unknown, thus in this section we assume the time series $X_t$ is stationary and its model is known. In particular, we denote forecasts by $X^{T}_{T+m}$, where $n$ represents the data points collected (e.g. $\mathbf{X} = (X_{1}, X_{2}, \cdots , X_{T-1}, X_T)$) and $m$ represents the amount of points in the future we wish to predict. So, $X^{T}_{T+1}$ represents a one-step-ahead prediction $X_{T+1}$ given data $(X_{1}, X_{2}, \cdots, X_{T-1}, X_{T})$.
+
+To obtain forecasts, we rely upon the best linear prediction (BLP). Recall that the BLP Definition \@ref(def:blp) is mentioned when we calculate the PACF of AR model. In general, the best approach to finding the BLP is to use the Theorem \@ref(thm:projtheo).
+
+```{theorem, label="projtheo", name="Projection Theorem"}
+Let $\mathcal{M} \subset \mathcal{L}_2$ be a closed linear subspace of Hibert space. 
+For every $y \in \mathcal{L}_2$, there exists a unique element $\hat{y} \in \mathcal{M}$ that
+minimizes $||y - l||^2$ over $l \in \mathcal{M}$. This element is uniquely 
+determined by the requirements
+
+1. $\hat{y} \in \mathcal{M}$ and 
+2. $(y - \hat{y}) \perp \mathcal{M}$.
+```
+
+<!-- \mbox{(trivial for time series with zero mean)} -->
+  
+  The projection theorem naturally leads to an equivalent way to find the best linear 
+predictor by solving the prediction equations,
+\[ \mathbb{E}(X_{t+h} - \hat{X}_{t+h}) = 0,\]
+and
+\[ \mathbb{E} [(X_{t+h} - \hat{X}_{t+h})X_j ] = 0, \mbox{ for } i = 1, \dots, t.\]
+
+If we denote $\mathbb{E}(X_{i}, X_{j})$ as $\gamma(|i - j|)$, the predition equations can
+be represented in the following form
+
+\begin{equation}
+\begin{aligned}
+\begin{pmatrix}
+\gamma(0) & \gamma(1) & \cdots & \gamma(T-1) \\
+\gamma(1) & \gamma(0) & \cdots & \gamma(T-2) \\
+\vdots & \vdots & \ddots & \vdots \\
+\gamma(T-1) & \gamma(T-2) & \cdots &\gamma(0)
+\end{pmatrix}_{T \times T}
+\begin{pmatrix}
+\alpha_1 \\
+\vdots \\
+\alpha_T
+\end{pmatrix}_{T \times 1}
+&=
+  \begin{pmatrix}
+\gamma(T+h-1)  \\
+\vdots \\
+\gamma(h)
+\end{pmatrix}_{T \times 1} \\
+\Gamma_T \mathbf{\alpha}_T  &= \mathbf{\gamma}_T
+\end{aligned}
+\end{equation}.
+
+Assuming that $\Gamma_T$ is non-singular, then the values of $\mathbf{\alpha}_T$ are
+given as:
+  
+  $$\mathbf{\alpha}_T  = \Gamma^{-1}_T\mathbf{\gamma}_T.$$
+  
+```{theorem}
+Let us define
+\[X_{t + j}^t = E\left[ {{X_{t + j}}|{X_t}, \cdots ,{X_1}} \right] = {E_t}\left[ {{X_{t + j}}} \right],j > 0\]
+
+Then \[E\left[ {{{\left( {{X_{t + j}} - m\left( {{X_1}, \cdots ,{X_t}} \right)} \right)}^2}} \right] \ge E\left[ {{{\left( {{X_{t + j}} - X_{t + j}^t} \right)}^2}} \right]\] for any function $m(.)$.
 ```
 
 <!--chapter:end:03-arma.Rmd-->

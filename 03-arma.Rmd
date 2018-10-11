@@ -903,4 +903,11 @@ be represented in the following form
 Assuming that $\Gamma_T$ is non-singular, then the values of $\mathbf{\alpha}_T$ are
 given as:
   
-  $$\mathbf{\alpha}_T  = \Gamma^{-1}_T\mathbf{\gamma}_T$$
+  $$\mathbf{\alpha}_T  = \Gamma^{-1}_T\mathbf{\gamma}_T.$$
+  
+```{theorem}
+Let us define
+\[X_{t + j}^t = E\left[ {{X_{t + j}}|{X_t}, \cdots ,{X_1}} \right] = {E_t}\left[ {{X_{t + j}}} \right],j > 0\]
+
+Then \[E\left[ {{{\left( {{X_{t + j}} - m\left( {{X_1}, \cdots ,{X_t}} \right)} \right)}^2}} \right] \ge E\left[ {{{\left( {{X_{t + j}} - X_{t + j}^t} \right)}^2}} \right]\] for any function $m(.)$.
+```
