@@ -1,0 +1,46 @@
+# Proofs {#appendixc}
+
+## Proof of Theorem \@ref(condexp) `r emo::ji("scream")`
+
+Consider:
+
+$\widetilde{\beta}^{*} = \mathop {\arg \min }\limits_\beta  \underbrace {E\left[ {{{\left( {{X_{t + h}} - m\left( {{X_{t + 1}}, \cdots ,{X_{t + h}}} \right)} \right)}^2}} \right]}_{MSE\left( \beta  \right)}$
+
+and
+
+$\widetilde{\beta} = \mathop {\arg \min }\limits_\beta  \underbrace {E\left[ {{{\left( {{X_{t + h}} - \sum\limits_{j = 1}^{h - 1} {{\beta _j}{X_{t + j}}} } \right)}^2}} \right]}_{MS{E_L}\left( \beta  \right)}$
+
+
+It is clear that:
+
+\[MS{E_L}\left( {\tilde \beta } \right) \ge MSE\left( {{{\tilde \beta }^*}} \right)\]
+
+Let's now consider 
+
+\[{\left( {{X_t} - m} \right)^2} = {\left[ {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right) + \left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right]^2}\]
+
+where we have: $m = m\left( {{X_{t + 1}}, \cdots ,{X_{t + h}}} \right)$ and ${\Omega _t} = \left( {{X_{t + 1}}, \cdots ,{X_{t + h}}} \right)$.
+
+Therefore, 
+
+\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _T}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)^2} + 2\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)\]
+
+
+Focusing on only the last term, we have that:
+
+\[\underbrace {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)}_{ = {\varepsilon _t}}\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)\]
+
+\[E\left[ {{\varepsilon _t}|{\Omega _t}} \right] = E\left[ {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]|{\Omega _t}} \right] = 0\]
+
+So, by the decomposition property, we have that:
+
+\[E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = E\left[ {E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)|{\Omega _t}} \right]} \right] = E\left[ {\underbrace {E\left[ {{\varepsilon _t}|{\Omega _t}} \right]}_{ = 0}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = 0\]
+
+By the previous discussion, we have that
+
+\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)^2}\]
+
+is therefore minimized for $m = E\left[ {{X_t}|{\Omega _t}} \right]$. \blacksquare$
+
+
+

@@ -535,7 +535,7 @@ mod = ar(Xt, order.max = 3, method = "mle", demean = FALSE, aic = FALSE)
 
 On the other hand, the RGMWM is implemented in the `gmwm2` R package which can be downloaded and installed as follows:
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 devtools::install_github("smac-group/gmwm2")
 ```
 
@@ -621,9 +621,9 @@ for (i in seq_len(B)){
   res.Zt.MLE[i, ] = c(mod.Zt.MLE$ar, mod.Zt.MLE$var.pred)
   
   # Fit RGMWM on the three time series
-  res.Xt.RGMWM[i, ] = gmwm2::gmwm(AR(2), Xt, robust = TRUE)$estimate
-  res.Yt.RGMWM[i, ] = gmwm2::gmwm(AR(2), Yt, robust = TRUE)$estimate
-  res.Zt.RGMWM[i, ] = gmwm2::gmwm(AR(2), Zt, robust = TRUE)$estimate
+  res.Xt.RGMWM[i, ] = gmwm(AR(2), Xt, robust = TRUE)$estimate
+  res.Yt.RGMWM[i, ] = gmwm(AR(2), Yt, robust = TRUE)$estimate
+  res.Zt.RGMWM[i, ] = gmwm(AR(2), Zt, robust = TRUE)$estimate
 }
 ```
 
@@ -733,7 +733,7 @@ compare_acf(fish)
 par(mfrow = c(1,1))
 ```
 
-We can see that there appears to be a considerable dependence between the lagged variables which decays exponentially (as an AR($p$) process ACF generally does). Also in this case we see a seasonality in the data but we won't consider this for the purpose of this example. Given that there doesn't appear to be any significant contamination in the data, let us consider the Yule-Walker and MLE estimators. The MLE highly depends on the assumed parametric distribution of the time series (i.e. usually Gaussian) and, if this is not respected, the resulting estimations could be unreliable. Hence, a first difference of the time series can often give an idea of the marginal distribution of the time series.
+We can see that there appears to be a considerable dependence between the lagged variables which decays (in a similar way to the ACF of an AR($p$)). Also in this case we see a seasonality in the data but we won't consider this for the purpose of this example. Given that there doesn't appear to be any significant contamination in the data, let us consider the Yule-Walker and MLE estimators. The MLE highly depends on the assumed parametric distribution of the time series (i.e. usually Gaussian) and, if this is not respected, the resulting estimations could be unreliable. Hence, a first difference of the time series can often give an idea of the marginal distribution of the time series.
 
 ```{r, fig.asp = 0.5, fig.width = 8, fig.align='center', fig.cap="Plot of the first difference of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987"}
 # Take first differencing of the recruitment data
@@ -743,13 +743,13 @@ diff_fish = gts(diff(rec), start = 1950, freq = 12, unit_time = 'month', name_ts
 plot(diff_fish)
 ```
 
-From the plot we can see that observations appear to be collected around a constant value and fewer appear to be further from this value (as would be the case for a normal distribution). However, various of these "more extreme" observations appear to be quite frequent suggesting that the underlying distribution may have a heavier tail compared to the normal distribution. 
+From the plot we can see that observations appear to be collected around a constant value and fewer appear to be further from this value (as would be the case for a normal distribution). However, various of these "more extreme" observations appear to be quite frequent suggesting that the underlying distribution may have a heavier tail compared to the normal distribution. Let us compare the standard and robust ACF estimates of this new time series. 
 
 ```{r, fig.asp = 0.5, fig.width = 9, fig.align='center', fig.cap="Standard (left) and robust (left) estimates of the ACF function on the first difference of the monthly fish recruitment data (rec)"}
 compare_acf(diff_fish)
 ```
 
-With this in mind, let us estimate an AR(2) model for this data using the Yule-Walker and MLE.
+In this case we see that the patterns appear to be the same but the values between the standard and robust estimates are slightly (to moderately) different over different lags. This would suggest that there could be some contamination in the data or, in any case, that the normal assumption may not hold exactly. With this in mind, let us estimate an AR(2) model for this data using the Yule-Walker and MLE.
 
 
 ```{r}
@@ -767,7 +767,7 @@ c(yw_fish$ar, yw_fish$var.pred)
 c(mle_fish$ar, mle_fish$var.pred)
 ```
 
-It can be seen that, in this setting, the two estimators deliver very similar results (at least in terms of the $\phi_1$ and $\phi_2$ coefficients). Indeed, there doesn't appear to be need for robust estimation and the choice of a standard estimator is justified by the will to obtain efficient estimations. The only slight difference between the two estimations is in the innovation variance parameter $\sigma^2$ and this could be (evenutally) due to the normality assumption that the MLE estimator upholds in this case. If there is therefore a doubt on the fact that the Gaussian assumption does not hold for this data, then it is probably more convenient to use the Yule-Walker estimates.
+It can be seen that, in this setting, the two estimators deliver very similar results (at least in terms of the $\phi_1$ and $\phi_2$ coefficients). Indeed, there doesn't appear to be a strong need for robust estimation and the choice of a standard estimator is justified by the will to obtain efficient estimations. The only slight difference between the two estimations is in the innovation variance parameter $\sigma^2$ and this could be (evenutally) due to the normality assumption that the MLE estimator upholds in this case. If there is therefore a doubt on the fact that the Gaussian assumption does not hold for this data, then it is probably more convenient to use the Yule-Walker estimates.
 
 Until now we have focussed on estimation based on an assumed model. However, how do we choose a model? How can we make inference on the models and their parameters? To perform all these tasks we will need to compute residuals (as, for example, in the linear regression framework). In order to obtain residuals, we need to be able to predict (forecast) values of the time series and, consequently, the next section focuses on forecasting time series.
 
@@ -825,14 +825,256 @@ given as:
   
   $$\mathbf{\alpha}_T  = \Gamma^{-1}_T\mathbf{\gamma}_T.$$
   
-```{theorem}
+```{theorem, label="condexp", name="Minimum Mean Square Error Predictor"}
 Let us define
-\[X_{t + j}^t = E\left[ {{X_{t + j}}|{X_t}, \cdots ,{X_1}} \right] = {E_t}\left[ {{X_{t + j}}} \right],j > 0\]
+\[X_{t + j}^t = E\left[ {{X_{t + j}}|{X_t}, \cdots ,{X_1}} \right]  {E_t}\left[ {{X_{t + j}}} \right],j > 0\]
 
 Then \[E\left[ {{{\left( {{X_{t + j}} - m\left( {{X_1}, \cdots ,{X_t}} \right)} \right)}^2}} \right] \ge E\left[ {{{\left( {{X_{t + j}} - X_{t + j}^t} \right)}^2}} \right]\] for any function $m(.)$.
 ```
 
-The proof of this 
+The proof of this theorem can be found in Appendix \@ref(#appendixc). This suggests that the best prediction is given by ${E_t}\left[ {{X_{t + j}}} \right]$
+
+```{example, label="ar1forecast", name="Forecasting with an AR(1)"}
+We begin the forecasting examples by considering a first order AR(1) process.
+
+${X_t} = \phi {X_{t - 1}} + {W_t}$
+  
+where $W_t \sim WN(0, \sigma^2_W)$.
+
+From here, the conditional expected mean and variance are given as:
+
+\[\begin{aligned}
+  {E_t}\left[ {{X_{t + j}}} \right] &= {\phi ^j}{X_t} \\
+  Va{r_t}\left[ {{X_{t + j}}} \right] &= \left( {1 + {\phi ^2} + {\phi ^4} +  \cdots  + {\phi ^{2\left( {j - 1} \right)}}} \right){\sigma ^2} \\ 
+\end{aligned} \]
+
+Within this derivation, it is important to remember that:
+
+\[\begin{aligned}
+  \mathop {\lim }\limits_{j \to \infty } {E_t}\left[ {{X_{t + j}}} \right] &= 0 = E\left[ {{X_t}} \right] \\
+  \mathop {\lim }\limits_{j \to \infty } Va{r_t}\left[ {{X_{t + j}}} \right] &= \frac{{{\sigma ^2}}}{{1 - {\phi ^2}}} = \operatorname{var} \left( {{X_t}} \right)  
+\end{aligned} \]
+
+```
+
+
+```{example, label="ar2forecast", name="Forecasting with an AR(2)"}
+Consider an AR(2) process with the following parametrization:
+
+$${X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + {W_t}$$
+
+where $W_t \sim WN(0, \sigma^2_W)$.
+
+Then, we are able to find the BLP for each step by:
+
+\[\begin{aligned}
+  {E_t}\left[ {{X_{t + 1}}} \right] &= {\phi _1}{X_t} + {\phi _2}{X_{t - 1}} \\
+  {E_t}\left[ {{X_{t + 2}}} \right] &= {E_t}\left[ {{\phi _1}{X_{t + 1}} + {\phi _2}{X_t}} \right] = {\phi _1}{E_t}\left[ {{X_{t + 1}}} \right] + {\phi _2}{X_t} \\
+   &= {\phi _1}\left( {{\phi _1}{X_t} + {\phi _2}{X_{t - 1}}} \right) + {\phi _2}{X_t} \\
+   &= \left( {\phi _1^2 + {\phi _2}} \right){X_t} + {\phi _1}{\phi _2}{X_{t - 1}} \\ 
+\end{aligned} \]
+
+```
+
+
+```{example, label="arpforecast", name="Forecasting with an AR(P)"}
+Consider AR(P) process given as:
+
+$${X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + \cdots + {\phi _p}{X_{t - p}} + {W_t}$$
+
+where $W_t \sim WN(0, \sigma^2_W)$.
+
+The process can be rearranged into matrix form denoted by:
+
+\[\begin{aligned}
+  \underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{X_t}} \\ 
+   \vdots  \\ 
+   \vdots  \\ 
+  {{X_{t - p + 1}}} 
+\end{array}} \right]}_{{Y_t}} &= \underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{\phi _1}}& \cdots &{}&{{\phi _p}} \\ 
+  {}&{}&{}&0 \\ 
+  {}&{{I_{p - 1}}}&{}& \vdots  \\ 
+  {}&{}&{}&0 
+\end{array}} \right]}_A\underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{X_{t - 1}}} \\ 
+   \vdots  \\ 
+   \vdots  \\ 
+  {{X_{t - p}}} 
+\end{array}} \right]}_{{Y_{t - 1}}} + \underbrace {\left[ {\begin{array}{*{20}{c}}
+  1 \\ 
+  0 \\ 
+   \vdots  \\ 
+  0 
+\end{array}} \right]}_C{W_t} \\
+  {Y_t} &= A{Y_{t - 1}} + C{W_t} 
+\end{aligned}\]
+
+From here, the conditional mean and variance are obtainable via:
+
+\[\begin{aligned}
+  {E_t}\left[ {{Y_{t + j}}} \right] &= {E_t}\left[ {A{Y_{t + j - 1}} + C{W_{t + j}}} \right] = {E_t}\left[ {A{Y_{t + j - 1}}} \right] + \underbrace {{E_t}\left[ {C{W_{t + j}}} \right]}_{ = 0} \\
+   &= {E_t}\left[ {A\left( {A{Y_{t + j - 2}} + C{W_{t + j - 1}}} \right)} \right] = {E_t}\left[ {{A^2}{Y_{t + j - 2}}} \right] = {A^j}{Y_t} \\ 
+  {\operatorname{var} _t}\left( {{Y_{t + j}}} \right) &= {\operatorname{var} _t}\left( {A{Y_{t + j - 1}} + C{W_{t + j}}} \right) \\
+   &= {\sigma ^2}C{C^T} + {\operatorname{var} _t}\left( {A{Y_{t + j - 1}}} \right) = {\sigma ^2}A{\operatorname{var} _t}\left( {{Y_{t + j - 1}}} \right){A^T} \\
+   &= {\sigma ^2}C{C^T} + {\sigma ^2}AC{C^T}A + {\sigma ^2}{A^2}{\operatorname{var} _t}\left( {{Y_{t + j - 2}}} \right){\left( {{A^2}} \right)^T} \\
+   &= {\sigma ^2}\sum\limits_{k = 0}^{j - 1} {{A^k}C{C^T}{{\left( {{A^K}} \right)}^T}}  \\ 
+\end{aligned} \]
+
+By the recursive properties evident within both the conditional mean and variance,
+the evaluation can be written to take advantage of these features by the following
+recursive formulation:
+\[\begin{aligned}
+  {E_t}\left[ {{Y_{t + j}}} \right] &= A{E_t}\left[ {{Y_{t + j - 1}}} \right] \\
+  {\operatorname{var} _t}\left[ {{Y_{t + j}}} \right] &= {\sigma ^2}C{C^T} + A{\operatorname{var} _t}\left( {{Y_{t + j - 1}}} \right){A^T} \\ 
+\end{aligned} \]
+```
+
+```{example, label="rear2forecast", name="Forecasting with an AR(2) in Matrix Form"}
+With the newfound knowledge regarding the recursive form of matrix predictions in hand,
+we return to the previous AR(2) forecasting example.
+
+\[\begin{aligned} \underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{X_t}} \\ 
+  {{X_{t - 1}}} 
+\end{array}} \right]}_{{Y_t}} &= \underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{\phi _1}}&{{\phi _2}} \\ 
+  1&0 
+\end{array}} \right]}_A\underbrace {\left[ {\begin{array}{*{20}{c}}
+  {{X_{t - 1}}} \\ 
+  {{X_{t - 2}}} 
+\end{array}} \right]}_{{Y_{t - 1}}} + \underbrace {\left[ {\begin{array}{*{20}{c}}
+  1 \\ 
+  0 
+\end{array}} \right]}_C{W_t} \\
+  {Y_t} &= A{Y_{t - 1}} + C{W_t} 
+\end{aligned}\]
+
+Then, we are able to calculate the BLP as:
+
+\[\begin{aligned}
+  {E_t}\left[ {{Y_{t + 2}}} \right] &= {A^2}{Y_t} = \left[ {\begin{array}{*{20}{c}}
+  {{\phi _1}}&{{\phi _2}} \\ 
+  1&0 
+\end{array}} \right]\left[ {\begin{array}{*{20}{c}}
+  {{\phi _1}}&{{\phi _2}} \\ 
+  1&0 
+\end{array}} \right]\left[ {\begin{array}{*{20}{c}}
+  {{X_t}} \\ 
+  {{X_{t - 1}}} 
+\end{array}} \right] \hfill \\
+   &= \left[ {\begin{array}{*{20}{c}}
+  {\phi _1^2 + {\phi _2}}&{{\phi _1}{\phi _2}} \\ 
+  {{\phi _1}}&{{\phi _2}} 
+\end{array}} \right]\left[ {\begin{array}{*{20}{c}}
+  {{X_t}} \\ 
+  {{X_{t - 1}}} 
+\end{array}} \right] = \left[ {\begin{array}{*{20}{c}}
+  {\left( {\phi _1^2 + {\phi _2}} \right){X_t} + {\phi _1}{\phi _2}{X_{t - 1}}} \\ 
+  {{\phi _1}{X_t} + {\phi _2}{X_{t - 1}}} 
+\end{array}} \right] \hfill \\ 
+\end{aligned} \]
+```
+
+Under the recursive formulation, we can see through a simulation study
+how the predictions for an AR(2) process with $\phi _1 = 0.75$ and $\phi _2 = 0.2$
+vary across time in Figure \@ref(fig:predplot).
+
+```{r predplot, cache = TRUE, echo = FALSE, fig.cap="Values of the AR(2) predictions with the pink line being the median prediction, red and green lines are respectively 95% and 75% Confidence intervals."}
+
+gg_color_hue <- function(n, alpha = 1) {
+  hues = seq(15, 375, length = n + 1)
+  hcl(h = hues, l = 65, c = 100, alpha = alpha)[1:n]
+}
+
+color = gg_color_hue(5, alpha = 1)
+color2 = gg_color_hue(3, alpha = 0.01)
+
+set.seed(2)
+Xt = gen_gts(n = 200, AR(phi = c(0.75, 0.2), sigma2 = 1))
+
+plot(NA, xlim = c(0,250), ylim  = c(-10,15), ylab="Prediction", xlab="Time")
+grid()
+lines(1:200, Xt, col = color[4])
+
+
+B = 5000
+mat = matrix(0,B,52)
+mat[,1] = rep(Xt[199], B)
+mat[,2] = rep(Xt[200], B)
+
+for (i in 1:B){
+  for (j in 3:52){
+    mat[i,j] = 0.75*mat[i,(j-1)] + 0.2*mat[i,(j-2)] + rnorm(1)
+  }
+  lines(200:250, mat[i,2:52], col = color2[3])
+}
+
+quant = matrix(NA, 51,5)
+quant[1,] = rep(Xt[200],1)
+
+for (i in 2:51){
+  quant[i,] = quantile(mat[,i+1], c(0.95,0.75,0.5,0.25,0.05))
+}
+
+lines(200:250, quant[,1], col = color[1], lty = 1)
+lines(200:250, quant[,5], col = color[1], lty = 1)
+
+lines(200:250, quant[,2], col = color[3], lty = 1)
+lines(200:250, quant[,4], col = color[3], lty = 1)
+
+lines(200:250, quant[,3], col = color[5], lty = 1)
+```
+
+#### Measuring Forecast Accuracy
+
+Within time series, it is often difficult to apply traditional methodology
+relating concept of "training" and "test" data set. The reason why these concepts
+are a bit foreign in time series due to the temporal dependence of the data.
+For instance, if we randomly sampled points within the time series, then there 
+would be some missing values that would need to be imputed. Therefore, to obtain
+an out-of-sample test the only viable option would be to obtain a window period,
+say $t = 1, \cdots , N − 1$, to predict $t = N$. That is to say, the training 
+sample runs from the beginning up until "today" and then the hold out data is 
+then "today" or "tomorrow". 
+
+Thus, time series models are validated on a notion 
+of a "rolling forecasting origin." However, depending on the context, they
+may also be referred to as "walk forward optimization", "rolling horizon" or
+simply "moving origin". The traditional rule of thumb regarding having a 
+training data set of about 2/3rds of the data and a test set of about 1/3
+still holds.
+
+There are different forecast measures that should be used to measure the strength
+of the window and, subsequently, the model. There are two prevalent measures
+that will be emphasized within this text: Median Prediction Error (MAPE) and
+Mean-squared Prediction Error (MSPE). Both are defined as follows:
+
+\begin{align*}
+MAPE &= \mathop {median}\limits_{t = 1, \cdots ,t - 1} \left| {{{\hat E}_t}\left[ {{X_{t + 1}}} \right] - {X_{t + 1}}} \right| = \mathop {median}\limits_{t = 1, \cdots ,t - 1} \left| {{{\hat E}_t}\left[ {r_i}\right]} \right| \\
+MSPE &= \frac{1}{{n - m}}\sum\limits_{t = m,n}^{n - 1} {{{\left( {{{\hat E}_t}\left[ {{X_{t + 1}}} \right] - {X_{t + 1}}} \right)}^2}}  = \frac{1}{{n - m}}\sum\limits_{t = m,n}^{n - 1} {{r_i}^2}
+\end{align*}
+
+```{proposition, name="Rolling Forecasting Origin"}
+The rolling forecast origin algorithm can be described as follows:
+
+1. Divide the data into a "training data" set that ranges from $t = 1, \ldots, m$ where $m$ is obtained by $m=\left \lfloor \frac{2N}{3} \right \rfloor$ and a testing data set $t = m+1, \ldots, N-1$
+2. Compute $\hat{\theta}$ on $X_t$ where $t = 1, \ldots, m$
+3. Using $\hat{\theta}$, compute ${\hat E_m}\left[ {{X_{m + 1}}} \right] = {\hat \phi _1}{X_m} +  \cdots  + {\hat \phi _p}{X_{m + 1 - p}}$.
+4. ${r_i} = {\hat E_m}\left[ {{X_{m + 1}}} \right] - {X_{m + 1}}$
+5. $i = i + 1$, $m = m + 1$, go to Step 2. until $m = N - 1$ then go to 6.
+6. Compute desired forcast measure 
+
+
+
+```
+
+Given all of the above discussion, there is one caveat that would enable data
+to be separate completely. The caveat is based upon the ability to take 
+distinct temporal sets such as year 1, year 2, and so on to fit individual models
+to each time period. The stability of parameter estimates could then be
+compared across years.
 
 <!--chapter:end:03-arma.Rmd-->
 
@@ -865,4 +1107,14 @@ Placeholder
 ## Applications of Robust Estimation
 
 <!--chapter:end:91-appendix-b.Rmd-->
+
+
+# Proofs {#appendixc}
+
+Placeholder
+
+
+## Proof of Theorem \@ref(condexp) `r emo::ji("scream")`
+
+<!--chapter:end:91-appendix-c.Rmd-->
 
