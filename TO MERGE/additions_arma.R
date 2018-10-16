@@ -218,6 +218,46 @@ given as:
   
   $$\mathbf{\alpha}_T  = \Gamma^{-1}_T\mathbf{\gamma}_T$$
   
+  <!-- #### Measuring Forecast Accuracy -->
+  
+  <!-- Within time series, it is often difficult to apply traditional methodologies -->
+  <!-- relating to the concepts of "training" and "test" data set. The reason why these concepts are of difficult application in time series is due to the temporal dependence of the data. For instance, if we randomly sampled points within the time series, then there would be some missing values that would need to be imputed. Therefore, to obtain -->
+  <!-- an out-of-sample test, the only viable option would be to obtain a window period, -->
+  <!-- say $t = 1, \cdots , T − 1$, to predict $t = T$. That is to say, the training  -->
+  <!-- sample runs from the beginning up until "yesterday" and then the "hold-out" data is  -->
+  <!-- consequently the observed value of "today".  -->
+  
+  <!-- Thus, time series models are validated based on "rolling forecasts". However, depending on the context, they may also be referred to as "walk forward optimization", "rolling horizon" or simply "moving origin". The traditional rule of thumb in terms of training data and test data sizes is to respectively pick $\frac{2}{3}$ and $\frac{1}{3}$ of the length of the observed time series. -->
+  
+  <!-- There are different forecast measures that should be used to measure the strength -->
+  <!-- of the window and, subsequently, the model. There are two prevalent measures -->
+  <!-- that will be emphasized within this text: Median Prediction Error (MAPE) and -->
+  <!-- Mean-squared Prediction Error (MSPE). Both are defined as follows: -->
+  
+  <!-- \begin{align*} -->
+  <!-- MAPE &= \mathop {median}\limits_{t = 1, \cdots ,t - 1} \left| {{{\hat E}_t}\left[ {{X_{t + 1}}} \right] - {X_{t + 1}}} \right| = \mathop {median}\limits_{t = 1, \cdots ,t - 1} \left| {{{\hat E}_t}\left[ {r_i}\right]} \right| \\ -->
+  <!-- MSPE &= \frac{1}{{n - m}}\sum\limits_{t = m,n}^{n - 1} {{{\left( {{{\hat E}_t}\left[ {{X_{t + 1}}} \right] - {X_{t + 1}}} \right)}^2}}  = \frac{1}{{n - m}}\sum\limits_{t = m,n}^{n - 1} {{r_i}^2} -->
+  <!-- \end{align*} -->
+  
+  <!-- ```{proposition, name="Rolling Forecasting Origin"} -->
+  <!-- The rolling forecast origin algorithm can be described as follows: -->
+  
+  <!-- 1. Divide the data into a "training data" set that ranges from $t = 1, \ldots, m$ where $m$ is obtained by $m=\left \lfloor \frac{2N}{3} \right \rfloor$ and a testing data set $t = m+1, \ldots, N-1$ -->
+  <!-- 2. Compute $\hat{\theta}$ on $X_t$ where $t = 1, \ldots, m$ -->
+  <!-- 3. Using $\hat{\theta}$, compute ${\hat E_m}\left[ {{X_{m + 1}}} \right] = {\hat \phi _1}{X_m} +  \cdots  + {\hat \phi _p}{X_{m + 1 - p}}$. -->
+  <!-- 4. ${r_i} = {\hat E_m}\left[ {{X_{m + 1}}} \right] - {X_{m + 1}}$ -->
+  <!-- 5. $i = i + 1$, $m = m + 1$, go to Step 2. until $m = N - 1$ then go to 6. -->
+  <!-- 6. Compute desired forcast measure  -->
+  
+  
+  
+  <!-- ``` -->
+  
+  <!-- Given all of the above discussion, there is one caveat that would enable data -->
+  <!-- to be separate completely. The caveat is based upon the ability to take  -->
+  <!-- distinct temporal sets such as year 1, year 2, and so on to fit individual models -->
+  <!-- to each time period. The stability of parameter estimates could then be -->
+  <!-- compared across years. -->
   
   ### Inference for AR(p) Models
   

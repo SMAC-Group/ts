@@ -707,7 +707,7 @@ One of the most interesting aspects of time series analysis is to predict the fu
 
 Let us now focus on defining a prediction operator and, for this purpose, let us define the Mean Squared Prediction Error (MSPE) as follows:
 
-$$\mathbb{E}[(X_{t+j} - X^{t}_{t+j})^2] .$$
+$${E}[(X_{t+j} - X^{t}_{t+j})^2] .$$
 Intuitively, the MPSE measures the square distance (i.e. always positive) between the actual future values and the corresponding predictions. Ideally, we would want this measure to be equal to zero (meaning that we don't make any prediction errors) but, if this is not possible, we would like to define a predictor that has the smallest MPSE among all possible predictors. The MPSE is not necessarily the best measure of prediction accuracy since, for example, it can be greatly affected by outliers or doesn't take into account importance of positive or negative misspredictions (e.g. for risks in finance or insurance). Nevertheless, it is a good overall measure of forecast accuracy and the next theorem states what the best predictor is for this measure.
 
 
@@ -779,28 +779,46 @@ where $\alpha_i \in \mathbb{R}$. It can be noticed, for example, that the $\alph
 Let us consider some examples to understand how these linear predictors can be delivered based on the AR(p) models studied this far. For this purpose, let us start with an AR(1) process.
 
 ```{example, label="ar1forecast", name="Forecasting with an AR(1) model"}
-We begin the forecasting examples by considering an AR(1) process.
+The AR(1) model is defined as follows:
 
 $${X_t} = \phi {X_{t - 1}} + {W_t}$$
   
 where $W_t \sim WN(0, \sigma^2)$.
 
-From here, the conditional expected mean and variance are given by:
+From here, the conditional expected mean and variance are given by
 
 \[\begin{aligned}
-  {E_t}\left[ {{X_{t + j}}} \right] &= {\phi ^j}{X_t} \\
-  Va{r_t}\left[ {{X_{t + j}}} \right] &= \left( {1 + {\phi ^2} + {\phi ^4} +  \cdots  + {\phi ^{2\left( {j - 1} \right)}}} \right){\sigma ^2} \\ 
+  {E}\left[ X_{t + j} | \Omega_t \right] &= {E}[\phi X_{t+j-1} + W_{t+j}\,| \, \Omega_t ] \\
+      &= ... = {\phi ^j}{X_t} \\
+  Var\left[ {{X_{t + j}}} | \Omega_t \right] &= \left( {1 + {\phi ^2} + {\phi ^4} +  \cdots  + {\phi ^{2\left( {j - 1} \right)}}} \right){\sigma ^2} \\ 
 \end{aligned} \]
 
-Within this derivation, it is important to remember that:
+Within this derivation, it is important to remember that
 
 \[\begin{aligned}
-  \mathop {\lim }\limits_{j \to \infty } {E_t}\left[ {{X_{t + j}}} \right] &= 0 = E\left[ {{X_t}} \right] \\
-  \mathop {\lim }\limits_{j \to \infty } Va{r_t}\left[ {{X_{t + j}}} \right] &= \frac{{{\sigma ^2}}}{{1 - {\phi ^2}}} = \operatorname{var} \left( {{X_t}} \right)  
+  \mathop {\lim }\limits_{j \to \infty } {E}\left[ {{X_{t + j}}} | \Omega_t \right] &= E\left[ {{X_t}} \right] = 0 \\
+  \mathop {\lim }\limits_{j \to \infty } Var_t\left[ {{X_{t + j}}} | \Omega_t \right] &= \operatorname{var} \left( {{X_t}} \right) = \frac{{{\sigma ^2}}}{{1 - {\phi ^2}}}   
 \end{aligned} \]
 
+From these last results we see that the forecast for an AR(1) process is "mean-reverting" since in general we have that the AR(1) can be written with respect to the mean $\mu$ as follows
+
+$$(X_t - \mu) = \phi (X_{t-1} - \mu) + W_t,$$
+
+which gives
+
+$$X_t = \mu + \phi (X_{t-1} - \mu) + W_t,$$
+  
+and consequently
+
+\[\begin{aligned}
+ E[X_{t+j} | \Omega_t] &= \mu + E[(X_{t+j} - \mu) | \Omega_t] \\
+  &= \mu + \phi^j(X_t - \mu),   
+\end{aligned} \]
+
+which tends to $\mu$ as $j \to \infty$
 ```
 
+Let us now consider a more complicated model, i.e. an AR(2) model.
 
 ```{example, label="ar2forecast", name="Forecasting with an AR(2) model"}
 Consider an AR(2) process defined as follows:
@@ -809,20 +827,21 @@ $${X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + {W_t}$$
 
 where $W_t \sim WN(0, \sigma^2)$.
 
-Based on this process we are able to find the BLP for each m-step ahead prediction using the following approach:
+Based on this process we are able to find the predictor for each j-step ahead prediction using the following approach:
 
 \[\begin{aligned}
-  {E_t}\left[ {{X_{t + 1}}} \right] &= {\phi _1}{X_t} + {\phi _2}{X_{t - 1}} \\
-  {E_t}\left[ {{X_{t + 2}}} \right] &= {E_t}\left[ {{\phi _1}{X_{t + 1}} + {\phi _2}{X_t}} \right] = {\phi _1}{E_t}\left[ {{X_{t + 1}}} \right] + {\phi _2}{X_t} \\
+  {E}\left[ {{X_{t + 1}}} | \Omega_t \right] &= {\phi _1}{X_t} + {\phi _2}{X_{t - 1}} \\
+  {E}\left[ {{X_{t + 2}}} | \Omega_t \right] &= {E}\left[ {{\phi _1}{X_{t + 1}} + {\phi _2}{X_t}} | \Omega_t \right] = {\phi _1}{E}\left[ {{X_{t + 1}}} | \Omega_t \right] + {\phi _2}{X_t} \\
    &= {\phi _1}\left( {{\phi _1}{X_t} + {\phi _2}{X_{t - 1}}} \right) + {\phi _2}{X_t} \\
    &= \left( {\phi _1^2 + {\phi _2}} \right){X_t} + {\phi _1}{\phi _2}{X_{t - 1}} \\ 
 \end{aligned} \]
 
 ```
 
+Having seen how to build a forecast for an AR(1), let us now generalise this method to an AR(p) using matrix notation.
 
 ```{example, label="arpforecast", name="Forecasting with an AR(p) model"}
-Consider AR(p) process given as:
+Consider AR(p) process defined as:
 
 $${X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + \cdots + {\phi _p}{X_{t - p}} + {W_t}$$
 
@@ -858,23 +877,25 @@ The process can be rearranged into matrix form as follows:
 From here, the conditional expectation and variance can be computed as follows:
 
 \[\begin{aligned}
-  {E_t}\left[ {{Y_{t + j}}} \right] &= {E_t}\left[ {A{Y_{t + j - 1}} + C{W_{t + j}}} \right] = {E_t}\left[ {A{Y_{t + j - 1}}} \right] + \underbrace {{E_t}\left[ {C{W_{t + j}}} \right]}_{ = 0} \\
-   &= {E_t}\left[ {A\left( {A{Y_{t + j - 2}} + C{W_{t + j - 1}}} \right)} \right] = {E_t}\left[ {{A^2}{Y_{t + j - 2}}} \right] = {A^j}{Y_t} \\ 
-  {\operatorname{var} _t}\left( {{Y_{t + j}}} \right) &= {\operatorname{var} _t}\left( {A{Y_{t + j - 1}} + C{W_{t + j}}} \right) \\
-   &= {\sigma ^2}C{C^T} + {\operatorname{var} _t}\left( {A{Y_{t + j - 1}}} \right) = {\sigma ^2}A{\operatorname{var} _t}\left( {{Y_{t + j - 1}}} \right){A^T} \\
-   &= {\sigma ^2}C{C^T} + {\sigma ^2}AC{C^T}A + {\sigma ^2}{A^2}{\operatorname{var} _t}\left( {{Y_{t + j - 2}}} \right){\left( {{A^2}} \right)^T} \\
+  {E}\left[ {{Y_{t + j}}} | \Omega_t \right] &= {E}\left[ {A{Y_{t + j - 1}} + C{W_{t + j}}} | \Omega_t\right] = {E}\left[ {A{Y_{t + j - 1}}} | \Omega_t \right] + \underbrace {{E}\left[ {C{W_{t + j}}} | \Omega_t \right]}_{ = 0} \\
+   &= {E}\left[ {A\left( {A{Y_{t + j - 2}} + C{W_{t + j - 1}}} \right)} | \Omega_t \right] = {E}\left[ {{A^2}{Y_{t + j - 2}}} | \Omega_t\right] = {A^j}{Y_t} \\ 
+  {\operatorname{var}}\left[ {{Y_{t + j}}} | | \Omega_t\right] &= {\operatorname{var}}\left[ {A{Y_{t + j - 1}} + C{W_{t + j}}} | \Omega_t \right] \\
+   &= {\sigma ^2}C{C^T} + {\operatorname{var}}\left[ {A{Y_{t + j - 1}}} | \Omega_t \right] = {\sigma ^2}A{\operatorname{var}}\left[ {{Y_{t + j - 1}}} | \Omega_t \right]{A^T} \\
+   &= {\sigma ^2}C{C^T} + {\sigma ^2}AC{C^T}A + {\sigma ^2}{A^2}{\operatorname{var}}\left[ {{Y_{t + j - 2}}} | \Omega_t \right]{\left( {{A^2}} \right)^T} \\
    &= {\sigma ^2}\sum\limits_{k = 0}^{j - 1} {{A^k}C{C^T}{{\left( {{A^K}} \right)}^T}}  \\ 
 \end{aligned} \]
 
-Considering the recursive pattern coming from the experssions of the conditional expectation and variance, the predictions can be obtained via the following recursive formulation:
+Considering the recursive pattern coming from the expressions of the conditional expectation and variance, the predictions can be obtained via the following recursive formulation:
 \[\begin{aligned}
-  {E_t}\left[ {{Y_{t + j}}} \right] &= A{E_t}\left[ {{Y_{t + j - 1}}} \right] \\
-  {\operatorname{var} _t}\left[ {{Y_{t + j}}} \right] &= {\sigma ^2}C{C^T} + A{\operatorname{var} _t}\left( {{Y_{t + j - 1}}} \right){A^T} \\ 
+  {E}\left[ {{Y_{t + j}}} | \Omega_t \right] &= A{E}\left[ {{Y_{t + j - 1}}} | \Omega_t\right] \\
+  {\operatorname{var}}\left[ {{Y_{t + j}}} | \Omega_t \right] &= {\sigma ^2}C{C^T} + A{\operatorname{var}}\left[ {{Y_{t + j - 1}}} | \Omega_t \right]{A^T} \\ 
 \end{aligned} \]
 ```
 
+With this recursive expression we can now compute the conditional expectation and variance of different AR(p) models. Let us therefore revisit the previous AR(2) example using this recursive formula.
+
 ```{example, label="rear2forecast", name="Forecasting with an AR(2) in Matrix Form"}
-Using the recursive matrix form defined in the previous example, we can revisit our previous example of the predictions for an AR(2) process as follows:
+We can rewrite our previous example of the predictions for an AR(2) process as follows
 
 \[\begin{aligned} \underbrace {\left[ {\begin{array}{*{20}{c}}
   {{X_t}} \\ 
@@ -892,10 +913,10 @@ Using the recursive matrix form defined in the previous example, we can revisit 
   {Y_t} &= A{Y_{t - 1}} + C{W_t} 
 \end{aligned}\]
 
-Then, we are able to calculate the BLP as:
+Then, we are able to calculate the prediction as
 
 \[\begin{aligned}
-  {E_t}\left[ {{Y_{t + 2}}} \right] &= {A^2}{Y_t} = \left[ {\begin{array}{*{20}{c}}
+  {E}\left[ {{Y_{t + 2}}} | \Omega_t \right] &= {A^2}{Y_t} = \left[ {\begin{array}{*{20}{c}}
   {{\phi _1}}&{{\phi _2}} \\ 
   1&0 
 \end{array}} \right]\left[ {\begin{array}{*{20}{c}}
@@ -966,14 +987,28 @@ lines(200:250, quant[,4], col = color[3], lty = 1)
 lines(200:250, quant[,3], col = color[5], lty = 1)
 ```
 
-It can be observed that, as hinted by the expressions for the variance of the predictions (in the examples above), the variability of the predictions increases as we try to predict further into the future. With this in mind, let is now define some empirical measures that can assess how good our predictions are.
+It can be observed that, as hinted by the expressions for the variance of the predictions (in the examples above), the variability of the predictions increases as we try to predict further into the future.
 
-The whole discussion on prediction is not only important to derive forecasts for future values of the phenomena one may be interested in, but also in understanding how well a model explains (and predicts) an observed time series. Indeed, predictions allow to deliver residuals within the time series setting and, based on these residuals, we can obtain different inference and diagnostic tools.
+Having now defined the basic concepts for forecasting of time series we can now start another topic of considerable importance for time series analysis. Indeed, the whole discussion on prediction is not only important to derive forecasts for future values of the phenomena one may be interested in, but also in understanding how well a model explains (and predicts) an observed time series. In fact, predictions allow to deliver residuals within the time series setting and, based on these residuals, we can obtain different inference and diagnostic tools.
 
-### Diagnostic Tools for Time Series
+Given the knowledge on predictions seen above, residuals can be computed as
+
+$$r_t = X_t - \hat{X}_t,$$
+where $\hat{X}_t$ represents an estimator of the conditional expectation $E[X_t | \Omega_{t-1}]$. The latter quantity will depend on the model underlying the time series and, assuming we know the true model, we could use the true parameters to obtain a value for this expectation. However, in an applied setting it is improbable that we know the true parameters and therefore $\hat{X}_t$ can be obtained by estimating the parameters (as seen in the previous sections) and then plugging thmem into the expression of $E[X_t | \Omega_{t-1}]$.
+
+## Diagnostic Tools for Time Series
+
+The standard approach to understanding how well a model fits the data is analysing the residuals (e.g. linear regression). The same approach can be taken for time series analysis where, given our knowledge on forecasts from the previous section, we can now deliver residuals. The first step (and possibly the most important) is to use visual tools to check the residuals and also the original time series. Below is a figure that collects different diagnostic tools for time series analysis and is applied to a simulated AR(1) process of length $T = 100$.
 
 ```{r}
-model = AR(phi = 0.8, sigma2 = 1)
-Xt = gen_gts(n = 100, model = model)
-simple_diag_plot(Xt)
+set.seed(333)
+true_model = AR(phi = 0.8, sigma2 = 1)
+Xt = gen_gts(n = 100, model = true_model)
+model = arima(Xt, order = c(1, 0, 0), include.mean = FALSE)
+diag_plot(Xt, model = model)
 ```
+
+The first row contains plots that refer to the residuals of the time series and can be interpreted in the same manner as the residuals from a linear regression. The first plot simply represents the residuals over time and should show if there is any presence of trends, seasonality or heteroskedasticity. The second plot gives a histogram (and smoothed histrogram called a kernel) of the residuals which should be centered in zero and (possibly) have an approximate normal distribution. The latter hypothesis can also be checked using the third plot which consists in a Normal quantile-quantile plot and the residuals should lie on (or close to) the diagonal line representing correspondance between the distributions.
+
+The first plots in the second row in the above figure refer to the original time series $(X_t)$ and shows the estimated ACF in the first plot. It can be seen how the autocorrelations decay exponentially until they don't become significant (within the blue confidence intervals). The second plot represents the Partial AutoCorrelation Function (PACF)
+ and is another tool that will be investigated further on. In the meantime, suffice it to say that this tool can be interpreted as a different version of the ACF which measures autocorrelation conditionally on the previous lags (in some sense, it measures the direct impact of $X_t$ on $X{t+h}$ removing the influence of all observations inbetween). For example, in this case we see that only the observations at lag 1 have a direct impact whereas the larger lags have no direct relationship. This is expected since an AR(1) depends directly on the previous observation and depends on the previous ones only through this previous observation. Finally, the last plot is visualises the "Ljung-Box Test" (which is a type of Portmanteau test) that tests whether the autocorrelation of the residuals at a given lag is different from zero. The plot represents the p-value of this test at the different lags and also shows a dashed line representing the common significance level of $\alpha = 0.05$. If the modelling has done a good job, all p-values should be larger than this level. In this case, using the latter level, we can see that the autocorrelations for the residuals appear to be non-significant and therefore fitting an AR(1) model to the time series (which is the true model in this example) appears to do a reasonably good job.
