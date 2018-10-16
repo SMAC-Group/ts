@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Applied Time Series Analysis with R</title>
+  <meta name="description" content="Applied Time Series Analysis with R">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Applied Time Series Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="SMAC-Group/ts" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Applied Time Series Analysis with R" />
+  
+  
+  
+
+<meta name="author" content="Stéphane Guerrier, Roberto Molinari and Haotian Xu">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="prev" href="appendixb.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Applied Time Series Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Foundation</b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i><b>1.1</b> Conventions</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#bibliographic-note"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i><b>1.4</b> License</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-wold-decomposition"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The Deterministic Component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The Random Component (Noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#eda"><i class="fa fa-check"></i><b>2.2</b> Exploratory Data Analysis for Time Series</a></li>
+<li class="chapter" data-level="2.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#dependence-in-time-series"><i class="fa fa-check"></i><b>2.3</b> Dependence in Time Series</a></li>
+<li class="chapter" data-level="2.4" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#basicmodels"><i class="fa fa-check"></i><b>2.4</b> Basic Time Series Models</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#wn"><i class="fa fa-check"></i><b>2.4.1</b> White Noise</a></li>
+<li class="chapter" data-level="2.4.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#rw"><i class="fa fa-check"></i><b>2.4.2</b> Random Walk</a></li>
+<li class="chapter" data-level="2.4.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ar1"><i class="fa fa-check"></i><b>2.4.3</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.4.4" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ma1"><i class="fa fa-check"></i><b>2.4.4</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.4.5" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#drift"><i class="fa fa-check"></i><b>2.4.5</b> Linear Drift</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#lts"><i class="fa fa-check"></i><b>2.5</b> Composite Stochastic Processes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="fundtimeseries.html"><a href="fundtimeseries.html"><i class="fa fa-check"></i><b>3</b> Fundamental Properties of Time Series</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#the-autocorrelation-and-autocovariance-functions"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#a-fundamental-representation"><i class="fa fa-check"></i><b>3.1.1</b> A Fundamental Representation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#admissible-autocorrelation-functions"><i class="fa fa-check"></i><b>3.1.2</b> Admissible Autocorrelation Functions 😱</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#stationary"><i class="fa fa-check"></i><b>3.2</b> Stationarity</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#assessing-weak-stationarity-of-time-series-models"><i class="fa fa-check"></i><b>3.2.1</b> Assessing Weak Stationarity of Time Series Models</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="fundtimeseries.html"><a href="fundtimeseries.html#estimation-of-moments-stationary-processes"><i class="fa fa-check"></i><b>3.3</b> Estimation of Moments (Stationary Processes)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#estimation-of-the-mean-function"><i class="fa fa-check"></i><b>3.3.1</b> Estimation of the Mean Function</a></li>
+<li class="chapter" data-level="3.3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#sample-autocovariance-and-autocorrelation-functions"><i class="fa fa-check"></i><b>3.3.2</b> Sample Autocovariance and Autocorrelation Functions</a></li>
+<li class="chapter" data-level="3.3.3" data-path="fundtimeseries.html"><a href="fundtimeseries.html#robustness-issues"><i class="fa fa-check"></i><b>3.3.3</b> Robustness Issues</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html"><i class="fa fa-check"></i><b>4</b> The Family of Autoregressive Moving Average Models</a><ul>
+<li class="chapter" data-level="4.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#linear-processes"><i class="fa fa-check"></i><b>4.1</b> Linear Processes</a></li>
+<li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autoregressive-models---arp"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models - AR(p)</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#properties-of-arp-models"><i class="fa fa-check"></i><b>4.2.1</b> Properties of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.2.2</b> Estimation of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#forecasting-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Forecasting AR(p) Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendixa.html"><a href="appendixa.html"><i class="fa fa-check"></i><b>A</b> Proofs</a><ul>
+<li class="chapter" data-level="A.1" data-path="appendixa.html"><a href="appendixa.html#proof-of-theorem-1"><i class="fa fa-check"></i><b>A.1</b> Proof of Theorem 1 😱</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendixb.html"><a href="appendixb.html"><i class="fa fa-check"></i><b>B</b> Robust Regression Methods</a><ul>
+<li class="chapter" data-level="B.1" data-path="appendixb.html"><a href="appendixb.html#the-classical-least-squares-estimator"><i class="fa fa-check"></i><b>B.1</b> The Classical Least-Squares Estimator</a></li>
+<li class="chapter" data-level="B.2" data-path="appendixb.html"><a href="appendixb.html#robust-estimators-for-linear-regression-models"><i class="fa fa-check"></i><b>B.2</b> Robust Estimators for Linear Regression Models</a></li>
+<li class="chapter" data-level="B.3" data-path="appendixb.html"><a href="appendixb.html#applications-of-robust-estimation"><i class="fa fa-check"></i><b>B.3</b> Applications of Robust Estimation</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendixc.html"><a href="appendixc.html"><i class="fa fa-check"></i><b>C</b> Proofs</a><ul>
+<li class="chapter" data-level="C.1" data-path="appendixc.html"><a href="appendixc.html#proof-of-theorem-refcondexp"><i class="fa fa-check"></i><b>C.1</b> Proof of Theorem @ref(condexp) 😱</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/SMAC-Group/ts" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Time Series Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="appendixc" class="section level1">
+<h1><span class="header-section-number">C</span> Proofs</h1>
+<div id="proof-of-theorem-refcondexp" class="section level2">
+<h2><span class="header-section-number">C.1</span> Proof of Theorem <a href="#condexp"><strong>??</strong></a> 😱</h2>
+<p>Consider:</p>
+<p><span class="math display">\[{\left( {{X_t} - m} \right)^2} = {\left[ {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right) + \left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right]^2}\]</span></p>
+<p>where <span class="math inline">\(m = m\left( {{X_{1}}, \cdots ,{X_{t}}} \right)\)</span> and <span class="math inline">\({\Omega _t} = \left( {{X_{1}}, \cdots ,{X_{t}}} \right)\)</span>.</p>
+<p>Therefore we can write</p>
+<p><span class="math display">\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _T}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)^2} + 2\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)\]</span></p>
+<p>Focusing on only the last term (and dropping the constant 2), we have that</p>
+<p><span class="math display">\[\underbrace {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)}_{ = {\varepsilon _t}}\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right).\]</span></p>
+<p>At this point, let us study the value of <span class="math inline">\(E\left[ {{\varepsilon _t}|{\Omega _t}} \right]\)</span> (the reason for this will become apparent in the next steps of the proof):</p>
+<p><span class="math display">\[E\left[ {{\varepsilon _t}|{\Omega _t}} \right] = E\left[ {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]|{\Omega _t}} \right] = E\left[ {{X_t}|{\Omega _t}} \right] - E\left[ {{X_t}|{\Omega _t}} \right] = 0\]</span></p>
+<p>Given this, we now consider the law of total expectation (i.e. <span class="math inline">\(E[X] = E[E[X|Y]]\)</span> which allows us to rewrite the expectation of the last term as follows</p>
+<p><span class="math display">\[E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = E\left[ {E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)|{\Omega _t}} \right]} \right] = E\left[ {\underbrace {E\left[ {{\varepsilon _t}|{\Omega _t}} \right]}_{ = 0}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = 0\]</span></p>
+<p>Since we have shown that the expectation of the last term is zero, we have that</p>
+<p><span class="math display">\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)^2}.\]</span></p>
+<p>Now the first term is positive and doesn’t depend on <span class="math inline">\(m\)</span>, so we focus on the second term which is minimized for <span class="math inline">\(m = E\left[ {{X_t}|{\Omega _t}} \right]\)</span> thereby minimizing the entire expression in terms of <span class="math inline">\(m\)</span>. </p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="appendixb.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/SMAC-Group/ts/edit/master/91-appendix-c.Rmd",
+"text": "Edit"
+},
+"download": ["ts.pdf", "ts.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
