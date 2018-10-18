@@ -993,8 +993,8 @@ Having now defined the basic concepts for forecasting of time series we can now 
 
 Given the knowledge on predictions seen above, residuals can be computed as
 
-$$r_t = X_t - \hat{X}_t,$$
-where $\hat{X}_t$ represents an estimator of the conditional expectation $E[X_t | \Omega_{t-1}]$. The latter quantity will depend on the model underlying the time series and, assuming we know the true model, we could use the true parameters to obtain a value for this expectation. However, in an applied setting it is improbable that we know the true parameters and therefore $\hat{X}_t$ can be obtained by estimating the parameters (as seen in the previous sections) and then plugging thmem into the expression of $E[X_t | \Omega_{t-1}]$.
+$$r_{t+j} = X_{t+j} - \hat{X}_{t+j},$$
+where $\hat{X}_{t+j}$ represents an estimator of the conditional expectation $E[X_{t+j} | \Omega_{t}]$. The latter quantity will depend on the model underlying the time series and, assuming we know the true model, we could use the true parameters to obtain a value for this expectation. However, in an applied setting it is improbable that we know the true parameters and therefore $\hat{X}_{t+j}$ can be obtained by estimating the parameters (as seen in the previous sections) and then plugging thmem into the expression of $E[X_{t+j} | \Omega_{t}]$.
 
 ## Diagnostic Tools for Time Series
 
@@ -1010,5 +1010,75 @@ diag_plot(Xt, model = model)
 
 The first row contains plots that refer to the residuals of the time series and can be interpreted in the same manner as the residuals from a linear regression. The first plot simply represents the residuals over time and should show if there is any presence of trends, seasonality or heteroskedasticity. The second plot gives a histogram (and smoothed histrogram called a kernel) of the residuals which should be centered in zero and (possibly) have an approximate normal distribution. The latter hypothesis can also be checked using the third plot which consists in a Normal quantile-quantile plot and the residuals should lie on (or close to) the diagonal line representing correspondance between the distributions.
 
-The first plots in the second row in the above figure refer to the original time series $(X_t)$ and shows the estimated ACF in the first plot. It can be seen how the autocorrelations decay exponentially until they don't become significant (within the blue confidence intervals). The second plot represents the Partial AutoCorrelation Function (PACF)
- and is another tool that will be investigated further on. In the meantime, suffice it to say that this tool can be interpreted as a different version of the ACF which measures autocorrelation conditionally on the previous lags (in some sense, it measures the direct impact of $X_t$ on $X{t+h}$ removing the influence of all observations inbetween). For example, in this case we see that only the observations at lag 1 have a direct impact whereas the larger lags have no direct relationship. This is expected since an AR(1) depends directly on the previous observation and depends on the previous ones only through this previous observation. Finally, the last plot is visualises the "Ljung-Box Test" (which is a type of Portmanteau test) that tests whether the autocorrelation of the residuals at a given lag is different from zero. The plot represents the p-value of this test at the different lags and also shows a dashed line representing the common significance level of $\alpha = 0.05$. If the modelling has done a good job, all p-values should be larger than this level. In this case, using the latter level, we can see that the autocorrelations for the residuals appear to be non-significant and therefore fitting an AR(1) model to the time series (which is the true model in this example) appears to do a reasonably good job.
+The first plots in the second row in the above figure refer to the original time series $(X_t)$ and shows the estimated ACF in the first plot. It can be seen how the autocorrelations decay exponentially until they don't become significant (within the blue confidence intervals). The second plot represents the Partial AutoCorrelation Function (PACF) and is another tool that will be investigated further on. In the meantime, suffice it to say that this tool can be interpreted as a different version of the ACF which measures autocorrelation conditionally on the previous lags (in some sense, it measures the direct impact of $X_t$ on $X{t+h}$ removing the influence of all observations inbetween). For example, in this case we see that only the observations at lag 1 have a direct impact whereas the larger lags have no direct relationship. This is expected since an AR(1) depends directly on the previous observation and depends on the previous ones only through this previous observation. Finally, the last plot is visualises the "Ljung-Box Test" (which is a type of Portmanteau test) that tests whether the autocorrelation of the residuals at a given lag is different from zero. The plot represents the p-value of this test at the different lags and also shows a dashed line representing the common significance level of $\alpha = 0.05$. If the modelling has done a good job, all p-values should be larger than this level. In this case, using the latter level, we can see that the autocorrelations for the residuals appear to be non-significant and therefore fitting an AR(1) model to the time series (which is the true model in this example) appears to do a reasonably good job.
+
+Before further discussing these diagnostic tools, let us focus a little more on the PACF mentioned earlier. As briefly highlighted above, this function measures the degree of linear correlation between two lagged observations by removing the effect of the observations in the intermediate lags. For example, let us assume we have three correlated variables $X$, $Y$ and $Z$ and we wish to find the direct correlation between $X$ and $Y$: we can apply a linear regression of $X$ on $Z$ (to obtain $\hat{X}$) and $Y$ on $Z$ (to obtain $\hat{Y}$) and thereby compute $corr(\hat{X}, \hat{Y})$ which represents the partial autocorrelation. In this manner, the effect of $Z$ on the correlation between $X$ and $Y$ is removed. Considering the variables as being indexed by time (i.e. a time series), we can therefore define the following quantities
+$$\hat{X}_{t+h} = \beta_1 X_{t+h-1} + \beta_2 X_{t+h-2} + ... + \beta_{h-1} X_{t+1},$$
+and
+
+$$\hat{X}_{t} = \beta_1 X_{t+1} + \beta_2 X_{t+2} + ... + \beta_{h-1} X_{t+h-1},$$
+which represent the regressions of $X_{t+h}$ and $X_t$ on all intermediate observations. With these defintions, let us more formally define the PACF.
+
+```{definition, label="pacf", name="Partial AutoCorrelation Function"}
+The partial autocorrelation function of a (weakly) stationary time series $(X_t)$ is defined as
+$$\rho_{1,1} = corr(X_{t+1}, X_t) = \rho(1)$$
+and
+$$\rho_{h,h} = corr((X_{t+h} - \hat{X}_{t+h}), (X_t - \hat{X}_t)), \, h > 1.$$
+```
+
+Therefore, the PACF is not defined at lag zero while it is the same as the ACF at the first lag since there are no intermediate observations. The defintion of this function is especially important for its usefulness for diagnostic purposes in order to detect the possible models that have generated an observed time series. With respect to the class of models studied this far (i.e. AR(p) models), the PACF can give important insight to the order of the AR(p) model, more specifically the value of $p$. Indeed, the ACF of an AR(p) model tends to decrease in a sinusoidal fashion and exponetially fast to zero as the lag $h$ increases thereby giving a hint that the underlying model belongs to the AR(p) family. However, aside from hinting to the fact that the model belongs to the family of AR(p) models, the latter function tends to be less informative with respect to which AR(p) model (i.e. which value of $p$) is best suited for the observed time series. The PACF on the other hand is non-zero for the first $p$ lags and then becomes zero for $h > p$, therefore it can give an important indication with respect to which order should be considered to best model the time series.
+
+With the above discussion in mind, let us consider some examples where we study the theoretical ACF and PACF of different AR(p) models. The first is an AR(1) model with parameter $\phi = 0.95$ and its ACF and PACF are shown below.
+
+```{r}
+par(mfrow = c(1, 2))
+plot(theo_acf(ar = 0.95, ma = NULL))
+plot(theo_pacf(ar = 0.95, ma = NULL))
+```
+
+We can see that the ACF decreases exponentially fast as we would expect for an AR(p) model while the PACF has the same values of the ACF at lag 1 (which is always the case) and is zero for $h > 1$. The latter therefore indicates the order $p$ of the AR(p) model which in this case is $p=1$. Let us now consider the following models as further examples:
+
+$$X_t = 0.5 X_{t-1} + 0.25 X_{t-2} + 0.125 X_{t-3} + W_t$$
+
+and
+
+$$X_t = -0.1 X_{t-2} -0.1 X_{t-4} + 0.6 X_{t-5} + W_t.$$
+
+The first model is an AR(3) model with positive coefficients while the second is an AR(5) model where $\phi_1 = \phi_3 = 0$. The ACF and PACF of the first AR(3) model is shown below.
+
+```{r}
+par(mfrow = c(1, 2))
+plot(theo_acf(ar = c(0.5, 0.25, 0.125), ma = NULL))
+plot(theo_pacf(ar = c(0.5, 0.25, 0.125), ma = NULL))
+```
+
+Again, we see that the ACF decreases exponentially and also the PACF plot shows a steady decrease until it becomes zero for $h > 3$. This is because the values of $\phi_i$ are all positive and decreasing as well. Let us now consider the second model (the AR(5) model) whose ACF and PACF plots are represented below.
+
+```{r}
+par(mfrow = c(1, 2))
+plot(theo_acf(ar = c(0, -0.1, 0, -0.1, 0.6), ma = NULL))
+plot(theo_pacf(ar = c(0, -0.1, 0, -0.1, 0.6), ma = NULL))
+```
+
+In this case we see that the ACF has a sinusoidal-like behaviour where the values of $\phi_1 = \phi_3 = 0$ and the negative $\phi_2 = \phi_4 = -0.1$ values deliver this alternating ACF form which nevertheless decreases as $h$ increases. These values deliver the PACF plot on the right which is negative for the first lags and is greatly positive at $h=5$ only to become zero for $h > 5$.
+
+These examples therefore give us further insight as to how to interpret the empirical (or estimated) versions of these functions. For this reason, let us study the empirical ACF and PACF of some real time series, the first of which is the data representing the annual number of Lynx trappings in Canada between 1821 and 1934. The time series is represented below.
+
+```{r, echo=FALSE}
+par(mfrow = c(1,1))
+```
+
+```{r}
+lynx_gts = gts(lynx, start = 1821, data_name = "Lynx Trappings", unit_time = "year", name_ts = "Trappings")
+plot(lynx_gts)
+```
+
+We can see that there appears to be a seasonal trend within the data but let us ignore this for the moment and check the ACF and PACF plots below.
+
+```{r}
+par(mfrow = c(1, 2))
+plot(auto_corr(lynx_gts))
+plot(PACF(lynx_gts))
+```
+
+The seasonal behaviour also appears in the ACF plot but we see that it decreases in a sinusoidal fashion as the lag increases hinting that an AR(p) model could be a potential candidate for the time series. Looking at the PACF plot on the right we can see that a few partial autocorrelations appear to be significant up to lag $h=8$. Therefore an AR(8) model could be a possibly good candidate to explain (and predict) this time series.
