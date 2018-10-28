@@ -1085,7 +1085,7 @@ We can see that there appears to be a seasonal trend within the data but let us 
 ```{r}
 par(mfrow = c(1, 2))
 plot(auto_corr(lynx_gts))
-plot(PACF(lynx_gts))
+plot(auto_corr(lynx_gts, pacf = TRUE))
 ```
 
 The seasonal behaviour also appears in the ACF plot but we see that it decreases in a sinusoidal fashion as the lag increases hinting that an AR(p) model could be a potential candidate for the time series. Looking at the PACF plot on the right we can see that a few partial autocorrelations appear to be significant up to lag $h=8$. Therefore an AR(8) model could be a possibly good candidate to explain (and predict) this time series.
