@@ -2,7 +2,7 @@
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(simts)
-library(gmwm2)
+#library(gmwm2)
 library(ggplot2)
 library(robcor)
 ```
@@ -444,7 +444,7 @@ where $\psi(\cdot)$ is a function of bounded variation. When conditioning on the
 first $p$ observations, this problem can be brought back to a linear regression
 problem which can be applied in a robust manner using the robust regression
 tools available in `R` such as `rlm` or `lmrob`. However, another 
-available tool in `R` which does not require a strict specification of the distribution function (also for general ARMA models) is the `gmwm` function (in the `gmwm2` package) in which it is possible to specify the option `robust = TRUE`. This function makes use of a quantity called the wavelet variance (denoted as $\boldsymbol{\nu}$) which is estimated robustly and then used to retrieve the parameters $\theta$ of the time series model. The robust estimate is obtained by solving the following minimization problem
+available tool in `R` which does not require a strict specification of the distribution function (also for general ARMA models) is the `gmwm` function (in the `simts` package) in which it is possible to specify the option `robust = TRUE`. This function makes use of a quantity called the wavelet variance (denoted as $\boldsymbol{\nu}$) which is estimated robustly and then used to retrieve the parameters $\theta$ of the time series model. The robust estimate is obtained by solving the following minimization problem
 \begin{equation*}
 \hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta} \in \boldsymbol{\Theta}}{\text{argmin}} (\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}(\boldsymbol{\theta}))^T\boldsymbol{\Omega}(\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}({\boldsymbol{\theta}})),
 \end{equation*}
@@ -463,13 +463,7 @@ In the above sample code `Xt` denotes the time series (a vector of length $T$), 
 mod = ar(Xt, order.max = 3, method = "mle", demean = FALSE, aic = FALSE)
 ```
 
-On the other hand, the RGMWM is implemented in the `gmwm2` R package which can be downloaded and installed as follows:
-
-```{r, eval = FALSE}
-devtools::install_github("smac-group/gmwm2")
-```
-
-Once this package is installed, you can estimate robust AR models using the following syntax:
+On the other hand, the RGMWM is implemented in the `simts` R package and allows you to estimate robust AR models using the following syntax:
 
 ```{r, eval = FALSE}
 mod = gmwm(AR(p), Xt, robust = TRUE)
@@ -486,8 +480,8 @@ We now have the necessary `R` functions to deliver the above mentioned estimator
 The code below performs the simulation study where it can be seen how the contaminated processes $(Y_t)$ and $(Z_t)$ are generated. Once this is done, for each simultation the code estimates the parameters of the AR(2) model using the three different estimation methods.
 
 ```{r simuAR2study, eval = TRUE, cache = TRUE}
-# Load gmwm2
-library(gmwm2)
+# Load simts
+library(simts)
 
 # Number of bootstrap iterations
 B = 250
