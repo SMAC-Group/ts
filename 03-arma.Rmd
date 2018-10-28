@@ -444,7 +444,7 @@ where $\psi(\cdot)$ is a function of bounded variation. When conditioning on the
 first $p$ observations, this problem can be brought back to a linear regression
 problem which can be applied in a robust manner using the robust regression
 tools available in `R` such as `rlm` or `lmrob`. However, another 
-available tool in `R` which does not require a strict specification of the distribution function (also for general ARMA models) is the `gmwm` function (in the `gmwm` package) in which it is possible to specify the option `robust = TRUE`. This function makes use of a quantity called the wavelet variance (denoted as $\boldsymbol{\nu}$) which is estimated robustly and then used to retrieve the parameters $\theta$ of the time series model. The robust estimate is obtained by solving the following minimization problem
+available tool in `R` which does not require a strict specification of the distribution function (also for general ARMA models) is the `gmwm` function (in the `gmwm2` package) in which it is possible to specify the option `robust = TRUE`. This function makes use of a quantity called the wavelet variance (denoted as $\boldsymbol{\nu}$) which is estimated robustly and then used to retrieve the parameters $\theta$ of the time series model. The robust estimate is obtained by solving the following minimization problem
 \begin{equation*}
 \hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta} \in \boldsymbol{\Theta}}{\text{argmin}} (\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}(\boldsymbol{\theta}))^T\boldsymbol{\Omega}(\hat{\boldsymbol{\nu}} - \boldsymbol{\nu}({\boldsymbol{\theta}})),
 \end{equation*}
@@ -1094,10 +1094,10 @@ The seasonal behaviour also appears in the ACF plot but we see that it decreases
 
 In a similar manner to using the ACF and PACF confidence intervals to understand if the residuals can be considered as white noise, other statistical tests exist to determine if the autocorrelations can be considered as being significant or not. Indeed, the 95\% confidence intervals can be extremely useful in detecting significant (partial) autocorrelations but they cannot be considered as an overall test for white noise since (aside from being asymptotic and therefore approximate) they do not consider the multiple testing hypothesis implied by them (i.e. if we're testing all lags, the actual level of significance should be modified in order to bound type I errors). For this reason, Portmanteau tests have been proposed in order to deliver an overall test that jointly considers a set of lags and determines whether their autocorrelation is significantly different from zero (i.e. whether the residuals can be considered white noise or not).
 
-The most popular Portmanteau test is the Ljung-Box test whose statistic is defined as follows:
+One of the most popular Portmanteau tests is the Ljung-Box test whose statistic is defined as follows:
 
 $$Q_h = T(T+2) \sum_{j=1}^{h} \frac{\hat{\rho}_j^2}{T - j},$$
-where $h$ represents the maximum lag of the set of lags for which we wish to test for serial autocorrelation (i.e. from lag 1 to lag $h$). Under the null hypothesis $Q_h \sim \chi_h^2$ since asymptotically $\hat{\rho}_j \sim \mathcal{N}\left(0, \frac{1}{T}\right)$ under the null and therefore the statistic is proportional to the sum of squared standard normal variables. The last plot of Figure \@ref(diagnostic_plot) can therefore be better interpreted under this framework and is reproduced below.
+where $h$ represents the maximum lag of the set of lags for which we wish to test for serial autocorrelation (i.e. from lag 1 to lag $h$). Under the null hypothesis $Q_h \sim \chi_h^2$ since asymptotically $\hat{\rho}_j \sim \mathcal{N}\left(0, \frac{1}{T}\right)$ under the null and therefore the statistic is proportional to the sum of squared standard normal variables. The last plot of Figure \@ref(fig:diagnostic_plot) can therefore be better interpreted under this framework and is reproduced below.
 
 ```{r}
 lb_test = diag_ljungbox(as.numeric(model$residuals), order = 0, stop_lag = 20, stdres = FALSE, plot = TRUE)
@@ -1109,22 +1109,12 @@ There are other Portmanteau tests with different advantages (and disadvantages) 
 
 ## Inference for AR(p) Models
 
-For all the above methods, it would be necessary to understand how "precise"
-their estimates are. To do so we would need to obtain confidence intervals for
-these estimates and this can be done mainly in two manners:
+For all the above methods, it would be necessary to understand how "precise" their estimates are. To do so we would need to obtain confidence intervals for these estimates and this can be done mainly in two manners:
 
 - using the asymptotic distribution of the parameter estimates;
 - using parametric bootstrap.
 
-The first approach consists in using the asymptotic distribution of the
-estimators presented earlier to deliver approximations of the confidence
-intervals which get better as the length of the observed time series increases.
-Hence, if for example we wanted to find a 95% confidence interval for the
-parameter $\phi$, we would use the quantiles of the normal distribution
-(given that all methods presented earlier present this asymptotic distribution).
-However, this approach can present some drawbacks, one of which its
-behaviour when the parameters are close to the boundaries of the parameter space.
-Suppose we consider a realization of length $T = 100$ of the following AR(1) model:
+The first approach consists in using the asymptotic distribution of the estimators presented earlier to deliver approximations of the confidence intervals which get better as the length of the observed time series increases. Hence, if for example we wanted to find a 95% confidence interval for the parameter $\phi$, we would use the quantiles of the normal distribution (given that all methods presented earlier present this asymptotic distribution). However, this approach can present some drawbacks, one of which its behaviour when the parameters are close to the boundaries of the parameter space. Suppose we consider a realization of length $T = 100$ of the following AR(1) model:
 
   \[X_t = 0.96 X_{t-1} + W_t, \;\;\;\; W_t \sim \mathcal{N}(0,1),\]
 
@@ -1136,11 +1126,7 @@ x = gen_gts(n = 100, AR1(0.96, 1))
 plot(x)
 ```
 
-It can be seen that the parameter $\phi = 0.96$ respects the condition for
-stationarity (i.e.$\left| \phi \right| < 1$) but is very close to its boundary.
-Using the MLE and the GMWM estimators, we first estimate the parameters and
-then compute confidence intervals for $\phi$ using the asymptotic
-normal distribution.
+It can be seen that the parameter $\phi = 0.96$ respects the condition for stationarity (i.e.$\left| \phi \right| < 1$) but is very close to its boundary. Using the MLE and the GMWM estimators, we first estimate the parameters and then compute confidence intervals for $\phi$ using the asymptotic normal distribution.
 
 ```{r asymAR1estci, cache = TRUE}
 # Compute the parameter estimates using MLE
@@ -1151,13 +1137,12 @@ c("phi" = fit.ML$coef, "se" = sqrt(fit.ML$var.coef))
 fit.ML$coef + c(-1,1)*1.96*as.numeric(sqrt(fit.ML$var.coef))
 
 # Compute the parameter estimates with inference using GMWM
-fit.gmwm = gmwm2::gmwm(AR1(), x)
+fit.gmwm = gmwm(AR1(), x)
 summary(fit.gmwm, inference = TRUE)$estimate
 ```
 
 
-From the estimation summary, we can notice that both confidence intervals contain
-values that would make the AR(1) non-stationary (i.e. values of $\phi$ larger than 1). However, these confidence intervals are based on the (asymptotic) distributions of $\hat{\phi}$ which are shown in Figure \@ref(fig:asymIC).
+From the estimation summary, we can notice that both confidence intervals contain values that would make the AR(1) non-stationary (i.e. values of $\phi$ larger than 1). However, these confidence intervals are based on the (asymptotic) distributions of $\hat{\phi}$ which are shown in Figure \@ref(fig:asymIC).
 
 ```{r asymIC, cache = TRUE, echo = FALSE, fig.height = 4.5, fig.width = 9, fig.cap = "Estimated asymptotic distribution of $\\hat{\\phi}$ for MLE and GMWM parameter estimates. The dashed vertical line represents the true value of $\\phi$, the solid line denotes the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for both methods."}
 # Define colors
@@ -1197,7 +1182,7 @@ points(qnorm(0.025, fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3,
        col = colors2[2], pch = "|")
 ```
 
-Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more "realistic" confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap, detailed in Theorem \@ref(thm:parabootstrap). Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from an AR(1) process. For each simulation, the parameters are estimated again and stored.  Finally, the empirical quantiles at $\alpha/2$ and $1-\alpha/2$ are taken of the saved estimated parameter values to obtrain a confidence interval which does not suffer from boundary problems. The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using $B = 10000$ bootstrap replicates).
+Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more "realistic" confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from the assumed model (an AR(1) process in this case). For each simulation, the parameters are estimated and stored in order to obtain an empirical (finite sample) distribution of the estimators. Based on this distribution it is consequently possible to find the $\alpha/2$ and $1-\alpha/2$ empirical quantiles thereby delivering confidence intervals that should not suffer from boundary problems (since the estimation procedure looks for solutions within the admissable regions). The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using $B = 10000$ bootstrap replicates).
 
 ``` {r paraAR1ciest, cache = TRUE, warning = FALSE, fig.height= 6, fig.width= 9}
 # Number of Iterations
@@ -1226,11 +1211,11 @@ for(i in seq_len(B)){
 
   # Generate process under GMWM parameter estimate
   x.star = gen_gts(100, model.gmwm)
-  est.phi.gmwm[i] = gmwm2::gmwm(model.gmwm, x.star)$estimate[1]
+  est.phi.gmwm[i] = gmwm(model.gmwm, x.star)$estimate[1]
 }
 ```
 
-``` {r paraAR1cigraphs, cache = TRUE, warning = FALSE, echo = FALSE, fig.height = 6, fig.width = 9, fig.cap = "Estimated parametric distributions of $\\hat{\\phi}$ for MLE and GMWM parameter estimates. The bar plots represent the results from the parametric bootstrap, the densities represent the estimate asymptotic distribution, the vertical line represents the true value of $\\phi$, the solid lines denotes the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals under both approaches for the estimation methods."}
+``` {r paraAR1cigraphs, cache = TRUE, warning = FALSE, echo = FALSE, fig.height = 6, fig.width = 9, fig.cap = "Parametric bootstrap distributions of $\\hat{\\phi}$ for the MLE and GMWM parameter estimates. The histograms represent the empirical distributions resulting from the parametric bootstrap while the continuous densities represent the estimated asymptotic distributions. The vertical line represents the true value of $\\phi$, the dark solid lines represent the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for the asymptotic distributions (red and gold) and the empirical distributions (green and blue)."}
 par(mfrow = c(1,2))
 
 hist.phi.ML = hist(est.phi.ML, plot = FALSE, breaks = 20)
@@ -1269,16 +1254,9 @@ points(quantile(est.phi.gmwm, 0.975, na.rm = T), 0, cex = 3, col = colors2[5], p
 points(quantile(est.phi.gmwm, 0.025, na.rm = T), 0, cex = 3, col = colors2[5], pch = "|")
 ```
 
-In Figure \@ref(fig:paraAR1cigraphs), we compare the estimated densities
-for $\hat{\phi}$ using asymptotic results and bootstrap techniques for the MLE
-and the GMWM estimator. It can be observed that the issue that arose previously
-with unrealistic confidence intervals have been resolved as the interval regions
-lie entirely within the boundaries of the parameter space.
+In Figure \@ref(fig:paraAR1cigraphs), we compare the estimated densities for $\hat{\phi}$ using asymptotic results and bootstrap techniques for the MLE and the GMWM estimators. It can be observed that the issue that arose previously with "non-stationary" confidence intervals does not occur with the parametric bootstrap approach since the interval regions of the latter lie entirely within the boundaries of the admissable parameter space.
 
-To emphasize that the effectiveness of parametric bootstrap, let us
-consider one additonal example of an AR(2) process. For this example, discussion
-will focus on observing the behavior exhibited solely by the MLE. Having said
-this, the AR(2) process is defined to be:
+To emphasize that the effectiveness of parametric bootstrap, let us consider one additonal example of an AR(2) process. For this example, discussion will focus on observing the behavior exhibited solely by the MLE. Having said this, the AR(2) process is defined to be:
 
   \begin{equation}
 {X_t} = {1.98}{X_{t - 1}} - {0.99}{X_{t - 2}} + {W_t}
