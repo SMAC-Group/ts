@@ -613,16 +613,16 @@ compare_acf(hydro)
 As we had underlined in the previous chapter, the standard ACF estimates would suggest that there appears to be no correlation among lags and consequently, the WN model would be the most appropriate. However, the robust ACF estimates depict an entirely different picture where it can be seen that there appears to be a significant autocorrelation over different lags which exponentially decay. Although there appears to be some seasonality in the plot, we will assume that the correct model for this data is an AR(1) since that's what hydrology theory suggests. Let us therefore estimate the parameters of this model by using a standard estimator (MLE) and a robust estimator (RGMWM). The estimates for the MLE are the following:
 
 ```{r}
-mle_hydro = ar(as.vector(hydro), order.max = 1, method = "mle", demean = TRUE, aic = FALSE)
+mle_hydro = estimate(AR(1), as.vector(hydro),  method = "mle", demean = TRUE)
 
 # MLE Estimates
-c(mle_hydro$ar, mle_hydro$var.pred)
+c(mle_hydro$mod$coef[1], mle_hydro$mod$sigma2)
 ```
 
 From these estimates it would appear that the autocorrelation between lagged variables (i.e. lags of order 1) is extremely low and that (as suggested by the standard ACF plot) a WN model may be more appropriate. Considering the robust ACF however, it is possible that the MLE estimates may not be reliable in this setting. Hence, let us use the RGMWM to estimate the same parameters.
 
 ```{r}
-rgmwm_hydro = gmwm(AR(1), hydro, robust = TRUE)$estimate
+rgmwm_hydro = estimate(AR(1), hydro, method = "rgmwm")$mod$estimate
 
 # RGMWM Estimates
 t(rgmwm_hydro)
@@ -675,17 +675,17 @@ In this case we see that the patterns appear to be the same but the values betwe
 
 ```{r}
 # MLE of Recruitment data
-yw_fish = ar(rec, order.max = 2, method = "yule-walker", demean = TRUE, aic = FALSE)
+yw_fish = estimate(AR(2), rec, method = "yule-walker", demean = TRUE)
 
 # MLE of Recruitment data
-mle_fish = ar(rec, order.max = 2, method = "mle", demean = TRUE, aic = FALSE)
+mle_fish = estimate(AR(2), rec, method = "mle", demean = TRUE)
 
 # Compare estimates
 # Yule-Walker Estimation
-c(yw_fish$ar, yw_fish$var.pred)
+c(yw_fish$mod$coef[1], yw_fish$mod$sigma2)
 
 # MLE Estimation
-c(mle_fish$ar, mle_fish$var.pred)
+c(mle_fish$mod$coef[1], mle_fish$mod$sigma2)
 ```
 
 It can be seen that, in this setting, the two estimators deliver very similar results (at least in terms of the $\phi_1$ and $\phi_2$ coefficients). Indeed, there doesn't appear to be a strong need for robust estimation and the choice of a standard estimator is justified by the will to obtain efficient estimations. The only slight difference between the two estimations is in the innovation variance parameter $\sigma^2$ and this could be (evenutally) due to the normality assumption that the MLE estimator upholds in this case. If there is therefore a doubt on the fact that the Gaussian assumption does not hold for this data, then it is probably more convenient to use the Yule-Walker estimates.
@@ -1022,8 +1022,8 @@ $$\rho_{h,h} = corr((X_{t+h} - \hat{X}_{t+h}), (X_t - \hat{X}_t)), \, h > 1.$$
 Therefore, the PACF is not defined at lag zero while it is the same as the ACF at the first lag since there are no intermediate observations. The defintion of this function is important for different reasons. Firstly, as mentioned earlier, we have an asymptotic distribution for the estimator of the PACF which allows us to deliver confidence intervals as for the ACF. Indeed, representing the empirical PACF along with its confidence intervals can provide a further tool to make sure that the residuals of a model fit can be considered as being white noise. The latter is a reasonable hypothesis if both the empirical ACF and PACF lie within the confidence intervals indicating that there is no significant correlation between lagged variables. Let us focus on the empirical PACF of the residuals we saw earlier in the diagnostic plot.
 
 ```{r}
-residuals = model$residuals
-plot(PACF(residuals))
+residuals = model$mod$residuals
+plot(auto_corr(residuals, pacf = TRUE))
 ```
 
 From the plot we see that the estimated PACF at all lags lies within the blue shaded area representing the 95\% confidence intervals indicating that the residuals don't appear to have any form of direct autocorrelation over lags and, hence, that they can be considered as white noise. In addition to delivering a tool to analyse the residuals of a model fit, the PACF is especially useful for diagnostic purposes in order to detect the possible models that have generated an observed time series. With respect to the class of models studied this far (i.e. AR(p) models), the PACF can give important insight to the order of the AR(p) model, more specifically the value of $p$. Indeed, the ACF of an AR(p) model tends to decrease in a sinusoidal fashion and exponetially fast to zero as the lag $h$ increases thereby giving a hint that the underlying model belongs to the AR(p) family. However, aside from hinting to the fact that the model belongs to the family of AR(p) models, the latter function tends to be less informative with respect to which AR(p) model (i.e. which value of $p$) is best suited for the observed time series. The PACF on the other hand is non-zero for the first $p$ lags and then becomes zero for $h > p$, therefore it can give an important indication with respect to which order should be considered to best model the time series.
@@ -1092,8 +1092,12 @@ One of the most popular Portmanteau tests is the Ljung-Box test whose statistic 
 $$Q_h = T(T+2) \sum_{j=1}^{h} \frac{\hat{\rho}_j^2}{T - j},$$
 where $h$ represents the maximum lag of the set of lags for which we wish to test for serial autocorrelation (i.e. from lag 1 to lag $h$). Under the null hypothesis $Q_h \sim \chi_h^2$ since asymptotically $\hat{\rho}_j \sim \mathcal{N}\left(0, \frac{1}{T}\right)$ under the null and therefore the statistic is proportional to the sum of squared standard normal variables. The last plot of Figure \@ref(fig:diagnostic_plot) can therefore be better interpreted under this framework and is reproduced below.
 
+```{r, echo=FALSE}
+par(mfrow = c(1,1))
+```
+
 ```{r}
-lb_test = diag_ljungbox(as.numeric(model$residuals), order = 0, stop_lag = 20, stdres = FALSE, plot = TRUE)
+lb_test = diag_ljungbox(as.numeric(residuals), order = 0, stop_lag = 20, stdres = FALSE, plot = TRUE)
 ```
 
 Each p-value represented in the plot above is therefore the p-value for the considered maximum lag. Therefore the first p-value (at lag 1) is the p-value for the null hypothesis that all lags up to lag 1 are equal to zero, the second is for the null hypothesis that all lags up to lag 2 are equal to zero and so on. Hence, each p-value represents a global test on the autocorrelations up to the considered maximum lag $h$ and delivers additional information regarding the dependence structure within the residuals. In this case, as interpreted earlier, all p-values are larger than the $\alpha = 0.05$ level and is an additional indication that the residuals follow a white noise process (and that the fitted model appears to well describe the observed time series).
@@ -1114,7 +1118,7 @@ The first approach consists in using the asymptotic distribution of the estimato
 which is represented in Figure \@ref(fig:simAR1ci)
 
 ``` {r simAR1ci, cache = TRUE, fig.height= 4.5, fig.width = 9, fig.cap = "AR(1) with $\\phi$ close to parameter bound"}
-set.seed(7)
+set.seed(8)
 x = gen_gts(n = 100, AR1(0.96, 1))
 plot(x)
 ```
@@ -1123,17 +1127,16 @@ It can be seen that the parameter $\phi = 0.96$ respects the condition for stati
 
 ```{r asymAR1estci, cache = TRUE}
 # Compute the parameter estimates using MLE
-fit.ML = arima(x, order = c(1,0,0), include.mean = FALSE)
-c("phi" = fit.ML$coef, "se" = sqrt(fit.ML$var.coef))
+fit.ML = estimate(AR(1), x, demean = FALSE)
+c("phi" = fit.ML$mod$coef[1], "se" = sqrt(fit.ML$mod$sigma2))
 
 # Construct asymptotic confidence interval for phi
-fit.ML$coef + c(-1,1)*1.96*as.numeric(sqrt(fit.ML$var.coef))
+fit.ML$mod$coef[1] + c(-1,1)*1.96*as.numeric(sqrt(fit.ML$mod$var.coef))
 
 # Compute the parameter estimates with inference using GMWM
 fit.gmwm = gmwm(AR1(), x)
 summary(fit.gmwm, inference = TRUE)$estimate
 ```
-
 
 From the estimation summary, we can notice that both confidence intervals contain values that would make the AR(1) non-stationary (i.e. values of $\phi$ larger than 1). However, these confidence intervals are based on the (asymptotic) distributions of $\hat{\phi}$ which are shown in Figure \@ref(fig:asymIC).
 
@@ -1288,58 +1291,58 @@ for(i in seq_len(B)) {
 ```
 
 ```{r ciAR2d, cache = TRUE, echo = FALSE, fig.height= 4.5, fig.width= 9, warning = FALSE, fig.cap="Estimated distributions of $\\hat{\\phi_1}$ and $\\hat{\\phi_2}$ based on the MLE using asymptotic and parametric bootstrap techniques. The colored contours represent the density of the distributions and the dark grey lines represent the boundary constraints of $\\left|\\phi_2\\right|<1$ and $\\phi_2 = 1 - \\phi_1$."}
-  # Graphing
+# Graphing
 
-  # Requires use of MASS
-  library("MASS")
-  library("RColorBrewer")
-  est.phi.ML = na.omit(est.phi.ML)
-  z = kde2d(est.phi.ML[,1],est.phi.ML[,2], n=50)
-  k = 11
-  my.cols = rev(brewer.pal(k, "RdYlBu"))
+# Requires use of MASS
+library("MASS")
+library("RColorBrewer")
+est.phi.ML = na.omit(est.phi.ML)
+z = kde2d(est.phi.ML[,1],est.phi.ML[,2], n=50)
+k = 11
+my.cols = rev(brewer.pal(k, "RdYlBu"))
 
-  bivn = mvrnorm(100000, mu = mod$coef, Sigma = matrix(c(mod$var.coef), 2))
-  bivn.kde = kde2d(bivn[,1], bivn[,2], n = 50)
+bivn = mvrnorm(100000, mu = mod$coef, Sigma = matrix(c(mod$var.coef), 2))
+bivn.kde = kde2d(bivn[,1], bivn[,2], n = 50)
 
-  par(mfrow = c(1,2))
-  plot(NA, xlim = c(1.96,2), ylim = c(-1.02,-0.97), xlab = expression(phi[1]),
-  ylab = expression(phi[2]), cex.lab = 1.5, main = "Asymptotic")
-  grid()
-
-
-  # Adding boundary of constraint |phi_2| < 1
-  abline(h = c(-1,1), lty = 2, col = "darkgrey")
-
-  # Adding boundary of constraint phi_2 = 1 - phi_1
-  phi1 = seq(from = -2, to = 2, length.out = 10^3)
-  phi2.c1 = 1 - phi1
-  lines(phi1, phi2.c1, lty = 2, col = "darkgrey")
-
-  # Adding boundary of constraint phi_2 = 1 + phi_1
-  phi1 = seq(from = -2, to = 2, length.out = 10^3)
-  phi2.c2 = 1 + phi1
-  lines(phi1, phi2.c2, lty = 2, col = "darkgrey")
-  contour(bivn.kde, drawlabels=FALSE, nlevels=k, col=my.cols, add = TRUE)
+par(mfrow = c(1,2))
+plot(NA, xlim = c(1.96,2), ylim = c(-1.02,-0.97), xlab = expression(phi[1]),
+ylab = expression(phi[2]), cex.lab = 1.5, main = "Asymptotic")
+grid()
 
 
-  plot(NA, xlim = c(1.96,2), ylim = c(-1.02,-0.97), xlab = expression(phi[1]),
-  ylab = expression(phi[2]), cex.lab = 1.5, main = "Bootstrap")
-  grid()
+# Adding boundary of constraint |phi_2| < 1
+abline(h = c(-1,1), lty = 2, col = "darkgrey")
+
+# Adding boundary of constraint phi_2 = 1 - phi_1
+phi1 = seq(from = -2, to = 2, length.out = 10^3)
+phi2.c1 = 1 - phi1
+lines(phi1, phi2.c1, lty = 2, col = "darkgrey")
+
+# Adding boundary of constraint phi_2 = 1 + phi_1
+phi1 = seq(from = -2, to = 2, length.out = 10^3)
+phi2.c2 = 1 + phi1
+lines(phi1, phi2.c2, lty = 2, col = "darkgrey")
+contour(bivn.kde, drawlabels=FALSE, nlevels=k, col=my.cols, add = TRUE)
 
 
-  # Adding boundary of constraint |phi_2| < 1
-  abline(h = c(-1,1), lty = 2, col = "darkgrey")
+plot(NA, xlim = c(1.96,2), ylim = c(-1.02,-0.97), xlab = expression(phi[1]),
+ylab = expression(phi[2]), cex.lab = 1.5, main = "Bootstrap")
+grid()
 
-  # Adding boundary of constraint phi_2 = 1 - phi_1
-  phi1 = seq(from = -2, to = 2, length.out = 10^3)
-  phi2.c1 = 1 - phi1
-  lines(phi1, phi2.c1, lty = 2, col = "darkgrey")
 
-  # Adding boundary of constraint phi_2 = 1 + phi_1
-  phi1 = seq(from = -2, to = 2, length.out = 10^3)
-  phi2.c2 = 1 + phi1
-  lines(phi1, phi2.c2, lty = 2, col = "darkgrey")
-  contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add = TRUE)
+# Adding boundary of constraint |phi_2| < 1
+abline(h = c(-1,1), lty = 2, col = "darkgrey")
+
+# Adding boundary of constraint phi_2 = 1 - phi_1
+phi1 = seq(from = -2, to = 2, length.out = 10^3)
+phi2.c1 = 1 - phi1
+lines(phi1, phi2.c1, lty = 2, col = "darkgrey")
+
+# Adding boundary of constraint phi_2 = 1 + phi_1
+phi1 = seq(from = -2, to = 2, length.out = 10^3)
+phi2.c2 = 1 + phi1
+lines(phi1, phi2.c2, lty = 2, col = "darkgrey")
+contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add = TRUE)
 ```
 
 As for any other estimation and inference procedure, these confidence intervals rely on the assumption that the chosen model (AR(2) in this case) is the true model underlying the observed time series. However, if this assumption were not correct, then the derived confidence intervals would not be correct and this could possibly lead to bad conclusions. For this reason, one could decide to use a non-parametric approach to computing these confidence intervals, such as the traditional bootstrap that consists in a simple random sampling with replacement from the original data. However, this approach would not be appropriate in the presence of dependence between observations since this procedure would break the dependence structure and therefore deliver unreliable conclusions. Therefore, to  preserve the dependence structure of the original data one option would be to use _block bootstrapping_, which is a particular form of non-parametric bootstrap. There  are many different kinds of block-bootstrap procedures for time series which are all related to the Moving Block Bootstrap (MBB) which is defined as follows.
@@ -1397,7 +1400,7 @@ Suppose that $\left(X_t\right)$ is weakly stationary time series with $T$ observ
 Alternatively, depending on the case one can also use modifications of the MBB that seeks to change how the beginning and end of the time series is weighted such as a circular block-bootstrap (CBB) or a stationary bootstrap (SB). Regardless, the outcomes from using MBB on time series data are considerably better than simple resampling. The code below implements the MMB to obtain a bootrstrap distribution for the estimated parameters of an AR(1) model.
 
 ```{r funblockbootstrap}
-  ar1_blockboot = function(Xt, block_len = 10, B = 500) {
+ar1_blockboot = function(Xt, block_len = 10, B = 500) {
 
   n = length(Xt)            # Length of Time Series
   res = rep(NA, B)          # Bootstrapped Statistics
@@ -1405,25 +1408,27 @@ Alternatively, depending on the case one can also use modifications of the MBB t
 
   for (i in seq_len(B)) {   # Begin MMB
 
-  set.seed(i + 1199)      # Set seed for reproducibility
-  x_star = rep(NA, n)     # Setup storage for new TS
+    set.seed(i + 1199)      # Set seed for reproducibility
+    x_star = rep(NA, n)     # Setup storage for new TS
 
-  for (j in seq_len(m)) { # Simulate new time series
+    for (j in seq_len(m)) { # Simulate new time series
 
-  index = sample(m, 1)  # Randomize block starting points
+      index = sample(m, 1)  # Randomize block starting points
 
-  # Place block into time series
-  x_star[(block_len*(j - 1) + 1):(block_len*j)] =
-  Xt[(block_len*(index - 1) + 1):(block_len*index)]
-  }
+      # Place block into time series
+      x_star[(block_len*(j - 1) + 1):(block_len*j)] =
+      Xt[(block_len*(index - 1) + 1):(block_len*index)]
+    }
 
   # Calculate parameters with protection
   res[i] = tryCatch(estimate(AR(1), x_star, demean = FALSE)$mod$coef,
   error = function(e) NA)
+  
   }
 
   na.omit(res)              # Deliver results
-  }
+  
+}
 ```
 
 Having defined the function above, let us consider a scenario where the model's assumption that the residuals are Gaussian is violated. Consider two AR(1) processes with the same coefficients but with different innovation noise generation procedures:
@@ -1454,24 +1459,26 @@ From Figure \@ref(fig:mbbdatavis), the time series appear to be considerably dif
 
 ```{r ar1bootstrapper, cache = TRUE}
 ar1_paraboot = function(model, B = 10000) {
-est.phi = rep(NA,B)    # Define a storage vector
 
-for(i in seq_len(B)) { # Perform bootstrap
+  est.phi = rep(NA,B)    # Define a storage vector
 
-  set.seed(B + i)      # Set seed for reproducibility
+  for(i in seq_len(B)) { # Perform bootstrap
 
-  # Simulate time series underneath the estimated model
-  x.star = arima.sim(n = 500, list(ar = model$coef, ma = 0),
-  sd = sqrt(model$sigma2))
+    set.seed(B + i)      # Set seed for reproducibility
 
-  # Attempt to estimate parameters with recovery
-  est.phi[i] = tryCatch(arima(x.star, order = c(1,0,0),
-  include.mean = FALSE)$coef,
-  error = function(e) NA)
+    # Simulate time series underneath the estimated model
+    x.star = arima.sim(n = 500, list(ar = model$coef, ma = 0),
+    sd = sqrt(model$sigma2))
+
+    # Attempt to estimate parameters with recovery
+    est.phi[i] = tryCatch(arima(x.star, order = c(1,0,0),
+    include.mean = FALSE)$coef,
+    error = function(e) NA)
 
   }
 
-  na.omit(est.phi)       # Return estimated phis.
+  na.omit(est.phi)       # Return estimated phis
+  
 }
 ```
 
