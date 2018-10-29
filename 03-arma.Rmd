@@ -2,7 +2,7 @@
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(simts)
-#library(gmwm2)
+library(gmwm2)
 library(ggplot2)
 library(robcor)
 ```
@@ -1135,7 +1135,8 @@ fit.ML$mod$coef[1] + c(-1,1)*1.96*as.numeric(sqrt(fit.ML$mod$var.coef))
 
 # Compute the parameter estimates with inference using GMWM
 fit.gmwm = gmwm(AR1(), x)
-summary(fit.gmwm, inference = TRUE)$estimate
+res.gmwm = summary(fit.gmwm, inference = TRUE)$estimate
+res.gmwm
 ```
 
 From the estimation summary, we can notice that both confidence intervals contain values that would make the AR(1) non-stationary (i.e. values of $\phi$ larger than 1). However, these confidence intervals are based on the (asymptotic) distributions of $\hat{\phi}$ which are shown in Figure \@ref(fig:asymIC).
@@ -1149,24 +1150,24 @@ gg_color_hue = function(n, alpha = 1) {
 
 colors = gg_color_hue(6, alpha = 0.2)
 colors2 = gg_color_hue(6, alpha = 1)
-phi.sd.gmwm = summary(fit.gmwm)$estimate[,"SE"][1]
+phi.sd.gmwm = res.gmwm[,"SE"][1]
 
 par(mfrow = c(1,2))
 xx = seq(from = 0, to = 1.2, length.out = 10^3)
-yy.ML = dnorm(xx, fit.ML$coef, sqrt(fit.ML$var.coef))
+yy.ML = dnorm(xx, fit.ML$mod$coef, sqrt(fit.ML$mod$var.coef))
 plot(NA, xlim = c(0.8,1.04), ylim = range(yy.ML),
      xlab = expression(phi), ylab = "Density", main = "MLE")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
 abline(v = 0.96, lwd = 2, lty = 2, col = "grey60")
 polygon(c(xx,rev(xx)), c(rep(0,length(yy.ML)), rev(yy.ML)), border = NA, col = colors[1])
-points(qnorm(0.975,fit.ML$coef, sqrt(fit.ML$var.coef)), 0, cex = 3,
+points(qnorm(0.975,fit.ML$mod$coef, sqrt(fit.ML$mod$var.coef)), 0, cex = 3,
        col = colors2[1], pch = "|")
-points(qnorm(0.025,fit.ML$coef, sqrt(fit.ML$var.coef)), 0, cex = 3,
+points(qnorm(0.025,fit.ML$mod$coef, sqrt(fit.ML$mod$var.coef)), 0, cex = 3,
        col = colors2[1], pch = "|")
 
 yy.gmwm = dnorm(xx, fit.gmwm$estimate[1], phi.sd.gmwm)
-plot(NA, xlim = c(0.7,1.2), ylim = range(yy.gmwm),
+plot(NA, xlim = c(0.5,1.2), ylim = range(yy.gmwm),
      xlab = expression(phi), ylab = "Density", main = "GMWM")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
@@ -1189,8 +1190,8 @@ est.phi.gmwm = rep(NA,B)
 est.phi.ML = rep(NA,B)
 
 # Model generation statements
-model.gmwm = AR1(fit.gmwm$estimate[1], fit.gmwm$estimate[2])
-model.mle = AR1(fit.ML$coef, fit.ML$sigma2)
+model.gmwm = AR(phi = c(fit.gmwm$estimate[1]), sigma2 = c(fit.gmwm$estimate[2]))
+model.mle = AR(phi = c(fit.ML$mod$coef), sigma2 = c(fit.ML$mod$sigma2))
 
 # Begin bootstrap
 for(i in seq_len(B)){
@@ -1202,12 +1203,12 @@ for(i in seq_len(B)){
   x.star = gen_gts(100, model.mle)
 
   # Attempt to estimate phi by employing a try
-  est.phi.ML[i] = tryCatch(arima(x.star, order = c(1,0,0), include.mean = FALSE)$coef,
+  est.phi.ML[i] = tryCatch(estimate(AR(1), x.star, demean = FALSE)$mod$coef,
                            error = function(e) NA)
 
   # Generate process under GMWM parameter estimate
   x.star = gen_gts(100, model.gmwm)
-  est.phi.gmwm[i] = gmwm(model.gmwm, x.star)$estimate[1]
+  est.phi.gmwm[i] = estimate(AR(1), x.star, method = "gmwm")$mod$estimate[1]
 }
 ```
 
@@ -1225,8 +1226,8 @@ plot(hist.phi.ML, xlim = c(0.6,1.1), ylim = range(yy.ML),
      add = T, col = colors[3], border = "grey60")
 polygon(c(xx,rev(xx)), c(rep(0,length(yy.ML)), rev(yy.ML)), border = NA, col = colors[1])
 
-points(qnorm(0.975,fit.ML$coef, sqrt(fit.ML$var.coef)), 0, cex = 3, col = colors2[1], pch = "|")
-points(qnorm(0.025,fit.ML$coef, sqrt(fit.ML$var.coef)), 0, cex = 3, col = colors2[1], pch = "|")
+points(qnorm(0.975,fit.ML$coef, sqrt(fit.ML$mod$var.coef)), 0, cex = 3, col = colors2[1], pch = "|")
+points(qnorm(0.025,fit.ML$coef, sqrt(fit.ML$mod$var.coef)), 0, cex = 3, col = colors2[1], pch = "|")
 
 points(quantile(est.phi.ML, 0.975, na.rm = T), 0, cex = 3, col = colors2[3], pch = "|")
 points(quantile(est.phi.ML, 0.025, na.rm = T), 0, cex = 3, col = colors2[3], pch = "|")
@@ -1243,8 +1244,8 @@ plot(hist.phi.ML, xlim = c(0.53,1.2), ylim = range(hist.phi.GMWM$counts),
      add = T, col = colors[5], border = "grey60")
 polygon(c(xx,rev(xx)), c(rep(0,length(yy.gmwm)), rev(yy.gmwm)), border = NA, col = colors[2])
 
-points(qnorm(0.975,fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3, col = colors2[2], pch = "|")
-points(qnorm(0.025,fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3, col = colors2[2], pch = "|")
+points(qnorm(0.975,fit.gmwm$mod$estimate[1], phi.sd.gmwm), 0, cex = 3, col = colors2[2], pch = "|")
+points(qnorm(0.025,fit.gmwm$mod$estimate[1], phi.sd.gmwm), 0, cex = 3, col = colors2[2], pch = "|")
 
 points(quantile(est.phi.gmwm, 0.975, na.rm = T), 0, cex = 3, col = colors2[5], pch = "|")
 points(quantile(est.phi.gmwm, 0.025, na.rm = T), 0, cex = 3, col = colors2[5], pch = "|")
@@ -1265,8 +1266,8 @@ where $W_t \sim WN(0, 1)$. The generated process is displayed in Figure \@ref(fi
 set.seed(432)
 Xt = gen_gts(500, AR(phi = c(1.98, -0.99), sigma2 = 1))
 plot(Xt)
-mod = estimate(AR(2), Xt, demean = FALSE)
-mod
+fit = estimate(AR(2), Xt, demean = FALSE)
+fit
 ```
 
 With the model's coefficients readily available, the parametric bootstrap is able to be constructed. As before, the bootstrap implementation mirrors prior versions with one cavaet regarding the storage of $\phi$ being two dimensional and, thus, requiring a `matrix` to store the result instead of a traditional atomic vector in _R_.
@@ -1274,7 +1275,7 @@ With the model's coefficients readily available, the parametric bootstrap is abl
 ```{r CIAR, cache = TRUE, warning = FALSE}
 B = 10000
 est.phi.ML = matrix(NA, B, 2)
-model = AR(phi = mod$coef, sigma2 = mod$sigma2)
+model = AR(phi = fit$mod$coef, sigma2 = fit$mod$sigma2)
 
 for(i in seq_len(B)) {
   
@@ -1301,7 +1302,7 @@ z = kde2d(est.phi.ML[,1],est.phi.ML[,2], n=50)
 k = 11
 my.cols = rev(brewer.pal(k, "RdYlBu"))
 
-bivn = mvrnorm(100000, mu = mod$coef, Sigma = matrix(c(mod$var.coef), 2))
+bivn = mvrnorm(100000, mu = fit$mod$coef, Sigma = matrix(c(fit$mod$var.coef), 2))
 bivn.kde = kde2d(bivn[,1], bivn[,2], n = 50)
 
 par(mfrow = c(1,2))
@@ -1467,12 +1468,10 @@ ar1_paraboot = function(model, B = 10000) {
     set.seed(B + i)      # Set seed for reproducibility
 
     # Simulate time series underneath the estimated model
-    x.star = arima.sim(n = 500, list(ar = model$coef, ma = 0),
-    sd = sqrt(model$sigma2))
+    x.star = gen_gts(500, AR(phi = model$mod$coef, sigma2 = model$mod$sigma2))
 
     # Attempt to estimate parameters with recovery
-    est.phi[i] = tryCatch(arima(x.star, order = c(1,0,0),
-    include.mean = FALSE)$coef,
+    est.phi[i] = tryCatch(estimate(AR(1), x.star, demean = FALSE)$mod$coef,
     error = function(e) NA)
 
   }
