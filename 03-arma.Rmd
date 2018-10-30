@@ -637,7 +637,6 @@ library(astsa)
 ```
 
 ```{r, fig.asp = 0.5, fig.width = 8, fig.align='center', fig.cap="Plot of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987"}
-library(astsa)
 
 # Format data
 fish = gts(rec, start = 1950, freq = 12, unit_time = 'month', name_ts = 'Recruitment')
