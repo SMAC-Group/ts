@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Applied Time Series Analysis with R</title>
   <meta name="description" content="Applied Time Series Analysis with R">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="Applied Time Series Analysis with R" />
   <meta property="og:type" content="book" />
@@ -174,6 +174,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.2.2</b> Estimation of AR(p) models</a></li>
 <li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#forecasting-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Forecasting AR(p) Models</a></li>
 </ul></li>
+<li class="chapter" data-level="4.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#diagnostic-tools-for-time-series"><i class="fa fa-check"></i><b>4.3</b> Diagnostic Tools for Time Series</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#the-partial-autocorrelation-function-pacf"><i class="fa fa-check"></i><b>4.3.1</b> The Partial AutoCorrelation Function (PACF)</a></li>
+<li class="chapter" data-level="4.3.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#portmanteau-tests"><i class="fa fa-check"></i><b>4.3.2</b> Portmanteau Tests</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) Models</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -184,6 +189,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="B.1" data-path="appendixb.html"><a href="appendixb.html#the-classical-least-squares-estimator"><i class="fa fa-check"></i><b>B.1</b> The Classical Least-Squares Estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="appendixb.html"><a href="appendixb.html#robust-estimators-for-linear-regression-models"><i class="fa fa-check"></i><b>B.2</b> Robust Estimators for Linear Regression Models</a></li>
 <li class="chapter" data-level="B.3" data-path="appendixb.html"><a href="appendixb.html#applications-of-robust-estimation"><i class="fa fa-check"></i><b>B.3</b> Applications of Robust Estimation</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendixc.html"><a href="appendixc.html"><i class="fa fa-check"></i><b>C</b> Proofs</a><ul>
+<li class="chapter" data-level="C.1" data-path="appendixc.html"><a href="appendixc.html#proof-of-theorem-refcondexp"><i class="fa fa-check"></i><b>C.1</b> Proof of Theorem @ref(condexp) 😱</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/SMAC-Group/ts" target="blank">Published with bookdown</a></li>
@@ -525,39 +533,39 @@ Note that using <span class="math inline">\(\gamma (h)\)</span> and <span class=
 
 <p>In the following simulated example, we illustrate the non-stationary feature of
 such a process:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Number of simulated processes</span>
-B =<span class="st"> </span><span class="dv">200</span>
-
-<span class="co"># Length of random walks</span>
-n =<span class="st"> </span><span class="dv">1000</span>
-
-<span class="co"># Output matrix</span>
-out =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,n)
-
-<span class="co"># Set seed for reproducibility</span>
-<span class="kw">set.seed</span>(<span class="dv">6182</span>)
-
-<span class="co"># Simulate Data</span>
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){
-  <span class="co"># Simulate random walk</span>
-  Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">RW</span>(<span class="dt">gamma =</span> <span class="dv">1</span>))
-  
-  <span class="co"># Store process</span>
-  out[i,] =<span class="st"> </span>Xt
-}
-
-<span class="co"># Plot random walks</span>
-<span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">1</span>,n), <span class="dt">ylim =</span> <span class="kw">range</span>(out), <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot; &quot;</span>)
-<span class="kw">grid</span>()
-color =<span class="st"> </span><span class="kw">sample</span>(<span class="kw">topo.colors</span>(B, <span class="dt">alpha =</span> <span class="fl">0.5</span>))
-<span class="kw">grid</span>()
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){
-  <span class="kw">lines</span>(out[i,], <span class="dt">col =</span> color[i])
-}
-
-<span class="co"># Add 95% confidence region</span>
-<span class="kw">lines</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="fl">1.96</span><span class="op">*</span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">:</span>n), <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">2</span>)
-<span class="kw">lines</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="fl">-1.96</span><span class="op">*</span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">:</span>n), <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co"># Number of simulated processes</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">B =<span class="st"> </span><span class="dv">200</span></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="co"># Length of random walks</span></a>
+<a class="sourceLine" id="cb38-5" data-line-number="5">n =<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb38-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="co"># Output matrix</span></a>
+<a class="sourceLine" id="cb38-8" data-line-number="8">out =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,n)</a>
+<a class="sourceLine" id="cb38-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb38-10" data-line-number="10"><span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb38-11" data-line-number="11"><span class="kw">set.seed</span>(<span class="dv">6182</span>)</a>
+<a class="sourceLine" id="cb38-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb38-13" data-line-number="13"><span class="co"># Simulate Data</span></a>
+<a class="sourceLine" id="cb38-14" data-line-number="14"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){</a>
+<a class="sourceLine" id="cb38-15" data-line-number="15">  <span class="co"># Simulate random walk</span></a>
+<a class="sourceLine" id="cb38-16" data-line-number="16">  Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">RW</span>(<span class="dt">gamma =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb38-17" data-line-number="17">  </a>
+<a class="sourceLine" id="cb38-18" data-line-number="18">  <span class="co"># Store process</span></a>
+<a class="sourceLine" id="cb38-19" data-line-number="19">  out[i,] =<span class="st"> </span>Xt</a>
+<a class="sourceLine" id="cb38-20" data-line-number="20">}</a>
+<a class="sourceLine" id="cb38-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb38-22" data-line-number="22"><span class="co"># Plot random walks</span></a>
+<a class="sourceLine" id="cb38-23" data-line-number="23"><span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">1</span>,n), <span class="dt">ylim =</span> <span class="kw">range</span>(out), <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot; &quot;</span>)</a>
+<a class="sourceLine" id="cb38-24" data-line-number="24"><span class="kw">grid</span>()</a>
+<a class="sourceLine" id="cb38-25" data-line-number="25">color =<span class="st"> </span><span class="kw">sample</span>(<span class="kw">topo.colors</span>(B, <span class="dt">alpha =</span> <span class="fl">0.5</span>))</a>
+<a class="sourceLine" id="cb38-26" data-line-number="26"><span class="kw">grid</span>()</a>
+<a class="sourceLine" id="cb38-27" data-line-number="27"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){</a>
+<a class="sourceLine" id="cb38-28" data-line-number="28">  <span class="kw">lines</span>(out[i,], <span class="dt">col =</span> color[i])</a>
+<a class="sourceLine" id="cb38-29" data-line-number="29">}</a>
+<a class="sourceLine" id="cb38-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb38-31" data-line-number="31"><span class="co"># Add 95% confidence region</span></a>
+<a class="sourceLine" id="cb38-32" data-line-number="32"><span class="kw">lines</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="fl">1.96</span><span class="op">*</span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">:</span>n), <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb38-33" data-line-number="33"><span class="kw">lines</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="fl">-1.96</span><span class="op">*</span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">:</span>n), <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:RWsim"></span>
 <img src="ts_files/figure-html/RWsim-1.png" alt="Two hundred simulated random walks." width="672" />
 <p class="caption">
@@ -603,12 +611,6 @@ Therefore, an MA(1) process is weakly stationary since both the mean and varianc
 Interestingly, we can note that <span class="math inline">\(|\rho(1)| \leq 0.5\)</span>.
 </div></li>
 </ol>
-<div class="figure" style="text-align: center"><span id="fig:MA1theoACF"></span>
-<img src="ts_files/figure-html/MA1theoACF-1.png" alt="Comparison of theoretical ACF of MA(1) with different parameter values" width="960" />
-<p class="caption">
-Figure 3.4: Comparison of theoretical ACF of MA(1) with different parameter values
-</p>
-</div>
 
 <div class="example">
 <p><span id="exm:exar1" class="example"><strong>Example 3.4  (Autoregressive of Order 1)  </strong></span> As another example, we shall verify the stationary properties for the AR(1)
@@ -667,7 +669,7 @@ meaning that as <span class="math inline">\(|\phi|\)</span> gets smaller the aut
 <div class="figure" style="text-align: center"><span id="fig:AR1theoACF"></span>
 <img src="ts_files/figure-html/AR1theoACF-1.png" alt="Comparison of theoretical ACF of AR(1) with different parameter values" width="960" />
 <p class="caption">
-Figure 3.5: Comparison of theoretical ACF of AR(1) with different parameter values
+Figure 3.4: Comparison of theoretical ACF of AR(1) with different parameter values
 </p>
 </div>
 </div>
@@ -777,53 +779,53 @@ simulated sample.</p>
 <p>The figure below generated by the following code compares these three methods
 for <span class="math inline">\(T = 10\)</span>, <span class="math inline">\(B = 1000,\)</span> <span class="math inline">\(\sigma^2 = 1\)</span> and a grid of values for <span class="math inline">\(\phi\)</span> going
 from <span class="math inline">\(-0.95\)</span> to <span class="math inline">\(0.95\)</span>:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Define sample size</span>
-n =<span class="st"> </span><span class="dv">10</span>
-
-<span class="co"># Number of Monte-Carlo replications</span>
-B =<span class="st"> </span><span class="dv">5000</span>
-
-<span class="co"># Define grid of values for phi</span>
-phi =<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="fl">0.95</span>, <span class="dt">to =</span> <span class="fl">-0.95</span>, <span class="dt">length.out =</span> <span class="dv">30</span>)
-
-<span class="co"># Define result matrix</span>
-result =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="kw">length</span>(phi))
-
-<span class="co"># Start simulation</span>
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(phi)){
-  <span class="co"># Define model</span>
-  model =<span class="st"> </span><span class="kw">AR1</span>(<span class="dt">phi =</span> phi[i], <span class="dt">sigma2 =</span> <span class="dv">1</span>)
-  
-  <span class="co"># Monte-Carlo</span>
-  <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_len</span>(B)){
-    <span class="co"># Simulate AR(1)</span>
-    Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, model)
-    
-    <span class="co"># Estimate Xbar</span>
-    result[j,i] =<span class="st"> </span><span class="kw">mean</span>(Xt)
-  }
-}
-
-<span class="co"># Estimate variance of Xbar</span>
-var.Xbar =<span class="st"> </span><span class="kw">apply</span>(result,<span class="dv">2</span>,var)
-
-<span class="co"># Compute theoretical variance</span>
-var.theo =<span class="st"> </span>(n <span class="op">-</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>phi <span class="op">-</span><span class="st"> </span>n<span class="op">*</span>phi<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>phi<span class="op">^</span>(n<span class="op">+</span><span class="dv">1</span>))<span class="op">/</span>(n<span class="op">^</span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>phi<span class="op">^</span><span class="dv">2</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>phi)<span class="op">^</span><span class="dv">2</span>)
-
-<span class="co"># Compute (approximate) variance</span>
-var.approx =<span class="st"> </span><span class="dv">1</span><span class="op">/</span>(n<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>phi)<span class="op">^</span><span class="dv">2</span>)
-
-<span class="co"># Compare variance estimations</span>
-<span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">range</span>(var.approx), <span class="dt">log =</span> <span class="st">&quot;y&quot;</span>, 
-     <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;var(&quot;</span>, <span class="kw">bar</span>(X), <span class="st">&quot;)&quot;</span>)),
-     <span class="dt">xlab=</span> <span class="kw">expression</span>(phi), <span class="dt">cex.lab =</span> <span class="dv">1</span>)
-<span class="kw">grid</span>()
-<span class="kw">lines</span>(phi,var.theo, <span class="dt">col =</span> <span class="st">&quot;deepskyblue4&quot;</span>)
-<span class="kw">lines</span>(phi, var.Xbar, <span class="dt">col =</span> <span class="st">&quot;firebrick3&quot;</span>)
-<span class="kw">lines</span>(phi,var.approx, <span class="dt">col =</span> <span class="st">&quot;springgreen4&quot;</span>)
-<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Theoretical variance&quot;</span>,<span class="st">&quot;Bootstrap variance&quot;</span>,<span class="st">&quot;Approximate variance&quot;</span>), 
-       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;deepskyblue4&quot;</span>,<span class="st">&quot;firebrick3&quot;</span>,<span class="st">&quot;springgreen4&quot;</span>), <span class="dt">lty =</span> <span class="dv">1</span>,
-       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,<span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">box.col =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">cex =</span> <span class="fl">1.2</span>)</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co"># Define sample size</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">n =<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="co"># Number of Monte-Carlo replications</span></a>
+<a class="sourceLine" id="cb39-5" data-line-number="5">B =<span class="st"> </span><span class="dv">5000</span></a>
+<a class="sourceLine" id="cb39-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb39-7" data-line-number="7"><span class="co"># Define grid of values for phi</span></a>
+<a class="sourceLine" id="cb39-8" data-line-number="8">phi =<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="fl">0.95</span>, <span class="dt">to =</span> <span class="fl">-0.95</span>, <span class="dt">length.out =</span> <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb39-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb39-10" data-line-number="10"><span class="co"># Define result matrix</span></a>
+<a class="sourceLine" id="cb39-11" data-line-number="11">result =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="kw">length</span>(phi))</a>
+<a class="sourceLine" id="cb39-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb39-13" data-line-number="13"><span class="co"># Start simulation</span></a>
+<a class="sourceLine" id="cb39-14" data-line-number="14"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(phi)){</a>
+<a class="sourceLine" id="cb39-15" data-line-number="15">  <span class="co"># Define model</span></a>
+<a class="sourceLine" id="cb39-16" data-line-number="16">  model =<span class="st"> </span><span class="kw">AR1</span>(<span class="dt">phi =</span> phi[i], <span class="dt">sigma2 =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb39-17" data-line-number="17">  </a>
+<a class="sourceLine" id="cb39-18" data-line-number="18">  <span class="co"># Monte-Carlo</span></a>
+<a class="sourceLine" id="cb39-19" data-line-number="19">  <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_len</span>(B)){</a>
+<a class="sourceLine" id="cb39-20" data-line-number="20">    <span class="co"># Simulate AR(1)</span></a>
+<a class="sourceLine" id="cb39-21" data-line-number="21">    Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, model)</a>
+<a class="sourceLine" id="cb39-22" data-line-number="22">    </a>
+<a class="sourceLine" id="cb39-23" data-line-number="23">    <span class="co"># Estimate Xbar</span></a>
+<a class="sourceLine" id="cb39-24" data-line-number="24">    result[j,i] =<span class="st"> </span><span class="kw">mean</span>(Xt)</a>
+<a class="sourceLine" id="cb39-25" data-line-number="25">  }</a>
+<a class="sourceLine" id="cb39-26" data-line-number="26">}</a>
+<a class="sourceLine" id="cb39-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb39-28" data-line-number="28"><span class="co"># Estimate variance of Xbar</span></a>
+<a class="sourceLine" id="cb39-29" data-line-number="29">var.Xbar =<span class="st"> </span><span class="kw">apply</span>(result,<span class="dv">2</span>,var)</a>
+<a class="sourceLine" id="cb39-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb39-31" data-line-number="31"><span class="co"># Compute theoretical variance</span></a>
+<a class="sourceLine" id="cb39-32" data-line-number="32">var.theo =<span class="st"> </span>(n <span class="op">-</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>phi <span class="op">-</span><span class="st"> </span>n<span class="op">*</span>phi<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>phi<span class="op">^</span>(n<span class="op">+</span><span class="dv">1</span>))<span class="op">/</span>(n<span class="op">^</span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>phi<span class="op">^</span><span class="dv">2</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>phi)<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb39-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb39-34" data-line-number="34"><span class="co"># Compute (approximate) variance</span></a>
+<a class="sourceLine" id="cb39-35" data-line-number="35">var.approx =<span class="st"> </span><span class="dv">1</span><span class="op">/</span>(n<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>phi)<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb39-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb39-37" data-line-number="37"><span class="co"># Compare variance estimations</span></a>
+<a class="sourceLine" id="cb39-38" data-line-number="38"><span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">range</span>(var.approx), <span class="dt">log =</span> <span class="st">&quot;y&quot;</span>, </a>
+<a class="sourceLine" id="cb39-39" data-line-number="39">     <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;var(&quot;</span>, <span class="kw">bar</span>(X), <span class="st">&quot;)&quot;</span>)),</a>
+<a class="sourceLine" id="cb39-40" data-line-number="40">     <span class="dt">xlab=</span> <span class="kw">expression</span>(phi), <span class="dt">cex.lab =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb39-41" data-line-number="41"><span class="kw">grid</span>()</a>
+<a class="sourceLine" id="cb39-42" data-line-number="42"><span class="kw">lines</span>(phi,var.theo, <span class="dt">col =</span> <span class="st">&quot;deepskyblue4&quot;</span>)</a>
+<a class="sourceLine" id="cb39-43" data-line-number="43"><span class="kw">lines</span>(phi, var.Xbar, <span class="dt">col =</span> <span class="st">&quot;firebrick3&quot;</span>)</a>
+<a class="sourceLine" id="cb39-44" data-line-number="44"><span class="kw">lines</span>(phi,var.approx, <span class="dt">col =</span> <span class="st">&quot;springgreen4&quot;</span>)</a>
+<a class="sourceLine" id="cb39-45" data-line-number="45"><span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Theoretical variance&quot;</span>,<span class="st">&quot;Bootstrap variance&quot;</span>,<span class="st">&quot;Approximate variance&quot;</span>), </a>
+<a class="sourceLine" id="cb39-46" data-line-number="46">       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;deepskyblue4&quot;</span>,<span class="st">&quot;firebrick3&quot;</span>,<span class="st">&quot;springgreen4&quot;</span>), <span class="dt">lty =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb39-47" data-line-number="47">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,<span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">box.col =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">cex =</span> <span class="fl">1.2</span>)</a></code></pre></div>
 <p><img src="ts_files/figure-html/estimXbar-1.png" width="672" /></p>
 <p>It can be observed that the variance of <span class="math inline">\(\bar{X}\)</span> typically increases with
 <span class="math inline">\(\phi\)</span>. As expected when <span class="math inline">\(\phi = 0\)</span>, we have <span class="math inline">\(\text{var}(\bar{X}) = 1/n\)</span> and in
@@ -842,17 +844,17 @@ for a larger sample size (here we consider <span class="math inline">\(T = 10\)<
 <p>A graphical representation of the autocorrelation function is often the first
 step for any time series analysis (again assuming the process to be stationary).
 Consider the following simulated example:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set seed for reproducibility</span>
-<span class="kw">set.seed</span>(<span class="dv">2241</span>)
-
-<span class="co"># Simulate 100 observation from a Gaussian white noise</span>
-Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">100</span>, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">1</span>))
-
-<span class="co"># Compute autocorrelation</span>
-acf_Xt =<span class="st"> </span>simts<span class="op">::</span><span class="kw">auto_corr</span>(Xt)
-
-<span class="co"># Plot autocorrelation</span>
-<span class="kw">plot</span>(acf_Xt, <span class="dt">show.ci =</span> <span class="ot">FALSE</span>)</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">2241</span>)</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="co"># Simulate 100 observation from a Gaussian white noise</span></a>
+<a class="sourceLine" id="cb40-5" data-line-number="5">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">100</span>, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb40-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb40-7" data-line-number="7"><span class="co"># Compute autocorrelation</span></a>
+<a class="sourceLine" id="cb40-8" data-line-number="8">acf_Xt =<span class="st"> </span>simts<span class="op">::</span><span class="kw">auto_corr</span>(Xt)</a>
+<a class="sourceLine" id="cb40-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb40-10" data-line-number="10"><span class="co"># Plot autocorrelation</span></a>
+<a class="sourceLine" id="cb40-11" data-line-number="11"><span class="kw">plot</span>(acf_Xt, <span class="dt">show.ci =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="ts_files/figure-html/basicACF-1.png" width="672" /></p>
 <p>In this example, the true autocorrelation is equal to zero at any
 lag <span class="math inline">\(h \neq 0\)</span>, but obviously the estimated autocorrelations are random variables
@@ -873,8 +875,8 @@ the sample autocorrelation are significant by determining whether the observed
 peak lies outside the interval <span class="math inline">\(\pm 2/\sqrt{T}\)</span> (i.e. an approximate 95%
 confidence interval). Returning to our previous example and adding confidence
 bands to the previous graph, we obtain:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Plot autocorrelation with confidence bands </span>
-<span class="kw">plot</span>(acf_Xt)</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co"># Plot autocorrelation with confidence bands </span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw">plot</span>(acf_Xt)</a></code></pre></div>
 <p><img src="ts_files/figure-html/basicACF2-1.png" width="672" /></p>
 <p>It can now be observed that most peaks lie within the
 interval <span class="math inline">\(\pm 2/\sqrt{T}\)</span> suggesting that the true data generating process
@@ -889,34 +891,34 @@ the New York Stock Exchange or the NASDAQ Stock Market. The graph below
 shows the index level and daily returns from 1990.
 </div>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load package</span>
-<span class="kw">library</span>(quantmod)
-
-<span class="co"># Download S&amp;P index</span>
-<span class="kw">getSymbols</span>(<span class="st">&quot;^GSPC&quot;</span>, <span class="dt">from=</span><span class="st">&quot;1990-01-01&quot;</span>, <span class="dt">to =</span> <span class="kw">Sys.Date</span>())</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co"># Load package</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw">library</span>(quantmod)</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="co"># Download S&amp;P index</span></a>
+<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="kw">getSymbols</span>(<span class="st">&quot;^GSPC&quot;</span>, <span class="dt">from=</span><span class="st">&quot;1990-01-01&quot;</span>, <span class="dt">to =</span> <span class="kw">Sys.Date</span>())</a></code></pre></div>
 <pre><code>## [1] &quot;GSPC&quot;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Extract index level and daily returns from the data</span>
-GSPC_index =<span class="st"> </span><span class="kw">gts</span>(<span class="dt">data =</span> <span class="kw">as.numeric</span>(GSPC<span class="op">$</span>GSPC.Close),
-                 <span class="dt">start =</span> <span class="dv">1990</span>,
-                 <span class="dt">freq =</span> <span class="dv">252</span>,
-                 <span class="dt">Time =</span> <span class="kw">time</span>(GSPC),
-                 <span class="dt">unit_time =</span> <span class="st">&quot;year&quot;</span>,
-                 <span class="dt">name_ts =</span> <span class="st">&quot;Index Level&quot;</span>,
-                 <span class="dt">data_name =</span> <span class="kw">paste</span>(<span class="st">&quot;S&amp;P 500 (1990-01-01 - &quot;</span>,<span class="kw">Sys.Date</span>(),<span class="st">&quot;)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
-                 )
-
-GSPC_returns =<span class="st"> </span><span class="kw">gts</span>(<span class="dt">data =</span> <span class="kw">as.numeric</span>(<span class="kw">ClCl</span>(GSPC)),
-                   <span class="dt">start =</span> <span class="dv">1990</span>,
-                   <span class="dt">freq =</span> <span class="dv">252</span>,
-                   <span class="dt">Time =</span> <span class="kw">time</span>(GSPC),
-                   <span class="dt">unit_time =</span> <span class="st">&quot;year&quot;</span>,
-                   <span class="dt">name_ts =</span> <span class="st">&quot;Daily Returns&quot;</span>,
-                   <span class="dt">data_name =</span> <span class="kw">paste</span>(<span class="st">&quot;S&amp;P 500 (1990-01-01 - &quot;</span>,<span class="kw">Sys.Date</span>(),<span class="st">&quot;)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
-)
-
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
-<span class="kw">plot</span>(GSPC_index)
-<span class="kw">plot</span>(GSPC_returns)</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co"># Extract index level and daily returns from the data</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">GSPC_index =<span class="st"> </span><span class="kw">gts</span>(<span class="dt">data =</span> <span class="kw">as.numeric</span>(GSPC<span class="op">$</span>GSPC.Close),</a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">                 <span class="dt">start =</span> <span class="dv">1990</span>,</a>
+<a class="sourceLine" id="cb44-4" data-line-number="4">                 <span class="dt">freq =</span> <span class="dv">252</span>,</a>
+<a class="sourceLine" id="cb44-5" data-line-number="5">                 <span class="dt">Time =</span> <span class="kw">time</span>(GSPC),</a>
+<a class="sourceLine" id="cb44-6" data-line-number="6">                 <span class="dt">unit_time =</span> <span class="st">&quot;year&quot;</span>,</a>
+<a class="sourceLine" id="cb44-7" data-line-number="7">                 <span class="dt">name_ts =</span> <span class="st">&quot;Index Level&quot;</span>,</a>
+<a class="sourceLine" id="cb44-8" data-line-number="8">                 <span class="dt">data_name =</span> <span class="kw">paste</span>(<span class="st">&quot;S&amp;P 500 (1990-01-01 - &quot;</span>,<span class="kw">Sys.Date</span>(),<span class="st">&quot;)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb44-9" data-line-number="9">                 )</a>
+<a class="sourceLine" id="cb44-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb44-11" data-line-number="11">GSPC_returns =<span class="st"> </span><span class="kw">gts</span>(<span class="dt">data =</span> <span class="kw">as.numeric</span>(<span class="kw">ClCl</span>(GSPC)),</a>
+<a class="sourceLine" id="cb44-12" data-line-number="12">                   <span class="dt">start =</span> <span class="dv">1990</span>,</a>
+<a class="sourceLine" id="cb44-13" data-line-number="13">                   <span class="dt">freq =</span> <span class="dv">252</span>,</a>
+<a class="sourceLine" id="cb44-14" data-line-number="14">                   <span class="dt">Time =</span> <span class="kw">time</span>(GSPC),</a>
+<a class="sourceLine" id="cb44-15" data-line-number="15">                   <span class="dt">unit_time =</span> <span class="st">&quot;year&quot;</span>,</a>
+<a class="sourceLine" id="cb44-16" data-line-number="16">                   <span class="dt">name_ts =</span> <span class="st">&quot;Daily Returns&quot;</span>,</a>
+<a class="sourceLine" id="cb44-17" data-line-number="17">                   <span class="dt">data_name =</span> <span class="kw">paste</span>(<span class="st">&quot;S&amp;P 500 (1990-01-01 - &quot;</span>,<span class="kw">Sys.Date</span>(),<span class="st">&quot;)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb44-18" data-line-number="18">)</a>
+<a class="sourceLine" id="cb44-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb44-20" data-line-number="20"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb44-21" data-line-number="21"><span class="kw">plot</span>(GSPC_index)</a>
+<a class="sourceLine" id="cb44-22" data-line-number="22"><span class="kw">plot</span>(GSPC_returns)</a></code></pre></div>
 <p><img src="ts_files/figure-html/GSPC-1.png" width="960" /></p>
 <p>From these graphs, it is clear that the returns are not identically distributed
 as the variance seems to change over time and clusters with either high or low
@@ -926,9 +928,9 @@ processes can be approximated. Nevertheless, we compute the empirical
 autocorrelation function of the S&amp;P 500 return to evaluate the degree
 of “linear” dependence between observations. The graph below presents
 the empirical autocorrelation.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sp500 =<span class="st"> </span><span class="kw">na.omit</span>(GSPC_returns)
-<span class="kw">names</span>(sp500) =<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;S&amp;P 500 (1990-01-01 - &quot;</span>,<span class="kw">Sys.Date</span>(),<span class="st">&quot;)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
-<span class="kw">plot</span>(simts<span class="op">::</span><span class="kw">auto_corr</span>(sp500))</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">sp500 =<span class="st"> </span><span class="kw">na.omit</span>(GSPC_returns)</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="kw">names</span>(sp500) =<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;S&amp;P 500 (1990-01-01 - &quot;</span>,<span class="kw">Sys.Date</span>(),<span class="st">&quot;)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="kw">plot</span>(simts<span class="op">::</span><span class="kw">auto_corr</span>(sp500))</a></code></pre></div>
 <p><img src="ts_files/figure-html/GSPCacf-1.png" width="672" /></p>
 <p>As expected, the autocorrelation is small but it might be reasonable to believe
 that this sequence is not purely uncorrelated. Unfortunately, Theorem <a href="fundtimeseries.html#thm:approxnormal">3.1</a> is based on an asymptotic argument and since the
@@ -941,45 +943,45 @@ should increase with the sample size <span class="math inline">\(T\)</span>. The
 and compares the empirical distribution of <span class="math inline">\(\sqrt{T} \hat{\rho}(3)\)</span> with a
 normal distribution with mean 0 and variance 1 (its asymptotic
 distribution), which is depicted using a red line.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Number of Monte Carlo replications</span>
-B =<span class="st"> </span><span class="dv">10000</span>
-
-<span class="co"># Define considered lag</span>
-h =<span class="st"> </span><span class="dv">3</span>
-
-<span class="co"># Sample size considered</span>
-N =<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">300</span>)
-
-<span class="co"># Initialisation</span>
-result =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="kw">length</span>(N))
-
-<span class="co"># Set seed</span>
-<span class="kw">set.seed</span>(<span class="dv">1</span>)
-
-<span class="co"># Start Monte Carlo</span>
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){
-  <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_along</span>(N)){
-    <span class="co"># Simluate process</span>
-    Xt =<span class="st"> </span><span class="kw">rnorm</span>(N[j])
-    
-    <span class="co"># Save autocorrelation at lag h</span>
-    result[i,j] =<span class="st"> </span><span class="kw">acf</span>(Xt, <span class="dt">plot =</span> <span class="ot">FALSE</span>)<span class="op">$</span>acf[h<span class="op">+</span><span class="dv">1</span>]
-  }
-}
-
-<span class="co"># Plot results</span>
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="kw">length</span>(N)<span class="op">/</span><span class="dv">2</span>))
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(N)){
-  <span class="co"># Estimated empirical distribution</span>
-  <span class="kw">hist</span>(<span class="kw">sqrt</span>(N[i])<span class="op">*</span>result[,i], <span class="dt">col =</span> <span class="st">&quot;royalblue1&quot;</span>, 
-       <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Sample size n =&quot;</span>,N[i]), <span class="dt">probability =</span> <span class="ot">TRUE</span>,
-       <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>), <span class="dt">xlab =</span> <span class="st">&quot; &quot;</span>)
-  
-  <span class="co"># Asymptotic distribution</span>
-  xx =<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">length.out =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">3</span>)
-  yy =<span class="st"> </span><span class="kw">dnorm</span>(xx,<span class="dv">0</span>,<span class="dv">1</span>)
-  <span class="kw">lines</span>(xx,yy, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
-}</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="co"># Number of Monte Carlo replications</span></a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">B =<span class="st"> </span><span class="dv">10000</span></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="co"># Define considered lag</span></a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">h =<span class="st"> </span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb46-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb46-7" data-line-number="7"><span class="co"># Sample size considered</span></a>
+<a class="sourceLine" id="cb46-8" data-line-number="8">N =<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">300</span>)</a>
+<a class="sourceLine" id="cb46-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb46-10" data-line-number="10"><span class="co"># Initialisation</span></a>
+<a class="sourceLine" id="cb46-11" data-line-number="11">result =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="kw">length</span>(N))</a>
+<a class="sourceLine" id="cb46-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb46-13" data-line-number="13"><span class="co"># Set seed</span></a>
+<a class="sourceLine" id="cb46-14" data-line-number="14"><span class="kw">set.seed</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb46-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb46-16" data-line-number="16"><span class="co"># Start Monte Carlo</span></a>
+<a class="sourceLine" id="cb46-17" data-line-number="17"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){</a>
+<a class="sourceLine" id="cb46-18" data-line-number="18">  <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_along</span>(N)){</a>
+<a class="sourceLine" id="cb46-19" data-line-number="19">    <span class="co"># Simluate process</span></a>
+<a class="sourceLine" id="cb46-20" data-line-number="20">    Xt =<span class="st"> </span><span class="kw">rnorm</span>(N[j])</a>
+<a class="sourceLine" id="cb46-21" data-line-number="21">    </a>
+<a class="sourceLine" id="cb46-22" data-line-number="22">    <span class="co"># Save autocorrelation at lag h</span></a>
+<a class="sourceLine" id="cb46-23" data-line-number="23">    result[i,j] =<span class="st"> </span><span class="kw">acf</span>(Xt, <span class="dt">plot =</span> <span class="ot">FALSE</span>)<span class="op">$</span>acf[h<span class="op">+</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb46-24" data-line-number="24">  }</a>
+<a class="sourceLine" id="cb46-25" data-line-number="25">}</a>
+<a class="sourceLine" id="cb46-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb46-27" data-line-number="27"><span class="co"># Plot results</span></a>
+<a class="sourceLine" id="cb46-28" data-line-number="28"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="kw">length</span>(N)<span class="op">/</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb46-29" data-line-number="29"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(N)){</a>
+<a class="sourceLine" id="cb46-30" data-line-number="30">  <span class="co"># Estimated empirical distribution</span></a>
+<a class="sourceLine" id="cb46-31" data-line-number="31">  <span class="kw">hist</span>(<span class="kw">sqrt</span>(N[i])<span class="op">*</span>result[,i], <span class="dt">col =</span> <span class="st">&quot;royalblue1&quot;</span>, </a>
+<a class="sourceLine" id="cb46-32" data-line-number="32">       <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Sample size n =&quot;</span>,N[i]), <span class="dt">probability =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb46-33" data-line-number="33">       <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>), <span class="dt">xlab =</span> <span class="st">&quot; &quot;</span>)</a>
+<a class="sourceLine" id="cb46-34" data-line-number="34">  </a>
+<a class="sourceLine" id="cb46-35" data-line-number="35">  <span class="co"># Asymptotic distribution</span></a>
+<a class="sourceLine" id="cb46-36" data-line-number="36">  xx =<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">-10</span>, <span class="dt">to =</span> <span class="dv">10</span>, <span class="dt">length.out =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb46-37" data-line-number="37">  yy =<span class="st"> </span><span class="kw">dnorm</span>(xx,<span class="dv">0</span>,<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb46-38" data-line-number="38">  <span class="kw">lines</span>(xx,yy, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb46-39" data-line-number="39">}</a></code></pre></div>
 <p><img src="ts_files/figure-html/simulationACF-1.png" width="672" /></p>
 <p>As expected, it can clearly be observed that the asymptotic approximation is
 quite poor when <span class="math inline">\(n = 5\)</span> but as the sample size increases the approximation
@@ -1017,74 +1019,74 @@ can be interpreted as a “contaminated” version of <span class="math inline">
 represents one realization of the process <span class="math inline">\((Y_t)\)</span> using the
 following setting: <span class="math inline">\(T = 100\)</span>, <span class="math inline">\(\sigma_u^2 = 10\)</span>, <span class="math inline">\(\phi = 0.9\)</span>, <span class="math inline">\(\sigma_w^2 = 1\)</span> as
 well as <span class="math inline">\(\alpha = 0.05\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set seed for reproducibility</span>
-<span class="kw">set.seed</span>(<span class="dv">2241</span>)
-
-<span class="co"># Define length of time series</span>
-N =<span class="st"> </span><span class="dv">100</span>
-
-<span class="co"># Select observations from contamination distribution</span>
-epsilon =<span class="st"> </span><span class="fl">0.05</span>
-index =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>N, <span class="kw">round</span>(epsilon<span class="op">*</span>N))
-Ut =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">10</span>))
-
-<span class="co"># Simulate observations from Xt and Yt</span>
-Xt =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">AR1</span>(<span class="dt">phi =</span> <span class="fl">0.9</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))
-Yt =<span class="st"> </span>Xt
-Yt[index] =<span class="st"> </span>Ut[index]
-
-<span class="co"># Plot time series</span>
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))
-<span class="kw">plot</span>(Yt, <span class="dt">main =</span> <span class="st">&quot;Contaminated Time Series Yt&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">2241</span>)</a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="co"># Define length of time series</span></a>
+<a class="sourceLine" id="cb47-5" data-line-number="5">N =<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb47-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb47-7" data-line-number="7"><span class="co"># Select observations from contamination distribution</span></a>
+<a class="sourceLine" id="cb47-8" data-line-number="8">epsilon =<span class="st"> </span><span class="fl">0.05</span></a>
+<a class="sourceLine" id="cb47-9" data-line-number="9">index =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>N, <span class="kw">round</span>(epsilon<span class="op">*</span>N))</a>
+<a class="sourceLine" id="cb47-10" data-line-number="10">Ut =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">10</span>))</a>
+<a class="sourceLine" id="cb47-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb47-12" data-line-number="12"><span class="co"># Simulate observations from Xt and Yt</span></a>
+<a class="sourceLine" id="cb47-13" data-line-number="13">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">AR1</span>(<span class="dt">phi =</span> <span class="fl">0.9</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb47-14" data-line-number="14">Yt =<span class="st"> </span>Xt</a>
+<a class="sourceLine" id="cb47-15" data-line-number="15">Yt[index] =<span class="st"> </span>Ut[index]</a>
+<a class="sourceLine" id="cb47-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb47-17" data-line-number="17"><span class="co"># Plot time series</span></a>
+<a class="sourceLine" id="cb47-18" data-line-number="18"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb47-19" data-line-number="19"><span class="kw">plot</span>(Yt, <span class="dt">main =</span> <span class="st">&quot;Contaminated Time Series Yt&quot;</span>)</a></code></pre></div>
 <p><img src="ts_files/figure-html/Yt-1.png" width="672" /></p>
 <p>The first question we can ask ourselves looking at this figure is: where are the outliers? 🤔 You can probably spot a few but there are 5 outliers. If you’re having difficulties detecting the outliers don’t worry: it’s a commonly known phenomenon in time series that detecting outliers is not always easy. Indeed, when looking at a time series for the first time it’s not straightforward to understand if there’s any form of contamination. Let’s now compare <span class="math inline">\((X_t)\)</span> and <span class="math inline">\((Y_t)\)</span> in the following plots.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Plot time series</span>
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))
-<span class="kw">plot</span>(Xt, <span class="dt">main =</span> <span class="st">&quot;Original Time Series Xt&quot;</span>)
-<span class="kw">plot</span>(Yt, <span class="dt">main =</span> <span class="st">&quot;Contaminated Time Series Yt&quot;</span>)
-<span class="kw">points</span>(index<span class="dv">-1</span>, Yt[index], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co"># Plot time series</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="kw">plot</span>(Xt, <span class="dt">main =</span> <span class="st">&quot;Original Time Series Xt&quot;</span>)</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4"><span class="kw">plot</span>(Yt, <span class="dt">main =</span> <span class="st">&quot;Contaminated Time Series Yt&quot;</span>)</a>
+<a class="sourceLine" id="cb48-5" data-line-number="5"><span class="kw">points</span>(index<span class="dv">-1</span>, Yt[index], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
 <p><img src="ts_files/figure-html/XtYt-1.png" width="672" /></p>
 <p>In this case it’s more simple to detect the outliers (that are also highlighted with the red dots) since we can compare <span class="math inline">\((Y_t)\)</span> with the original uncontaminated time series <span class="math inline">\((X_t)\)</span>. Having highlighted how exploratory analysis can provide limited information on the presence of contamination in an observed time series, we now consider a simulated example to highlight how the performance of a
 “classical” autocorrelation estimator can deteriorate if the sample is contaminated (
 i.e. what is the impact of <span class="math inline">\((Y_t)\)</span> on the ACF estimator <span class="math inline">\(\hat{\rho}(h)\)</span>). In this simulation, we will use the setting presented above and
 consider <span class="math inline">\(B = 10^3\)</span> bootstrap replications comparing the performance of the classical estimator when applied to an uncontaminated time series <span class="math inline">\((X_t)\)</span> and a contaminated time series <span class="math inline">\((Y_t)\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">B =<span class="st"> </span><span class="dv">1000</span> <span class="co"># Number of simulations</span>
-N =<span class="st"> </span><span class="dv">100</span> <span class="co"># Length of time series</span>
-epsilon =<span class="st"> </span><span class="fl">0.05</span> <span class="co"># Amount of contamination</span>
-phi =<span class="st"> </span><span class="fl">0.9</span> <span class="co"># AR(1) parameter value</span>
-
-<span class="co"># Store first 15 values of Empirical ACF (for Xt and Yt)</span>
-acf_xt =<span class="st"> </span>acf_yt =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">15</span>)
-
-<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>B) {
-  
-  <span class="co"># Set seed for reproducibility</span>
-  <span class="kw">set.seed</span>(i <span class="op">+</span><span class="st"> </span><span class="dv">2241</span>)
-
-  <span class="co"># Select observations from contamination distribution</span>
-  index =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>N, <span class="kw">round</span>(epsilon<span class="op">*</span>N))
-  Ut =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">10</span>))
-
-  <span class="co"># Simulate observations from Xt and Yt</span>
-  Xt =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">AR1</span>(<span class="dt">phi =</span> <span class="fl">0.9</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))
-  Yt =<span class="st"> </span>Xt
-  Yt[index] =<span class="st"> </span>Ut[index]
-  
-  <span class="co"># Store ACF values</span>
-  acf_xt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Xt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
-  acf_yt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
-  
-}
-
-<span class="co"># Compute the Theoretical ACF of an AR(1) model (up to lag 15)</span>
-true_acf =<span class="st"> </span>phi<span class="op">^</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>)
-
-<span class="co"># Make boxplots of Empirical ACF for both settings and compare with true ACF</span>
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
-<span class="kw">boxplot</span>(acf_xt[, <span class="dv">3</span>], <span class="dt">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;ACF at lag 3 (uncontaminated)&quot;</span>)
-<span class="kw">abline</span>(<span class="dt">h =</span> true_acf[<span class="dv">3</span>], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
-<span class="kw">boxplot</span>(acf_yt[, <span class="dv">3</span>], <span class="dt">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;ACF at lag 3 (contaminated)&quot;</span>)
-<span class="kw">abline</span>(<span class="dt">h =</span> true_acf[<span class="dv">3</span>], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">B =<span class="st"> </span><span class="dv">1000</span> <span class="co"># Number of simulations</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">N =<span class="st"> </span><span class="dv">100</span> <span class="co"># Length of time series</span></a>
+<a class="sourceLine" id="cb49-3" data-line-number="3">epsilon =<span class="st"> </span><span class="fl">0.05</span> <span class="co"># Amount of contamination</span></a>
+<a class="sourceLine" id="cb49-4" data-line-number="4">phi =<span class="st"> </span><span class="fl">0.9</span> <span class="co"># AR(1) parameter value</span></a>
+<a class="sourceLine" id="cb49-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb49-6" data-line-number="6"><span class="co"># Store first 15 values of Empirical ACF (for Xt and Yt)</span></a>
+<a class="sourceLine" id="cb49-7" data-line-number="7">acf_xt =<span class="st"> </span>acf_yt =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb49-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb49-9" data-line-number="9"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>B) {</a>
+<a class="sourceLine" id="cb49-10" data-line-number="10">  </a>
+<a class="sourceLine" id="cb49-11" data-line-number="11">  <span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb49-12" data-line-number="12">  <span class="kw">set.seed</span>(i <span class="op">+</span><span class="st"> </span><span class="dv">2241</span>)</a>
+<a class="sourceLine" id="cb49-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb49-14" data-line-number="14">  <span class="co"># Select observations from contamination distribution</span></a>
+<a class="sourceLine" id="cb49-15" data-line-number="15">  index =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>N, <span class="kw">round</span>(epsilon<span class="op">*</span>N))</a>
+<a class="sourceLine" id="cb49-16" data-line-number="16">  Ut =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">10</span>))</a>
+<a class="sourceLine" id="cb49-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb49-18" data-line-number="18">  <span class="co"># Simulate observations from Xt and Yt</span></a>
+<a class="sourceLine" id="cb49-19" data-line-number="19">  Xt =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">AR1</span>(<span class="dt">phi =</span> <span class="fl">0.9</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb49-20" data-line-number="20">  Yt =<span class="st"> </span>Xt</a>
+<a class="sourceLine" id="cb49-21" data-line-number="21">  Yt[index] =<span class="st"> </span>Ut[index]</a>
+<a class="sourceLine" id="cb49-22" data-line-number="22">  </a>
+<a class="sourceLine" id="cb49-23" data-line-number="23">  <span class="co"># Store ACF values</span></a>
+<a class="sourceLine" id="cb49-24" data-line-number="24">  acf_xt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Xt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]</a>
+<a class="sourceLine" id="cb49-25" data-line-number="25">  acf_yt[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]</a>
+<a class="sourceLine" id="cb49-26" data-line-number="26">  </a>
+<a class="sourceLine" id="cb49-27" data-line-number="27">}</a>
+<a class="sourceLine" id="cb49-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb49-29" data-line-number="29"><span class="co"># Compute the Theoretical ACF of an AR(1) model (up to lag 15)</span></a>
+<a class="sourceLine" id="cb49-30" data-line-number="30">true_acf =<span class="st"> </span>phi<span class="op">^</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb49-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb49-32" data-line-number="32"><span class="co"># Make boxplots of Empirical ACF for both settings and compare with true ACF</span></a>
+<a class="sourceLine" id="cb49-33" data-line-number="33"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb49-34" data-line-number="34"><span class="kw">boxplot</span>(acf_xt[, <span class="dv">3</span>], <span class="dt">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;ACF at lag 3 (uncontaminated)&quot;</span>)</a>
+<a class="sourceLine" id="cb49-35" data-line-number="35"><span class="kw">abline</span>(<span class="dt">h =</span> true_acf[<span class="dv">3</span>], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb49-36" data-line-number="36"><span class="kw">boxplot</span>(acf_yt[, <span class="dv">3</span>], <span class="dt">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;ACF at lag 3 (contaminated)&quot;</span>)</a>
+<a class="sourceLine" id="cb49-37" data-line-number="37"><span class="kw">abline</span>(<span class="dt">h =</span> true_acf[<span class="dv">3</span>], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
 <p><img src="ts_files/figure-html/simulationRobust-1.png" width="672" /></p>
 <p>The boxplots represent the empirical distribution of the ACF estimator <span class="math inline">\(\hat{\rho}(3)\)</span>: the left boxplot shows how the standard autocorrelation estimator is
 centered around the true value (red line) when the sample is not
@@ -1099,42 +1101,42 @@ The following simulated example shows how it limits the bias which is induced on
 Unlike the previous simulation, we shall only consider data issued
 from the contaminated process <span class="math inline">\((Y_t)\)</span>, and compare the performance of two
 estimators (i.e. classical and robust autocorrelation estimators):</p>
-<pre class="sourceCode r"><code class="sourceCode r">B =<span class="st"> </span><span class="dv">1000</span> <span class="co"># Number of simulations</span>
-N =<span class="st"> </span><span class="dv">100</span> <span class="co"># Length of time series</span>
-epsilon =<span class="st"> </span><span class="fl">0.05</span> <span class="co"># Amount of contamination</span>
-phi =<span class="st"> </span><span class="fl">0.9</span> <span class="co"># AR(1) parameter value</span>
-
-<span class="co"># Store first 15 values of Empirical ACF (classic and robust)</span>
-cl_acf =<span class="st"> </span>rob_acf =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">15</span>)
-
-<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>B) {
-  
-  <span class="co"># Set seed for reproducibility</span>
-  <span class="kw">set.seed</span>(i <span class="op">+</span><span class="st"> </span><span class="dv">2241</span>)
-
-  <span class="co"># Select observations from contamination distribution</span>
-  index =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>N, <span class="kw">round</span>(epsilon<span class="op">*</span>N))
-  Ut =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">10</span>))
-
-  <span class="co"># Simulate observations from  Yt</span>
-  Yt =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">AR1</span>(<span class="dt">phi =</span> <span class="fl">0.9</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))
-  Yt[index] =<span class="st"> </span>Ut[index]
-  
-  <span class="co"># Store Classic and Robust ACF values</span>
-  cl_acf[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
-  rob_acf[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Xt, <span class="dt">robust =</span> <span class="ot">TRUE</span>))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]
-  
-}
-
-<span class="co"># Compute the Theoretical ACF of an AR(1) model (up to lag 15)</span>
-true_acf =<span class="st"> </span>phi<span class="op">^</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>)
-
-<span class="co"># Make boxplots of both Classic and Robust Empirical ACF and compare with true ACF</span>
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
-<span class="kw">boxplot</span>(cl_acf[, <span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Classic ACF at lag 2&quot;</span>)
-<span class="kw">abline</span>(<span class="dt">h =</span> true_acf[<span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
-<span class="kw">boxplot</span>(rob_acf[, <span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Robust ACF at lag 2&quot;</span>)
-<span class="kw">abline</span>(<span class="dt">h =</span> true_acf[<span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">B =<span class="st"> </span><span class="dv">1000</span> <span class="co"># Number of simulations</span></a>
+<a class="sourceLine" id="cb50-2" data-line-number="2">N =<span class="st"> </span><span class="dv">100</span> <span class="co"># Length of time series</span></a>
+<a class="sourceLine" id="cb50-3" data-line-number="3">epsilon =<span class="st"> </span><span class="fl">0.05</span> <span class="co"># Amount of contamination</span></a>
+<a class="sourceLine" id="cb50-4" data-line-number="4">phi =<span class="st"> </span><span class="fl">0.9</span> <span class="co"># AR(1) parameter value</span></a>
+<a class="sourceLine" id="cb50-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb50-6" data-line-number="6"><span class="co"># Store first 15 values of Empirical ACF (classic and robust)</span></a>
+<a class="sourceLine" id="cb50-7" data-line-number="7">cl_acf =<span class="st"> </span>rob_acf =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb50-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb50-9" data-line-number="9"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>B) {</a>
+<a class="sourceLine" id="cb50-10" data-line-number="10">  </a>
+<a class="sourceLine" id="cb50-11" data-line-number="11">  <span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb50-12" data-line-number="12">  <span class="kw">set.seed</span>(i <span class="op">+</span><span class="st"> </span><span class="dv">2241</span>)</a>
+<a class="sourceLine" id="cb50-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb50-14" data-line-number="14">  <span class="co"># Select observations from contamination distribution</span></a>
+<a class="sourceLine" id="cb50-15" data-line-number="15">  index =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>N, <span class="kw">round</span>(epsilon<span class="op">*</span>N))</a>
+<a class="sourceLine" id="cb50-16" data-line-number="16">  Ut =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">10</span>))</a>
+<a class="sourceLine" id="cb50-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb50-18" data-line-number="18">  <span class="co"># Simulate observations from  Yt</span></a>
+<a class="sourceLine" id="cb50-19" data-line-number="19">  Yt =<span class="st"> </span><span class="kw">gen_gts</span>(N, <span class="kw">AR1</span>(<span class="dt">phi =</span> <span class="fl">0.9</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb50-20" data-line-number="20">  Yt[index] =<span class="st"> </span>Ut[index]</a>
+<a class="sourceLine" id="cb50-21" data-line-number="21">  </a>
+<a class="sourceLine" id="cb50-22" data-line-number="22">  <span class="co"># Store Classic and Robust ACF values</span></a>
+<a class="sourceLine" id="cb50-23" data-line-number="23">  cl_acf[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Yt))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]</a>
+<a class="sourceLine" id="cb50-24" data-line-number="24">  rob_acf[i, ] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">auto_corr</span>(Xt, <span class="dt">robust =</span> <span class="ot">TRUE</span>))[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]</a>
+<a class="sourceLine" id="cb50-25" data-line-number="25">  </a>
+<a class="sourceLine" id="cb50-26" data-line-number="26">}</a>
+<a class="sourceLine" id="cb50-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb50-28" data-line-number="28"><span class="co"># Compute the Theoretical ACF of an AR(1) model (up to lag 15)</span></a>
+<a class="sourceLine" id="cb50-29" data-line-number="29">true_acf =<span class="st"> </span>phi<span class="op">^</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb50-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb50-31" data-line-number="31"><span class="co"># Make boxplots of both Classic and Robust Empirical ACF and compare with true ACF</span></a>
+<a class="sourceLine" id="cb50-32" data-line-number="32"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb50-33" data-line-number="33"><span class="kw">boxplot</span>(cl_acf[, <span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Classic ACF at lag 2&quot;</span>)</a>
+<a class="sourceLine" id="cb50-34" data-line-number="34"><span class="kw">abline</span>(<span class="dt">h =</span> true_acf[<span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb50-35" data-line-number="35"><span class="kw">boxplot</span>(rob_acf[, <span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Robust ACF at lag 2&quot;</span>)</a>
+<a class="sourceLine" id="cb50-36" data-line-number="36"><span class="kw">abline</span>(<span class="dt">h =</span> true_acf[<span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
 <p><img src="ts_files/figure-html/simulationRobust2-1.png" width="672" /></p>
 <p>In this case we see the empirical distributions of the two estimators (classic and robust) for the ACF at time-lag <span class="math inline">\(h = 2\)</span>. As you can see, the robust estimator remains close to the true value represented by the red line in the boxplots as opposed to the standard estimator. However, the price to pay in terms of bias reduction is a loss of efficiency of the robust estimator. Indeed it can often be observed that to reduce the bias induced by contamination in the sample, robust estimators pay a certain price in terms of efficiency.</p>
 <p>To assess how much is “lost” by the robust estimator compared to the classical
@@ -1145,22 +1147,22 @@ previous one is the value of <span class="math inline">\(\epsilon\)</span> set e
 <p><img src="ts_files/figure-html/simulationRobust3-1.png" width="672" /></p>
 <p>As can be seen on the plot, the black line representing the above described ratio decreases steadily as the lags increase and moves further away from the red dotted line representing equality of variances. Hence, since the variance of the classic ACF estimator is in the numerator of this ratio, we can conclude that the variance of the robust ACF estimator is always larger and increases over the lags. This can partly be explained by the fact that the classic ACF estimator <span class="math inline">\(\hat{\rho}(h)\)</span> makes use of all the observations while the robust estimator only uses part of the information coming from more “extreme” observations. Moreover, the number of observations available to estimate the greater lags is smaller and therefore the robust ACF estimator pays a larger price in terms of “loss” of information.</p>
 <p>Let us finally investigate the importance of robust ACF estimation on some real data. We consider the data on monthly precipitation (<code>hydro</code>) presented in the previous chapter. This data is measured over 65 years (between 1907 and 1972) and is an example of data that is used to determine the behaviour of a water cycle. More specifically, precipitation is often considered the starting point for the analysis of a water cycle and, based on its behaviour, the rest of the water cycle is determined based on other variables. Therefore, a correct analysis of precipitation is extremely important to correctly define the behaviour of the water cycle passing through run-off and groundwater formation to evaporation and condensation. Given this, let us now take a look at the classic autocorrelation plot of this data.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load hydro dataset</span>
-<span class="kw">data</span>(<span class="st">&quot;hydro&quot;</span>)
-
-<span class="co"># Define the time series as a gts object</span>
-hydro =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.vector</span>(hydro), <span class="dt">start =</span> <span class="dv">1907</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">unit_ts =</span> <span class="st">&quot;mm&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Precipitation&quot;</span>, <span class="dt">data_name =</span> <span class="st">&quot;Hydrology data&quot;</span>)
-
-<span class="co"># Plot the Empirical ACF</span>
-<span class="kw">plot</span>(<span class="kw">auto_corr</span>(hydro))</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="co"># Load hydro dataset</span></a>
+<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="kw">data</span>(<span class="st">&quot;hydro&quot;</span>)</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="co"># Define the time series as a gts object</span></a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">hydro =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.vector</span>(hydro), <span class="dt">start =</span> <span class="dv">1907</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">unit_ts =</span> <span class="st">&quot;mm&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Precipitation&quot;</span>, <span class="dt">data_name =</span> <span class="st">&quot;Hydrology data&quot;</span>)</a>
+<a class="sourceLine" id="cb51-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb51-7" data-line-number="7"><span class="co"># Plot the Empirical ACF</span></a>
+<a class="sourceLine" id="cb51-8" data-line-number="8"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(hydro))</a></code></pre></div>
 <p><img src="ts_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <p>Based on this ACF plot, one would probably conclude that (counterintuitively) there does not appear to be any significant form of correlation between lagged observations in the data. From a hydrological point of view, one would therefore assume an uncorrelated model for precipitation (i.e. white noise) and, based on this, model the rest of the water cycle. However, let us take a look at the robust ACF plot.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Plot the Robust ACF</span>
-<span class="kw">plot</span>(<span class="kw">auto_corr</span>(hydro, <span class="dt">robust =</span> <span class="ot">TRUE</span>))</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="co"># Plot the Robust ACF</span></a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(hydro, <span class="dt">robust =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <p><img src="ts_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>If we analyse this output, the conclusion appears to be extremely different and, in some way, makes more sense from a hydrological point of view (i.e. the amount of precipitation between close months and over specific months is correlated). Indeed, we can see that there appears to be a seasonal correlation (“waves” in the ACF plot) and that close months appear to be correlated between them. To better highlight this difference (whci can lead to different conclusions) let us finally compare the plots.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compare classic and robust ACF</span>
-<span class="kw">compare_acf</span>(hydro)</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="co"># Compare classic and robust ACF</span></a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="kw">compare_acf</span>(hydro)</a></code></pre></div>
 <p><img src="ts_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>Therefore, based on the choice of analysis (i.e. classic or robust), the entire water cycle analysis would change and could deliver very different conclusions.</p>
 <p>A general overview of the concepts and advantages of robustness can be found in Appendix <a href="appendixb.html#appendixb">B</a>.</p>

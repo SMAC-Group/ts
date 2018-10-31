@@ -2,7 +2,6 @@
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(simts)
-library(gmwm2)
 library(ggplot2)
 library(robcor)
 ```
@@ -553,7 +552,6 @@ Having performed the estimation, we should now have `r B` estimates for each AR(
 - **YW**: Yule-Walker estimator
 - **MLE**: Maximum Likelihood Estimator
 - **RGMWM**: the robust version of the GMWM estimator
-
 
 ```{r, echo=FALSE, fig.asp = 0.75, fig.width = 9, cache = TRUE, fig.align='center', fig.cap="Boxplots of the empirical distribution functions of the Yule-Walker (YW), MLE and GMWM estimators for the parameters of the AR(2) model when using the Xt process (first row of boxplots), Yt process (second row of boxplots) and Zt (third row of boxplots)."}
 # Define colors
@@ -1182,7 +1180,7 @@ Therefore, if we estimate a stationary AR(1) model, it would be convenient to ha
 
 ``` {r paraAR1ciest, cache = TRUE, warning = FALSE, fig.height= 6, fig.width= 9}
 # Number of Iterations
-B = 10000
+B = 50
 
 # Set up storage for results
 est.phi.gmwm = rep(NA,B)
@@ -1211,7 +1209,7 @@ for(i in seq_len(B)){
 }
 ```
 
-``` {r paraAR1cigraphs, cache = TRUE, warning = FALSE, echo = FALSE, fig.height = 6, fig.width = 9, fig.cap = "Parametric bootstrap distributions of $\\hat{\\phi}$ for the MLE and GMWM parameter estimates. The histograms represent the empirical distributions resulting from the parametric bootstrap while the continuous densities represent the estimated asymptotic distributions. The vertical line represents the true value of $\\phi$, the dark solid lines represent the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for the asymptotic distributions (red and gold) and the empirical distributions (green and blue)."}
+``` {r paraAR1cigraphs, cache = TRUE, warning = FALSE, echo = FALSE, fig.height = 6, fig.width = 9, fig.cap = "Parametric bootstrap distributions of $\\hat{\\phi}$ for the MLE and GMWM parameter estimates. The histograms represent the empirical distributions resulting from the parametric bootstrap while the continuous densities represent the estimated asymptotic distributions. The vertical line represents the true value of $\\phi$, the dark solid lines represent the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for the asymptotic distributions (red and gold) and the empirical distributions (green and blue).", eval = FALSE}
 par(mfrow = c(1,2))
 
 hist.phi.ML = hist(est.phi.ML, plot = FALSE, breaks = 20)
@@ -1272,7 +1270,7 @@ fit
 With the model's coefficients readily available, the parametric bootstrap is able to be constructed. As before, the bootstrap implementation mirrors prior versions with one cavaet regarding the storage of $\phi$ being two dimensional and, thus, requiring a `matrix` to store the result instead of a traditional atomic vector in _R_.
 
 ```{r CIAR, cache = TRUE, warning = FALSE}
-B = 10000
+B = 50
 est.phi.ML = matrix(NA, B, 2)
 model = AR(phi = fit$mod$coef, sigma2 = fit$mod$sigma2)
 
@@ -1483,7 +1481,7 @@ ar1_paraboot = function(model, B = 10000) {
 Now that we have two functions implementing the block and parametric bootstraps, we can now apply these procedures to obtain the confidence intervals for the AR(1) parameters for the two time series generated respectively by model $\mathcal{M}_1$ and $\mathcal{M}_2$.
 
 ```{r blockbootsim, cache = TRUE}
-B = 10000
+B = 50
 
 # Model 1
 fit_m1_mle = estimate(AR(1), xt_m1, demean = FALSE)

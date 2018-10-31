@@ -453,15 +453,15 @@ $$\rho \left( h \right) = \left\{ {\begin{array}{*{20}{c}}
     Interestingly, we can note that $|\rho(1)| \leq 0.5$.
 ```
 
-```{r MA1theoACF, cache = TRUE, echo = FALSE, fig.cap = "Comparison of theoretical ACF of MA(1) with different parameter values", fig.align='center', fig.height = 8, fig.width = 10}
+```{r MA1theoACF, cache = TRUE, echo = FALSE, fig.cap = "Comparison of theoretical ACF of MA(1) with different parameter values", fig.align='center', fig.height = 8, fig.width = 10, cache = TRUE, eval = FALSE}
 par(mfrow=c(2,2))
-plot(theo_acf(ARMA(ar = NULL, ma = 0.9)), 
+plot(theo_acf(ar = NULL, ma = 0.9), 
      main = expression(paste("Theoretical ACF plot of MA(1) with ", theta, " = 0.9")))
-plot(theo_acf(ARMA(ar = NULL, ma = 0.5)),
+plot(theo_acf(ar = NULL, ma = 0.5),
      main = expression(paste("Theoretical ACF plot of MA(1) with ", theta, " = 0.5")))
-plot(theo_acf(ARMA(ar = NULL, ma = -0.9)), 
+plot(theo_acf(ar = NULL, ma = -0.9)), 
      main = expression(paste("Theoretical ACF plot of MA(1) with ", theta, " = -0.9")))
-plot(theo_acf(ARMA(ar = NULL, ma = 0.1)), 
+plot(theo_acf(ar = NULL, ma = 0.1), 
      main = expression(paste("Theoretical ACF plot of MA(1) with ", theta, " = 0.1")))
 ```
 
@@ -533,13 +533,13 @@ With this setup, we demonstrate how crucial this property is by calculating each
 
 ```{r AR1theoACF, cache = TRUE, echo = FALSE, fig.cap = "Comparison of theoretical ACF of AR(1) with different parameter values", fig.align='center', fig.height = 8, fig.width = 10}
 par(mfrow=c(2,2))
-plot(theo_acf(ARMA(ar = 0.9, ma = NULL)), 
+plot(theo_acf(ar = 0.9, ma = NULL), 
      main = expression(paste("Theoretical ACF plot of AR(1) with ", phi, " = 0.9")))
-plot(theo_acf(ARMA(ar = 0.5, ma = NULL)),
+plot(theo_acf(ar = 0.5, ma = NULL),
      main = expression(paste("Theoretical ACF plot of AR(1) with ", phi, " = 0.5")))
-plot(theo_acf(ARMA(ar = -0.9, ma = NULL)), 
+plot(theo_acf(ar = -0.9, ma = NULL), 
      main = expression(paste("Theoretical ACF plot of AR(1) with ", phi, " = -0.9")))
-plot(theo_acf(ARMA(ar = 0.1, ma = NULL)), 
+plot(theo_acf(ar = 0.1, ma = NULL), 
      main = expression(paste("Theoretical ACF plot of AR(1) with ", phi, " = 0.1")))
 ```
   

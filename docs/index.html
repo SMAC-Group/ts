@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Applied Time Series Analysis with R</title>
   <meta name="description" content="Applied Time Series Analysis with R">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="Applied Time Series Analysis with R" />
   <meta property="og:type" content="book" />
@@ -174,6 +174,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.2.2</b> Estimation of AR(p) models</a></li>
 <li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#forecasting-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Forecasting AR(p) Models</a></li>
 </ul></li>
+<li class="chapter" data-level="4.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#diagnostic-tools-for-time-series"><i class="fa fa-check"></i><b>4.3</b> Diagnostic Tools for Time Series</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#the-partial-autocorrelation-function-pacf"><i class="fa fa-check"></i><b>4.3.1</b> The Partial AutoCorrelation Function (PACF)</a></li>
+<li class="chapter" data-level="4.3.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#portmanteau-tests"><i class="fa fa-check"></i><b>4.3.2</b> Portmanteau Tests</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) Models</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -184,6 +189,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="B.1" data-path="appendixb.html"><a href="appendixb.html#the-classical-least-squares-estimator"><i class="fa fa-check"></i><b>B.1</b> The Classical Least-Squares Estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="appendixb.html"><a href="appendixb.html#robust-estimators-for-linear-regression-models"><i class="fa fa-check"></i><b>B.2</b> Robust Estimators for Linear Regression Models</a></li>
 <li class="chapter" data-level="B.3" data-path="appendixb.html"><a href="appendixb.html#applications-of-robust-estimation"><i class="fa fa-check"></i><b>B.3</b> Applications of Robust Estimation</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="appendixc.html"><a href="appendixc.html"><i class="fa fa-check"></i><b>C</b> Proofs</a><ul>
+<li class="chapter" data-level="C.1" data-path="appendixc.html"><a href="appendixc.html#proof-of-theorem-refcondexp"><i class="fa fa-check"></i><b>C.1</b> Proof of Theorem @ref(condexp) 😱</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/SMAC-Group/ts" target="blank">Published with bookdown</a></li>
@@ -207,8 +215,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">Applied Time Series Analysis with R</h1>
-<p class="author"><em>Stéphane Guerrier, Roberto Molinari and Haotian Xu</em></p>
-<p class="date"><em>October 10 2018</em></p>
+<h4 class="author"><em>Stéphane Guerrier, Roberto Molinari and Haotian Xu</em></h4>
+<h4 class="date"><em>October 31 2018</em></h4>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
@@ -265,9 +273,9 @@ This document is <strong>under development</strong> and it is therefore preferab
 <div id="conventions" class="section level2">
 <h2><span class="header-section-number">1.1</span> Conventions</h2>
 <p>Throughout this book, <code>R</code> code will be typeset using a <code>monospace</code> font which is syntax highlighted. For example:</p>
-<pre class="sourceCode r"><code class="sourceCode r">a =<span class="st"> </span>pi
-b =<span class="st"> </span><span class="fl">0.5</span>
-<span class="kw">sin</span>(a<span class="op">*</span>b)</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">a =<span class="st"> </span>pi</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">b =<span class="st"> </span><span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">sin</span>(a<span class="op">*</span>b)</a></code></pre></div>
 <p>Similarly, <code>R</code> output lines (that usally appear in your Console) will begin with <code>##</code> and will not be syntax highlighted. The output of the above example is the following:</p>
 <pre><code>## [1] 1</code></pre>
 <p>Aside from <code>R</code> code and its outputs, this book will also insert some boxes that will draw the reader’s attention to important, curious or otherwise informative details. An example of these boxes was seen at the beginning of this introduction where an important aspect was pointed out to the reader regarding the “under construction” nature of this book. Therefore the following boxes and symbols can be used to represent information of different nature:</p>

@@ -69,7 +69,7 @@ fit = gam(globtemp ~ s(time))
 and check the residuals from this model using:
  
 ```{r gamresid, fig.height = 5.5, fig.width = 6.5, fig.align='center'}
-simts::simple_diag_plot(globtemp, fit)
+check(fit, simple = TRUE)
 ```
 
 It can be seen from the upper left plot that the trend appears to be removed and, if looking at the residuals as one would usually do in a regression framework, the residual plots seem to suggest that the modelling has done a relatively good job since no particular pattern seems to emerge and their distribution is quite close to being Gaussian.
@@ -210,7 +210,7 @@ legend("bottomright", c("Time series", "Regression line"),
 Although the line captures a part of the behaviour, it is quite clear that the trend of the time series is not linear as can be observed from the diagnotic plot below:
 
 ```{r lmresid, fig.height = 5.5, fig.width = 6.5, fig.align='center'}
-simple_diag_plot(jj, fit_jj1)
+check(fit_jj1, simple = TRUE)
 ```
 
 It could therefore be more appropriate to define another function of time to describe it and, consequently, we add a quadratic term of time to obtain the following fit. Therefore, the model considered in \@ref(eq:modeljjexample) becomes:
@@ -231,7 +231,7 @@ legend("bottomright", c("Time series", "Regression line"),
 ```
 
 ```{r lmresid2, fig.height = 5.5, fig.width = 6.5, fig.align='center'}
-simple_diag_plot(jj, fit_jj2)
+check(fit_jj2, simple = TRUE)
 ```
 
 We can see now that the quadratic function of time allows to better fit the observed time series and closely follow the observations. However, there still appears to be a pattern in the data that isn't captured by this quadratic model. This pattern appears to be repeated over time: peaks and valleys that seem to occur at regular intervals along the time series. This behaviour is known as *seasonality* which, in this case, can be explained by the effect of a specific quarter on the behaviour of the earnings. Indeed, it is reasonable to assume that the seasons have impacts on different variables measured over time (e.g. temperatures, earnings linked to sales that vary with seasons, etc.). Let us therefore take the quarters as an explanatory variable and add it to the model considered in \@ref(eq:modeljjexample2), which becomes:
@@ -270,7 +270,7 @@ legend("bottomright", c("Time series", "Regression line"),
 ```
 
 ```{r lmresid3, fig.height = 5.5, fig.width = 6.5, fig.align='center'}
-simple_diag_plot(jj, fit_jj3)
+check(fit_jj3, simple = TRUE)
 ```
 
 This final fit appears to well describe the behaviour of the earnings although there still appears to be a problem of heteroskedasticity (i.e. change in variance) and random seasonality (both of which will be treated further on in this text). Hence, *trend* and *seasonality* are the main features that characterize the deterministic component of a time series. However, as discussed earlier, these deterministic components often don't explain all of the observed time series since there is often a random component characterizing data measured over time. Not considering the latter component can have considerable impacts on the inference procedures (as seen earlier) and it is therefore important to adequately analyse them (see next section).
