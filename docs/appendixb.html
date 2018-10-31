@@ -385,75 +385,75 @@ we introduced while the robust estimator remains stable and “close” to the
 true model.
 </div>
 
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="co"># Load robust library</span></a>
-<a class="sourceLine" id="cb95-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;robustbase&quot;</span>)</a>
-<a class="sourceLine" id="cb95-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb95-4" data-line-number="4"><span class="co"># Set seed for reproducibility</span></a>
-<a class="sourceLine" id="cb95-5" data-line-number="5"><span class="kw">set.seed</span>(<span class="dv">867</span>)</a>
-<a class="sourceLine" id="cb95-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb95-7" data-line-number="7"><span class="co"># Sample size</span></a>
-<a class="sourceLine" id="cb95-8" data-line-number="8">n =<span class="st"> </span><span class="dv">20</span>      </a>
-<a class="sourceLine" id="cb95-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb95-10" data-line-number="10"><span class="co"># Model&#39;s parameters</span></a>
-<a class="sourceLine" id="cb95-11" data-line-number="11">alpha =<span class="st"> </span><span class="dv">5</span>    <span class="co"># Intercept </span></a>
-<a class="sourceLine" id="cb95-12" data-line-number="12">beta =<span class="st"> </span><span class="fl">0.5</span>   <span class="co"># Slope </span></a>
-<a class="sourceLine" id="cb95-13" data-line-number="13">sig2 =<span class="st"> </span><span class="dv">1</span>     <span class="co"># Residual variance</span></a>
-<a class="sourceLine" id="cb95-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb95-15" data-line-number="15"><span class="co"># Construct response variable y</span></a>
-<a class="sourceLine" id="cb95-16" data-line-number="16">x =<span class="st"> </span><span class="dv">1</span><span class="op">:</span>n </a>
-<a class="sourceLine" id="cb95-17" data-line-number="17">y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))</a>
-<a class="sourceLine" id="cb95-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb95-19" data-line-number="19"><span class="co"># Construct &quot;perturbed&quot; verison of y</span></a>
-<a class="sourceLine" id="cb95-20" data-line-number="20">y.perturbed =<span class="st"> </span>y</a>
-<a class="sourceLine" id="cb95-21" data-line-number="21">y.perturbed[<span class="dv">20</span>] =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x[<span class="dv">20</span>] <span class="op">-</span><span class="st"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb95-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb95-23" data-line-number="23"><span class="co"># Compute LS estimates</span></a>
-<a class="sourceLine" id="cb95-24" data-line-number="24">LS.y =<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb95-25" data-line-number="25">LS.y.fit =<span class="st"> </span><span class="kw">coef</span>(LS.y)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(LS.y)[<span class="dv">2</span>]<span class="op">*</span>x</a>
-<a class="sourceLine" id="cb95-26" data-line-number="26">LS.y.pert =<span class="st"> </span><span class="kw">lm</span>(y.perturbed <span class="op">~</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb95-27" data-line-number="27">LS.y.pert.fit =<span class="st"> </span><span class="kw">coef</span>(LS.y.pert)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(LS.y.pert)[<span class="dv">2</span>]<span class="op">*</span>x</a>
-<a class="sourceLine" id="cb95-28" data-line-number="28"></a>
-<a class="sourceLine" id="cb95-29" data-line-number="29"><span class="co"># Compute robust estimates</span></a>
-<a class="sourceLine" id="cb95-30" data-line-number="30">RR.y =<span class="st"> </span><span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb95-31" data-line-number="31">RR.y.fit =<span class="st"> </span><span class="kw">coef</span>(RR.y)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(RR.y)[<span class="dv">2</span>]<span class="op">*</span>x</a>
-<a class="sourceLine" id="cb95-32" data-line-number="32">RR.y.pert =<span class="st"> </span><span class="kw">lmrob</span>(y.perturbed <span class="op">~</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb95-33" data-line-number="33">RR.y.pert.fit =<span class="st"> </span><span class="kw">coef</span>(RR.y.pert)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(RR.y.pert)[<span class="dv">2</span>]<span class="op">*</span>x</a>
-<a class="sourceLine" id="cb95-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb95-35" data-line-number="35"><span class="co"># Define colors</span></a>
-<a class="sourceLine" id="cb95-36" data-line-number="36">gg_color_hue &lt;-<span class="st"> </span><span class="cf">function</span>(n, <span class="dt">alpha =</span> <span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb95-37" data-line-number="37">  hues =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">15</span>, <span class="dv">375</span>, <span class="dt">length =</span> n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb95-38" data-line-number="38">  <span class="kw">hcl</span>(<span class="dt">h =</span> hues, <span class="dt">l =</span> <span class="dv">65</span>, <span class="dt">c =</span> <span class="dv">100</span>, <span class="dt">alpha =</span> alpha)[<span class="dv">1</span><span class="op">:</span>n]</a>
-<a class="sourceLine" id="cb95-39" data-line-number="39">}</a>
-<a class="sourceLine" id="cb95-40" data-line-number="40">couleurs =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb95-41" data-line-number="41"></a>
-<a class="sourceLine" id="cb95-42" data-line-number="42"><span class="co"># Compare results based on y and y.perturbed</span></a>
-<a class="sourceLine" id="cb95-43" data-line-number="43"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb95-44" data-line-number="44"><span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="kw">cbind</span>(y,y.perturbed)), <span class="dt">xlim =</span> <span class="kw">range</span>(x),</a>
-<a class="sourceLine" id="cb95-45" data-line-number="45">     <span class="dt">main =</span> <span class="st">&quot;Uncontaminated setting&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;y&quot;</span>)</a>
-<a class="sourceLine" id="cb95-46" data-line-number="46"><span class="kw">grid</span>()</a>
-<a class="sourceLine" id="cb95-47" data-line-number="47"><span class="kw">points</span>(x,y, <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> couleurs[<span class="dv">4</span>])</a>
-<a class="sourceLine" id="cb95-48" data-line-number="48"><span class="kw">lines</span>(x, alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x, <span class="dt">col =</span> couleurs[<span class="dv">3</span>], <span class="dt">lty =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb95-49" data-line-number="49"><span class="kw">lines</span>(x, LS.y.fit, <span class="dt">col =</span> couleurs[<span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb95-50" data-line-number="50"><span class="kw">lines</span>(x, RR.y.fit, <span class="dt">col =</span> couleurs[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb95-51" data-line-number="51"></a>
-<a class="sourceLine" id="cb95-52" data-line-number="52"><span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;Estimated model (least-squares)&quot;</span>,</a>
-<a class="sourceLine" id="cb95-53" data-line-number="53">                   <span class="st">&quot;Estimated model (robust)&quot;</span>, <span class="st">&quot;True model&quot;</span>), </a>
-<a class="sourceLine" id="cb95-54" data-line-number="54">       <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">col =</span> couleurs[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>)],</a>
-<a class="sourceLine" id="cb95-55" data-line-number="55">       <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))</a>
-<a class="sourceLine" id="cb95-56" data-line-number="56"></a>
-<a class="sourceLine" id="cb95-57" data-line-number="57"><span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="kw">cbind</span>(y,y.perturbed)), <span class="dt">xlim =</span> <span class="kw">range</span>(x),</a>
-<a class="sourceLine" id="cb95-58" data-line-number="58">     <span class="dt">main =</span> <span class="st">&quot;Contaminated setting&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;y&quot;</span>)</a>
-<a class="sourceLine" id="cb95-59" data-line-number="59"><span class="kw">grid</span>()</a>
-<a class="sourceLine" id="cb95-60" data-line-number="60"><span class="kw">points</span>(x[<span class="dv">1</span><span class="op">:</span><span class="dv">19</span>],y.perturbed[<span class="dv">1</span><span class="op">:</span><span class="dv">19</span>], <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> couleurs[<span class="dv">4</span>])</a>
-<a class="sourceLine" id="cb95-61" data-line-number="61"><span class="kw">points</span>(x[<span class="dv">20</span>], y.perturbed[<span class="dv">20</span>], <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">col =</span> couleurs[<span class="dv">6</span>])</a>
-<a class="sourceLine" id="cb95-62" data-line-number="62"><span class="kw">lines</span>(x, alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x, <span class="dt">col =</span> couleurs[<span class="dv">3</span>], <span class="dt">lty =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb95-63" data-line-number="63"><span class="kw">lines</span>(x, LS.y.pert.fit, <span class="dt">col =</span> couleurs[<span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb95-64" data-line-number="64"><span class="kw">lines</span>(x, RR.y.pert.fit, <span class="dt">col =</span> couleurs[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb95-65" data-line-number="65"></a>
-<a class="sourceLine" id="cb95-66" data-line-number="66"><span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Uncontamined observations&quot;</span>, <span class="st">&quot;Contamined observation&quot;</span>,</a>
-<a class="sourceLine" id="cb95-67" data-line-number="67">                   <span class="st">&quot;Estimated model (least-squares)&quot;</span>, <span class="st">&quot;Estimated model (robust)&quot;</span>,</a>
-<a class="sourceLine" id="cb95-68" data-line-number="68">                   <span class="st">&quot;True model&quot;</span>), <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">col =</span> couleurs[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>)],</a>
-<a class="sourceLine" id="cb95-69" data-line-number="69">       <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="dv">15</span>,<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="co"># Load robust library</span></a>
+<a class="sourceLine" id="cb97-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;robustbase&quot;</span>)</a>
+<a class="sourceLine" id="cb97-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb97-4" data-line-number="4"><span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb97-5" data-line-number="5"><span class="kw">set.seed</span>(<span class="dv">867</span>)</a>
+<a class="sourceLine" id="cb97-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb97-7" data-line-number="7"><span class="co"># Sample size</span></a>
+<a class="sourceLine" id="cb97-8" data-line-number="8">n =<span class="st"> </span><span class="dv">20</span>      </a>
+<a class="sourceLine" id="cb97-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb97-10" data-line-number="10"><span class="co"># Model&#39;s parameters</span></a>
+<a class="sourceLine" id="cb97-11" data-line-number="11">alpha =<span class="st"> </span><span class="dv">5</span>    <span class="co"># Intercept </span></a>
+<a class="sourceLine" id="cb97-12" data-line-number="12">beta =<span class="st"> </span><span class="fl">0.5</span>   <span class="co"># Slope </span></a>
+<a class="sourceLine" id="cb97-13" data-line-number="13">sig2 =<span class="st"> </span><span class="dv">1</span>     <span class="co"># Residual variance</span></a>
+<a class="sourceLine" id="cb97-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb97-15" data-line-number="15"><span class="co"># Construct response variable y</span></a>
+<a class="sourceLine" id="cb97-16" data-line-number="16">x =<span class="st"> </span><span class="dv">1</span><span class="op">:</span>n </a>
+<a class="sourceLine" id="cb97-17" data-line-number="17">y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))</a>
+<a class="sourceLine" id="cb97-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb97-19" data-line-number="19"><span class="co"># Construct &quot;perturbed&quot; verison of y</span></a>
+<a class="sourceLine" id="cb97-20" data-line-number="20">y.perturbed =<span class="st"> </span>y</a>
+<a class="sourceLine" id="cb97-21" data-line-number="21">y.perturbed[<span class="dv">20</span>] =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x[<span class="dv">20</span>] <span class="op">-</span><span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb97-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb97-23" data-line-number="23"><span class="co"># Compute LS estimates</span></a>
+<a class="sourceLine" id="cb97-24" data-line-number="24">LS.y =<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</a>
+<a class="sourceLine" id="cb97-25" data-line-number="25">LS.y.fit =<span class="st"> </span><span class="kw">coef</span>(LS.y)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(LS.y)[<span class="dv">2</span>]<span class="op">*</span>x</a>
+<a class="sourceLine" id="cb97-26" data-line-number="26">LS.y.pert =<span class="st"> </span><span class="kw">lm</span>(y.perturbed <span class="op">~</span><span class="st"> </span>x)</a>
+<a class="sourceLine" id="cb97-27" data-line-number="27">LS.y.pert.fit =<span class="st"> </span><span class="kw">coef</span>(LS.y.pert)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(LS.y.pert)[<span class="dv">2</span>]<span class="op">*</span>x</a>
+<a class="sourceLine" id="cb97-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb97-29" data-line-number="29"><span class="co"># Compute robust estimates</span></a>
+<a class="sourceLine" id="cb97-30" data-line-number="30">RR.y =<span class="st"> </span><span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)</a>
+<a class="sourceLine" id="cb97-31" data-line-number="31">RR.y.fit =<span class="st"> </span><span class="kw">coef</span>(RR.y)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(RR.y)[<span class="dv">2</span>]<span class="op">*</span>x</a>
+<a class="sourceLine" id="cb97-32" data-line-number="32">RR.y.pert =<span class="st"> </span><span class="kw">lmrob</span>(y.perturbed <span class="op">~</span><span class="st"> </span>x)</a>
+<a class="sourceLine" id="cb97-33" data-line-number="33">RR.y.pert.fit =<span class="st"> </span><span class="kw">coef</span>(RR.y.pert)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(RR.y.pert)[<span class="dv">2</span>]<span class="op">*</span>x</a>
+<a class="sourceLine" id="cb97-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb97-35" data-line-number="35"><span class="co"># Define colors</span></a>
+<a class="sourceLine" id="cb97-36" data-line-number="36">gg_color_hue &lt;-<span class="st"> </span><span class="cf">function</span>(n, <span class="dt">alpha =</span> <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb97-37" data-line-number="37">  hues =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">15</span>, <span class="dv">375</span>, <span class="dt">length =</span> n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb97-38" data-line-number="38">  <span class="kw">hcl</span>(<span class="dt">h =</span> hues, <span class="dt">l =</span> <span class="dv">65</span>, <span class="dt">c =</span> <span class="dv">100</span>, <span class="dt">alpha =</span> alpha)[<span class="dv">1</span><span class="op">:</span>n]</a>
+<a class="sourceLine" id="cb97-39" data-line-number="39">}</a>
+<a class="sourceLine" id="cb97-40" data-line-number="40">couleurs =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb97-41" data-line-number="41"></a>
+<a class="sourceLine" id="cb97-42" data-line-number="42"><span class="co"># Compare results based on y and y.perturbed</span></a>
+<a class="sourceLine" id="cb97-43" data-line-number="43"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb97-44" data-line-number="44"><span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="kw">cbind</span>(y,y.perturbed)), <span class="dt">xlim =</span> <span class="kw">range</span>(x),</a>
+<a class="sourceLine" id="cb97-45" data-line-number="45">     <span class="dt">main =</span> <span class="st">&quot;Uncontaminated setting&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;y&quot;</span>)</a>
+<a class="sourceLine" id="cb97-46" data-line-number="46"><span class="kw">grid</span>()</a>
+<a class="sourceLine" id="cb97-47" data-line-number="47"><span class="kw">points</span>(x,y, <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> couleurs[<span class="dv">4</span>])</a>
+<a class="sourceLine" id="cb97-48" data-line-number="48"><span class="kw">lines</span>(x, alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x, <span class="dt">col =</span> couleurs[<span class="dv">3</span>], <span class="dt">lty =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb97-49" data-line-number="49"><span class="kw">lines</span>(x, LS.y.fit, <span class="dt">col =</span> couleurs[<span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb97-50" data-line-number="50"><span class="kw">lines</span>(x, RR.y.fit, <span class="dt">col =</span> couleurs[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb97-51" data-line-number="51"></a>
+<a class="sourceLine" id="cb97-52" data-line-number="52"><span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;Estimated model (least-squares)&quot;</span>,</a>
+<a class="sourceLine" id="cb97-53" data-line-number="53">                   <span class="st">&quot;Estimated model (robust)&quot;</span>, <span class="st">&quot;True model&quot;</span>), </a>
+<a class="sourceLine" id="cb97-54" data-line-number="54">       <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">col =</span> couleurs[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>)],</a>
+<a class="sourceLine" id="cb97-55" data-line-number="55">       <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))</a>
+<a class="sourceLine" id="cb97-56" data-line-number="56"></a>
+<a class="sourceLine" id="cb97-57" data-line-number="57"><span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="kw">cbind</span>(y,y.perturbed)), <span class="dt">xlim =</span> <span class="kw">range</span>(x),</a>
+<a class="sourceLine" id="cb97-58" data-line-number="58">     <span class="dt">main =</span> <span class="st">&quot;Contaminated setting&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;y&quot;</span>)</a>
+<a class="sourceLine" id="cb97-59" data-line-number="59"><span class="kw">grid</span>()</a>
+<a class="sourceLine" id="cb97-60" data-line-number="60"><span class="kw">points</span>(x[<span class="dv">1</span><span class="op">:</span><span class="dv">19</span>],y.perturbed[<span class="dv">1</span><span class="op">:</span><span class="dv">19</span>], <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> couleurs[<span class="dv">4</span>])</a>
+<a class="sourceLine" id="cb97-61" data-line-number="61"><span class="kw">points</span>(x[<span class="dv">20</span>], y.perturbed[<span class="dv">20</span>], <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">col =</span> couleurs[<span class="dv">6</span>])</a>
+<a class="sourceLine" id="cb97-62" data-line-number="62"><span class="kw">lines</span>(x, alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x, <span class="dt">col =</span> couleurs[<span class="dv">3</span>], <span class="dt">lty =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb97-63" data-line-number="63"><span class="kw">lines</span>(x, LS.y.pert.fit, <span class="dt">col =</span> couleurs[<span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb97-64" data-line-number="64"><span class="kw">lines</span>(x, RR.y.pert.fit, <span class="dt">col =</span> couleurs[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb97-65" data-line-number="65"></a>
+<a class="sourceLine" id="cb97-66" data-line-number="66"><span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Uncontamined observations&quot;</span>, <span class="st">&quot;Contamined observation&quot;</span>,</a>
+<a class="sourceLine" id="cb97-67" data-line-number="67">                   <span class="st">&quot;Estimated model (least-squares)&quot;</span>, <span class="st">&quot;Estimated model (robust)&quot;</span>,</a>
+<a class="sourceLine" id="cb97-68" data-line-number="68">                   <span class="st">&quot;True model&quot;</span>), <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">col =</span> couleurs[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>)],</a>
+<a class="sourceLine" id="cb97-69" data-line-number="69">       <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="dv">15</span>,<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))</a></code></pre></div>
 <div class="figure"><span id="fig:slmrobex"></span>
 <img src="ts_files/figure-html/slmrobex-1.png" alt="Simulation Study Comparing Robust and Classical Regression Methodologies" width="1248" />
 <p class="caption">
@@ -470,59 +470,59 @@ example and use the same robust and classical estimators to retrieve the
 parameters for each of the 100 iterations.
 </div>
 
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="co"># Number of bootstrap replications</span></a>
-<a class="sourceLine" id="cb96-2" data-line-number="2">B =<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb96-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb96-4" data-line-number="4"><span class="co"># Initialisation</span></a>
-<a class="sourceLine" id="cb96-5" data-line-number="5">coef.LS.cont =<span class="st"> </span>coef.rob.cont =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb96-6" data-line-number="6">coef.LS.uncont =<span class="st"> </span>coef.rob.uncont =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb96-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb96-8" data-line-number="8"><span class="co"># Start Monte-carlo</span></a>
-<a class="sourceLine" id="cb96-9" data-line-number="9"><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>){</a>
-<a class="sourceLine" id="cb96-10" data-line-number="10">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {</a>
-<a class="sourceLine" id="cb96-11" data-line-number="11">   <span class="co"># Control seed</span></a>
-<a class="sourceLine" id="cb96-12" data-line-number="12">    <span class="kw">set.seed</span>(<span class="dv">2</span><span class="op">*</span>j<span class="op">*</span>B <span class="op">+</span><span class="st"> </span>i)</a>
-<a class="sourceLine" id="cb96-13" data-line-number="13">    </a>
-<a class="sourceLine" id="cb96-14" data-line-number="14">    <span class="co"># Uncontaminated case</span></a>
-<a class="sourceLine" id="cb96-15" data-line-number="15">    <span class="cf">if</span> (j <span class="op">==</span><span class="st"> </span><span class="dv">1</span>){</a>
-<a class="sourceLine" id="cb96-16" data-line-number="16">      y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))</a>
-<a class="sourceLine" id="cb96-17" data-line-number="17">      coef.LS.uncont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
-<a class="sourceLine" id="cb96-18" data-line-number="18">      coef.rob.uncont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
-<a class="sourceLine" id="cb96-19" data-line-number="19">    }</a>
-<a class="sourceLine" id="cb96-20" data-line-number="20">    </a>
-<a class="sourceLine" id="cb96-21" data-line-number="21">    <span class="co"># Contaminated case</span></a>
-<a class="sourceLine" id="cb96-22" data-line-number="22">    <span class="cf">if</span> (j <span class="op">==</span><span class="st"> </span><span class="dv">2</span>){</a>
-<a class="sourceLine" id="cb96-23" data-line-number="23">      y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))</a>
-<a class="sourceLine" id="cb96-24" data-line-number="24">      y[<span class="dv">20</span>] =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x[<span class="dv">20</span>] <span class="op">-</span><span class="st"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb96-25" data-line-number="25">      coef.LS.cont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
-<a class="sourceLine" id="cb96-26" data-line-number="26">      coef.rob.cont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
-<a class="sourceLine" id="cb96-27" data-line-number="27">    }</a>
-<a class="sourceLine" id="cb96-28" data-line-number="28">  }</a>
-<a class="sourceLine" id="cb96-29" data-line-number="29">}</a>
-<a class="sourceLine" id="cb96-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb96-31" data-line-number="31"><span class="co"># Make graph</span></a>
-<a class="sourceLine" id="cb96-32" data-line-number="32">colors =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb96-33" data-line-number="33">names =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;LS - uncont&quot;</span>,<span class="st">&quot;Rob - uncont&quot;</span>,<span class="st">&quot;LS - cont&quot;</span>,<span class="st">&quot;Rob - cont&quot;</span>)</a>
-<a class="sourceLine" id="cb96-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb96-35" data-line-number="35"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb96-36" data-line-number="36"><span class="kw">boxplot</span>(coef.LS.uncont[,<span class="dv">1</span>],coef.rob.uncont[,<span class="dv">1</span>],coef.LS.cont[,<span class="dv">1</span>],</a>
-<a class="sourceLine" id="cb96-37" data-line-number="37">        coef.rob.cont[,<span class="dv">1</span>], <span class="dt">main =</span> <span class="kw">expression</span>(alpha), </a>
-<a class="sourceLine" id="cb96-38" data-line-number="38">        <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>)], </a>
-<a class="sourceLine" id="cb96-39" data-line-number="39">        <span class="dt">cex.main =</span> <span class="fl">1.5</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>)</a>
-<a class="sourceLine" id="cb96-40" data-line-number="40"><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb96-41" data-line-number="41"><span class="kw">text</span>(<span class="dt">x =</span> <span class="kw">seq_along</span>(names), <span class="dt">y =</span> <span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>] <span class="op">-</span><span class="st"> </span><span class="fl">0.15</span>, <span class="dt">srt =</span> <span class="dv">45</span>, <span class="dt">adj =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb96-42" data-line-number="42">     <span class="dt">labels =</span> names, <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb96-43" data-line-number="43"></a>
-<a class="sourceLine" id="cb96-44" data-line-number="44"><span class="kw">abline</span>(<span class="dt">h =</span> alpha, <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb96-45" data-line-number="45"></a>
-<a class="sourceLine" id="cb96-46" data-line-number="46"><span class="kw">boxplot</span>(coef.LS.uncont[,<span class="dv">2</span>],coef.rob.uncont[,<span class="dv">2</span>],coef.LS.cont[,<span class="dv">2</span>],</a>
-<a class="sourceLine" id="cb96-47" data-line-number="47">        coef.rob.cont[,<span class="dv">2</span>], <span class="dt">main =</span> <span class="kw">expression</span>(beta), </a>
-<a class="sourceLine" id="cb96-48" data-line-number="48">        <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>)], </a>
-<a class="sourceLine" id="cb96-49" data-line-number="49">        <span class="dt">cex.main =</span> <span class="fl">1.5</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>)</a>
-<a class="sourceLine" id="cb96-50" data-line-number="50"><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb96-51" data-line-number="51"><span class="kw">text</span>(<span class="dt">x =</span> <span class="kw">seq_along</span>(names), <span class="dt">y =</span> <span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>] <span class="op">-</span><span class="st"> </span><span class="fl">0.015</span>, <span class="dt">srt =</span> <span class="dv">45</span>, <span class="dt">adj =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb96-52" data-line-number="52">     <span class="dt">labels =</span> names, <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb96-53" data-line-number="53"><span class="kw">abline</span>(<span class="dt">h =</span> beta, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="co"># Number of bootstrap replications</span></a>
+<a class="sourceLine" id="cb98-2" data-line-number="2">B =<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb98-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb98-4" data-line-number="4"><span class="co"># Initialisation</span></a>
+<a class="sourceLine" id="cb98-5" data-line-number="5">coef.LS.cont =<span class="st"> </span>coef.rob.cont =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb98-6" data-line-number="6">coef.LS.uncont =<span class="st"> </span>coef.rob.uncont =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb98-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb98-8" data-line-number="8"><span class="co"># Start Monte-carlo</span></a>
+<a class="sourceLine" id="cb98-9" data-line-number="9"><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>){</a>
+<a class="sourceLine" id="cb98-10" data-line-number="10">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {</a>
+<a class="sourceLine" id="cb98-11" data-line-number="11">   <span class="co"># Control seed</span></a>
+<a class="sourceLine" id="cb98-12" data-line-number="12">    <span class="kw">set.seed</span>(<span class="dv">2</span><span class="op">*</span>j<span class="op">*</span>B <span class="op">+</span><span class="st"> </span>i)</a>
+<a class="sourceLine" id="cb98-13" data-line-number="13">    </a>
+<a class="sourceLine" id="cb98-14" data-line-number="14">    <span class="co"># Uncontaminated case</span></a>
+<a class="sourceLine" id="cb98-15" data-line-number="15">    <span class="cf">if</span> (j <span class="op">==</span><span class="st"> </span><span class="dv">1</span>){</a>
+<a class="sourceLine" id="cb98-16" data-line-number="16">      y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))</a>
+<a class="sourceLine" id="cb98-17" data-line-number="17">      coef.LS.uncont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
+<a class="sourceLine" id="cb98-18" data-line-number="18">      coef.rob.uncont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
+<a class="sourceLine" id="cb98-19" data-line-number="19">    }</a>
+<a class="sourceLine" id="cb98-20" data-line-number="20">    </a>
+<a class="sourceLine" id="cb98-21" data-line-number="21">    <span class="co"># Contaminated case</span></a>
+<a class="sourceLine" id="cb98-22" data-line-number="22">    <span class="cf">if</span> (j <span class="op">==</span><span class="st"> </span><span class="dv">2</span>){</a>
+<a class="sourceLine" id="cb98-23" data-line-number="23">      y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))</a>
+<a class="sourceLine" id="cb98-24" data-line-number="24">      y[<span class="dv">20</span>] =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x[<span class="dv">20</span>] <span class="op">-</span><span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb98-25" data-line-number="25">      coef.LS.cont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
+<a class="sourceLine" id="cb98-26" data-line-number="26">      coef.rob.cont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
+<a class="sourceLine" id="cb98-27" data-line-number="27">    }</a>
+<a class="sourceLine" id="cb98-28" data-line-number="28">  }</a>
+<a class="sourceLine" id="cb98-29" data-line-number="29">}</a>
+<a class="sourceLine" id="cb98-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb98-31" data-line-number="31"><span class="co"># Make graph</span></a>
+<a class="sourceLine" id="cb98-32" data-line-number="32">colors =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb98-33" data-line-number="33">names =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;LS - uncont&quot;</span>,<span class="st">&quot;Rob - uncont&quot;</span>,<span class="st">&quot;LS - cont&quot;</span>,<span class="st">&quot;Rob - cont&quot;</span>)</a>
+<a class="sourceLine" id="cb98-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb98-35" data-line-number="35"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb98-36" data-line-number="36"><span class="kw">boxplot</span>(coef.LS.uncont[,<span class="dv">1</span>],coef.rob.uncont[,<span class="dv">1</span>],coef.LS.cont[,<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb98-37" data-line-number="37">        coef.rob.cont[,<span class="dv">1</span>], <span class="dt">main =</span> <span class="kw">expression</span>(alpha), </a>
+<a class="sourceLine" id="cb98-38" data-line-number="38">        <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>)], </a>
+<a class="sourceLine" id="cb98-39" data-line-number="39">        <span class="dt">cex.main =</span> <span class="fl">1.5</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>)</a>
+<a class="sourceLine" id="cb98-40" data-line-number="40"><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb98-41" data-line-number="41"><span class="kw">text</span>(<span class="dt">x =</span> <span class="kw">seq_along</span>(names), <span class="dt">y =</span> <span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>] <span class="op">-</span><span class="st"> </span><span class="fl">0.15</span>, <span class="dt">srt =</span> <span class="dv">45</span>, <span class="dt">adj =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb98-42" data-line-number="42">     <span class="dt">labels =</span> names, <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb98-43" data-line-number="43"></a>
+<a class="sourceLine" id="cb98-44" data-line-number="44"><span class="kw">abline</span>(<span class="dt">h =</span> alpha, <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb98-45" data-line-number="45"></a>
+<a class="sourceLine" id="cb98-46" data-line-number="46"><span class="kw">boxplot</span>(coef.LS.uncont[,<span class="dv">2</span>],coef.rob.uncont[,<span class="dv">2</span>],coef.LS.cont[,<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb98-47" data-line-number="47">        coef.rob.cont[,<span class="dv">2</span>], <span class="dt">main =</span> <span class="kw">expression</span>(beta), </a>
+<a class="sourceLine" id="cb98-48" data-line-number="48">        <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>)], </a>
+<a class="sourceLine" id="cb98-49" data-line-number="49">        <span class="dt">cex.main =</span> <span class="fl">1.5</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>)</a>
+<a class="sourceLine" id="cb98-50" data-line-number="50"><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb98-51" data-line-number="51"><span class="kw">text</span>(<span class="dt">x =</span> <span class="kw">seq_along</span>(names), <span class="dt">y =</span> <span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>] <span class="op">-</span><span class="st"> </span><span class="fl">0.015</span>, <span class="dt">srt =</span> <span class="dv">45</span>, <span class="dt">adj =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb98-52" data-line-number="52">     <span class="dt">labels =</span> names, <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb98-53" data-line-number="53"><span class="kw">abline</span>(<span class="dt">h =</span> beta, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="ts_files/figure-html/lmbsrob-1.png" width="672" /></p>
 <p>It can be seen that, as underlined earlier, that the estimations resulting from
 the two methods appear to be quite similar, with the robust estimator performing
@@ -543,31 +543,31 @@ a cluster of four stars on the upper left hand-side of the plot. The rest of
 the data however appears to have a reasonably good linear behavior.
 </div>
 
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1">colors =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb97-2" data-line-number="2"><span class="kw">data</span>(starsCYG, <span class="dt">package =</span> <span class="st">&quot;robustbase&quot;</span>)</a>
-<a class="sourceLine" id="cb97-3" data-line-number="3"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb97-4" data-line-number="4"><span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">xlim =</span> <span class="kw">range</span>(starsCYG<span class="op">$</span>log.Te) <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>,<span class="fl">0.1</span>),</a>
-<a class="sourceLine" id="cb97-5" data-line-number="5">     <span class="dt">ylim =</span> <span class="kw">range</span>(starsCYG<span class="op">$</span>log.light),</a>
-<a class="sourceLine" id="cb97-6" data-line-number="6">     <span class="dt">xlab =</span> <span class="st">&quot;Temperature at the surface of the star (log)&quot;</span>,</a>
-<a class="sourceLine" id="cb97-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">&quot;Light intensity (log)&quot;</span>)</a>
-<a class="sourceLine" id="cb97-8" data-line-number="8"><span class="kw">grid</span>()  </a>
-<a class="sourceLine" id="cb97-9" data-line-number="9"><span class="kw">points</span>(starsCYG, <span class="dt">col =</span> colors[<span class="dv">4</span>], <span class="dt">pch =</span> <span class="dv">16</span>)</a>
-<a class="sourceLine" id="cb97-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb97-11" data-line-number="11">LS =<span class="st"> </span><span class="kw">lm</span>(starsCYG<span class="op">$</span>log.light <span class="op">~</span><span class="st"> </span>starsCYG<span class="op">$</span>log.Te)</a>
-<a class="sourceLine" id="cb97-12" data-line-number="12">rob =<span class="st"> </span><span class="kw">lmrob</span>(starsCYG<span class="op">$</span>log.light <span class="op">~</span><span class="st"> </span>starsCYG<span class="op">$</span>log.Te)</a>
-<a class="sourceLine" id="cb97-13" data-line-number="13">x =<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="kw">min</span>(starsCYG<span class="op">$</span>log.Te)<span class="op">-</span><span class="fl">0.3</span>, </a>
-<a class="sourceLine" id="cb97-14" data-line-number="14">        <span class="dt">to =</span> <span class="kw">max</span>(starsCYG<span class="op">$</span>log.Te)<span class="op">+</span><span class="fl">0.3</span>, <span class="dt">length.out =</span> <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb97-15" data-line-number="15">fit.LS =<span class="st"> </span><span class="kw">coef</span>(LS)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>x<span class="op">*</span><span class="kw">coef</span>(LS)[<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb97-16" data-line-number="16">fit.rob =<span class="st"> </span><span class="kw">coef</span>(rob)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>x<span class="op">*</span><span class="kw">coef</span>(rob)[<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb97-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb97-18" data-line-number="18"><span class="kw">lines</span>(x, fit.LS, <span class="dt">col =</span> colors[<span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb97-19" data-line-number="19"><span class="kw">lines</span>(x, fit.rob, <span class="dt">col =</span> colors[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb97-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb97-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb97-22" data-line-number="22"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;Estimated model (least-squares)&quot;</span>,</a>
-<a class="sourceLine" id="cb97-23" data-line-number="23">                    <span class="st">&quot;Estimated model (robust)&quot;</span>), <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>), </a>
-<a class="sourceLine" id="cb97-24" data-line-number="24">       <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">1</span>)], <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>), </a>
-<a class="sourceLine" id="cb97-25" data-line-number="25">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1">colors =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb99-2" data-line-number="2"><span class="kw">data</span>(starsCYG, <span class="dt">package =</span> <span class="st">&quot;robustbase&quot;</span>)</a>
+<a class="sourceLine" id="cb99-3" data-line-number="3"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb99-4" data-line-number="4"><span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">xlim =</span> <span class="kw">range</span>(starsCYG<span class="op">$</span>log.Te) <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>,<span class="fl">0.1</span>),</a>
+<a class="sourceLine" id="cb99-5" data-line-number="5">     <span class="dt">ylim =</span> <span class="kw">range</span>(starsCYG<span class="op">$</span>log.light),</a>
+<a class="sourceLine" id="cb99-6" data-line-number="6">     <span class="dt">xlab =</span> <span class="st">&quot;Temperature at the surface of the star (log)&quot;</span>,</a>
+<a class="sourceLine" id="cb99-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">&quot;Light intensity (log)&quot;</span>)</a>
+<a class="sourceLine" id="cb99-8" data-line-number="8"><span class="kw">grid</span>()  </a>
+<a class="sourceLine" id="cb99-9" data-line-number="9"><span class="kw">points</span>(starsCYG, <span class="dt">col =</span> colors[<span class="dv">4</span>], <span class="dt">pch =</span> <span class="dv">16</span>)</a>
+<a class="sourceLine" id="cb99-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb99-11" data-line-number="11">LS =<span class="st"> </span><span class="kw">lm</span>(starsCYG<span class="op">$</span>log.light <span class="op">~</span><span class="st"> </span>starsCYG<span class="op">$</span>log.Te)</a>
+<a class="sourceLine" id="cb99-12" data-line-number="12">rob =<span class="st"> </span><span class="kw">lmrob</span>(starsCYG<span class="op">$</span>log.light <span class="op">~</span><span class="st"> </span>starsCYG<span class="op">$</span>log.Te)</a>
+<a class="sourceLine" id="cb99-13" data-line-number="13">x =<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="kw">min</span>(starsCYG<span class="op">$</span>log.Te)<span class="op">-</span><span class="fl">0.3</span>, </a>
+<a class="sourceLine" id="cb99-14" data-line-number="14">        <span class="dt">to =</span> <span class="kw">max</span>(starsCYG<span class="op">$</span>log.Te)<span class="op">+</span><span class="fl">0.3</span>, <span class="dt">length.out =</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb99-15" data-line-number="15">fit.LS =<span class="st"> </span><span class="kw">coef</span>(LS)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>x<span class="op">*</span><span class="kw">coef</span>(LS)[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb99-16" data-line-number="16">fit.rob =<span class="st"> </span><span class="kw">coef</span>(rob)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>x<span class="op">*</span><span class="kw">coef</span>(rob)[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb99-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb99-18" data-line-number="18"><span class="kw">lines</span>(x, fit.LS, <span class="dt">col =</span> colors[<span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb99-19" data-line-number="19"><span class="kw">lines</span>(x, fit.rob, <span class="dt">col =</span> colors[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb99-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb99-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb99-22" data-line-number="22"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;Estimated model (least-squares)&quot;</span>,</a>
+<a class="sourceLine" id="cb99-23" data-line-number="23">                    <span class="st">&quot;Estimated model (robust)&quot;</span>), <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>), </a>
+<a class="sourceLine" id="cb99-24" data-line-number="24">       <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">1</span>)], <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>), </a>
+<a class="sourceLine" id="cb99-25" data-line-number="25">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))</a></code></pre></div>
 <div class="figure"><span id="fig:robstarcluster"></span>
 <img src="ts_files/figure-html/robstarcluster-1.png" alt="Comparison of Estimation Methodologies on 47 observations from the Hertzsprung-Russell diagram of the star cluster CYG OB1 in the direction of Cygnus." width="672" />
 <p class="caption">
@@ -585,7 +585,7 @@ and “main sequencers” (right handside). Thus, when observing data in general
 is always necessary to understand if we are dealing with real
 outliers (unexplained outlying data) or simply with data that can be explained
 by other factors (e.g. a different population as in this example).</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw">summary</span>(LS)</a></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="kw">summary</span>(LS)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = starsCYG$log.light ~ starsCYG$log.Te)
@@ -604,7 +604,7 @@ by other factors (e.g. a different population as in this example).</p>
 ## Residual standard error: 0.5646 on 45 degrees of freedom
 ## Multiple R-squared:  0.04427,    Adjusted R-squared:  0.02304 
 ## F-statistic: 2.085 on 1 and 45 DF,  p-value: 0.1557</code></pre>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="kw">summary</span>(rob)</a></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1"><span class="kw">summary</span>(rob)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lmrob(formula = starsCYG$log.light ~ starsCYG$log.Te)

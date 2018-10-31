@@ -1138,7 +1138,7 @@ res.gmwm
 
 From the estimation summary, we can notice that both confidence intervals contain values that would make the AR(1) non-stationary (i.e. values of $\phi$ larger than 1). However, these confidence intervals are based on the (asymptotic) distributions of $\hat{\phi}$ which are shown in Figure \@ref(fig:asymIC).
 
-```{r asymIC, cache = TRUE, echo = FALSE, fig.height = 4.5, fig.width = 9, fig.cap = "Estimated asymptotic distribution of $\\hat{\\phi}$ for MLE and GMWM parameter estimates. The dashed vertical line represents the true value of $\\phi$, the solid line denotes the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for both methods."}
+```{r asymIC, echo = FALSE, fig.height = 4.5, fig.width = 9, fig.cap = "Estimated asymptotic distribution of $\\hat{\\phi}$ for MLE and GMWM parameter estimates. The dashed vertical line represents the true value of $\\phi$, the solid line denotes the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for both methods."}
 # Define colors
 gg_color_hue = function(n, alpha = 1) {
   hues = seq(15, 375, length = n + 1)
@@ -1176,11 +1176,11 @@ points(qnorm(0.025, fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3,
        col = colors2[2], pch = "|")
 ```
 
-Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more "realistic" confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from the assumed model (an AR(1) process in this case). For each simulation, the parameters are estimated and stored in order to obtain an empirical (finite sample) distribution of the estimators. Based on this distribution it is consequently possible to find the $\alpha/2$ and $1-\alpha/2$ empirical quantiles thereby delivering confidence intervals that should not suffer from boundary problems (since the estimation procedure looks for solutions within the admissable regions). The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using $B = 10000$ bootstrap replicates).
+Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more "realistic" confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from the assumed model (an AR(1) process in this case). For each simulation, the parameters are estimated and stored in order to obtain an empirical (finite sample) distribution of the estimators. Based on this distribution it is consequently possible to find the $\alpha/2$ and $1-\alpha/2$ empirical quantiles thereby delivering confidence intervals that should not suffer from boundary problems (since the estimation procedure looks for solutions within the admissable regions). The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using $B = 1000$ bootstrap replicates).
 
 ``` {r paraAR1ciest, cache = TRUE, warning = FALSE, fig.height= 6, fig.width= 9}
 # Number of Iterations
-B = 50
+B = 1000
 
 # Set up storage for results
 est.phi.gmwm = rep(NA,B)
@@ -1223,8 +1223,8 @@ plot(hist.phi.ML, xlim = c(0.6,1.1), ylim = range(yy.ML),
      add = T, col = colors[3], border = "grey60")
 polygon(c(xx,rev(xx)), c(rep(0,length(yy.ML)), rev(yy.ML)), border = NA, col = colors[1])
 
-points(qnorm(0.975,fit.ML$coef, sqrt(fit.ML$mod$var.coef)), 0, cex = 3, col = colors2[1], pch = "|")
-points(qnorm(0.025,fit.ML$coef, sqrt(fit.ML$mod$var.coef)), 0, cex = 3, col = colors2[1], pch = "|")
+points(qnorm(0.975,fit.ML$mod$coef, sqrt(fit.ML$mod$var.coef)), 0, cex = 3, col = colors2[1], pch = "|")
+points(qnorm(0.025,fit.ML$mod$coef, sqrt(fit.ML$mod$var.coef)), 0, cex = 3, col = colors2[1], pch = "|")
 
 points(quantile(est.phi.ML, 0.975, na.rm = T), 0, cex = 3, col = colors2[3], pch = "|")
 points(quantile(est.phi.ML, 0.025, na.rm = T), 0, cex = 3, col = colors2[3], pch = "|")
@@ -1241,8 +1241,8 @@ plot(hist.phi.ML, xlim = c(0.53,1.2), ylim = range(hist.phi.GMWM$counts),
      add = T, col = colors[5], border = "grey60")
 polygon(c(xx,rev(xx)), c(rep(0,length(yy.gmwm)), rev(yy.gmwm)), border = NA, col = colors[2])
 
-points(qnorm(0.975,fit.gmwm$mod$estimate[1], phi.sd.gmwm), 0, cex = 3, col = colors2[2], pch = "|")
-points(qnorm(0.025,fit.gmwm$mod$estimate[1], phi.sd.gmwm), 0, cex = 3, col = colors2[2], pch = "|")
+points(qnorm(0.975,fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3, col = colors2[2], pch = "|")
+points(qnorm(0.025,fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3, col = colors2[2], pch = "|")
 
 points(quantile(est.phi.gmwm, 0.975, na.rm = T), 0, cex = 3, col = colors2[5], pch = "|")
 points(quantile(est.phi.gmwm, 0.025, na.rm = T), 0, cex = 3, col = colors2[5], pch = "|")

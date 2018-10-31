@@ -469,7 +469,7 @@ Finally, the causal region of an AR(2) is demonstrated as
 </div>
 
 <div class="figure" style="text-align: center"><span id="fig:correxample2"></span>
-<img src="images/causal_AR2.png" alt="Causal Region for Parameters of an AR(2) Process"  />
+<img src="images/causal_AR2.png" alt="Causal Region for Parameters of an AR(2) Process" width="827" />
 <p class="caption">
 Figure 4.1: Causal Region for Parameters of an AR(2) Process
 </p>
@@ -1088,9 +1088,9 @@ Figure 4.9: AR(1) with <span class="math inline">\(\phi\)</span> close to parame
 Figure 4.10: Estimated asymptotic distribution of <span class="math inline">\(\hat{\phi}\)</span> for MLE and GMWM parameter estimates. The dashed vertical line represents the true value of <span class="math inline">\(\phi\)</span>, the solid line denotes the upper bound of the parameter space for <span class="math inline">\(\phi\)</span> and the vertical ticks represent the limits of the 95% confidence intervals for both methods.
 </p>
 </div>
-<p>Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more “realistic” confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from the assumed model (an AR(1) process in this case). For each simulation, the parameters are estimated and stored in order to obtain an empirical (finite sample) distribution of the estimators. Based on this distribution it is consequently possible to find the <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> empirical quantiles thereby delivering confidence intervals that should not suffer from boundary problems (since the estimation procedure looks for solutions within the admissable regions). The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using <span class="math inline">\(B = 10000\)</span> bootstrap replicates).</p>
+<p>Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more “realistic” confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from the assumed model (an AR(1) process in this case). For each simulation, the parameters are estimated and stored in order to obtain an empirical (finite sample) distribution of the estimators. Based on this distribution it is consequently possible to find the <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> empirical quantiles thereby delivering confidence intervals that should not suffer from boundary problems (since the estimation procedure looks for solutions within the admissable regions). The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using <span class="math inline">\(B = 1000\)</span> bootstrap replicates).</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="co"># Number of Iterations</span></a>
-<a class="sourceLine" id="cb86-2" data-line-number="2">B =<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb86-2" data-line-number="2">B =<span class="st"> </span><span class="dv">1000</span></a>
 <a class="sourceLine" id="cb86-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb86-4" data-line-number="4"><span class="co"># Set up storage for results</span></a>
 <a class="sourceLine" id="cb86-5" data-line-number="5">est.phi.gmwm =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)</a>
@@ -1163,6 +1163,11 @@ Figure 4.11: Generated AR(2) Process
 <a class="sourceLine" id="cb90-14" data-line-number="14">  <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
 <a class="sourceLine" id="cb90-15" data-line-number="15">  </a>
 <a class="sourceLine" id="cb90-16" data-line-number="16">}</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:simts&#39;:
+## 
+##     select</code></pre>
 <div class="figure"><span id="fig:ciAR2d"></span>
 <img src="ts_files/figure-html/ciAR2d-1.png" alt="Estimated distributions of $\hat{\phi_1}$ and $\hat{\phi_2}$ based on the MLE using asymptotic and parametric bootstrap techniques. The colored contours represent the density of the distributions and the dark grey lines represent the boundary constraints of $\left|\phi_2\right|&lt;1$ and $\phi_2 = 1 - \phi_1$." width="864" />
 <p class="caption">
@@ -1222,35 +1227,35 @@ the <span class="math inline">\(B\)</span> independent replications.</li>
 </div>
 
 <p>Alternatively, depending on the case one can also use modifications of the MBB that seeks to change how the beginning and end of the time series is weighted such as a circular block-bootstrap (CBB) or a stationary bootstrap (SB). Regardless, the outcomes from using MBB on time series data are considerably better than simple resampling. The code below implements the MMB to obtain a bootrstrap distribution for the estimated parameters of an AR(1) model.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1">ar1_blockboot =<span class="st"> </span><span class="cf">function</span>(Xt, <span class="dt">block_len =</span> <span class="dv">10</span>, <span class="dt">B =</span> <span class="dv">500</span>) {</a>
-<a class="sourceLine" id="cb91-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb91-3" data-line-number="3">  n =<span class="st"> </span><span class="kw">length</span>(Xt)            <span class="co"># Length of Time Series</span></a>
-<a class="sourceLine" id="cb91-4" data-line-number="4">  res =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, B)          <span class="co"># Bootstrapped Statistics</span></a>
-<a class="sourceLine" id="cb91-5" data-line-number="5">  m =<span class="st"> </span><span class="kw">floor</span>(n<span class="op">/</span>block_len)    <span class="co"># Amount of Blocks</span></a>
-<a class="sourceLine" id="cb91-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb91-7" data-line-number="7">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {   <span class="co"># Begin MMB</span></a>
-<a class="sourceLine" id="cb91-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb91-9" data-line-number="9">    <span class="kw">set.seed</span>(i <span class="op">+</span><span class="st"> </span><span class="dv">1199</span>)      <span class="co"># Set seed for reproducibility</span></a>
-<a class="sourceLine" id="cb91-10" data-line-number="10">    x_star =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, n)     <span class="co"># Setup storage for new TS</span></a>
-<a class="sourceLine" id="cb91-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb91-12" data-line-number="12">    <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_len</span>(m)) { <span class="co"># Simulate new time series</span></a>
-<a class="sourceLine" id="cb91-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb91-14" data-line-number="14">      index =<span class="st"> </span><span class="kw">sample</span>(m, <span class="dv">1</span>)  <span class="co"># Randomize block starting points</span></a>
-<a class="sourceLine" id="cb91-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb91-16" data-line-number="16">      <span class="co"># Place block into time series</span></a>
-<a class="sourceLine" id="cb91-17" data-line-number="17">      x_star[(block_len<span class="op">*</span>(j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(block_len<span class="op">*</span>j)] =</a>
-<a class="sourceLine" id="cb91-18" data-line-number="18"><span class="st">      </span>Xt[(block_len<span class="op">*</span>(index <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(block_len<span class="op">*</span>index)]</a>
-<a class="sourceLine" id="cb91-19" data-line-number="19">    }</a>
-<a class="sourceLine" id="cb91-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb91-21" data-line-number="21">  <span class="co"># Calculate parameters with protection</span></a>
-<a class="sourceLine" id="cb91-22" data-line-number="22">  res[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x_star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
-<a class="sourceLine" id="cb91-23" data-line-number="23">  <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb91-24" data-line-number="24">  </a>
-<a class="sourceLine" id="cb91-25" data-line-number="25">  }</a>
-<a class="sourceLine" id="cb91-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb91-27" data-line-number="27">  <span class="kw">na.omit</span>(res)              <span class="co"># Deliver results</span></a>
-<a class="sourceLine" id="cb91-28" data-line-number="28">  </a>
-<a class="sourceLine" id="cb91-29" data-line-number="29">}</a></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1">ar1_blockboot =<span class="st"> </span><span class="cf">function</span>(Xt, <span class="dt">block_len =</span> <span class="dv">10</span>, <span class="dt">B =</span> <span class="dv">500</span>) {</a>
+<a class="sourceLine" id="cb93-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb93-3" data-line-number="3">  n =<span class="st"> </span><span class="kw">length</span>(Xt)            <span class="co"># Length of Time Series</span></a>
+<a class="sourceLine" id="cb93-4" data-line-number="4">  res =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, B)          <span class="co"># Bootstrapped Statistics</span></a>
+<a class="sourceLine" id="cb93-5" data-line-number="5">  m =<span class="st"> </span><span class="kw">floor</span>(n<span class="op">/</span>block_len)    <span class="co"># Amount of Blocks</span></a>
+<a class="sourceLine" id="cb93-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb93-7" data-line-number="7">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {   <span class="co"># Begin MMB</span></a>
+<a class="sourceLine" id="cb93-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb93-9" data-line-number="9">    <span class="kw">set.seed</span>(i <span class="op">+</span><span class="st"> </span><span class="dv">1199</span>)      <span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb93-10" data-line-number="10">    x_star =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, n)     <span class="co"># Setup storage for new TS</span></a>
+<a class="sourceLine" id="cb93-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb93-12" data-line-number="12">    <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_len</span>(m)) { <span class="co"># Simulate new time series</span></a>
+<a class="sourceLine" id="cb93-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb93-14" data-line-number="14">      index =<span class="st"> </span><span class="kw">sample</span>(m, <span class="dv">1</span>)  <span class="co"># Randomize block starting points</span></a>
+<a class="sourceLine" id="cb93-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb93-16" data-line-number="16">      <span class="co"># Place block into time series</span></a>
+<a class="sourceLine" id="cb93-17" data-line-number="17">      x_star[(block_len<span class="op">*</span>(j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(block_len<span class="op">*</span>j)] =</a>
+<a class="sourceLine" id="cb93-18" data-line-number="18"><span class="st">      </span>Xt[(block_len<span class="op">*</span>(index <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(block_len<span class="op">*</span>index)]</a>
+<a class="sourceLine" id="cb93-19" data-line-number="19">    }</a>
+<a class="sourceLine" id="cb93-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb93-21" data-line-number="21">  <span class="co"># Calculate parameters with protection</span></a>
+<a class="sourceLine" id="cb93-22" data-line-number="22">  res[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x_star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
+<a class="sourceLine" id="cb93-23" data-line-number="23">  <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb93-24" data-line-number="24">  </a>
+<a class="sourceLine" id="cb93-25" data-line-number="25">  }</a>
+<a class="sourceLine" id="cb93-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb93-27" data-line-number="27">  <span class="kw">na.omit</span>(res)              <span class="co"># Deliver results</span></a>
+<a class="sourceLine" id="cb93-28" data-line-number="28">  </a>
+<a class="sourceLine" id="cb93-29" data-line-number="29">}</a></code></pre></div>
 <p>Having defined the function above, let us consider a scenario where the model’s assumption that the residuals are Gaussian is violated. Consider two AR(1) processes with the same coefficients but with different innovation noise generation procedures:</p>
 <p><span class="math display">\[
     \begin{aligned}
@@ -1259,55 +1264,49 @@ the <span class="math inline">\(B\)</span> independent replications.</li>
   \end{aligned}
 \]</span></p>
 <p>where <span class="math inline">\(t_4\)</span> represents the Student-<span class="math inline">\(t\)</span> distribution with 4 degrees of freedom (heavy tails). The generation procedure for <span class="math inline">\(\mathcal{M}_1\)</span> is straightforward, use: <code>gen_gts()</code>. For the first model (<span class="math inline">\(\mathcal{M}_1\)</span>) we will use the <code>gen_gts()</code> function while for the second model <span class="math inline">\(\mathcal{M}_2\)</span> we will make use the <code>arima.sim()</code> function in which we can assign a vector of innovations from a <span class="math inline">\(t\)</span> distribution.</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">1</span>)                                        <span class="co"># Set seed for reproducibilty</span></a>
-<a class="sourceLine" id="cb92-2" data-line-number="2">xt_m1 =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR1</span>(<span class="dt">phi =</span> <span class="fl">0.5</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))   <span class="co"># Gaussian noise only</span></a>
-<a class="sourceLine" id="cb92-3" data-line-number="3">xt_m2 =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">arima.sim</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="kw">list</span>(<span class="dt">ar =</span> <span class="fl">0.5</span>, <span class="dt">ma =</span> <span class="dv">0</span>), <span class="co"># Student-t noise</span></a>
-<a class="sourceLine" id="cb92-4" data-line-number="4"><span class="dt">rand.gen =</span> <span class="cf">function</span>(n, ...) <span class="kw">rt</span>(n, <span class="dt">df =</span> <span class="dv">4</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">1</span>)                                        <span class="co"># Set seed for reproducibilty</span></a>
+<a class="sourceLine" id="cb94-2" data-line-number="2">xt_m1 =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR1</span>(<span class="dt">phi =</span> <span class="fl">0.5</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))   <span class="co"># Gaussian noise only</span></a>
+<a class="sourceLine" id="cb94-3" data-line-number="3">xt_m2 =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">arima.sim</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="kw">list</span>(<span class="dt">ar =</span> <span class="fl">0.5</span>, <span class="dt">ma =</span> <span class="dv">0</span>), <span class="co"># Student-t noise</span></a>
+<a class="sourceLine" id="cb94-4" data-line-number="4"><span class="dt">rand.gen =</span> <span class="cf">function</span>(n, ...) <span class="kw">rt</span>(n, <span class="dt">df =</span> <span class="dv">4</span>)))</a></code></pre></div>
 <div class="figure"><span id="fig:mbbdatavis"></span>
 <img src="ts_files/figure-html/mbbdatavis-1.png" alt="AR(1) processes generated under different noise conditions." width="672" />
 <p class="caption">
 Figure 4.13: AR(1) processes generated under different noise conditions.
 </p>
 </div>
-<div class="figure"><span id="fig:mbbdatavis"></span>
-<img src="ts_files/figure-html/mbbdatavis-2.png" alt="AR(1) processes generated under different noise conditions." width="672" />
-<p class="caption">
-Figure 4.13: AR(1) processes generated under different noise conditions.
-</p>
-</div>
 <p>From Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:mbbdatavis">4.13</a>, the time series appear to be considerably different as a result of the noise process being altered even though the <span class="math inline">\(\phi\)</span> coefficient was held constant. Among others, the difference is also related to the variance of the <span class="math inline">\(t\)</span> distribution defined as <span class="math inline">\(\frac{\nu}{\nu-2}\)</span> for <span class="math inline">\(\nu &gt; 2\)</span> (and <span class="math inline">\(\infty\)</span> for <span class="math inline">\(\nu \le 2\)</span>). Therefore, the innovation variance of the i.i.d white noise process is given by <span class="math inline">\(\sigma^2_{\mathcal{M}_1} = 1\)</span> while the noise generated from the <span class="math inline">\(t\)</span> distribution has innovation variance <span class="math inline">\(\sigma^2_{\mathcal{M}_2} = 2\)</span>. To compare the performance of the bootstrap procedures we now implement the corresponding function for the parametric bootstrap:</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1">ar1_paraboot =<span class="st"> </span><span class="cf">function</span>(model, <span class="dt">B =</span> <span class="dv">10000</span>) {</a>
-<a class="sourceLine" id="cb93-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb93-3" data-line-number="3">  est.phi =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)    <span class="co"># Define a storage vector</span></a>
-<a class="sourceLine" id="cb93-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb93-5" data-line-number="5">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) { <span class="co"># Perform bootstrap</span></a>
-<a class="sourceLine" id="cb93-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb93-7" data-line-number="7">    <span class="kw">set.seed</span>(B <span class="op">+</span><span class="st"> </span>i)      <span class="co"># Set seed for reproducibility</span></a>
-<a class="sourceLine" id="cb93-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb93-9" data-line-number="9">    <span class="co"># Simulate time series underneath the estimated model</span></a>
-<a class="sourceLine" id="cb93-10" data-line-number="10">    x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> model<span class="op">$</span>mod<span class="op">$</span>coef, <span class="dt">sigma2 =</span> model<span class="op">$</span>mod<span class="op">$</span>sigma2))</a>
-<a class="sourceLine" id="cb93-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb93-12" data-line-number="12">    <span class="co"># Attempt to estimate parameters with recovery</span></a>
-<a class="sourceLine" id="cb93-13" data-line-number="13">    est.phi[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x.star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
-<a class="sourceLine" id="cb93-14" data-line-number="14">    <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb93-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb93-16" data-line-number="16">  }</a>
-<a class="sourceLine" id="cb93-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb93-18" data-line-number="18">  <span class="kw">na.omit</span>(est.phi)       <span class="co"># Return estimated phis</span></a>
-<a class="sourceLine" id="cb93-19" data-line-number="19">  </a>
-<a class="sourceLine" id="cb93-20" data-line-number="20">}</a></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1">ar1_paraboot =<span class="st"> </span><span class="cf">function</span>(model, <span class="dt">B =</span> <span class="dv">10000</span>) {</a>
+<a class="sourceLine" id="cb95-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb95-3" data-line-number="3">  est.phi =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)    <span class="co"># Define a storage vector</span></a>
+<a class="sourceLine" id="cb95-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb95-5" data-line-number="5">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) { <span class="co"># Perform bootstrap</span></a>
+<a class="sourceLine" id="cb95-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb95-7" data-line-number="7">    <span class="kw">set.seed</span>(B <span class="op">+</span><span class="st"> </span>i)      <span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb95-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb95-9" data-line-number="9">    <span class="co"># Simulate time series underneath the estimated model</span></a>
+<a class="sourceLine" id="cb95-10" data-line-number="10">    x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> model<span class="op">$</span>mod<span class="op">$</span>coef, <span class="dt">sigma2 =</span> model<span class="op">$</span>mod<span class="op">$</span>sigma2))</a>
+<a class="sourceLine" id="cb95-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb95-12" data-line-number="12">    <span class="co"># Attempt to estimate parameters with recovery</span></a>
+<a class="sourceLine" id="cb95-13" data-line-number="13">    est.phi[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x.star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
+<a class="sourceLine" id="cb95-14" data-line-number="14">    <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb95-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb95-16" data-line-number="16">  }</a>
+<a class="sourceLine" id="cb95-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb95-18" data-line-number="18">  <span class="kw">na.omit</span>(est.phi)       <span class="co"># Return estimated phis</span></a>
+<a class="sourceLine" id="cb95-19" data-line-number="19">  </a>
+<a class="sourceLine" id="cb95-20" data-line-number="20">}</a></code></pre></div>
 <p>Now that we have two functions implementing the block and parametric bootstraps, we can now apply these procedures to obtain the confidence intervals for the AR(1) parameters for the two time series generated respectively by model <span class="math inline">\(\mathcal{M}_1\)</span> and <span class="math inline">\(\mathcal{M}_2\)</span>.</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1">B =<span class="st"> </span><span class="dv">50</span></a>
-<a class="sourceLine" id="cb94-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb94-3" data-line-number="3"><span class="co"># Model 1</span></a>
-<a class="sourceLine" id="cb94-4" data-line-number="4">fit_m1_mle =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), xt_m1, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb94-5" data-line-number="5">para_m1_phi  =<span class="st"> </span><span class="kw">ar1_paraboot</span>(fit_m1_mle, <span class="dt">B =</span> B)</a>
-<a class="sourceLine" id="cb94-6" data-line-number="6">block_m1_phi =<span class="st"> </span><span class="kw">ar1_blockboot</span>(xt_m1, <span class="dt">block_len =</span> <span class="dv">25</span>, <span class="dt">B =</span> B)</a>
-<a class="sourceLine" id="cb94-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb94-8" data-line-number="8"><span class="co"># Model 2</span></a>
-<a class="sourceLine" id="cb94-9" data-line-number="9">fit_m2_mle =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), xt_m2, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb94-10" data-line-number="10">para_m2_phi  =<span class="st"> </span><span class="kw">ar1_paraboot</span>(fit_m2_mle, <span class="dt">B =</span> B)</a>
-<a class="sourceLine" id="cb94-11" data-line-number="11">block_m2_phi =<span class="st"> </span><span class="kw">ar1_blockboot</span>(xt_m2, <span class="dt">block_len =</span> <span class="dv">25</span>, <span class="dt">B =</span> B)</a></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1">B =<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb96-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb96-3" data-line-number="3"><span class="co"># Model 1</span></a>
+<a class="sourceLine" id="cb96-4" data-line-number="4">fit_m1_mle =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), xt_m1, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb96-5" data-line-number="5">para_m1_phi  =<span class="st"> </span><span class="kw">ar1_paraboot</span>(fit_m1_mle, <span class="dt">B =</span> B)</a>
+<a class="sourceLine" id="cb96-6" data-line-number="6">block_m1_phi =<span class="st"> </span><span class="kw">ar1_blockboot</span>(xt_m1, <span class="dt">block_len =</span> <span class="dv">25</span>, <span class="dt">B =</span> B)</a>
+<a class="sourceLine" id="cb96-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb96-8" data-line-number="8"><span class="co"># Model 2</span></a>
+<a class="sourceLine" id="cb96-9" data-line-number="9">fit_m2_mle =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), xt_m2, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb96-10" data-line-number="10">para_m2_phi  =<span class="st"> </span><span class="kw">ar1_paraboot</span>(fit_m2_mle, <span class="dt">B =</span> B)</a>
+<a class="sourceLine" id="cb96-11" data-line-number="11">block_m2_phi =<span class="st"> </span><span class="kw">ar1_blockboot</span>(xt_m2, <span class="dt">block_len =</span> <span class="dv">25</span>, <span class="dt">B =</span> B)</a></code></pre></div>
 <div class="figure"><span id="fig:blockbootmodels"></span>
 <img src="ts_files/figure-html/blockbootmodels-1.png" alt="Estimated parametric and non-parametric blockbootstrap distributions of $\hat{\phi}$ for the MLE parameter estimates. The histogram bars represent the empirical results from the bootstraps with the green representing parametric bootstrap and the red representing the block bootstrap approach. The dashed vertical line represents the true value of $\phi$ and the vertical ticks correspond to the limits of the 95% confidence intervals for both estimation techniques." width="864" />
 <p class="caption">
