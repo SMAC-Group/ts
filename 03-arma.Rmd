@@ -630,7 +630,7 @@ In this case, we see how the autocorrelation between lagged values is much highe
 
 A final applied example that highlights the (potential) difference between estimators according to the type of setting is given by the "Recruitment" data set (in the `astsa` library). This data refers to the presence of new fish in the population of the Pacific Ocean and is often linked to the currents and temperatures passing through the ocean. As for the previous data set, let us take a look at the data itself and then analyse the standard and robust estimations of the ACF.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, message=FALSE}
 library(astsa)
 ```
 
@@ -695,20 +695,21 @@ One of the most interesting aspects of time series analysis is to predict the fu
 
 Let us now focus on defining a prediction operator and, for this purpose, let us define the Mean Squared Prediction Error (MSPE) as follows:
 
-$${E}[(X_{t+j} - X^{t}_{t+j})^2] .$$
+$$\mathbb{E}[(X_{t+j} - X^{t}_{t+j})^2] .$$
 Intuitively, the MPSE measures the square distance (i.e. always positive) between the actual future values and the corresponding predictions. Ideally, we would want this measure to be equal to zero (meaning that we don't make any prediction errors) but, if this is not possible, we would like to define a predictor that has the smallest MPSE among all possible predictors. The MPSE is not necessarily the best measure of prediction accuracy since, for example, it can be greatly affected by outliers or doesn't take into account importance of positive or negative misspredictions (e.g. for risks in finance or insurance). Nevertheless, it is a good overall measure of forecast accuracy and the next theorem states what the best predictor is for this measure.
 
 
 ```{theorem, label="condexp", name="Minimum Mean Squared Error Predictor"}
 Let us define
-\[X_{t + j}^t \equiv E\left[ {{X_{t + j}}|{X_t}, \cdots ,{X_1}} \right], j > 0\]
+\[X_{t + j}^t \equiv \mathbb{E}\left[ {{X_{t + j}}|{X_t}, \cdots ,{X_1}} \right], j > 0\]
 
-Then \[E\left[ {{{\left( {{X_{t + j}} - m\left( {{X_1}, \cdots ,{X_t}} \right)} \right)}^2}} \right] \ge E\left[ {{{\left( {{X_{t + j}} - X_{t + j}^t} \right)}^2}} \right]\] for any function $m(.)$.
+Then \[\mathbb{E}\left[ {{{\left( {{X_{t + j}} - m\left( {{X_1}, \cdots ,{X_t}} \right)} \right)}^2}} \right] \ge \mathbb{E}\left[ {{{\left( {{X_{t + j}} - X_{t + j}^t} \right)}^2}} \right]\] for any function $m(.)$.
 ```
+<br>
 
-The proof of this theorem can be found in Appendix \@ref(#appendixc). Although this theorem defines the best possible predictor, there can be many functional forms for this operator. We first restrict our attention to the set of linear predictors defined as
+The proof of this theorem can be found in Appendix \@ref(appendixc). Although this theorem defines the best possible predictor, there can be many functional forms for this operator. We first restrict our attention to the set of linear predictors defined as
 
-$$X_{t+j}^t = \sum_{i=1}^t \alpha_i X_i$$
+$$X_{t+j}^t = \sum_{i=1}^t \alpha_i X_i,$$
 where $\alpha_i \in \mathbb{R}$. It can be noticed, for example, that the $\alpha_i$'s are not always the same based on the values of $t$ and $j$ (i.e. it depends from which time point you want to predict and how far into the future). Another aspect to notice is that, if the time series model underlying the observed time series can be expressed in the form of a linear operator (e.g. a linear process), then we can derive a linear predictor from this framework.
 
 <!-- Considering the above, let us now give the following theorem which provides further insight into linear prediction.  -->
@@ -769,23 +770,23 @@ Let us consider some examples to understand how these linear predictors can be d
 ```{example, label="ar1forecast", name="Forecasting with an AR(1) model"}
 The AR(1) model is defined as follows:
 
-$${X_t} = \phi {X_{t - 1}} + {W_t}$$
+$${X_t} = \phi {X_{t - 1}} + {W_t},$$
   
 where $W_t \sim WN(0, \sigma^2)$.
 
 From here, the conditional expected mean and variance are given by
 
 \[\begin{aligned}
-  {E}\left[ X_{t + j} | \Omega_t \right] &= {E}[\phi X_{t+j-1} + W_{t+j}\,| \, \Omega_t ] \\
+  \mathbb{E}\left[ X_{t + j} | \Omega_t \right] &= \mathbb{E}[\phi X_{t+j-1} + W_{t+j}\,| \, \Omega_t ] \\
       &= ... = {\phi ^j}{X_t} \\
-  Var\left[ {{X_{t + j}}} | \Omega_t \right] &= \left( {1 + {\phi ^2} + {\phi ^4} +  \cdots  + {\phi ^{2\left( {j - 1} \right)}}} \right){\sigma ^2} \\ 
+  \operatorname{var}\left[ {{X_{t + j}}} | \Omega_t \right] &= \left( {1 + {\phi ^2} + {\phi ^4} +  \cdots  + {\phi ^{2\left( {j - 1} \right)}}} \right){\sigma ^2} \\ 
 \end{aligned} \]
 
 Within this derivation, it is important to remember that
 
 \[\begin{aligned}
-  \mathop {\lim }\limits_{j \to \infty } {E}\left[ {{X_{t + j}}} | \Omega_t \right] &= E\left[ {{X_t}} \right] = 0 \\
-  \mathop {\lim }\limits_{j \to \infty } Var_t\left[ {{X_{t + j}}} | \Omega_t \right] &= \operatorname{var} \left( {{X_t}} \right) = \frac{{{\sigma ^2}}}{{1 - {\phi ^2}}}   
+  \mathop {\lim }\limits_{j \to \infty } \mathbb{E}\left[ {{X_{t + j}}} | \Omega_t \right] &= \mathbb{E}\left[ {{X_t}} \right] = 0 \\
+  \mathop {\lim }\limits_{j \to \infty } \operatorname{var}_t\left[ {{X_{t + j}}} | \Omega_t \right] &= \operatorname{var} \left( {{X_t}} \right) = \frac{{{\sigma ^2}}}{{1 - {\phi ^2}}}   
 \end{aligned} \]
 
 From these last results we see that the forecast for an AR(1) process is "mean-reverting" since in general we have that the AR(1) can be written with respect to the mean $\mu$ as follows
@@ -799,7 +800,7 @@ $$X_t = \mu + \phi (X_{t-1} - \mu) + W_t,$$
 and consequently
 
 \[\begin{aligned}
- E[X_{t+j} | \Omega_t] &= \mu + E[(X_{t+j} - \mu) | \Omega_t] \\
+ \mathbb{E}[X_{t+j} | \Omega_t] &= \mu + \mathbb{E}[(X_{t+j} - \mu) | \Omega_t] \\
   &= \mu + \phi^j(X_t - \mu),   
 \end{aligned} \]
 
@@ -811,17 +812,17 @@ Let us now consider a more complicated model, i.e. an AR(2) model.
 ```{example, label="ar2forecast", name="Forecasting with an AR(2) model"}
 Consider an AR(2) process defined as follows:
 
-$${X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + {W_t}$$
+$${X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + {W_t},$$
 
 where $W_t \sim WN(0, \sigma^2)$.
 
 Based on this process we are able to find the predictor for each j-step ahead prediction using the following approach:
 
 \[\begin{aligned}
-  {E}\left[ {{X_{t + 1}}} | \Omega_t \right] &= {\phi _1}{X_t} + {\phi _2}{X_{t - 1}} \\
-  {E}\left[ {{X_{t + 2}}} | \Omega_t \right] &= {E}\left[ {{\phi _1}{X_{t + 1}} + {\phi _2}{X_t}} | \Omega_t \right] = {\phi _1}{E}\left[ {{X_{t + 1}}} | \Omega_t \right] + {\phi _2}{X_t} \\
+  \mathbb{E}\left[ {{X_{t + 1}}} | \Omega_t \right] &= {\phi _1}{X_t} + {\phi _2}{X_{t - 1}} \\
+  \mathbb{E}\left[ {{X_{t + 2}}} | \Omega_t \right] &= \mathbb{E}\left[ {{\phi _1}{X_{t + 1}} + {\phi _2}{X_t}} | \Omega_t \right] = {\phi _1} \mathbb{E}\left[ {{X_{t + 1}}} | \Omega_t \right] + {\phi _2}{X_t} \\
    &= {\phi _1}\left( {{\phi _1}{X_t} + {\phi _2}{X_{t - 1}}} \right) + {\phi _2}{X_t} \\
-   &= \left( {\phi _1^2 + {\phi _2}} \right){X_t} + {\phi _1}{\phi _2}{X_{t - 1}} \\ 
+   &= \left( {\phi _1^2 + {\phi _2}} \right){X_t} + {\phi _1}{\phi _2}{X_{t - 1}}. \\ 
 \end{aligned} \]
 
 ```
@@ -831,7 +832,7 @@ Having seen how to build a forecast for an AR(1), let us now generalise this met
 ```{example, label="arpforecast", name="Forecasting with an AR(p) model"}
 Consider AR(p) process defined as:
 
-$${X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + \cdots + {\phi _p}{X_{t - p}} + {W_t}$$
+$${X_t} = {\phi _1}{X_{t - 1}} + {\phi _2}{X_{t - 2}} + \cdots + {\phi _p}{X_{t - p}} + {W_t},$$
 
 where $W_t \sim WN(0, \sigma^2_W)$.
 
@@ -1176,11 +1177,11 @@ points(qnorm(0.025, fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3,
        col = colors2[2], pch = "|")
 ```
 
-Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more "realistic" confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from the assumed model (an AR(1) process in this case). For each simulation, the parameters are estimated and stored in order to obtain an empirical (finite sample) distribution of the estimators. Based on this distribution it is consequently possible to find the $\alpha/2$ and $1-\alpha/2$ empirical quantiles thereby delivering confidence intervals that should not suffer from boundary problems (since the estimation procedure looks for solutions within the admissable regions). The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using $B = 1000$ bootstrap replicates).
+Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more "realistic" confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from the assumed model (an AR(1) process in this case). For each simulation, the parameters are estimated and stored in order to obtain an empirical (finite sample) distribution of the estimators. Based on this distribution it is consequently possible to find the $\alpha/2$ and $1-\alpha/2$ empirical quantiles thereby delivering confidence intervals that should not suffer from boundary problems (since the estimation procedure looks for solutions within the admissable regions). The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using $B = 10000$ bootstrap replicates).
 
 ``` {r paraAR1ciest, cache = TRUE, warning = FALSE, fig.height= 6, fig.width= 9}
 # Number of Iterations
-B = 1000
+B = 10000
 
 # Set up storage for results
 est.phi.gmwm = rep(NA,B)

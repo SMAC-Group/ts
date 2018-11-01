@@ -1,6 +1,6 @@
-# Proofs {#appendixa}
+# Proofs `r emo::ji("scream")`
 
-## Proof of Theorem 1 `r emo::ji("scream")`
+## Proof of Theorem 3.1 {#appendixa}
 
 We let $X_t = W_t + \mu$, where $\mu < \infty$ and $(W_t)$ is a strong white noise process with variance $\sigma^2$ and finite fourth moment (i.e. $\mathbb{E} [W_t^4] < \infty$). 
 
@@ -310,5 +310,36 @@ $$
 
 which concludes the proof the Theorem 1. $\;\;\;\;\;\;\;\; \blacksquare$
 
+
+## Proof of Theorem 4.1 {#appendixc}
+
+Consider:
+
+\[{\left( {{X_t} - m} \right)^2} = {\left[ {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right) + \left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right]^2}\]
+
+where $m = m\left( {{X_{1}}, \cdots ,{X_{t}}} \right)$ and ${\Omega _t} = \left( {{X_{1}}, \cdots ,{X_{t}}} \right)$.
+
+Therefore we can write 
+
+\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _T}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)^2} + 2\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)\]
+
+
+Focusing on only the last term (and dropping the constant 2), we have that
+
+\[\underbrace {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)}_{ = {\varepsilon _t}}\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right).\]
+
+At this point, let us study the value of $E\left[ {{\varepsilon _t}|{\Omega _t}} \right]$ (the reason for this will become apparent in the next steps of the proof):
+
+\[E\left[ {{\varepsilon _t}|{\Omega _t}} \right] = E\left[ {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]|{\Omega _t}} \right] = E\left[ {{X_t}|{\Omega _t}} \right] - E\left[ {{X_t}|{\Omega _t}} \right] = 0\]
+
+Given this, we now consider the law of total expectation (i.e. $E[X] = E[E[X|Y]]$ which allows us to rewrite the expectation of the last term as follows
+
+\[E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = E\left[ {E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)|{\Omega _t}} \right]} \right] = E\left[ {\underbrace {E\left[ {{\varepsilon _t}|{\Omega _t}} \right]}_{ = 0}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = 0\]
+
+Since we have shown that the expectation of the last term is zero, we have that
+
+\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)^2}.\]
+
+Now the first term is positive and doesn't depend on $m$, so we focus on the second term which is minimized for $m = E\left[ {{X_t}|{\Omega _t}} \right]$ thereby minimizing the entire expression in terms of $m$. \blacksquare
 
 
