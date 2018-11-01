@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Applied Time Series Analysis with R</title>
+  <meta name="description" content="Applied Time Series Analysis with R">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Applied Time Series Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="SMAC-Group/ts" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Applied Time Series Analysis with R" />
+  
+  
+  
+
+<meta name="author" content="Stéphane Guerrier, Roberto Molinari and Haotian Xu">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="prev" href="references.html">
+<link rel="next" href="appendixb.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Applied Time Series Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Foundation</b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i><b>1.1</b> Conventions</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#bibliographic-note"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i><b>1.4</b> License</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-wold-decomposition"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The Deterministic Component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The Random Component (Noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#eda"><i class="fa fa-check"></i><b>2.2</b> Exploratory Data Analysis for Time Series</a></li>
+<li class="chapter" data-level="2.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#dependence-in-time-series"><i class="fa fa-check"></i><b>2.3</b> Dependence in Time Series</a></li>
+<li class="chapter" data-level="2.4" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#basicmodels"><i class="fa fa-check"></i><b>2.4</b> Basic Time Series Models</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#wn"><i class="fa fa-check"></i><b>2.4.1</b> White Noise</a></li>
+<li class="chapter" data-level="2.4.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#rw"><i class="fa fa-check"></i><b>2.4.2</b> Random Walk</a></li>
+<li class="chapter" data-level="2.4.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ar1"><i class="fa fa-check"></i><b>2.4.3</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.4.4" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ma1"><i class="fa fa-check"></i><b>2.4.4</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.4.5" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#drift"><i class="fa fa-check"></i><b>2.4.5</b> Linear Drift</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#lts"><i class="fa fa-check"></i><b>2.5</b> Composite Stochastic Processes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="fundtimeseries.html"><a href="fundtimeseries.html"><i class="fa fa-check"></i><b>3</b> Fundamental Properties of Time Series</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#the-autocorrelation-and-autocovariance-functions"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#a-fundamental-representation"><i class="fa fa-check"></i><b>3.1.1</b> A Fundamental Representation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#admissible-autocorrelation-functions"><i class="fa fa-check"></i><b>3.1.2</b> Admissible Autocorrelation Functions 😱</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#stationary"><i class="fa fa-check"></i><b>3.2</b> Stationarity</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#assessing-weak-stationarity-of-time-series-models"><i class="fa fa-check"></i><b>3.2.1</b> Assessing Weak Stationarity of Time Series Models</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="fundtimeseries.html"><a href="fundtimeseries.html#estimation-of-moments-stationary-processes"><i class="fa fa-check"></i><b>3.3</b> Estimation of Moments (Stationary Processes)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#estimation-of-the-mean-function"><i class="fa fa-check"></i><b>3.3.1</b> Estimation of the Mean Function</a></li>
+<li class="chapter" data-level="3.3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#sample-autocovariance-and-autocorrelation-functions"><i class="fa fa-check"></i><b>3.3.2</b> Sample Autocovariance and Autocorrelation Functions</a></li>
+<li class="chapter" data-level="3.3.3" data-path="fundtimeseries.html"><a href="fundtimeseries.html#robustness-issues"><i class="fa fa-check"></i><b>3.3.3</b> Robustness Issues</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html"><i class="fa fa-check"></i><b>4</b> The Family of Autoregressive Moving Average Models</a><ul>
+<li class="chapter" data-level="4.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#linear-processes"><i class="fa fa-check"></i><b>4.1</b> Linear Processes</a></li>
+<li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autoregressive-models---arp"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models - AR(p)</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#properties-of-arp-models"><i class="fa fa-check"></i><b>4.2.1</b> Properties of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.2.2</b> Estimation of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#forecasting-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Forecasting AR(p) Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#diagnostic-tools-for-time-series"><i class="fa fa-check"></i><b>4.3</b> Diagnostic Tools for Time Series</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#the-partial-autocorrelation-function-pacf"><i class="fa fa-check"></i><b>4.3.1</b> The Partial AutoCorrelation Function (PACF)</a></li>
+<li class="chapter" data-level="4.3.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#portmanteau-tests"><i class="fa fa-check"></i><b>4.3.2</b> Portmanteau Tests</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) Models</a></li>
+<li class="chapter" data-level="4.5" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-1"><i class="fa fa-check"></i><b>4.5</b> Model 1</a></li>
+<li class="chapter" data-level="4.6" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-2"><i class="fa fa-check"></i><b>4.6</b> Model 2</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="proofs.html"><a href="proofs.html"><i class="fa fa-check"></i><b>A</b> Proofs 😱</a><ul>
+<li class="chapter" data-level="A.1" data-path="proofs.html"><a href="proofs.html#appendixa"><i class="fa fa-check"></i><b>A.1</b> Proof of Theorem 3.1</a></li>
+<li class="chapter" data-level="A.2" data-path="proofs.html"><a href="proofs.html#appendixc"><i class="fa fa-check"></i><b>A.2</b> Proof of Theorem 4.1</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendixb.html"><a href="appendixb.html"><i class="fa fa-check"></i><b>B</b> Robust Regression Methods</a><ul>
+<li class="chapter" data-level="B.1" data-path="appendixb.html"><a href="appendixb.html#the-classical-least-squares-estimator"><i class="fa fa-check"></i><b>B.1</b> The Classical Least-Squares Estimator</a></li>
+<li class="chapter" data-level="B.2" data-path="appendixb.html"><a href="appendixb.html#robust-estimators-for-linear-regression-models"><i class="fa fa-check"></i><b>B.2</b> Robust Estimators for Linear Regression Models</a></li>
+<li class="chapter" data-level="B.3" data-path="appendixb.html"><a href="appendixb.html#applications-of-robust-estimation"><i class="fa fa-check"></i><b>B.3</b> Applications of Robust Estimation</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="proofs.html"><a href="proofs.html#appendixc"><i class="fa fa-check"></i><b>C</b> Proofs</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/SMAC-Group/ts" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Time Series Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="proofs" class="section level1">
+<h1><span class="header-section-number">A</span> Proofs 😱</h1>
+<div id="appendixa" class="section level2">
+<h2><span class="header-section-number">A.1</span> Proof of Theorem 3.1</h2>
+<p>We let <span class="math inline">\(X_t = W_t + \mu\)</span>, where <span class="math inline">\(\mu &lt; \infty\)</span> and <span class="math inline">\((W_t)\)</span> is a strong white noise process with variance <span class="math inline">\(\sigma^2\)</span> and finite fourth moment (i.e. <span class="math inline">\(\mathbb{E} [W_t^4] &lt; \infty\)</span>).</p>
+<p>Next, we consider the sample autocovariance function computed on <span class="math inline">\((X_t)\)</span>, i.e.</p>
+<p><span class="math display">\[
+\hat \gamma \left( h \right) = \frac{1}{n}\sum\limits_{t = 1}^{n - h} {\left( {{X_t} - \bar X} \right)\left( {{X_{t + h}} - \bar X} \right)}.
+\]</span></p>
+<p>For this equation, it is clear that <span class="math inline">\(\hat \gamma \left( 0 \right)\)</span> and <span class="math inline">\(\hat \gamma \left( h \right)\)</span> (with <span class="math inline">\(h &gt; 0\)</span>) are two statistics involving sums of different lengths. As we will see, this prevents us from using directly the multivariate central limit theorem on the vector <span class="math inline">\([ \hat \gamma \left( h \right) \;\;\; \hat \gamma \left( h \right) ]^T\)</span>. However, the lag <span class="math inline">\(h\)</span> is fixed and therefore the difference in the number of elements of both sums is asymptotically negligible. Therefore, we define a new statistic</p>
+<p><span class="math display">\[\tilde{\gamma} \left( h \right) = \frac{1}{n}\sum\limits_{t = 1}^{n} {\left( {{X_t} - \mu} \right)\left( {{X_{t + h}} - \mu} \right)},
+\]</span></p>
+<p>which, as we will see, is easier to used and show that <span class="math inline">\(\hat \gamma \left( h \right)\)</span> and <span class="math inline">\(\tilde{\gamma} \left( h \right)\)</span> are asymptotically equivalent in the sense that:</p>
+<p><span class="math display">\[
+n^{\frac{1}{2}}[\tilde{\gamma} \left( h \right) - \hat \gamma \left( h \right)] = o_p(1).
+\]</span></p>
+<p>Therefore, assuming this results to be true, <span class="math inline">\(\tilde{\gamma} \left( h \right)\)</span> and <span class="math inline">\(\hat \gamma \left( h \right)\)</span> would have the same asymptotic distribution, it is sufficient to show the asymptotic distribution of <span class="math inline">\(\tilde{\gamma} \left( h \right)\)</span>. So that before continuing the proof the Theorem 1 we first state and prove the following lemma:</p>
+<p><strong>Lemma A1:</strong> Let</p>
+<p><span class="math display">\[
+X_t = \mu + \sum\limits_{j = -\infty}^{\infty} \psi_j W_{t-j},
+\]</span>
+where <span class="math inline">\((W_t)\)</span> is a strong white process with variance <span class="math inline">\(\sigma^2\)</span>, and the coefficients satisfying <span class="math inline">\(\sum \, |\psi_j| &lt; \infty\)</span>. Then, we have</p>
+<p><span class="math display">\[
+n^{\frac{1}{2}}[\tilde{\gamma} \left( h \right) - \hat \gamma \left( h \right)] = o_p(1).
+\]</span></p>
+<p><em>Proof:</em> By Markov inequality, we have</p>
+<p><span class="math display">\[
+\mathbb{P}\left( |n^{\frac{1}{2}}[\tilde{\gamma} \left( h \right) - \hat \gamma \left( h \right)]| \geq \epsilon \right) \leq \frac{\mathbb{E}|n^{\frac{1}{2}}[\tilde{\gamma} \left( h \right) - \hat \gamma \left( h \right)]|}{\epsilon},
+\]</span>
+for any <span class="math inline">\(\epsilon &gt; 0\)</span>. Thus, it is enough to show that</p>
+<p><span class="math display">\[\mathop {\lim }\limits_{n \to \infty } \; \mathbb{E} \left[|n^{\frac{1}{2}}[\tilde{\gamma} \left( h \right) - \hat \gamma \left( h \right)]|\right] = 0\]</span></p>
+<p>to prove Lemma A1.By the definitions of <span class="math inline">\(\tilde{\gamma} \left( h \right)\)</span> and <span class="math inline">\(\hat \gamma \left( h \right)\)</span>, we have</p>
+<p><span class="math display">\[
+\begin{aligned}
+n^{\frac{1}{2}}[\tilde{\gamma} \left( h \right) - \hat \gamma \left( h \right)] &amp;= \frac{1}{\sqrt{n}} \sum_{t = n-h+1}^{n}(X_t - \mu)(X_{t+h} - \mu) \\
+&amp;+ \frac{1}{\sqrt{n}} \sum_{t = 1}^{n-h}\left[(X_t - \mu)(X_{t+h} - \mu) - (X_t - \bar{X})(X_{t+h} - \bar{X})\right]\\
+&amp;= \frac{1}{\sqrt{n}} \sum_{t = n-h+1}^{n}(X_t - \mu)(X_{t+h} - \mu)  
++ \frac{1}{\sqrt{n}} \sum_{t = 1}^{n-h}\left[(\bar{X} - \mu)(X_t + X_{t+h} - \mu - \bar{X})\right]\\
+&amp;= \frac{1}{\sqrt{n}} \sum_{t = n-h+1}^{n} (X_t - \mu)(X_{t+h} - \mu) + \frac{1}{\sqrt{n}} (\bar{X} - \mu)\sum_{t = 1}^{n-h}(X_t + X_{t+h} - \mu - \bar{X})\\
+&amp;= \frac{1}{\sqrt{n}} \sum_{t = n-h+1}^{n} (X_t - \mu)(X_{t+h} - \mu) + \frac{1}{\sqrt{n}} (\bar{X} - \mu)\left[\sum_{t = 1+h}^{n-h}X_t - (n-h)\mu + h\bar{X}\right]\\
+&amp;= \frac{1}{\sqrt{n}} \sum_{t = n-h+1}^{n} (X_t - \mu)(X_{t+h} - \mu)
++ \frac{1}{\sqrt{n}} (\bar{X} - \mu)\left[\sum_{t = 1+h}^{n-h}(X_t - \mu) - h(\mu - \bar{X})\right]\\
+&amp;= \frac{1}{\sqrt{n}} \sum_{t = n-h+1}^{n} (X_t - \mu)(X_{t+h} - \mu) + \frac{1}{\sqrt{n}} (\bar{X} - \mu)\sum_{t = 1+h}^{n-h}(X_t - \mu) + \frac{h}{\sqrt{n}} (\bar{X} - \mu)^2,
+\end{aligned}
+\]</span>
+where <span class="math inline">\(\bar{X} = \frac{1}{n}\sum_{t=1}^n X_t = \mu + \frac{1}{n}\sum_{t=1}^n\sum_{j=-\infty}^{\infty} \psi_j W_{t-j} = \mu + \frac{1}{n} \sum_{j = -\infty}^{\infty} \sum_{t=1}^n \psi_j W_{t-j}\)</span>.</p>
+<p>Then, we have
+<span class="math display">\[
+\begin{aligned}
+\mathbb{E}\left[\left|n^{\frac{1}{2}}[\tilde{\gamma} \left( h \right) - \hat \gamma \left( h \right)]\right|\right]
+&amp;\leq \frac{1}{\sqrt{n}} \sum_{t = n-h+1}^{n} \mathbb{E}\left[\left|(X_t - \mu) \, (X_{t+h} - \mu)\right|\right]\\
+&amp;+ \frac{1}{\sqrt{n}} \mathbb{E} \left[\left|(\bar{X} - \mu) \, \sum_{t = 1+h}^{n-h}(X_t - \mu)\right|\right] +  \frac{h}{\sqrt{n}}\mathbb{E} \left[ (\bar{X} - \mu)^2 \right].
+\end{aligned}
+\]</span></p>
+<p>Next, we consider each term of the above equation. For the first term, since <span class="math inline">\((X_t - \mu)^2 = \left(\sum_{j = -\infty}^{\infty} \psi_j W_{t-j}\right)^2\)</span>, and <span class="math inline">\(\mathbb{E}[W_iW_j] \neq 0\)</span> only if <span class="math inline">\(i = j\)</span>. By Cauchy–Schwarz inequality we have</p>
+<p><span class="math display">\[
+\mathbb{E}\left[|(X_t - \mu)(X_{t+h} - \mu)|\right] \leq \sqrt{\mathbb{E}\left[|(X_t - \mu)|^2\right] \mathbb{E}\left[|(X_{t+h} - \mu)|^2\right]} = \sigma^2 \sum_{i = -\infty}^{\infty}\psi_i^2.
+\]</span></p>
+<p>Then, we consider the third term, since it will be used in the second term</p>
+<p><span class="math display">\[\mathbb{E}[(\bar{X} - \mu)^2] = \frac{1}{n^2} \sum_{t = 1}^{n} \sum_{i = -\infty}^{\infty} \psi_i^2 \mathbb{E}\left[ W_{t-i}^2 \right] = \frac{\sigma^2}{n} \sum_{i = -\infty}^{\infty}\psi_i^2.\]</span></p>
+<p>Similarly, for the second term we have</p>
+<p><span class="math display">\[\begin{aligned}
+\mathbb{E}\left[\left|(\bar{X} - \mu) \sum_{t = 1+h}^{n-h}(X_t - \mu)\right|\right] &amp;\leq \sqrt{\mathbb{E}\left[|(\bar{X} - \mu)|^2\right] \mathbb{E}\left[|\sum_{t = 1+h}^{n-h}(X_t - \mu)|^2\right]}\\
+&amp;= \sqrt{\mathbb{E}\left[(\bar{X} - \mu)^2\right] \mathbb{E}\left[\sum_{t = 1+h}^{n-h}\left(X_t - \mu \right)^2 + \sum_{t_1 \neq t_2}(X_{t_1} - \mu)(X_{t_2} - \mu) \right]}\\
+&amp;\leq \sqrt{\frac{\sigma^2}{n} \sum_{i = -\infty}^{\infty}\psi_i^2 \cdot (n-2h)\sigma^2 \left( \sum_{j = -\infty}^{\infty} |\psi_j| \right)^2}\\
+&amp;\leq \sqrt{\frac{n-2h}{n}}\sigma^2 \left(\sum_{i = -\infty}^{\infty}|\psi_i| \right)^2.
+\end{aligned}
+\]</span></p>
+<p>Combining the above results we obtain</p>
+<p><span class="math display">\[\begin{aligned}
+\mathbb{E}|n^{\frac{1}{2}}[\tilde{\gamma} \left( h \right) - \hat \gamma \left( h \right)]|
+&amp;\leq \frac{1}{\sqrt{n}} h \sigma^2 \sum_{i = -\infty}^{\infty}\psi_i^2 + \sqrt{\frac{n-2h}{n^2}}\sigma^2 \left(\sum_{i = -\infty}^{\infty}|\psi_i| \right)^2 + \frac{h}{n\sqrt{n}}\sigma^2 \sum_{i = -\infty}^{\infty}\psi_i^2\\
+&amp;\leq \frac{1}{n\sqrt{n}} (nh + \sqrt{n - 2h} + h) \sigma^2 \left(\sum_{i = -\infty}^{\infty}|\psi_i|\right)^2,
+\end{aligned}
+\]</span></p>
+<p>By the taking the limit in <span class="math inline">\(n\)</span> we have</p>
+<p><span class="math display">\[\mathop {\lim }\limits_{n \to \infty } \; \mathbb{E} \left[|n^{\frac{1}{2}}[\tilde{\gamma} \left( h \right) - \hat \gamma \left( h \right)]|\right] \leq \sigma^2 \left(\sum_{i = -\infty}^{\infty}|\psi_i|\right)^2 \mathop {\lim }\limits_{n \to \infty } \; \frac{nh + \sqrt{n - 2h} + h}{n\sqrt{n}} = 0.
+\]</span></p>
+<p>We can therefore conclude that</p>
+<p><span class="math display">\[\sqrt{n}[\tilde{\gamma} \left( h \right) - \hat \gamma \left( h \right)] = o_p(1),\]</span></p>
+<p>which concludes the proof of Lemma A1. <span class="math inline">\(\;\;\;\;\;\;\;\; \blacksquare\)</span></p>
+<p><span class="math inline">\(\\\)</span></p>
+<p><span class="math inline">\(\\\)</span></p>
+<p>Returning to the proof of Theorem 1, since the process <span class="math inline">\((Y_t)\)</span>, where <span class="math inline">\(Y_t = \left( {{X_t} - \mu} \right)\left( {{X_{t + h}} - \mu} \right)\)</span>, is iid, we can apply multivariate central limit theorem to the vector <span class="math inline">\([ \tilde \gamma \left( h \right) \;\;\; \tilde \gamma \left( h \right) ]^T\)</span>, and we obtain</p>
+<p><span class="math display">\[\begin{aligned}
+    \sqrt{n}\left\{
+        \begin{bmatrix}
+         \tilde{\gamma} \left( 0 \right) \\
+         \tilde{\gamma} \left( h \right)
+        \end{bmatrix}
+    - \mathbb{E}\begin{bmatrix}
+         \tilde{\gamma} \left( 0 \right) \\
+         \tilde{\gamma} \left( h \right)
+        \end{bmatrix} \right\} 
+    &amp;= \frac{1}{\sqrt{n}}\begin{bmatrix}
+         \sum\limits_{t = 1}^{n}(X_t - \mu)^2 - n\mathbb{E}\left[ \tilde{\gamma} \left( 0 \right) \right]\\
+         \sum\limits_{t = 1}^{n}\left( {{X_t} - \mu} \right)\left( {{X_{t + h}} - \mu} \right) - n\mathbb{E}\left[ \tilde{\gamma} \left( h \right) \right]
+        \end{bmatrix} \\
+       &amp; \overset{\mathcal{D}}{\to} 
+    \mathcal{N}\left(0, n \, \text{var} \left(\begin{bmatrix}
+         \tilde{\gamma} \left( 0 \right) \\
+         \tilde{\gamma} \left( h \right)
+        \end{bmatrix} \right)\right)
+        \end{aligned}
+\]</span></p>
+<p>Moreover, by Cauchy–Schwarz inequality and since <span class="math inline">\(\text{var}(X_t) = \sigma^2\)</span>, we have</p>
+<p><span class="math display">\[
+\sum\limits_{t = 1}^{n} {\left( {{X_t} - \mu} \right)\left( {{X_{t + h}} - \mu} \right)} \leq \sqrt{\sum\limits_{t = 1}^{n} {\left( {{X_t} - \mu} \right)^2} \sum\limits_{t = 1}^{n} {\left( {{X_{t + h}} - \mu} \right)^2}} &lt; \infty.
+\]</span></p>
+<p>Therefore, by bounded convergence theorem and <span class="math inline">\((W_t)\)</span> is iid, we have</p>
+<p><span class="math display">\[\begin{aligned}
+    \mathbb{E}[\tilde{\gamma} \left( h \right)] &amp;= \frac{1}{n}\mathbb{E}\left[\sum\limits_{t = 1}^{n} {\left( {{X_t} - \mu} \right)\left( {{X_{t + h}} - \mu} \right)}\right]\\
+    &amp;= \frac{1}{n}\left[\sum\limits_{t = 1}^{n} { \mathbb{E}\left( {{X_t} - \mu} \right)\mathbb{E}\left( {{X_{t + h}} - \mu} \right)}\right] =
+    \begin{cases}
+        \sigma^2, &amp; \text{for } h = 0\\
+        0, &amp; \text{for } h \neq 0
+    \end{cases}.
+    \end{aligned}
+\]</span></p>
+<p>Next, we consider the variance of <span class="math inline">\(\tilde{\gamma} \left( h \right)\)</span> when <span class="math inline">\(h \neq 0\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+        var[\tilde{\gamma} \left( h \right)] &amp;= \frac{1}{n^2}\mathbb{E}\left\{\left[\sum\limits_{t = 1}^{n} {\left( {{X_t} - \mu} \right)\left( {{X_{t + h}} - \mu} \right)}\right]^2\right\}\\
+        &amp;= \frac{1}{n^2}\mathbb{E}\left\{\left[\sum\limits_{i = 1}^{n} {\left( {{X_i} - \mu} \right)\left( {{X_{i + h}} - \mu} \right)}\right] \left[\sum\limits_{j = 1}^{n} {\left( {{X_j} - \mu} \right)\left( {{X_{j + h}} - \mu} \right)}\right]\right\}\\
+        &amp;= \frac{1}{n^2}\mathbb{E}\left[\sum\limits_{i = 1}^{n}\sum\limits_{j = 1}^{n} {\left( {{X_i} - \mu} \right)\left( {{X_{i + h}} - \mu} \right)}{\left( {{X_j} - \mu} \right)\left( {{X_{j + h}} - \mu} \right)}\right].
+    \end{aligned}
+\]</span></p>
+<p>Also by Cauchy–Schwarz inequality and the finite fourth moment assumption, we can use the bounded convergence theorem. Once again since <span class="math inline">\((W_t)\)</span> is white noise process, we have</p>
+<p><span class="math display">\[
+\mathbb{E}\left[{\left( {{X_i} - \mu} \right)\left( {{X_{i + h}} - \mu} \right)}{\left( {{X_j} - \mu} \right)\left( {{X_{j + h}} - \mu} \right)}\right] \neq 0
+\]</span>
+only when <span class="math inline">\(i = j\)</span>.</p>
+<p>Therefore, we obtain</p>
+<p><span class="math display">\[\begin{aligned}
+        var[\tilde{\gamma} \left( h \right)] &amp;= \frac{1}{n^2}\sum\limits_{i = 1}^{n} \mathbb{E}\left[ {\left( {{X_i} - \mu} \right)^2\left( {{X_{i + h}} - \mu} \right)^2}\right]\\
+        &amp;= \frac{1}{n^2}\sum\limits_{i = 1}^{n} \mathbb{E}{\left( {{X_i} - \mu} \right)^2\mathbb{E}\left( {{X_{i + h}} - \mu} \right)^2}
+        = \frac{1}{n}\sigma^4.
+    \end{aligned}
+\]</span></p>
+<p>Similarly, for <span class="math inline">\(h = 0\)</span>, we have</p>
+<p><span class="math display">\[
+\begin{aligned}
+        var[\tilde{\gamma} \left( 0 \right)] &amp;= \frac{1}{n^2}\mathbb{E}\left\{\left[\sum\limits_{t = 1}^{n} {\left( {{X_t} - \mu} \right)^2}\right]^2\right\} - \frac{1}{n^2}\left[\mathbb{E}\sum\limits_{t = 1}^{n} {\left( {{X_t} - \mu} \right)^2}\right]^2
+        = \frac{2}{n}\sigma^4.
+    \end{aligned}
+\]</span></p>
+<p>Next, we consider the covariance between <span class="math inline">\(\tilde{\gamma} \left( 0 \right)\)</span> and <span class="math inline">\(\tilde{\gamma} \left( h \right)\)</span>, for <span class="math inline">\(h \neq 0\)</span>, and we obtain</p>
+<p><span class="math display">\[
+\begin{aligned}
+        cov[\tilde{\gamma} \left( 0 \right), \tilde{\gamma} \left( h \right)] &amp;= \mathbb{E}[\tilde{\gamma} \left( 0 \right) \tilde{\gamma} \left( h \right)] - \mathbb{E}[\tilde{\gamma} \left( 0 \right)] \mathbb{E}[\tilde{\gamma} \left( h \right)]
+        = \mathbb{E}[\tilde{\gamma} \left( 0 \right) \tilde{\gamma} \left( h \right)]\\
+        &amp;= \mathbb{E}\left[\left[\sum\limits_{t = 1}^{n} {\left( {{X_t} - \mu} \right)^2}\right]\left[\sum\limits_{t = 1}^{n} {\left( {{X_t} - \mu} \right)\left( {{X_{t + h}} - \mu} \right)}\right]\right]
+        = 0.
+    \end{aligned}
+\]</span></p>
+<p>Therefore by Slutsky’s Theorem we have,</p>
+<p><span class="math display">\[
+\begin{aligned}
+    \sqrt{n}\left\{
+        \begin{bmatrix}
+         \hat{\gamma} \left( 0 \right) \\
+         \hat{\gamma} \left( h \right)
+        \end{bmatrix}
+    - \begin{bmatrix}
+         \sigma^2 \\
+         0
+        \end{bmatrix} \right\}
+    &amp;= \sqrt{n}\left\{
+        \begin{bmatrix}
+         \tilde{\gamma} \left( 0 \right) \\
+         \tilde{\gamma} \left( h \right)
+        \end{bmatrix}
+    - \begin{bmatrix}
+         \sigma^2 \\
+         0
+        \end{bmatrix} \right\}
+    + \underbrace{\sqrt{n}\left\{
+        \begin{bmatrix}
+         \hat{\gamma} \left( 0 \right) \\
+         \hat{\gamma} \left( h \right)
+        \end{bmatrix}
+    - \begin{bmatrix}
+         \tilde{\gamma} \left( 0 \right) \\
+         \tilde{\gamma} \left( h \right)
+        \end{bmatrix} \right\}}_{\overset{p}{\to} 0}\\
+    &amp;\overset{\mathcal{D}}{\to} 
+    \mathcal{N}\left(0, \begin{bmatrix}
+         2\sigma^4 &amp; 0\\
+         0 &amp; \sigma^4
+        \end{bmatrix} \right).
+    \end{aligned}
+\]</span></p>
+<p>Next, we define the function <span class="math inline">\(g\left( \begin{bmatrix}  a \\  b  \end{bmatrix} \right) = b/a\)</span>, where <span class="math inline">\(a \neq 0\)</span>. For this function it is clear that</p>
+<p><span class="math display">\[
+\nabla g\left( \begin{bmatrix}
+         a \\
+         b
+        \end{bmatrix} \right) = \begin{bmatrix}
+         -\frac{b}{a^2} \\
+         \frac{1}{a}
+        \end{bmatrix}^{T} ,
+\]</span></p>
+<p>and thus using the Delta method, we have for <span class="math inline">\(h \neq 0\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    \sqrt{n}\hat{\rho}(h) =
+    \sqrt{n}\left\{g\left(
+        \begin{bmatrix}
+         \hat{\gamma} \left( 0 \right) \\
+         \hat{\gamma} \left( h \right)
+        \end{bmatrix} \right)
+    - {\mu} \right\}
+    &amp;\overset{\mathcal{D}}{\to} 
+    \mathcal{N}\left(0, \sigma_r^2 \right),
+    \end{aligned}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\begin{aligned}
+{\mu} &amp;= g\left(\begin{bmatrix}
+         \sigma^2 &amp; 0
+        \end{bmatrix} \right) = 0,\\
+\sigma_r^2 &amp;= \nabla g\left(\begin{bmatrix}
+         \sigma^2 \\
+         0
+        \end{bmatrix} \right) \begin{bmatrix}
+         2\sigma^4 &amp; 0\\
+         0 &amp; \sigma^4
+        \end{bmatrix} \nabla g\left(\begin{bmatrix}
+         \sigma^2 \\
+         0
+        \end{bmatrix} \right)^{T}
+         = \begin{bmatrix}
+         0 &amp; \sigma^{-2}
+        \end{bmatrix}  \begin{bmatrix}
+         2\sigma^4 &amp; 0\\
+         0 &amp; \sigma^4
+        \end{bmatrix} \begin{bmatrix}
+         0 \\
+         \sigma^{-2}
+        \end{bmatrix} = 1.
+    \end{aligned}
+\]</span></p>
+<p>Thus, we have</p>
+<p><span class="math display">\[
+\sqrt{n}\hat{\rho}(h) \overset{\mathcal{D}}{\to} 
+    \mathcal{N}\left(0, 1 \right),
+\]</span></p>
+<p>which concludes the proof the Theorem 1. <span class="math inline">\(\;\;\;\;\;\;\;\; \blacksquare\)</span></p>
+</div>
+<div id="appendixc" class="section level2">
+<h2><span class="header-section-number">A.2</span> Proof of Theorem 4.1</h2>
+<p>Consider:</p>
+<p><span class="math display">\[{\left( {{X_t} - m} \right)^2} = {\left[ {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right) + \left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right]^2}\]</span></p>
+<p>where <span class="math inline">\(m = m\left( {{X_{1}}, \cdots ,{X_{t}}} \right)\)</span> and <span class="math inline">\({\Omega _t} = \left( {{X_{1}}, \cdots ,{X_{t}}} \right)\)</span>.</p>
+<p>Therefore we can write</p>
+<p><span class="math display">\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _T}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)^2} + 2\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right)\]</span></p>
+<p>Focusing on only the last term (and dropping the constant 2), we have that</p>
+<p><span class="math display">\[\underbrace {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)}_{ = {\varepsilon _t}}\left( {E\left[ {{X_t}|{\Omega _T}} \right] - m} \right).\]</span></p>
+<p>At this point, let us study the value of <span class="math inline">\(E\left[ {{\varepsilon _t}|{\Omega _t}} \right]\)</span> (the reason for this will become apparent in the next steps of the proof):</p>
+<p><span class="math display">\[E\left[ {{\varepsilon _t}|{\Omega _t}} \right] = E\left[ {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]|{\Omega _t}} \right] = E\left[ {{X_t}|{\Omega _t}} \right] - E\left[ {{X_t}|{\Omega _t}} \right] = 0\]</span></p>
+<p>Given this, we now consider the law of total expectation (i.e. <span class="math inline">\(E[X] = E[E[X|Y]]\)</span> which allows us to rewrite the expectation of the last term as follows</p>
+<p><span class="math display">\[E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = E\left[ {E\left[ {{\varepsilon _t}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)|{\Omega _t}} \right]} \right] = E\left[ {\underbrace {E\left[ {{\varepsilon _t}|{\Omega _t}} \right]}_{ = 0}\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)} \right] = 0\]</span></p>
+<p>Since we have shown that the expectation of the last term is zero, we have that</p>
+<p><span class="math display">\[{\left( {{X_t} - m} \right)^2} = {\left( {{X_t} - E\left[ {{X_t}|{\Omega _t}} \right]} \right)^2} + {\left( {E\left[ {{X_t}|{\Omega _t}} \right] - m} \right)^2}.\]</span></p>
+<p>Now the first term is positive and doesn’t depend on <span class="math inline">\(m\)</span>, so we focus on the second term which is minimized for <span class="math inline">\(m = E\left[ {{X_t}|{\Omega _t}} \right]\)</span> thereby minimizing the entire expression in terms of <span class="math inline">\(m\)</span>. </p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="references.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendixb.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/SMAC-Group/ts/edit/master/91-appendix-a.Rmd",
+"text": "Edit"
+},
+"download": ["ts.pdf", "ts.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
