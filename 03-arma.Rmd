@@ -371,15 +371,15 @@ Considering the Yule-Walker equations, it is possible to use a method of moments
 These estimators have the following asymptotic properties.
 
 **Consistency and Asymptotic Normality of Yule-Walker estimators:**
-The Yule-Walker estimators for a causal AR(p) model have the following asymptotic properties:
+The Yule-Walker estimators for a causal AR($p$) model have the following asymptotic properties:
 
 \begin{equation*}
 \sqrt{T}(\hat{\mathbf{\phi}}- \mathbf{\phi}) \xrightarrow{\mathcal{D}} \mathcal{N}(\mathbf{0},\sigma_w^2\Gamma_p^{-1}) \,\, \text{and} \,\, \hat{\sigma}_w^2 \xrightarrow{\mathcal{P}} \sigma_w^2 .
 \end{equation*}
 
-Therefore the Yule-Walker estimators have an asymptotically normal distribution and the estimator of the innovation variance is consistent. Moreover, these estimators are also optimal for AR(p) models, meaning that they are also efficient. However, there is also another method which allows to achieve this efficiency (also for general ARMA models that will be tackled further on) and this is the Maximum Likelihood Estimation (MLE) method. Considering an AR(1) model as an example, and assuming without loss of generality that its expectation is zero, we have the following representation of the AR(1) model
+Therefore the Yule-Walker estimators have an asymptotically normal distribution and the estimator of the innovation variance is consistent. Moreover, these estimators are also optimal for AR($p$) models, meaning that they are also efficient. However, there is also another method which allows to achieve this efficiency (also for general ARMA models that will be tackled further on) and this is the Maximum Likelihood Estimation (MLE) method. Considering an AR(1) model as an example, and assuming without loss of generality that its expectation is zero, we have the following representation of the AR(1) model
 \begin{equation*}
-X_t = \phi X_{t-1} + W_t
+X_t = \phi X_{t-1} + W_t,
 \end{equation*}
 where $|\phi|<1$ and $W_t \overset{iid}{\sim} \mathcal{N}(0,\sigma_w^2)$. Supposing we have observations $(x_t)_{t=1,...,T}$ issued from this model, then the likelihood function for this setting is given by
 \begin{equation*}
@@ -399,19 +399,19 @@ f(x_t|x_{t-1}) = f_w(x_t - \phi x_{t-1})
 \end{equation*}
 where $f_w(\cdot)$ is the distribution of $W_t$. This rearranges the likelihood function as follows
 \begin{equation*}
-L(\phi,\sigma_w^2) = f(x_1)\prod_{t=2}^T f_w(x_t - \phi x_{t-1})
+L(\phi,\sigma_w^2) = f(x_1)\prod_{t=2}^T f_w(x_t - \phi x_{t-1}),
 \end{equation*}
 where $f(x_1)$ can be found through the causal representation
 \begin{equation*}
-x_1 = \sum_{j=0}^{\infty} \phi^j w_{1-j} 
+x_1 = \sum_{j=0}^{\infty} \phi^j w_{1-j},
 \end{equation*}
 which implies that $x_1$ follows a normal distribution with zero expectation and a variance given by $\frac{\sigma_w^2}{(1-\phi^2)}$. Based on this, the likelihood function of an AR(1) finally becomes
 \begin{equation*}
-L(\phi,\sigma_w^2) = (2\pi \sigma_w^2)^{-\frac{T}{2}} (1 - \phi^2)^{\frac{1}{2}} \exp \left(-\frac{S(\phi)}{2 \sigma_w^2}\right)
+L(\phi,\sigma_w^2) = (2\pi \sigma_w^2)^{-\frac{T}{2}} (1 - \phi^2)^{\frac{1}{2}} \exp \left(-\frac{S(\phi)}{2 \sigma_w^2}\right),
 \end{equation*}
 with $S(\phi) = (1-\phi^2) x_1^2 + \sum_{t=2}^T (x_t -\phi x_{t-1})^2$. Once the derivative of the logarithm of the likelihood is taken, the minimization of the negative of this function is usually done numerically. However, if we condition on the initial values, the AR(p) models are linear and, for example, we can then define the conditional likelihood of an AR(1) as
 \begin{equation*}
-L(\phi,\sigma_w^2|x_1) = (2\pi \sigma_w^2)^{-\frac{T-1}{2}} \exp \left(-\frac{S_c(\phi)}{2 \sigma_w^2}\right)
+L(\phi,\sigma_w^2|x_1) = (2\pi \sigma_w^2)^{-\frac{T-1}{2}} \exp \left(-\frac{S_c(\phi)}{2 \sigma_w^2}\right),
 \end{equation*}
 where
 \begin{equation*}
@@ -424,7 +424,7 @@ The latter is called the conditional sum of squares and $\phi$ can be estimated 
 
 The estimation methods presented so far are standard for these kind of models. Nevertheless, if the data suffers from some form of contamination, these methods can become highly biased. For this reason, some robust estimators are available to limit this problematic if there are indeed outliers in the observed time series. One of these methods relies on the estimator proposed in Kunsch (1984) who underlines that the MLE score function of an AR(p) is given by
 \begin{equation*}
- \kappa(\mathbf{\theta}|x_j,...x_{j+p}) = \frac{\partial}{\partial \mathbf{\theta}} (x_{j+p} - \sum_{k=1}^p \phi_k x_{j+p-k})^2
+ \kappa(\mathbf{\theta}|x_j,...x_{j+p}) = \frac{\partial}{\partial \mathbf{\theta}} (x_{j+p} - \sum_{k=1}^p \phi_k x_{j+p-k})^2,
 \end{equation*}
 where $\theta$ is the parameter vector containing, in the case of an AR(1)
 model, the two parameters $\phi$ and $\sigma_w^2$ 
@@ -1013,29 +1013,29 @@ which represent the regressions of $X_{t+h}$ and $X_t$ on all intermediate obser
 
 ```{definition, label="pacf", name="Partial AutoCorrelation Function"}
 The partial autocorrelation function of a (weakly) stationary time series $(X_t)$ is defined as
-$$\rho_{1,1} = corr(X_{t+1}, X_t) = \rho(1)$$
+$$\rho_{1,1} = \operatorname{corr}(X_{t+1}, X_t) = \rho(1),$$
 and
-$$\rho_{h,h} = corr((X_{t+h} - \hat{X}_{t+h}), (X_t - \hat{X}_t)), \, h > 1.$$
+$$\rho_{h,h} = \operatorname{corr}((X_{t+h} - \hat{X}_{t+h}), (X_t - \hat{X}_t)), \, h > 1.$$
 ```
 
 Therefore, the PACF is not defined at lag zero while it is the same as the ACF at the first lag since there are no intermediate observations. The defintion of this function is important for different reasons. Firstly, as mentioned earlier, we have an asymptotic distribution for the estimator of the PACF which allows us to deliver confidence intervals as for the ACF. Indeed, representing the empirical PACF along with its confidence intervals can provide a further tool to make sure that the residuals of a model fit can be considered as being white noise. The latter is a reasonable hypothesis if both the empirical ACF and PACF lie within the confidence intervals indicating that there is no significant correlation between lagged variables. Let us focus on the empirical PACF of the residuals we saw earlier in the diagnostic plot.
 
-```{r}
+```{r, fig.asp = 0.75, fig.width = 6, fig.align='center', fig.cap="TO DO"}
 residuals = model$mod$residuals
 plot(auto_corr(residuals, pacf = TRUE))
 ```
 
-From the plot we see that the estimated PACF at all lags lies within the blue shaded area representing the 95\% confidence intervals indicating that the residuals don't appear to have any form of direct autocorrelation over lags and, hence, that they can be considered as white noise. In addition to delivering a tool to analyse the residuals of a model fit, the PACF is especially useful for diagnostic purposes in order to detect the possible models that have generated an observed time series. With respect to the class of models studied this far (i.e. AR(p) models), the PACF can give important insight to the order of the AR(p) model, more specifically the value of $p$. Indeed, the ACF of an AR(p) model tends to decrease in a sinusoidal fashion and exponetially fast to zero as the lag $h$ increases thereby giving a hint that the underlying model belongs to the AR(p) family. However, aside from hinting to the fact that the model belongs to the family of AR(p) models, the latter function tends to be less informative with respect to which AR(p) model (i.e. which value of $p$) is best suited for the observed time series. The PACF on the other hand is non-zero for the first $p$ lags and then becomes zero for $h > p$, therefore it can give an important indication with respect to which order should be considered to best model the time series.
+From the plot we see that the estimated PACF at all lags lies within the blue shaded area representing the 95\% confidence intervals indicating that the residuals don't appear to have any form of direct autocorrelation over lags and, hence, that they can be considered as white noise. In addition to delivering a tool to analyse the residuals of a model fit, the PACF is especially useful for diagnostic purposes in order to detect the possible models that have generated an observed time series. With respect to the class of models studied this far (i.e. AR($p$) models), the PACF can give important insight to the order of the AR($p$) model, more specifically the value of $p$. Indeed, the ACF of an AR($p$) model tends to decrease in a sinusoidal fashion and exponetially fast to zero as the lag $h$ increases thereby giving a hint that the underlying model belongs to the AR($p$) family. However, aside from hinting to the fact that the model belongs to the family of AR($p$) models, the latter function tends to be less informative with respect to which AR($p$) model (i.e. which value of $p$) is best suited for the observed time series. The PACF on the other hand is non-zero for the first $p$ lags and then becomes zero for $h > p$, therefore it can give an important indication with respect to which order should be considered to best model the time series.
 
-With the above discussion in mind, let us consider some examples where we study the theoretical ACF and PACF of different AR(p) models. The first is an AR(1) model with parameter $\phi = 0.95$ and its ACF and PACF are shown below.
+With the above discussion in mind, let us consider some examples where we study the theoretical ACF and PACF of different AR($p$) models. The first is an AR(1) model with parameter $\phi = 0.95$ and its ACF and PACF are shown below.
 
-```{r}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="TO DO"}
 par(mfrow = c(1, 2))
 plot(theo_acf(ar = 0.95, ma = NULL))
 plot(theo_pacf(ar = 0.95, ma = NULL))
 ```
 
-We can see that the ACF decreases exponentially fast as we would expect for an AR(p) model while the PACF has the same values of the ACF at lag 1 (which is always the case) and is zero for $h > 1$. The latter therefore indicates the order $p$ of the AR(p) model which in this case is $p=1$. Let us now consider the following models as further examples:
+We can see that the ACF decreases exponentially fast as we would expect for an AR(p) model while the PACF has the same values of the ACF at lag 1 (which is always the case) and is zero for $h > 1$. The latter therefore indicates the order $p$ of the AR($p$) model which in this case is $p=1$. Let us now consider the following models as further examples:
 
 $$X_t = 0.5 X_{t-1} + 0.25 X_{t-2} + 0.125 X_{t-3} + W_t$$
 
@@ -1045,7 +1045,7 @@ $$X_t = -0.1 X_{t-2} -0.1 X_{t-4} + 0.6 X_{t-5} + W_t.$$
 
 The first model is an AR(3) model with positive coefficients while the second is an AR(5) model where $\phi_1 = \phi_3 = 0$. The ACF and PACF of the first AR(3) model is shown below.
 
-```{r}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="TO DO"}
 par(mfrow = c(1, 2))
 plot(theo_acf(ar = c(0.5, 0.25, 0.125), ma = NULL))
 plot(theo_pacf(ar = c(0.5, 0.25, 0.125), ma = NULL))
@@ -1053,7 +1053,7 @@ plot(theo_pacf(ar = c(0.5, 0.25, 0.125), ma = NULL))
 
 Again, we see that the ACF decreases exponentially and also the PACF plot shows a steady decrease until it becomes zero for $h > 3$. This is because the values of $\phi_i$ are all positive and decreasing as well. Let us now consider the second model (the AR(5) model) whose ACF and PACF plots are represented below.
 
-```{r}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="TO DO"}
 par(mfrow = c(1, 2))
 plot(theo_acf(ar = c(0, -0.1, 0, -0.1, 0.6), ma = NULL))
 plot(theo_pacf(ar = c(0, -0.1, 0, -0.1, 0.6), ma = NULL))
@@ -1067,20 +1067,20 @@ These examples therefore give us further insight as to how to interpret the empi
 par(mfrow = c(1,1))
 ```
 
-```{r}
+```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="TO DO"}
 lynx_gts = gts(lynx, start = 1821, data_name = "Lynx Trappings", unit_time = "year", name_ts = "Trappings")
 plot(lynx_gts)
 ```
 
 We can see that there appears to be a seasonal trend within the data but let us ignore this for the moment and check the ACF and PACF plots below.
 
-```{r}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="TO DO"}
 par(mfrow = c(1, 2))
 plot(auto_corr(lynx_gts))
 plot(auto_corr(lynx_gts, pacf = TRUE))
 ```
 
-The seasonal behaviour also appears in the ACF plot but we see that it decreases in a sinusoidal fashion as the lag increases hinting that an AR(p) model could be a potential candidate for the time series. Looking at the PACF plot on the right we can see that a few partial autocorrelations appear to be significant up to lag $h=8$. Therefore an AR(8) model could be a possibly good candidate to explain (and predict) this time series.
+The seasonal behaviour also appears in the ACF plot but we see that it decreases in a sinusoidal fashion as the lag increases hinting that an AR($p$) model could be a potential candidate for the time series. Looking at the PACF plot on the right we can see that a few partial autocorrelations appear to be significant up to lag $h=8$. Therefore an AR(8) model could be a possibly good candidate to explain (and predict) this time series.
 
 ### Portmanteau Tests
 
@@ -1095,7 +1095,7 @@ where $h$ represents the maximum lag of the set of lags for which we wish to tes
 par(mfrow = c(1,1))
 ```
 
-```{r}
+```{r, fig.asp = 0.75, fig.width = 6, fig.align='center', fig.cap="TO DO"}
 lb_test = diag_ljungbox(as.numeric(residuals), order = 0, stop_lag = 20, stdres = FALSE, plot = TRUE)
 ```
 
@@ -1116,7 +1116,7 @@ The first approach consists in using the asymptotic distribution of the estimato
 
 which is represented in Figure \@ref(fig:simAR1ci)
 
-``` {r simAR1ci, cache = TRUE, fig.height= 4.5, fig.width = 9, fig.cap = "AR(1) with $\\phi$ close to parameter bound"}
+``` {r simAR1ci, cache = TRUE, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap = "AR(1) with $\\phi$ close to parameter bound"}
 set.seed(8)
 x = gen_gts(n = 100, AR1(0.96, 1))
 plot(x)
@@ -1166,7 +1166,7 @@ points(qnorm(0.025,fit.ML$mod$coef, sqrt(fit.ML$mod$var.coef)), 0, cex = 3,
        col = colors2[1], pch = "|")
 
 yy.gmwm = dnorm(xx, fit.gmwm$estimate[1], phi.sd.gmwm)
-plot(NA, xlim = c(0.5,1.2), ylim = range(yy.gmwm),
+plot(NA, xlim = c(0.5,1.04), ylim = range(yy.gmwm),
      xlab = expression(phi), ylab = "Density", main = "GMWM")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
@@ -1178,9 +1178,9 @@ points(qnorm(0.025, fit.gmwm$estimate[1], phi.sd.gmwm), 0, cex = 3,
        col = colors2[2], pch = "|")
 ```
 
-Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more "realistic" confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from the assumed model (an AR(1) process in this case). For each simulation, the parameters are estimated and stored in order to obtain an empirical (finite sample) distribution of the estimators. Based on this distribution it is consequently possible to find the $\alpha/2$ and $1-\alpha/2$ empirical quantiles thereby delivering confidence intervals that should not suffer from boundary problems (since the estimation procedure looks for solutions within the admissable regions). The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using $B = 10000$ bootstrap replicates).
+Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more "realistic" confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from the assumed model (an AR(1) process in this case). For each simulation, the parameters are estimated and stored in order to obtain an empirical (finite sample) distribution of the estimators. Based on this distribution it is consequently possible to find the $\alpha/2$ and $1-\alpha/2$ empirical quantiles thereby delivering confidence intervals that should not suffer from boundary problems (since the estimation procedure looks for solutions within the admissable regions). The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using $B = 10,000$ bootstrap replicates).
 
-``` {r paraAR1ciest, cache = TRUE, warning = FALSE, fig.height= 6, fig.width= 9}
+``` {r paraAR1ciest, cache = TRUE, warning = FALSE, fig.height= 4.5, fig.width= 9}
 # Number of Iterations
 B = 10000
 
@@ -1211,7 +1211,7 @@ for(i in seq_len(B)){
 }
 ```
 
-``` {r paraAR1cigraphs, cache = TRUE, warning = FALSE, echo = FALSE, fig.height = 6, fig.width = 9, fig.cap = "Parametric bootstrap distributions of $\\hat{\\phi}$ for the MLE and GMWM parameter estimates. The histograms represent the empirical distributions resulting from the parametric bootstrap while the continuous densities represent the estimated asymptotic distributions. The vertical line represents the true value of $\\phi$, the dark solid lines represent the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for the asymptotic distributions (red and gold) and the empirical distributions (green and blue).", eval = FALSE}
+``` {r paraAR1cigraphs, cache = TRUE, warning = FALSE, echo = FALSE, fig.height = 4.5, fig.width = 9, fig.cap = "Parametric bootstrap distributions of $\\hat{\\phi}$ for the MLE and GMWM parameter estimates. The histograms represent the empirical distributions resulting from the parametric bootstrap while the continuous densities represent the estimated asymptotic distributions. The vertical line represents the true value of $\\phi$, the dark solid lines represent the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for the asymptotic distributions (red and gold) and the empirical distributions (green and blue).", eval = TRUE}
 par(mfrow = c(1,2))
 
 hist.phi.ML = hist(est.phi.ML, plot = FALSE, breaks = 20)
@@ -1234,12 +1234,12 @@ points(quantile(est.phi.ML, 0.025, na.rm = T), 0, cex = 3, col = colors2[3], pch
 
 hist.phi.GMWM = hist(na.omit(est.phi.gmwm), plot = FALSE, breaks = 20)
 hist.phi.GMWM$counts = hist.phi.GMWM$counts/sum(hist.phi.GMWM$counts)/diff(hist.phi.GMWM$mids)[1]
-plot(NA, xlim = c(0.53,1.2), ylim = range(hist.phi.GMWM$counts),
+plot(NA, xlim = c(0.35,1.04), ylim = range(yy.gmwm),
      xlab = expression(phi), ylab = "Density", main = "GMWM")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
 abline(v = 0.96, lwd = 2, lty = 2, col = "grey60")
-plot(hist.phi.ML, xlim = c(0.53,1.2), ylim = range(hist.phi.GMWM$counts),
+plot(hist.phi.GMWM, xlim = c(0.53,1.2), ylim = range(yy.gmwm),
      add = T, col = colors[5], border = "grey60")
 polygon(c(xx,rev(xx)), c(rep(0,length(yy.gmwm)), rev(yy.gmwm)), border = NA, col = colors[2])
 
@@ -1254,14 +1254,14 @@ In Figure \@ref(fig:paraAR1cigraphs), we compare the estimated densities for $\h
 
 To further emphasize the advantages of parametric bootstrap, let us consider one additonal example of an AR(2) process. For this example, discussion will focus solely on the behaviour of the MLE. Having said this, the considered AR(2) process is defined as follows:
 
-  \begin{equation}
+\begin{equation}
 {X_t} = {1.98}{X_{t - 1}} - {0.99}{X_{t - 2}} + {W_t}
 (\#eq:ciar2)
-  \end{equation}
+\end{equation}
 
-where $W_t \sim WN(0, 1)$. The generated process is displayed in Figure \@ref(fig:CIAR2data).
+where $W_t \sim \mathcal{N}(0, 1)$. The generated process is displayed in Figure \@ref(fig:CIAR2data).
 
-```{r CIAR2data, cache = TRUE, fig.cap="Generated AR(2) Process"}
+```{r CIAR2data, cache = TRUE,  fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Generated AR(2) Process"}
 set.seed(432)
 Xt = gen_gts(500, AR(phi = c(1.98, -0.99), sigma2 = 1))
 plot(Xt)
@@ -1269,28 +1269,25 @@ fit = estimate(AR(2), Xt, demean = FALSE)
 fit
 ```
 
-With the model's coefficients readily available, the parametric bootstrap is able to be constructed. As before, the bootstrap implementation mirrors prior versions with one cavaet regarding the storage of $\phi$ being two dimensional and, thus, requiring a `matrix` to store the result instead of a traditional atomic vector in _R_.
+With the model's coefficients readily available, the parametric bootstrap is able to be constructed. As before, the bootstrap implementation mirrors prior versions with one cavaet regarding the storage of $\phi$ being two dimensional and, thus, requiring a `matrix` to store the result instead of a traditional atomic vector in `R`.
 
-```{r CIAR, cache = TRUE, warning = FALSE}
-B = 50
+```{r CIAR, cache = TRUE, warning = FALSE, message=FALSE}
+B = 500
 est.phi.ML = matrix(NA, B, 2)
 model = AR(phi = fit$mod$coef, sigma2 = fit$mod$sigma2)
 
 for(i in seq_len(B)) {
-  
   set.seed(B + i)              # Set Seed for reproducibilty
-
   x.star = gen_gts(500, model) # Simulate the process
 
   # Obtain parameter estimate with protection
   # that defaults to NA if unable to estimate
   est.phi.ML[i,] = tryCatch(estimate(AR(2), x.star, demean = FALSE)$mod$coef,
   error = function(e) NA)
-  
 }
 ```
 
-```{r ciAR2d, cache = TRUE, echo = FALSE, fig.height= 4.5, fig.width= 9, warning = FALSE, fig.cap="Estimated distributions of $\\hat{\\phi_1}$ and $\\hat{\\phi_2}$ based on the MLE using asymptotic and parametric bootstrap techniques. The colored contours represent the density of the distributions and the dark grey lines represent the boundary constraints of $\\left|\\phi_2\\right|<1$ and $\\phi_2 = 1 - \\phi_1$."}
+```{r ciAR2d, cache = TRUE, echo = FALSE, fig.height= 4.5, fig.width= 9, warning = FALSE, fig.cap="Estimated distributions of $\\hat{\\phi_1}$ and $\\hat{\\phi_2}$ based on the MLE using asymptotic and parametric bootstrap techniques. The colored contours represent the density of the distributions and the dark grey lines represent the boundary constraints of $\\left|\\phi_2\\right|<1$ and $\\phi_2 = 1 - \\phi_1$.", warning=FALSE, message=FALSE}
 # Graphing
 
 # Requires use of MASS
@@ -1365,7 +1362,7 @@ Suppose that $\left(X_t\right)$ is a weakly stationary time series with $T$ obse
   3. Compute the statistic of interest on the simulated
   sample $(X_t^*)$.
   4. Repeat Steps 2 and 3 $B$ times where $B$ is sufficiently "large"
-  (typically $100 \leq B \leq 10000$).
+  (typically $100 \leq B \leq 10,000$).
   5. Compute the empirical mean and variance on the statistic of interest based on
   the $B$ independent replications.
 ```
@@ -1379,10 +1376,10 @@ Suppose that $\left(X_t\right)$ is weakly stationary time series with $T$ observ
   length $\ell$, $1 \le \ell < N$, resulting in $M = \left\lfloor {\frac{N}{\ell}} \right\rfloor$ blocks structured as:
 
   $$\begin{aligned}
-  {S_1}& = & ({X_1}, {X_2}, \cdots , {X_\ell})& & && \\
-  {S_2}& = & &( {X_{\ell+1}}, {X_{\ell+2}}, \cdots , {X_{2\ell}}) & && \\
-  & \cdots & & {} & \cdots && \\
-  {S_K} & = & & & {} &&( {X_{\left({}\right)}}, {X_{N-\ell+2}}, \cdots , {X_{N}})
+  {S_1}& =  ({X_1}, {X_2}, \cdots , {X_\ell})& & && \\
+  {S_2}& =  &( {X_{\ell+1}}, {X_{\ell+2}}, \cdots , {X_{2\ell}}) & && \\
+  & \cdots  & {} & \cdots && \\
+  {S_K} & =  & & {} &&( {X_{\left({N-\ell+1}\right)}}, {X_{N-\ell+2}}, \cdots , {X_{N}})
   \end{aligned}$$
 
   2. Draw $M$ blocks with replacement
@@ -1391,43 +1388,35 @@ Suppose that $\left(X_t\right)$ is weakly stationary time series with $T$ observ
   3. Compute the statistic of interest on the simulated
   sample $(X_t^*)$.
   4. Repeat Steps 2 and 3 $B$ times where $B$ is sufficiently "large"
-  (typically $100 \leq B \leq 10000$).
+  (typically $100 \leq B \leq 10,000$).
   5. Compute the empirical mean and variance on the statistic of interest based on
   the $B$ independent replications.
-
 ```
 
-Alternatively, depending on the case one can also use modifications of the MBB that seeks to change how the beginning and end of the time series is weighted such as a circular block-bootstrap (CBB) or a stationary bootstrap (SB). Regardless, the outcomes from using MBB on time series data are considerably better than simple resampling. The code below implements the MMB to obtain a bootrstrap distribution for the estimated parameters of an AR(1) model.
+Alternatively, depending on the case one can also use modifications of the MBB that seeks to change how the beginning and end of the time series is weighted such as a Circular Block-Bootstrap (CBB) or a Stationary Bootstrap (SB). Regardless, the outcomes from using MBB on time series data are considerably better than simple resampling. The code below implements the MMB to obtain a bootrstrap distribution for the estimated parameters of an AR(1) model.
 
 ```{r funblockbootstrap}
 ar1_blockboot = function(Xt, block_len = 10, B = 500) {
-
   n = length(Xt)            # Length of Time Series
   res = rep(NA, B)          # Bootstrapped Statistics
   m = floor(n/block_len)    # Amount of Blocks
 
   for (i in seq_len(B)) {   # Begin MMB
-
     set.seed(i + 1199)      # Set seed for reproducibility
     x_star = rep(NA, n)     # Setup storage for new TS
 
     for (j in seq_len(m)) { # Simulate new time series
-
       index = sample(m, 1)  # Randomize block starting points
-
       # Place block into time series
       x_star[(block_len*(j - 1) + 1):(block_len*j)] =
       Xt[(block_len*(index - 1) + 1):(block_len*index)]
     }
-
+    
   # Calculate parameters with protection
   res[i] = tryCatch(estimate(AR(1), x_star, demean = FALSE)$mod$coef,
   error = function(e) NA)
-  
   }
-
   na.omit(res)              # Deliver results
-  
 }
 ```
 
@@ -1442,14 +1431,15 @@ $$
 
 where $t_4$ represents the Student-$t$ distribution with 4 degrees of freedom (heavy tails). The generation procedure for $\mathcal{M}_1$ is straightforward, use: `gen_gts()`. For the first model ($\mathcal{M}_1$) we will use the `gen_gts()` function while for the second model $\mathcal{M}_2$ we will make use the `arima.sim()` function in which we can assign a vector of innovations from a $t$ distribution.
 
-```{r mbbdata, cache = TRUE}
-set.seed(1)                                        # Set seed for reproducibilty
-xt_m1 = gen_gts(500, AR1(phi = 0.5, sigma2 = 1))   # Gaussian noise only
-xt_m2 = gts(arima.sim(n = 500, list(ar = 0.5, ma = 0), # Student-t noise
+```{r mbbdata, fig.asp = 0.45, fig.width = 8, fig.align='center', caption = "TO DO", cache = FALSE}
+set.seed(1)         # Set seed for reproducibilty
+n = 500             # Sample size
+xt_m1 = gen_gts(n, AR1(phi = 0.5, sigma2 = 1))   # Gaussian noise only
+xt_m2 = gts(arima.sim(n = n, list(ar = 0.5, ma = 0), # Student-t noise
 rand.gen = function(n, ...) rt(n, df = 4)))
 ```
 
-```{r mbbdatavis, echo = F, cache = TRUE, fig.cap="AR(1) processes generated under different noise conditions.", dependson="mbbdata"}
+```{r mbbdatavis, echo = F, cache = FALSE, fig.cap="AR(1) processes generated under different noise conditions.", fig.asp = 0.5, fig.width = 8, fig.align='center', caption = "TO DO", dependson="mbbdata"}
 par(mfrow = c(1,2))
 plot(xt_m1, main = "Model 1")
 plot(xt_m2, main = "Model 2")
@@ -1457,65 +1447,59 @@ plot(xt_m2, main = "Model 2")
 
 From Figure \@ref(fig:mbbdatavis), the time series appear to be considerably different as a result of the noise process being altered even though the $\phi$ coefficient was held constant. Among others, the difference is also related to the variance of the $t$ distribution defined as $\frac{\nu}{\nu-2}$ for $\nu > 2$ (and $\infty$ for $\nu \le 2$). Therefore, the innovation variance of the i.i.d white noise process is given by $\sigma^2_{\mathcal{M}_1} = 1$ while the noise generated from the $t$ distribution has innovation variance $\sigma^2_{\mathcal{M}_2} = 2$. To compare the performance of the bootstrap procedures we now implement the corresponding function for the parametric bootstrap:
 
-```{r ar1bootstrapper, cache = TRUE}
+```{r ar1bootstrapper, cache = FALSE}
 ar1_paraboot = function(model, B = 10000) {
-
   est.phi = rep(NA,B)    # Define a storage vector
 
   for(i in seq_len(B)) { # Perform bootstrap
-
     set.seed(B + i)      # Set seed for reproducibility
-
     # Simulate time series underneath the estimated model
     x.star = gen_gts(500, AR(phi = model$mod$coef, sigma2 = model$mod$sigma2))
 
     # Attempt to estimate parameters with recovery
     est.phi[i] = tryCatch(estimate(AR(1), x.star, demean = FALSE)$mod$coef,
     error = function(e) NA)
-
   }
-
   na.omit(est.phi)       # Return estimated phis
-  
 }
 ```
 
 Now that we have two functions implementing the block and parametric bootstraps, we can now apply these procedures to obtain the confidence intervals for the AR(1) parameters for the two time series generated respectively by model $\mathcal{M}_1$ and $\mathcal{M}_2$.
 
-```{r blockbootsim, cache = TRUE}
+```{r blockbootsim, cache = FALSE}
 B = 1000
 
-# Model 1
+# Model 1 
 fit_m1_mle = estimate(AR(1), xt_m1, demean = FALSE)
 para_m1_phi  = ar1_paraboot(fit_m1_mle, B = B)
 block_m1_phi = ar1_blockboot(xt_m1, block_len = 25, B = B)
 
-# Model 2
+# Model 2 
 fit_m2_mle = estimate(AR(1), xt_m2, demean = FALSE)
 para_m2_phi  = ar1_paraboot(fit_m2_mle, B = B)
 block_m2_phi = ar1_blockboot(xt_m2, block_len = 25, B = B)
 ```
 
-```{r blockbootmodels, echo = FALSE, cache = T, warning = FALSE, fig.height= 6, fig.width= 9, fig.cap="Estimated parametric and non-parametric blockbootstrap distributions of $\\hat{\\phi}$ for the MLE parameter estimates. The histogram bars represent the empirical results from the bootstraps with the green representing parametric bootstrap and the red representing the block bootstrap approach. The dashed vertical line represents the true value of $\\phi$ and the vertical ticks correspond to the limits of the 95% confidence intervals for both estimation techniques."}
+```{r blockbootmodels, echo = FALSE, cache = FALSE, warning = FALSE, fig.height= 4.5, fig.width= 9, fig.align='center', fig.cap="Estimated parametric and non-parametric blockbootstrap distributions of $\\hat{\\phi}$ for the MLE parameter estimates. The histogram bars represent the empirical results from the bootstraps with the green representing parametric bootstrap and the red representing the block bootstrap approach. The dashed vertical line represents the true value of $\\phi$ and the vertical ticks correspond to the limits of the 95% confidence intervals for both estimation techniques."}
 
 par(mfrow = c(1,2))
-
-## Model 1
+ 
+## Model 1 
 hist.phi.ML = hist(para_m1_phi, plot = FALSE, breaks = 25)
 hist.phi.ML$counts = hist.phi.ML$counts/sum(hist.phi.ML$counts)/diff(hist.phi.ML$mids)[1]
 
 hist.phi.ML.bboot = hist(block_m1_phi, plot = FALSE, breaks = 25)
 hist.phi.ML.bboot$counts = hist.phi.ML.bboot$counts/sum(hist.phi.ML.bboot$counts)/diff(hist.phi.ML.bboot$mids)[1]
 
-plot(NA, xlim = c(0.28,0.6), ylim = range(yy.ML),
+plot(NA, xlim = c(0.33,0.62), ylim = c(0,18),
 xlab = expression(phi), ylab = "Density", main = "Model 1")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
 abline(v = 0.95, lwd = 2, lty = 2, col = "grey60")
-plot(hist.phi.ML, xlim = c(0.28,0.6), ylim = range(yy.ML),
+plot(hist.phi.ML, xlim = c(0.33,0.62), ylim = c(0,18),
 add = T, col = colors[3], border = "grey60")
 
-plot(hist.phi.ML.bboot, xlim = c(0.28,0.6), ylim = range(yy.ML),
+plot(hist.phi.ML.bboot, xlim = c(0.33,0.62), ylim = c(0,18),
 add = T, col = colors[1], border = "grey60")
 
 points(quantile(para_m1_phi, 0.975), 0, cex = 3, col = colors[3], pch = "|")
@@ -1532,15 +1516,15 @@ hist.phi.ML$counts = hist.phi.ML$counts/sum(hist.phi.ML$counts)/diff(hist.phi.ML
 hist.phi.ML.bboot = hist(block_m2_phi, plot = FALSE, breaks = 25)
 hist.phi.ML.bboot$counts = hist.phi.ML.bboot$counts/sum(hist.phi.ML.bboot$counts)/diff(hist.phi.ML.bboot$mids)[1]
 
-plot(NA, xlim = c(0.28,0.6), ylim = range(yy.ML),
+plot(NA, xlim = c(0.33,0.62), ylim = c(0,18),
 xlab = expression(phi), ylab = "Density", main = "Model 2")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
 abline(v = 0.95, lwd = 2, lty = 2, col = "grey60")
-plot(hist.phi.ML, xlim = c(0.28,0.6), ylim = range(yy.ML),
+plot(hist.phi.ML, xlim = c(0.33,0.62), ylim = c(0,18),
 add = T, col = colors[3], border = "grey60")
 
-plot(hist.phi.ML.bboot, xlim = c(0.28,0.6), ylim = range(yy.ML),
+plot(hist.phi.ML.bboot, xlim = c(0.33,0.62), ylim = c(0,18),
 add = T, col = colors[1], border = "grey60")
 
 points(quantile(para_m2_phi, 0.975), 0, cex = 3, col = colors[3], pch = "|")

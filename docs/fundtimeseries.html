@@ -178,21 +178,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.3.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#the-partial-autocorrelation-function-pacf"><i class="fa fa-check"></i><b>4.3.1</b> The Partial AutoCorrelation Function (PACF)</a></li>
 <li class="chapter" data-level="4.3.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#portmanteau-tests"><i class="fa fa-check"></i><b>4.3.2</b> Portmanteau Tests</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) Models</a></li>
+<li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) Models</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-selection"><i class="fa fa-check"></i><b>4.4.1</b> Model Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#moving-average-models"><i class="fa fa-check"></i><b>4.5</b> Moving Average Models</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="appendixa.html"><a href="appendixa.html"><i class="fa fa-check"></i><b>A</b> Proofs</a><ul>
-<li class="chapter" data-level="A.1" data-path="appendixa.html"><a href="appendixa.html#proof-of-theorem-1"><i class="fa fa-check"></i><b>A.1</b> Proof of Theorem 1 😱</a></li>
+<li class="chapter" data-level="A" data-path="proofs.html"><a href="proofs.html"><i class="fa fa-check"></i><b>A</b> Proofs 😱</a><ul>
+<li class="chapter" data-level="A.1" data-path="proofs.html"><a href="proofs.html#appendixa"><i class="fa fa-check"></i><b>A.1</b> Proof of Theorem 3.1</a></li>
+<li class="chapter" data-level="A.2" data-path="proofs.html"><a href="proofs.html#appendixc"><i class="fa fa-check"></i><b>A.2</b> Proof of Theorem 4.1</a></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="appendixb.html"><a href="appendixb.html"><i class="fa fa-check"></i><b>B</b> Robust Regression Methods</a><ul>
 <li class="chapter" data-level="B.1" data-path="appendixb.html"><a href="appendixb.html#the-classical-least-squares-estimator"><i class="fa fa-check"></i><b>B.1</b> The Classical Least-Squares Estimator</a></li>
 <li class="chapter" data-level="B.2" data-path="appendixb.html"><a href="appendixb.html#robust-estimators-for-linear-regression-models"><i class="fa fa-check"></i><b>B.2</b> Robust Estimators for Linear Regression Models</a></li>
 <li class="chapter" data-level="B.3" data-path="appendixb.html"><a href="appendixb.html#applications-of-robust-estimation"><i class="fa fa-check"></i><b>B.3</b> Applications of Robust Estimation</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="appendixc.html"><a href="appendixc.html"><i class="fa fa-check"></i><b>C</b> Proofs</a><ul>
-<li class="chapter" data-level="C.1" data-path="appendixc.html"><a href="appendixc.html#proof-of-theorem-refcondexp"><i class="fa fa-check"></i><b>C.1</b> Proof of Theorem @ref(condexp) 😱</a></li>
-</ul></li>
+<li class="chapter" data-level="C" data-path="proofs.html"><a href="proofs.html#appendixc"><i class="fa fa-check"></i><b>C</b> Proofs</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/SMAC-Group/ts" target="blank">Published with bookdown</a></li>
 
@@ -869,7 +871,7 @@ provides an asymptotic solution to this problem:</p>
 then for all <span class="math inline">\(h \in \mathbb{Z} \setminus {0}\)</span>, <span class="math inline">\(\hat{\rho}(h)\)</span> is approximately normally distributed with mean <span class="math inline">\(0\)</span> and variance <span class="math inline">\(T^{-1}\)</span>.
 </div>
 
-<p>The proof of this Theorem is given in Appendix <a href="appendixa.html#appendixa">A</a>.</p>
+<p>The proof of this Theorem is given in Appendix <a href="proofs.html#appendixa">A.1</a>.</p>
 <p>Using this result, we now have an approximate method to assess whether peaks in
 the sample autocorrelation are significant by determining whether the observed
 peak lies outside the interval <span class="math inline">\(\pm 2/\sqrt{T}\)</span> (i.e. an approximate 95%
