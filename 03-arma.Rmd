@@ -1536,7 +1536,7 @@ points(quantile(block_m2_phi, 0.025), 0, cex = 3, col = colors[1], pch = "|")
 abline(v = 0.5, lwd = 2, lty = 2, col = "grey60")
 ```
 
-The results from the parametric and nonparametric block bootstrapping techniques are displayed in Figure \@ref(fig:blockbootmodels). In both instances, we can  see that the block bootstrap has a narrower distribution. However, there was a considerable bias that lead the distribution to be off-centered. The origins of bias come from the independence associated between blocks as they are placed into $(X^*_t)$. 
+The results from the parametric and nonparametric block bootstrapping techniques are displayed in Figure \@ref(fig:blockbootmodels). In both instances, we can  see that the block bootstrap has a narrower distribution. However, there is a considerable bias that leads the distribution to be off-centered. The origins of this bias comes from the independence associated between blocks as they are placed into $(X^*_t)$. 
 
 ### Model Selection
 
