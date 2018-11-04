@@ -1,3 +1,73 @@
+--- 
+title: "Applied Time Series Analysis with R"
+author: "Stéphane Guerrier, Roberto Molinari and Haotian Xu"
+date: "`r format(Sys.time(), '%B %d %Y')`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: "acm"
+link-citations: yes
+github-repo: SMAC-Group/ts
+description: ""
+favicon: "favicon.ico"
+---
+
+# (PART) Foundation {-}
+
+Placeholder
+
+# Introduction
+
+Placeholder
+
+
+## Conventions
+## Bibliographic Note 
+## Acknowledgements
+## License 
+
+<!--chapter:end:index.Rmd-->
+
+
+# Basic Elements of Time Series 
+
+Placeholder
+
+
+## The Wold Decomposition
+### The Deterministic Component (Signal)
+### The Random Component (Noise)
+## Exploratory Data Analysis for Time Series {#eda}
+## Dependence in Time Series 
+## Basic Time Series Models {#basicmodels}
+### White Noise {#wn}
+### Random Walk {#rw}
+### First-Order Autoregressive Model {#ar1}
+### Moving Average Process of Order 1 {#ma1}
+### Linear Drift {#drift}
+## Composite Stochastic Processes {#lts}
+
+<!--chapter:end:01-intro.Rmd-->
+
+
+# Fundamental Properties of Time Series {#fundtimeseries}
+
+Placeholder
+
+
+## The Autocorrelation and Autocovariance Functions 
+### A Fundamental Representation
+### Admissible Autocorrelation Functions `r emo::ji("scream")`
+## Stationarity {#stationary}
+### Assessing Weak Stationarity of Time Series Models
+## Estimation of Moments (Stationary Processes)
+### Estimation of the Mean Function
+### Sample Autocovariance and Autocorrelation Functions
+### Robustness Issues
+
+<!--chapter:end:02-fundamental_rep.Rmd-->
+
 # The Family of Autoregressive Moving Average Models
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -1541,7 +1611,7 @@ abline(v = 0.5, lwd = 2, lty = 2, col = "grey60")
 
 The results from the parametric and nonparametric block bootstrapping techniques are displayed in Figure \@ref(fig:blockbootmodels). In both instances, we can  see that the block bootstrap has a narrower distribution. However, there is a considerable bias that leads the distribution to be off-centered. The origins of this bias comes from the independence associated between blocks as they are placed into $(X^*_t)$. 
 
-## Model Selection
+### Model Selection
 
 The diagnostic and inference tools that have been investigated this far are all based on analysing the residuals and checking the parameter confidence intervals to understand if the model is reasonable and fits the data well. However, one may be interested in understanding which, among a set of candidate models, appears to be the "best" to describe and forecast the observed time series. There are different approaches to tackling this problem among which stepwise procedures in which one starts with the simplest (or more complex) model and adds (removes) parameters until a certain statistic (criterion) is optimised. However, these approaches rely on the "paths" chosen to add the parameters (e.g. should one go from an AR(1) to an AR(2) or from an AR(1) to an ARMA(1,1)?) while there are other criteria available which are so-called "global" criteria.
 
@@ -1550,55 +1620,45 @@ Let us consider a general criterion that we would wish a model to respect in ord
 $$C = E\left[ {{E_0}\left[ {\left\| {{X_0} - \hat X} \right\|_2^2} \right]} \right],$$
 where $\|\cdot\|_2^2$ represents the L2-norm, $\hat{X}$ represents the predictions from a given (estimated) model, $X_0$ represents future unobserved values of the time series $(X_t)$ and $E_0$ represents the out-of-sample expectation (i.e. the expectation of my future values $X_0$). In general terms, this criterion is measuring the expected difference between my predicted values and the expected future values of my time series. Therefore, a "good" model would be a model that minimizes this criterion thereby minimising the expected "prediction error" of the model.
 
-Assuming that this is a good criterion to evaluate the "goodness" of a model, most of the quantites defining this criterion are not directly available and therefore we need estimators for this criterion. Denoting $logL()$ as being the log-likelihood function and $k$ as the number of parameters in the model, the most common criteria that aim at estimating this quantity are defined as follows:
+Assuming that this is a good criterion to evaluate the "goodness" of a model, most of the quantites defining this criterion are not directly available and therefore we need estimators for this criterion. The most popular criteria that aim at estimating this quantity are defined as follows:
 
 \begin{align*}
-  AIC &=  -2 \text{logL}(\hat{theta}) + 2k\\
-  BIC &=  -2 \text{logL}(\hat{theta}) + \log(T) k\\
-  HQ  &=  -2 \text{logL}(\hat{theta}) + 2\log(\log(T)) k .
+  AIC &=  -2 \text{logL}(\hat{theta}) + 2p\\
+  BIC &=  -2 \text{logL}(\hat{theta}) + \log(T) p\\
+  HQ  &=  -2 \text{logL}(\hat{theta}) + 2\log(\log(T)) p
 \end{align*}
 
-As you can notice, all three criteria have a common structure to them composed of two terms: (i) the first is a quantity that is based the value of the likelihood function while (ii) the second is a value that depends on the number of parameters in the model $k$ (as well as on the length of the time series $T$). To interpret these terms, one can consider that the first term decreases as the likelihood increases which is true, among others, when more complex models are fitted to the observed time series. This implies that, all other things being equal, the criterion is minimized when the value of the likelihood is the largest possible which is (always) true when the most complex model is fitted to the time series. If we were to base our choice only on this term, we would always choose the most complex model for our time series thereby leading to the problem of "overfitting" which can introduce unnecessary variability if using this model to predict future values of the time series. In order to compensate for this, the second term can be seen as a penalty-term for model complexity. Indeed, the second term increases as more parameters are added to the model.
+Consider multiple AR(p) models each with a different parameterization denoted
+by:
 
-With this in mind, let us consider the use of these criteria in the selection of AR(p) models seen this far. As we saw in the previous sections, the PACF is a very useful tool to identify the order of the AR(p) model that is underlying the observed time series. However, the choice based on the PACF can possibly lead to selecting models that may adequately describe the observed time series but do not necessarily perform well in terms of predictions. For this reason, consider distinct AR(p) models with different values of $p$:
+$$\mathcal{M}_j: {X_t} = \sum\limits_{i = 1}^j {{\phi _i}{X_{t - i}}}  + {W_t}$$
+Consider the following model selection criteria:
 
-$$\mathcal{M}_j: {X_t} = \sum\limits_{i = 1}^j {{\phi _i}{X_{t - i}}}  + {W_t},$$
 
-where $\mathcal{M}_j$ is used to denote an AR($j$) model, with $j = 1,...,p^*$ where $p^*$ represents the maximum order of the AR(p) model considered for a given observed time series (e.g. $p^*$ could be the maximum lag at which the PACF appears to be significant). Let us illustrate the properties of these model selection criteria through the following example of an AR(3) model for which we show the PACF of a possible realization from this process ($T = 500$).
+\begin{align*}
+  AI{C_j} &= \log \left( {\hat \sigma _j^2} \right) + \frac{{2\left( {{p_j} + 1} \right)}}{m} \hfill \\
+  BI{C_j} &= \log \left( {\hat \sigma _j^2} \right) + \frac{{\log \left( m \right){p_j}}}{m} \hfill \\
+  H{Q_j}  &= \log \left( {\hat \sigma _j^2} \right) + \frac{{2\log \left( {\log \left( m \right)} \right){p_j}}}{m} \hfill \\ 
+  Crit    &= \log \left( {\hat \sigma _j^2} \right) + \lambda \frac{p}{m}, \text{where }\lambda=2,\log(m),\log(\log(m))
+\end{align*}
+Note: \[\hat \sigma _j^2 = \frac{1}{m}\sum\limits_{i = {p_{j + 1}}}^m {{{\left( {{Y_i} - \hat Y_i^{\left( j \right)}} \right)}^2}} \]
 
-```{r}
-set.seed(1)
-true_model = AR(phi = c(1.2, -0.9, 0.3), sigma2 = 1)
-Xt = gen_gts(n = 500, model = true_model)
-plot(auto_corr(Xt, pacf = TRUE))
-```
+In particular, $$Crit_j = Crit(\mathcal{M}_j)$$ and $\hat j = \mathop {\arg \min }\limits_{j = 1, \cdots ,J} {Crit_j}$ 
+denote the best model.
 
-From the PACF plot one sees that the first three lags appear to be significant indicating that an AR(3) model would indeed appear to be a good candidate model for this observed time series. However, there is another value of the PACF that appears to be marginally significant at lag 10. Let us therefore suppose that we want to consider all possible AR(p) models with $p^* = 10$. The `select()` function from the `simts` package allows to evaluate and plot the value of the three criteria presented earlier in order to understand the value of $p$ that minimizes each of them.
+The following properties hold:
 
-```{r}
-best_model = select(AR(10), Xt, include.mean = FALSE)
-```
+1. $\mathop {\lim }\limits_{n \to \infty } P\left( {\hat j = {j_0}} \right) = 1$
+2. $\mathop {\lim }\limits_{n \to \infty } P\left( {{L_n}\left( {\hat j} \right) = {L_n}\left( {{j_0}} \right)} \right)\mathop  \to \limits^P 1$ where
+  ${L_n}\left( {{j_0}} \right) = \frac{1}{n}\left\| {\mu  - {{\hat Y}_j}} \right\|_2^2$ and $\mu  = E\left[ Y \right]$.
+There are two cases two be wary about regarding the above properties.
+The first is when $E\left[ {{{\hat Y}_{{j_0}}}} \right] = \mu$, then
+for the BIC and HQ selection criteria both (1) + (2) hold. However, in the
+case of AIC and Mallow Cp only (2) holds.
 
-The output of this funtion is a plot of the values of each criterion over all possible AR(p) models with $p = 1,...,10$ and, as can be seen from the plot, all criteria are minimized at the value $p=3$ which shows how all criteria (in this particular case) agree and select the true underlying model. The function also delivers the MLE estimates of the parameters of the selected model:
-
-```{r}
-best_model$coef
-```
-
-It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners. ADD DISCUSSION WITH SIMULATION STUDY?
-
-These techniques are therefore all aiming at estimating the out-of-sample prediction error of a given model. However, they strongly rely on the chosen likelihood function and, if this does not adequately represent the model that generated the observed time series, then they could deliver misleading conclusions. For this reason, one could consider another approach to model selection based on model forecasting accuracy. Indeed, one could select a model based on the following procedure:
-
-1. Split the observed time series of length $T$ into two sub-series. The first one (i.e. training set) goes from 1 to $n$ (where $n$ is for example $0.8T$) and the second one (i.e. testing set) goes from $n + 1$ to $T$.
-2 Estimate the model you wish to evaluate on the training set and forecast the next observation (i.e. $X_{n+1}^n$). Compute the difference between your forecast and the actual value $X_{n+1}$.
-3 Add the observation $X_{n+1}$ to the training set and let $n = n + 1$. Go to Step 2 until $n = T$.
-4 Compute a suitable “score” to asses the quality of your model based on the
-empirical “prediction errors” vector.
-
-There are many "scores" that can assess the quality of the model using the empirical prediction errors such as the Root Mean Squared Error (RMSE), mean absolute percentage error, etc. A generally used and common score is the Median Absolute Prediction Error which is defined as follows:
-
-$$MAPE = \text{median}\left(\Big|X_{t+j} - X_{t+j}^t\Big|\right).$$
-The MAPE is a score function that assesses how far the model's predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model's performance (the median is what guarantees this). This score can also be used to assess a model's prediction performance and is implemented in the ADD FUNCTION AND EXAMPLE?
+The converse, $E\left[ {{{\hat Y}_{{j_0}}}} \right] \neq \mu$, yields BIC and HQ
+selection criteria having neither of the above properties. However, in the
+case of AIC and Mallow Cp (2) condition still holds under some technical conditions.
 
 ## Moving Average Models
 
@@ -1738,3 +1798,45 @@ There is a huge problem being able to identify what the values of the parameters
 are. To ensure that this problem does not arise in practice, there is 
 the requirement for invertibility, or being able to transform an MA(q) into
 an AR($\infty$).
+
+<!--chapter:end:03-arma.Rmd-->
+
+`r if (knitr::is_html_output()) '# References {-}'`
+
+<!--chapter:end:33-Ref.Rmd-->
+
+# (APPENDIX) Appendix {-} 
+
+<!--chapter:end:90-appendix.Rmd-->
+
+
+# Proofs `r emo::ji("scream")`
+
+Placeholder
+
+
+## Proof of Theorem 3.1 {#appendixa}
+## Proof of Theorem 4.1 {#appendixc}
+
+<!--chapter:end:91-appendix-a.Rmd-->
+
+
+# Robust Regression Methods {#appendixb}
+
+Placeholder
+
+
+## The Classical Least-Squares Estimator
+## Robust Estimators for Linear Regression Models
+## Applications of Robust Estimation
+
+<!--chapter:end:91-appendix-b.Rmd-->
+
+# Proofs {#appendixc}
+
+
+
+
+
+<!--chapter:end:91-appendix-c.Rmd-->
+
