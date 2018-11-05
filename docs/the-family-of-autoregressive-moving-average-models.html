@@ -1247,7 +1247,7 @@ sample <span class="math inline">\((X_t^*)\)</span>.</li>
 the <span class="math inline">\(B\)</span> independent replications.
 </div></li>
 </ol>
-<p>The approach taken by MBB ensures that within each block the dependency between observations is preserved. However, one particular issue that now arises is that some inaccuracy is introduced as a result of successive blocks potentially being independent from each other. In reality, this is one of the trade-offs of the MBB approach that can be mitigated by selecting an optimal <span class="math inline">\(\ell\)</span> (to improve the accuracy of the procedure one should choose <span class="math inline">\(\ell = T^{1/3}\)</span> as <span class="math inline">\(T \to \infty\)</span> as being the optimal choice). An earlier variant of MBB is called the nonoverlapping block bootstrap (NBB) which doesn’t allow the blocks to share common data points and is presented below.</p>
+<p>The approach taken by MBB ensures that within each block the dependency between observations is preserved. However, one particular issue that now arises is that some inaccuracy is introduced as a result of successive blocks potentially being independent from each other. In reality, this is one of the trade-offs of the MBB approach that can be mitigated by selecting an optimal <span class="math inline">\(\ell\)</span> (to improve the accuracy of the procedure one should choose <span class="math inline">\(\ell = T^{1/3}\)</span> as <span class="math inline">\(T \to \infty\)</span> as being the optimal choice). An earlier variant of MBB is called the Nonoverlapping Block Bootstrap (NBB) which doesn’t allow the blocks to share common data points and is presented below.</p>
 
 <div class="definition">
 <p><span id="def:nbb" class="definition"><strong>Definition 4.5  </strong></span>Suppose that <span class="math inline">\(\left(X_t\right)\)</span> is weakly stationary time series with <span class="math inline">\(T\)</span> observations.</p>
@@ -1359,7 +1359,7 @@ Figure 4.22: Estimated parametric and non-parametric blockbootstrap distribution
 C = \mathbb{E}\left[ {{\mathbb{E}_0}\left[ {\left\| {{X_0} - \hat X} \right\|_2^2} \right]} \right],
  \tag{4.3}
 \end{equation}\]</span>
-<p>where <span class="math inline">\(\|\cdot\|_2^2\)</span> represents the L2-norm, <span class="math inline">\(\hat{X}\)</span> represents the predictions from a given (estimated) model, <span class="math inline">\(X_0\)</span> represents future unobserved values of the time series <span class="math inline">\((X_t)\)</span> and <span class="math inline">\(\mathbb{E}_0\)</span> represents the out-of-sample expectation (i.e. the expectation of my future values <span class="math inline">\(X_0\)</span>). In general terms, this criterion is measuring the expected difference between my predicted values and the expected future values of my time series. Therefore, a “good” model would be a model that minimizes this criterion thereby minimising the expected “prediction error” of the model. In fact, the theoretical quantity defined in <a href="the-family-of-autoregressive-moving-average-models.html#eq:theocp">(4.3)</a> is related to Mallow’s <span class="math inline">\(C_p\)</span> <span class="citation">(see Mallows <a href="#ref-mallows1973some">1973</a>)</span>, which is still nowadays one of the most commonly used model selection criterion for regression. Indeed, let us consider the following theorem whose proof is given in Appendix @ref{appendixoptim}.</p>
+<p>where <span class="math inline">\(\|X\|_2^2 \equiv X^T X\)</span> represents the squared L2-norm, <span class="math inline">\(\hat{X}\)</span> represents the predictions from a given (estimated) model, <span class="math inline">\(X_0\)</span> represents future unobserved values of the time series <span class="math inline">\((X_t)\)</span> and <span class="math inline">\(\mathbb{E}_0\)</span> represents the out-of-sample expectation (i.e. the expectation of my future values <span class="math inline">\(X_0\)</span>). In general terms, this criterion is measuring the expected difference between my predicted values and the expected future values of my time series. Therefore, a “good” model would be a model that minimizes this criterion thereby minimising the expected “prediction error” of the model. In fact, the theoretical quantity defined in <a href="the-family-of-autoregressive-moving-average-models.html#eq:theocp">(4.3)</a> is related to Mallow’s <span class="math inline">\(C_p\)</span> <span class="citation">(see Mallows <a href="#ref-mallows1973some">1973</a>)</span>, which is still nowadays one of the most commonly used model selection criterion for regression. Indeed, let us consider the following theorem whose proof is given in Appendix @ref{appendixoptim}.</p>
 
 <div class="theorem">
 <span id="thm:optimthm" class="theorem"><strong>Theorem 4.2  </strong></span><span class="math display">\[C = \mathbb{E}\left[ {{\mathbb{E}_0}\left[ {\left\| {{X_0} - \hat X} \right\|_2^2} \right]} \right] = \mathbb{E}\left[ {\left\| {X - \hat X} \right\|_2^2} \right] + 2tr\left( {\text{cov}\left( {X,\hat X} \right)} \right).\]</span>
@@ -1409,21 +1409,75 @@ Figure 4.23: TO DO.
 </p>
 </div>
 <p>From the PACF plot one sees that the first three lags appear to be significant indicating that an AR(3) model would indeed appear to be a good candidate model for this observed time series. However, there is another value of the PACF that appears to be marginally significant at lag 10. Let us therefore suppose that we want to consider all possible AR(p) models with <span class="math inline">\(p^* = 10\)</span>. The <code>select()</code> function from the <code>simts</code> package allows to evaluate and plot the value of the three criteria presented earlier in order to understand the value of <span class="math inline">\(p\)</span> that minimizes each of them.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">best_model =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">10</span>), Xt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>) </a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-26"></span>
-<img src="ts_files/figure-html/unnamed-chunk-26-1.png" alt="TO DO." width="720" />
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">select</a></code></pre></div>
+<pre><code>## function(model, Xt, include.mean = TRUE, criterion = &quot;aic&quot;, plot = TRUE){
+##   # Check model
+##   if (!is.ts.model(model)){
+##     stop(&quot;The model provided is not a valid model.&quot;)
+##   }
+##   
+##   # Determine model
+##   model_code = model$obj.desc[[1]]
+##   
+##   if (sum(model_code[3:4]) &gt; 0){
+##     stop(&quot;SARIMA are currently not supported.&quot;)
+##   }
+##   
+##   # Order of AR
+##   p = model_code[1]
+##   
+##   # Order of MA 
+##   q = model_code[2]
+##   
+##   # Non-seasonal integration
+##   intergrated = model_code[7]
+##   
+##   # model selection 
+##   if (q == 0){
+##     out = select_arima_(Xt,
+##                         p = 0:p,
+##                         d = intergrated,
+##                         q = 0L,
+##                         include.mean = include.mean)
+##     
+##     if(plot == TRUE){plot_select_ar(x=out)}
+##   }else if (p == 0){
+##     out = select_arima_(Xt,
+##                         p = 0L,
+##                         d = intergrated,
+##                         q = 0:q,
+##                         include.mean = include.mean)
+##     
+##     if(plot == TRUE){plot_select_ma(x=out)}
+##   }else{
+##     out = select_arima_(Xt,
+##                         p = 0:p,
+##                         d = intergrated,
+##                         q = 0:q,
+##                         include.mean = include.mean)
+##     
+##     if(plot == TRUE){plot_select_arma(x=out)}
+##   }
+##   
+##   best_model(out, ic = criterion)
+## }
+## &lt;bytecode: 0x7fc4941fbfc0&gt;
+## &lt;environment: namespace:simts&gt;</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">best_model =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">10</span>), Xt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>) </a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-27"></span>
+<img src="ts_files/figure-html/unnamed-chunk-27-1.png" alt="TO DO." width="720" />
 <p class="caption">
 Figure 4.24: TO DO.
 </p>
 </div>
 <p>The output of this funtion is a plot of the values of each criterion over all possible AR(<span class="math inline">\(p\)</span>) models with <span class="math inline">\(p = 1,...,10\)</span> and, as can be seen from the plot, all criteria are minimized at the value <span class="math inline">\(p=3\)</span> which shows how all criteria (in this particular case) agree and select the true underlying model. The function also delivers the MLE estimates of the parameters of the selected model:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">best_model<span class="op">$</span>coef</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">best_model<span class="op">$</span>coef</a></code></pre></div>
 <pre><code>##        ar1        ar2        ar3 
 ##  1.1726319 -0.8830923  0.2752257</code></pre>
 <p>It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners.</p>
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-28" class="example"><strong>Example 4.12  (Simulation Study: Strong Signal vs Weak Signal)  </strong></span>In this simulation study, we consider the following two models:
+<p><span id="exm:unnamed-chunk-29" class="example"><strong>Example 4.12  (Simulation Study: Strong Signal vs Weak Signal)  </strong></span>In this simulation study, we consider the following two models:
 <span class="math display">\[X_t = 0.6X_{t-1} + 0.3X_{t-2} + W_t,\]</span>
 <span class="math display">\[X_t = 0.5X_{t-1} + 0.25X_{t-2} + 0.125X_{t-3} + 0.0625X_{t-4} + W_t,\]</span>
 where <span class="math inline">\(W_t \overset{iid}{\sim} \mathcal{N}(0,1).\)</span></p>
@@ -1431,109 +1485,140 @@ where <span class="math inline">\(W_t \overset{iid}{\sim} \mathcal{N}(0,1).\)</s
 We consider sample size <span class="math inline">\(N = 100\)</span> and bootstrap replications <span class="math inline">\(B = 500\)</span>.
 </div>
 
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">B =<span class="st"> </span><span class="dv">500</span></a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">result1 =<span class="st"> </span>result2 =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">aic =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, B), </a>
-<a class="sourceLine" id="cb45-3" data-line-number="3">                               <span class="dt">bic =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, B), </a>
-<a class="sourceLine" id="cb45-4" data-line-number="4">                               <span class="dt">hq =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, B))</a>
-<a class="sourceLine" id="cb45-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb45-6" data-line-number="6"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>B){</a>
-<a class="sourceLine" id="cb45-7" data-line-number="7">  <span class="kw">set.seed</span>(<span class="dv">10</span><span class="op">+</span>i)</a>
-<a class="sourceLine" id="cb45-8" data-line-number="8">  </a>
-<a class="sourceLine" id="cb45-9" data-line-number="9">  <span class="co"># generate data</span></a>
-<a class="sourceLine" id="cb45-10" data-line-number="10">  Xt1 =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.3</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb45-11" data-line-number="11">  Xt2 =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.125</span>, <span class="fl">0.0625</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb45-12" data-line-number="12">  </a>
-<a class="sourceLine" id="cb45-13" data-line-number="13">  <span class="co"># model selection for Xt1</span></a>
-<a class="sourceLine" id="cb45-14" data-line-number="14">  tmp_aic =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt1, <span class="dt">criterion =</span> <span class="st">&quot;aic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-15" data-line-number="15">  tmp_bic =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt1, <span class="dt">criterion =</span> <span class="st">&quot;bic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-16" data-line-number="16">  tmp_hq =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt1, <span class="dt">criterion =</span> <span class="st">&quot;hq&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-17" data-line-number="17">  </a>
-<a class="sourceLine" id="cb45-18" data-line-number="18">  result1<span class="op">$</span>aic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_aic<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-19" data-line-number="19">  result1<span class="op">$</span>bic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_bic<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-20" data-line-number="20">  result1<span class="op">$</span>hq[i] =<span class="st"> </span><span class="kw">length</span>(tmp_hq<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-21" data-line-number="21">  </a>
-<a class="sourceLine" id="cb45-22" data-line-number="22">  <span class="co"># model selection for Xt2</span></a>
-<a class="sourceLine" id="cb45-23" data-line-number="23">  tmp_aic =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt2, <span class="dt">criterion =</span> <span class="st">&quot;aic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-24" data-line-number="24">  tmp_bic =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt2, <span class="dt">criterion =</span> <span class="st">&quot;bic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-25" data-line-number="25">  tmp_hq =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt2, <span class="dt">criterion =</span> <span class="st">&quot;hq&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-26" data-line-number="26">  </a>
-<a class="sourceLine" id="cb45-27" data-line-number="27">  result2<span class="op">$</span>aic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_aic<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-28" data-line-number="28">  result2<span class="op">$</span>bic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_bic<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-29" data-line-number="29">  result2<span class="op">$</span>hq[i] =<span class="st"> </span><span class="kw">length</span>(tmp_hq<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-30" data-line-number="30">}</a>
-<a class="sourceLine" id="cb45-31" data-line-number="31"></a>
-<a class="sourceLine" id="cb45-32" data-line-number="32"><span class="co"># calculate counts</span></a>
-<a class="sourceLine" id="cb45-33" data-line-number="33">counts1_aic =<span class="st"> </span><span class="kw">table</span>(result1<span class="op">$</span>aic)</a>
-<a class="sourceLine" id="cb45-34" data-line-number="34">counts1_bic =<span class="st"> </span><span class="kw">table</span>(result1<span class="op">$</span>bic)</a>
-<a class="sourceLine" id="cb45-35" data-line-number="35">counts1_hq =<span class="st"> </span><span class="kw">table</span>(result1<span class="op">$</span>hq)</a>
-<a class="sourceLine" id="cb45-36" data-line-number="36"></a>
-<a class="sourceLine" id="cb45-37" data-line-number="37">counts2_aic =<span class="st"> </span><span class="kw">table</span>(result2<span class="op">$</span>aic)</a>
-<a class="sourceLine" id="cb45-38" data-line-number="38">counts2_bic =<span class="st"> </span><span class="kw">table</span>(result2<span class="op">$</span>bic)</a>
-<a class="sourceLine" id="cb45-39" data-line-number="39">counts2_hq =<span class="st"> </span><span class="kw">table</span>(result2<span class="op">$</span>hq)</a>
-<a class="sourceLine" id="cb45-40" data-line-number="40"></a>
-<a class="sourceLine" id="cb45-41" data-line-number="41">aic1 =<span class="st"> </span>bic1 =<span class="st"> </span>hq1 =<span class="st"> </span>aic2 =<span class="st"> </span>bic2 =<span class="st"> </span>hq2 =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">9</span>)</a>
-<a class="sourceLine" id="cb45-42" data-line-number="42"></a>
-<a class="sourceLine" id="cb45-43" data-line-number="43">aic1[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts1_aic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts1_aic)</a>
-<a class="sourceLine" id="cb45-44" data-line-number="44">bic1[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts1_bic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts1_bic)</a>
-<a class="sourceLine" id="cb45-45" data-line-number="45">hq1[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts1_hq))] =<span class="st"> </span><span class="kw">as.vector</span>(counts1_hq)</a>
-<a class="sourceLine" id="cb45-46" data-line-number="46"></a>
-<a class="sourceLine" id="cb45-47" data-line-number="47">aic2[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_aic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts2_aic)</a>
-<a class="sourceLine" id="cb45-48" data-line-number="48">bic2[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_bic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts2_bic)</a>
-<a class="sourceLine" id="cb45-49" data-line-number="49">hq2[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_hq))] =<span class="st"> </span><span class="kw">as.vector</span>(counts2_hq)</a>
-<a class="sourceLine" id="cb45-50" data-line-number="50"></a>
-<a class="sourceLine" id="cb45-51" data-line-number="51">result1 =<span class="st"> </span><span class="kw">rbind</span>(aic1, bic1, hq1)</a>
-<a class="sourceLine" id="cb45-52" data-line-number="52">result2 =<span class="st"> </span><span class="kw">rbind</span>(aic2, bic2, hq2)</a>
-<a class="sourceLine" id="cb45-53" data-line-number="53"></a>
-<a class="sourceLine" id="cb45-54" data-line-number="54"><span class="kw">colnames</span>(result1) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;3&quot;</span>,<span class="st">&quot;4&quot;</span>,<span class="st">&quot;5&quot;</span>,<span class="st">&quot;6&quot;</span>,<span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>)</a>
-<a class="sourceLine" id="cb45-55" data-line-number="55"><span class="kw">rownames</span>(result1) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>)</a>
-<a class="sourceLine" id="cb45-56" data-line-number="56"><span class="kw">colnames</span>(result2) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;3&quot;</span>,<span class="st">&quot;4&quot;</span>,<span class="st">&quot;5&quot;</span>,<span class="st">&quot;6&quot;</span>,<span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>)</a>
-<a class="sourceLine" id="cb45-57" data-line-number="57"><span class="kw">rownames</span>(result2) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>)</a>
-<a class="sourceLine" id="cb45-58" data-line-number="58"></a>
-<a class="sourceLine" id="cb45-59" data-line-number="59"><span class="co"># plot the results</span></a>
-<a class="sourceLine" id="cb45-60" data-line-number="60"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb45-61" data-line-number="61">mycolor =<span class="st"> </span><span class="kw">hcl</span>(<span class="dt">h =</span> <span class="kw">seq</span>(<span class="dv">15</span>, <span class="dv">375</span>, <span class="dt">length =</span> <span class="dv">4</span>), <span class="dt">l =</span> <span class="dv">65</span>, <span class="dt">c =</span> <span class="dv">100</span>, <span class="dt">alpha =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb45-62" data-line-number="62"></a>
-<a class="sourceLine" id="cb45-63" data-line-number="63"><span class="co"># Xt1</span></a>
-<a class="sourceLine" id="cb45-64" data-line-number="64"><span class="kw">barplot</span>(result1, </a>
-<a class="sourceLine" id="cb45-65" data-line-number="65">        <span class="dt">col =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
-<a class="sourceLine" id="cb45-66" data-line-number="66">        <span class="dt">beside =</span> T, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(result1)<span class="op">+</span><span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb45-67" data-line-number="67">        <span class="dt">main =</span> <span class="st">&quot;Strong Signal&quot;</span>, </a>
-<a class="sourceLine" id="cb45-68" data-line-number="68">        <span class="dt">xlab =</span> <span class="st">&quot;autoregressive order (p)&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;counts&quot;</span>)</a>
-<a class="sourceLine" id="cb45-69" data-line-number="69"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,</a>
-<a class="sourceLine" id="cb45-70" data-line-number="70">       <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>),</a>
-<a class="sourceLine" id="cb45-71" data-line-number="71">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</a>
-<a class="sourceLine" id="cb45-72" data-line-number="72">       <span class="dt">fill =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb45-73" data-line-number="73"></a>
-<a class="sourceLine" id="cb45-74" data-line-number="74"><span class="co"># Xt2</span></a>
-<a class="sourceLine" id="cb45-75" data-line-number="75"><span class="kw">barplot</span>(result2, </a>
-<a class="sourceLine" id="cb45-76" data-line-number="76">        <span class="dt">col =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
-<a class="sourceLine" id="cb45-77" data-line-number="77">        <span class="dt">beside =</span> T, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(result2)<span class="op">+</span><span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb45-78" data-line-number="78">        <span class="dt">main =</span> <span class="st">&quot;Weak Signal&quot;</span>, </a>
-<a class="sourceLine" id="cb45-79" data-line-number="79">        <span class="dt">xlab =</span> <span class="st">&quot;autoregressive order (p)&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;counts&quot;</span>)</a>
-<a class="sourceLine" id="cb45-80" data-line-number="80"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,</a>
-<a class="sourceLine" id="cb45-81" data-line-number="81">       <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>),</a>
-<a class="sourceLine" id="cb45-82" data-line-number="82">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</a>
-<a class="sourceLine" id="cb45-83" data-line-number="83">       <span class="dt">fill =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">B =<span class="st"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">result1 =<span class="st"> </span>result2 =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">aic =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, B), </a>
+<a class="sourceLine" id="cb47-3" data-line-number="3">                               <span class="dt">bic =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, B), </a>
+<a class="sourceLine" id="cb47-4" data-line-number="4">                               <span class="dt">hq =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, B))</a>
+<a class="sourceLine" id="cb47-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb47-6" data-line-number="6"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>B){</a>
+<a class="sourceLine" id="cb47-7" data-line-number="7">  <span class="kw">set.seed</span>(<span class="dv">10</span><span class="op">+</span>i)</a>
+<a class="sourceLine" id="cb47-8" data-line-number="8">  </a>
+<a class="sourceLine" id="cb47-9" data-line-number="9">  <span class="co"># generate data</span></a>
+<a class="sourceLine" id="cb47-10" data-line-number="10">  Xt1 =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.3</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb47-11" data-line-number="11">  Xt2 =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.125</span>, <span class="fl">0.0625</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb47-12" data-line-number="12">  </a>
+<a class="sourceLine" id="cb47-13" data-line-number="13">  <span class="co"># model selection for Xt1</span></a>
+<a class="sourceLine" id="cb47-14" data-line-number="14">  tmp_aic =<span class="st"> </span>simts<span class="op">::</span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt1, <span class="dt">criterion =</span> <span class="st">&quot;aic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb47-15" data-line-number="15">  tmp_bic =<span class="st"> </span>simts<span class="op">::</span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt1, <span class="dt">criterion =</span> <span class="st">&quot;bic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb47-16" data-line-number="16">  tmp_hq =<span class="st"> </span>simts<span class="op">::</span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt1, <span class="dt">criterion =</span> <span class="st">&quot;hq&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb47-17" data-line-number="17">  </a>
+<a class="sourceLine" id="cb47-18" data-line-number="18">  result1<span class="op">$</span>aic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_aic<span class="op">$</span>model<span class="op">$</span>phi)</a>
+<a class="sourceLine" id="cb47-19" data-line-number="19">  result1<span class="op">$</span>bic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_bic<span class="op">$</span>model<span class="op">$</span>phi)</a>
+<a class="sourceLine" id="cb47-20" data-line-number="20">  result1<span class="op">$</span>hq[i] =<span class="st"> </span><span class="kw">length</span>(tmp_hq<span class="op">$</span>model<span class="op">$</span>phi)</a>
+<a class="sourceLine" id="cb47-21" data-line-number="21">  </a>
+<a class="sourceLine" id="cb47-22" data-line-number="22">  <span class="co"># model selection for Xt2</span></a>
+<a class="sourceLine" id="cb47-23" data-line-number="23">  tmp_aic =<span class="st"> </span>simts<span class="op">::</span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt2, <span class="dt">criterion =</span> <span class="st">&quot;aic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb47-24" data-line-number="24">  tmp_bic =<span class="st"> </span>simts<span class="op">::</span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt2, <span class="dt">criterion =</span> <span class="st">&quot;bic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb47-25" data-line-number="25">  tmp_hq =<span class="st"> </span>simts<span class="op">::</span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt2, <span class="dt">criterion =</span> <span class="st">&quot;hq&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb47-26" data-line-number="26">  </a>
+<a class="sourceLine" id="cb47-27" data-line-number="27">  result2<span class="op">$</span>aic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_aic<span class="op">$</span>model<span class="op">$</span>phi)</a>
+<a class="sourceLine" id="cb47-28" data-line-number="28">  result2<span class="op">$</span>bic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_bic<span class="op">$</span>model<span class="op">$</span>phi)</a>
+<a class="sourceLine" id="cb47-29" data-line-number="29">  result2<span class="op">$</span>hq[i] =<span class="st"> </span><span class="kw">length</span>(tmp_hq<span class="op">$</span>model<span class="op">$</span>phi)</a>
+<a class="sourceLine" id="cb47-30" data-line-number="30">}</a>
+<a class="sourceLine" id="cb47-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb47-32" data-line-number="32"><span class="co"># calculate counts</span></a>
+<a class="sourceLine" id="cb47-33" data-line-number="33">counts1_aic =<span class="st"> </span><span class="kw">table</span>(result1<span class="op">$</span>aic)</a>
+<a class="sourceLine" id="cb47-34" data-line-number="34">counts1_bic =<span class="st"> </span><span class="kw">table</span>(result1<span class="op">$</span>bic)</a>
+<a class="sourceLine" id="cb47-35" data-line-number="35">counts1_hq =<span class="st"> </span><span class="kw">table</span>(result1<span class="op">$</span>hq)</a>
+<a class="sourceLine" id="cb47-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb47-37" data-line-number="37">counts2_aic =<span class="st"> </span><span class="kw">table</span>(result2<span class="op">$</span>aic)</a>
+<a class="sourceLine" id="cb47-38" data-line-number="38">counts2_bic =<span class="st"> </span><span class="kw">table</span>(result2<span class="op">$</span>bic)</a>
+<a class="sourceLine" id="cb47-39" data-line-number="39">counts2_hq =<span class="st"> </span><span class="kw">table</span>(result2<span class="op">$</span>hq)</a>
+<a class="sourceLine" id="cb47-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb47-41" data-line-number="41">aic1 =<span class="st"> </span>bic1 =<span class="st"> </span>hq1 =<span class="st"> </span>aic2 =<span class="st"> </span>bic2 =<span class="st"> </span>hq2 =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb47-42" data-line-number="42"></a>
+<a class="sourceLine" id="cb47-43" data-line-number="43">aic1[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts1_aic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts1_aic)</a>
+<a class="sourceLine" id="cb47-44" data-line-number="44">bic1[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts1_bic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts1_bic)</a>
+<a class="sourceLine" id="cb47-45" data-line-number="45">hq1[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts1_hq))] =<span class="st"> </span><span class="kw">as.vector</span>(counts1_hq)</a>
+<a class="sourceLine" id="cb47-46" data-line-number="46"></a>
+<a class="sourceLine" id="cb47-47" data-line-number="47">aic2[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_aic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts2_aic)</a>
+<a class="sourceLine" id="cb47-48" data-line-number="48">bic2[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_bic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts2_bic)</a>
+<a class="sourceLine" id="cb47-49" data-line-number="49">hq2[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_hq))] =<span class="st"> </span><span class="kw">as.vector</span>(counts2_hq)</a>
+<a class="sourceLine" id="cb47-50" data-line-number="50"></a>
+<a class="sourceLine" id="cb47-51" data-line-number="51">result1 =<span class="st"> </span><span class="kw">rbind</span>(aic1, bic1, hq1)</a>
+<a class="sourceLine" id="cb47-52" data-line-number="52">result2 =<span class="st"> </span><span class="kw">rbind</span>(aic2, bic2, hq2)</a>
+<a class="sourceLine" id="cb47-53" data-line-number="53"></a>
+<a class="sourceLine" id="cb47-54" data-line-number="54"><span class="kw">colnames</span>(result1) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;3&quot;</span>,<span class="st">&quot;4&quot;</span>,<span class="st">&quot;5&quot;</span>,<span class="st">&quot;6&quot;</span>,<span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>)</a>
+<a class="sourceLine" id="cb47-55" data-line-number="55"><span class="kw">rownames</span>(result1) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>)</a>
+<a class="sourceLine" id="cb47-56" data-line-number="56"><span class="kw">colnames</span>(result2) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;3&quot;</span>,<span class="st">&quot;4&quot;</span>,<span class="st">&quot;5&quot;</span>,<span class="st">&quot;6&quot;</span>,<span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>)</a>
+<a class="sourceLine" id="cb47-57" data-line-number="57"><span class="kw">rownames</span>(result2) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>)</a>
+<a class="sourceLine" id="cb47-58" data-line-number="58"></a>
+<a class="sourceLine" id="cb47-59" data-line-number="59"><span class="co"># plot the results</span></a>
+<a class="sourceLine" id="cb47-60" data-line-number="60"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb47-61" data-line-number="61">mycolor =<span class="st"> </span><span class="kw">hcl</span>(<span class="dt">h =</span> <span class="kw">seq</span>(<span class="dv">15</span>, <span class="dv">375</span>, <span class="dt">length =</span> <span class="dv">4</span>), <span class="dt">l =</span> <span class="dv">65</span>, <span class="dt">c =</span> <span class="dv">100</span>, <span class="dt">alpha =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb47-62" data-line-number="62"></a>
+<a class="sourceLine" id="cb47-63" data-line-number="63"><span class="co"># Xt1</span></a>
+<a class="sourceLine" id="cb47-64" data-line-number="64"><span class="kw">barplot</span>(result1, </a>
+<a class="sourceLine" id="cb47-65" data-line-number="65">        <span class="dt">col =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
+<a class="sourceLine" id="cb47-66" data-line-number="66">        <span class="dt">beside =</span> T, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(result1)<span class="op">+</span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb47-67" data-line-number="67">        <span class="dt">main =</span> <span class="st">&quot;Strong Signal&quot;</span>, </a>
+<a class="sourceLine" id="cb47-68" data-line-number="68">        <span class="dt">xlab =</span> <span class="st">&quot;autoregressive order (p)&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Selection Frequency&quot;</span>)</a>
+<a class="sourceLine" id="cb47-69" data-line-number="69"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,</a>
+<a class="sourceLine" id="cb47-70" data-line-number="70">       <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>),</a>
+<a class="sourceLine" id="cb47-71" data-line-number="71">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</a>
+<a class="sourceLine" id="cb47-72" data-line-number="72">       <span class="dt">fill =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb47-73" data-line-number="73"></a>
+<a class="sourceLine" id="cb47-74" data-line-number="74"><span class="co"># Xt2</span></a>
+<a class="sourceLine" id="cb47-75" data-line-number="75"><span class="kw">barplot</span>(result2, </a>
+<a class="sourceLine" id="cb47-76" data-line-number="76">        <span class="dt">col =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
+<a class="sourceLine" id="cb47-77" data-line-number="77">        <span class="dt">beside =</span> T, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(result2)<span class="op">+</span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb47-78" data-line-number="78">        <span class="dt">main =</span> <span class="st">&quot;Weak Signal&quot;</span>, </a>
+<a class="sourceLine" id="cb47-79" data-line-number="79">        <span class="dt">xlab =</span> <span class="st">&quot;autoregressive order (p)&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Selection Frequency&quot;</span>)</a>
+<a class="sourceLine" id="cb47-80" data-line-number="80"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,</a>
+<a class="sourceLine" id="cb47-81" data-line-number="81">       <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>),</a>
+<a class="sourceLine" id="cb47-82" data-line-number="82">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</a>
+<a class="sourceLine" id="cb47-83" data-line-number="83">       <span class="dt">fill =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co"># plot the results</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">mycolor =<span class="st"> </span><span class="kw">hcl</span>(<span class="dt">h =</span> <span class="kw">seq</span>(<span class="dv">15</span>, <span class="dv">375</span>, <span class="dt">length =</span> <span class="dv">4</span>), <span class="dt">l =</span> <span class="dv">65</span>, <span class="dt">c =</span> <span class="dv">100</span>, <span class="dt">alpha =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb48-5" data-line-number="5"><span class="co"># Xt1</span></a>
+<a class="sourceLine" id="cb48-6" data-line-number="6"><span class="kw">barplot</span>(result1, </a>
+<a class="sourceLine" id="cb48-7" data-line-number="7">        <span class="dt">col =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
+<a class="sourceLine" id="cb48-8" data-line-number="8">        <span class="dt">beside =</span> T, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(result1)<span class="op">+</span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb48-9" data-line-number="9">        <span class="dt">main =</span> <span class="st">&quot;Strong Signal&quot;</span>, </a>
+<a class="sourceLine" id="cb48-10" data-line-number="10">        <span class="dt">xlab =</span> <span class="st">&quot;autoregressive order (p)&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Selection Frequency&quot;</span>)</a>
+<a class="sourceLine" id="cb48-11" data-line-number="11"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,</a>
+<a class="sourceLine" id="cb48-12" data-line-number="12">       <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>),</a>
+<a class="sourceLine" id="cb48-13" data-line-number="13">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</a>
+<a class="sourceLine" id="cb48-14" data-line-number="14">       <span class="dt">fill =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb48-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb48-16" data-line-number="16"><span class="co"># Xt2</span></a>
+<a class="sourceLine" id="cb48-17" data-line-number="17"><span class="kw">barplot</span>(result2, </a>
+<a class="sourceLine" id="cb48-18" data-line-number="18">        <span class="dt">col =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
+<a class="sourceLine" id="cb48-19" data-line-number="19">        <span class="dt">beside =</span> T, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(result2)<span class="op">+</span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb48-20" data-line-number="20">        <span class="dt">main =</span> <span class="st">&quot;Weak Signal&quot;</span>, </a>
+<a class="sourceLine" id="cb48-21" data-line-number="21">        <span class="dt">xlab =</span> <span class="st">&quot;autoregressive order (p)&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Selection Frequency&quot;</span>)</a>
+<a class="sourceLine" id="cb48-22" data-line-number="22"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,</a>
+<a class="sourceLine" id="cb48-23" data-line-number="23">       <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>),</a>
+<a class="sourceLine" id="cb48-24" data-line-number="24">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</a>
+<a class="sourceLine" id="cb48-25" data-line-number="25">       <span class="dt">fill =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:e"></span>
+<img src="ts_files/figure-html/e-1.png" alt="TO DO" width="864" />
+<p class="caption">
+Figure 4.25: TO DO
+</p>
+</div>
 <p>Having studied th performance of these three criteria through a simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(lynx_gts, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
-<p><img src="ts_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
-<p>As we saw earlier, the PACF appears to be significant at lag <span class="math inline">\(h = 8\)</span> therefore leading to the conclusion that an AR(8) model would be good to describe/forecast the observed time series. However, let us check if we reach the same conclusion using the three model selection criteria described above. For this reason, let us use an AR(15) as the maximum order for the candidate AR(p) models.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">lynx_select =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">15</span>), lynx_gts, <span class="dt">include.mean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(lynx_gts, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <p><img src="ts_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>As we saw earlier, the PACF appears to be significant at lag <span class="math inline">\(h = 8\)</span> therefore leading to the conclusion that an AR(8) model would be good to describe/forecast the observed time series. However, let us check if we reach the same conclusion using the three model selection criteria described above. For this reason, let us use an AR(15) as the maximum order for the candidate AR(<span class="math inline">\(p\)</span>) models.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">lynx_select =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">15</span>), lynx_gts, <span class="dt">include.mean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="ts_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <p>In this case, we see that the AIC and HQ select an AR(8) model in accordance with the selection procedure based on the ACF. However the BIC selects a much smaller model (AR(3)). This can be due to different reasons but the BIC requires the presence of the true model among the candidate models and this is possibly not the case for this example. Hence, for this case the AIC or HQ are probably better choices.</p>
 <p>To summarize, these techniques are all aiming at estimating the out-of-sample prediction error of a given model. However, they strongly rely on the chosen likelihood function and, if this does not adequately represent the model that generated the observed time series, then they could deliver misleading conclusions. For this reason, one could consider another approach to model selection based on model forecasting accuracy. Indeed, one could select a model based on the following procedure:</p>
 <ol style="list-style-type: decimal">
-<li>Split the observed time series of length <span class="math inline">\(T\)</span> into two sub-series. The first one (i.e. training set) goes from 1 to <span class="math inline">\(n\)</span> (where <span class="math inline">\(n\)</span> is for example <span class="math inline">\(0.8T\)</span>) and the second one (i.e. testing set) goes from <span class="math inline">\(n + 1\)</span> to <span class="math inline">\(T\)</span>.
-2 Estimate the model you wish to evaluate on the training set and forecast the next observation (i.e. <span class="math inline">\(X_{n+1}^n\)</span>). Compute the difference between your forecast and the actual value <span class="math inline">\(X_{n+1}\)</span>.
-3 Add the observation <span class="math inline">\(X_{n+1}\)</span> to the training set and let <span class="math inline">\(n = n + 1\)</span>. Go to Step 2 until <span class="math inline">\(n = T\)</span>.
-4 Compute a suitable “score” to asses the quality of your model based on the
+<li>Split the observed time series of length <span class="math inline">\(T\)</span> into two sub-series. The first one (i.e. training set) goes from 1 to <span class="math inline">\(n\)</span> (where <span class="math inline">\(n\)</span> is for example <span class="math inline">\(0.8T\)</span>) and the second one (i.e. testing set) goes from <span class="math inline">\(n + 1\)</span> to <span class="math inline">\(T\)</span>.</li>
+<li>Estimate the model you wish to evaluate on the training set and forecast the next observation (i.e. <span class="math inline">\(X_{n+1}^n\)</span>). Compute the difference between your forecast and the actual value <span class="math inline">\(X_{n+1}\)</span>.</li>
+<li>Add the observation <span class="math inline">\(X_{n+1}\)</span> to the training set and let <span class="math inline">\(n = n + 1\)</span>. Go to Step 2 until <span class="math inline">\(n = T\)</span>.</li>
+<li>Compute a suitable “score” to asses the quality of your model based on the
 empirical “prediction errors” vector.</li>
 </ol>
 <p>There are many “scores” that can assess the quality of the model using the empirical prediction errors such as the Root Mean Squared Error (RMSE), mean absolute percentage error, etc. A generally used and common score is the Median Absolute Prediction Error which is defined as follows:</p>
-<p><span class="math display">\[MAPE = \text{median}\left(\Big|X_{t+j} - X_{t+j}^t\Big|\right).\]</span></p>
+<p><span class="math display">\[\text{MAPE} = \text{median}\left(\Big|X_{t+j} - X_{t+j}^t\Big|\right).\]</span></p>
 <p>The MAPE is a score function that assesses how far the model’s predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model’s performance (the median is what guarantees this). This score can also be used to assess a model’s prediction performance and is implemented in the <code>MAPE()</code> function in the <code>simts</code> package. Let us check the model selected for the Lynx trappings data seen earlier when using this approach using the first <span class="math inline">\(0.8 \cdot T\)</span> observations to estimate the model and the last <span class="math inline">\(0.2 \cdot T\)</span> to test the estimated model.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">lynx_mape =<span class="st"> </span><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">15</span>), lynx_gts, <span class="dt">start =</span> <span class="fl">0.8</span>)</a></code></pre></div>
-<p><img src="ts_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">lynx_mape =<span class="st"> </span><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">15</span>), lynx_gts, <span class="dt">start =</span> <span class="fl">0.8</span>)</a></code></pre></div>
+<p><img src="ts_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <p>As we can see, an AR(12) model is selected indicating that a more complicated model may be required for this time series data. However it can be seen how the value of the MAPE is extremely close to that of the previously selected AR(8) and lies abundantly within the confidence intervals of the MAPE for the AR(12). Therefore also this selection method would appear to indicate that the AR(8) model is a good candidate for this time series.</p>
 </div>
 <div id="moving-average-models" class="section level2">
@@ -1563,7 +1648,7 @@ would therefore be impossible to retrieve the parameters of the model by only
 looking at the autocovariance function.</p>
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-32" class="example"><strong>Example 4.13  (Writing a Moving Average in Operator Form)  </strong></span>Consider the following MA(q) process:</p>
+<p><span id="exm:unnamed-chunk-34" class="example"><strong>Example 4.13  (Writing a Moving Average in Operator Form)  </strong></span>Consider the following MA(q) process:</p>
 <p><span class="math display">\[{X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t\]</span></p>
 <p>With a little bit of work this can be condensed to:</p>
 <p><span class="math display">\[{X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}\]</span></p>
@@ -1575,7 +1660,7 @@ looking at the autocovariance function.</p>
 
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-33" class="example"><strong>Example 4.14  (Stationarity of an MA(Q) Process)  </strong></span>The stationarity of an MA(q) process is able to be shown assuming that <span class="math inline">\(\sum\limits_{j = 1}^q {\theta _j^2} &lt; \infty\)</span>.</p>
+<p><span id="exm:unnamed-chunk-35" class="example"><strong>Example 4.14  (Stationarity of an MA(Q) Process)  </strong></span>The stationarity of an MA(q) process is able to be shown assuming that <span class="math inline">\(\sum\limits_{j = 1}^q {\theta _j^2} &lt; \infty\)</span>.</p>
 <p>First, the expectation is able to be derived to be <span class="math inline">\(E\left[ {{X_t}} \right] = 0\)</span>.</p>
 <p>Prior to proceeding to the computation for autocovariance, note that if <span class="math inline">\(\theta_0 = 1\)</span>, then</p>
 <p><span class="math display">\[{X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}\]</span></p>
@@ -1594,7 +1679,7 @@ Hence, the process is stationary.
 
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-34" class="example"><strong>Example 4.15  (Non-uniqueness of MA models)  </strong></span>One particular issue of MA models is the fact that they are not unique.
+<p><span id="exm:unnamed-chunk-36" class="example"><strong>Example 4.15  (Non-uniqueness of MA models)  </strong></span>One particular issue of MA models is the fact that they are not unique.
 In essence, one is not able to correctly tell if the process is of one model
 or another. Consider the following two models:</p>
 <p><span class="math display">\[

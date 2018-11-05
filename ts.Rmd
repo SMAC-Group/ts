@@ -1,3 +1,73 @@
+--- 
+title: "Applied Time Series Analysis with R"
+author: "Stéphane Guerrier, Roberto Molinari and Haotian Xu"
+date: "`r format(Sys.time(), '%B %d %Y')`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: "acm"
+link-citations: yes
+github-repo: SMAC-Group/ts
+description: ""
+favicon: "favicon.ico"
+---
+
+# (PART) Foundation {-}
+
+Placeholder
+
+# Introduction
+
+Placeholder
+
+
+## Conventions
+## Bibliographic Note 
+## Acknowledgements
+## License 
+
+<!--chapter:end:index.Rmd-->
+
+
+# Basic Elements of Time Series 
+
+Placeholder
+
+
+## The Wold Decomposition
+### The Deterministic Component (Signal)
+### The Random Component (Noise)
+## Exploratory Data Analysis for Time Series {#eda}
+## Dependence in Time Series 
+## Basic Time Series Models {#basicmodels}
+### White Noise {#wn}
+### Random Walk {#rw}
+### First-Order Autoregressive Model {#ar1}
+### Moving Average Process of Order 1 {#ma1}
+### Linear Drift {#drift}
+## Composite Stochastic Processes {#lts}
+
+<!--chapter:end:01-intro.Rmd-->
+
+
+# Fundamental Properties of Time Series {#fundtimeseries}
+
+Placeholder
+
+
+## The Autocorrelation and Autocovariance Functions 
+### A Fundamental Representation
+### Admissible Autocorrelation Functions `r emo::ji("scream")`
+## Stationarity {#stationary}
+### Assessing Weak Stationarity of Time Series Models
+## Estimation of Moments (Stationary Processes)
+### Estimation of the Mean Function
+### Sample Autocovariance and Autocorrelation Functions
+### Robustness Issues
+
+<!--chapter:end:02-fundamental_rep.Rmd-->
+
 # The Family of Autoregressive Moving Average Models
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -2000,3 +2070,46 @@ There is a huge problem being able to identify what the values of the parameters
 are. To ensure that this problem does not arise in practice, there is 
 the requirement for invertibility, or being able to transform an MA(q) into
 an AR($\infty$).
+
+<!--chapter:end:03-arma.Rmd-->
+
+`r if (knitr::is_html_output()) '# References {-}'`
+
+<!--chapter:end:33-Ref.Rmd-->
+
+# (APPENDIX) Appendix {-} 
+
+<!--chapter:end:90-appendix.Rmd-->
+
+
+# Proofs `r emo::ji("scream")`
+
+Placeholder
+
+
+## Proof of Theorem 3.1 {#appendixa}
+## Proof of Theorem 4.1 {#appendixc}
+## Proof of Theorem 4.2 {#appendixoptim}
+
+<!--chapter:end:91-appendix-a.Rmd-->
+
+
+# Robust Regression Methods {#appendixb}
+
+Placeholder
+
+
+## The Classical Least-Squares Estimator
+## Robust Estimators for Linear Regression Models
+## Applications of Robust Estimation
+
+<!--chapter:end:91-appendix-b.Rmd-->
+
+# Proofs {#appendixc}
+
+
+
+
+
+<!--chapter:end:91-appendix-c.Rmd-->
+
