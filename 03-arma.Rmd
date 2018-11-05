@@ -1612,7 +1612,7 @@ $$\mathcal{M}_j: {X_t} = \sum\limits_{i = 1}^j {{\phi _i}{X_{t - i}}}  + {W_t},$
 
 where $\mathcal{M}_j$ is used to denote an AR($j$) model, with $j = 1,...,p^*$ where $p^*$ represents the maximum order of the AR($p$) model considered for a given observed time series (e.g. $p^*$ could be the maximum lag at which the PACF appears to be significant). Let us illustrate the properties of these model selection criteria through the following example of an AR(3) model for which we show the PACF of a possible realization from this process ($T = 500$).
 
-```{r}
+```{r, fig.height= 4.5, fig.width= 5, fig.align='center', fig.cap="TO DO."}
 set.seed(1)
 true_model = AR(phi = c(1.2, -0.9, 0.3), sigma2 = 1)
 Xt = gen_gts(n = 500, model = true_model)
@@ -1621,17 +1621,19 @@ plot(auto_corr(Xt, pacf = TRUE))
 
 From the PACF plot one sees that the first three lags appear to be significant indicating that an AR(3) model would indeed appear to be a good candidate model for this observed time series. However, there is another value of the PACF that appears to be marginally significant at lag 10. Let us therefore suppose that we want to consider all possible AR(p) models with $p^* = 10$. The `select()` function from the `simts` package allows to evaluate and plot the value of the three criteria presented earlier in order to understand the value of $p$ that minimizes each of them.
 
-```{r}
+```{r, fig.height= 5.5, fig.width= 7.5, fig.align='center', fig.cap="TO DO."}
 best_model = select(AR(10), Xt, include.mean = FALSE) 
 ```
 
-The output of this funtion is a plot of the values of each criterion over all possible AR(p) models with $p = 1,...,10$ and, as can be seen from the plot, all criteria are minimized at the value $p=3$ which shows how all criteria (in this particular case) agree and select the true underlying model. The function also delivers the MLE estimates of the parameters of the selected model:
+The output of this funtion is a plot of the values of each criterion over all possible AR($p$) models with $p = 1,...,10$ and, as can be seen from the plot, all criteria are minimized at the value $p=3$ which shows how all criteria (in this particular case) agree and select the true underlying model. The function also delivers the MLE estimates of the parameters of the selected model:
 
 ```{r}
 best_model$coef
 ```
 
-It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners. ADD DISCUSSION WITH SIMULATION STUDY?
+It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners. 
+
+MINGMING
 
 These techniques are therefore all aiming at estimating the out-of-sample prediction error of a given model. However, they strongly rely on the chosen likelihood function and, if this does not adequately represent the model that generated the observed time series, then they could deliver misleading conclusions. For this reason, one could consider another approach to model selection based on model forecasting accuracy. Indeed, one could select a model based on the following procedure:
 
