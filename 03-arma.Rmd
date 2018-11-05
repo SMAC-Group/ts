@@ -1656,25 +1656,25 @@ result1 = result2 = data.frame(aic = rep(NA, B),
                                hq = rep(NA, B))
 
 for(i in 1:B){
-  set.seed(10+i)
+  set.seed(1+i)
   
   # generate data
   Xt1 = gen_gts(n = 100, AR(phi = c(0.6, 0.3), sigma2 = 1))
   Xt2 = gen_gts(n = 100, AR(phi = c(0.5, 0.25, 0.125, 0.0625), sigma2 = 1))
   
   # model selection for Xt1
-  tmp_aic = simts::select(AR(9), Xt1, criterion = "aic", plot = FALSE)
-  tmp_bic = simts::select(AR(9), Xt1, criterion = "bic", plot = FALSE)
-  tmp_hq = simts::select(AR(9), Xt1, criterion = "hq", plot = FALSE)
+  tmp_aic = select(AR(9), Xt1, criterion = "aic", plot = FALSE)
+  tmp_bic = select(AR(9), Xt1, criterion = "bic", plot = FALSE)
+  tmp_hq = select(AR(9), Xt1, criterion = "hq", plot = FALSE)
   
   result1$aic[i] = length(tmp_aic$model$phi)
   result1$bic[i] = length(tmp_bic$model$phi)
   result1$hq[i] = length(tmp_hq$model$phi)
   
   # model selection for Xt2
-  tmp_aic = simts::select(AR(9), Xt2, criterion = "aic", plot = FALSE)
-  tmp_bic = simts::select(AR(9), Xt2, criterion = "bic", plot = FALSE)
-  tmp_hq = simts::select(AR(9), Xt2, criterion = "hq", plot = FALSE)
+  tmp_aic = select(AR(9), Xt2, criterion = "aic", plot = FALSE)
+  tmp_bic = select(AR(9), Xt2, criterion = "bic", plot = FALSE)
+  tmp_hq = select(AR(9), Xt2, criterion = "hq", plot = FALSE)
   
   result2$aic[i] = length(tmp_aic$model$phi)
   result2$bic[i] = length(tmp_bic$model$phi)
@@ -1735,36 +1735,36 @@ legend("topright",
        fill = mycolor[1:3])
 ```
 
-```{r simuStrongWeak, eval = TRUE, cache = TRUE, echo = FALSE}
+```{r simuStrongWeak, eval = TRUE, cache = TRUE, echo = FALSE, warning=FALSE, message=FALSE, error=FALSE}
 B = 500
 result1 = result2 = data.frame(aic = rep(NA, B), 
                                bic = rep(NA, B), 
                                hq = rep(NA, B))
 
 for(i in 1:B){
-  set.seed(10+i)
+  set.seed(1+i)
   
   # generate data
   Xt1 = gen_gts(n = 100, AR(phi = c(0.6, 0.3), sigma2 = 1))
   Xt2 = gen_gts(n = 100, AR(phi = c(0.5, 0.25, 0.125, 0.0625), sigma2 = 1))
   
   # model selection for Xt1
-  tmp_aic = simts::select(AR(9), Xt1, criterion = "aic", plot = FALSE)
-  tmp_bic = simts::select(AR(9), Xt1, criterion = "bic", plot = FALSE)
-  tmp_hq = simts::select(AR(9), Xt1, criterion = "hq", plot = FALSE)
+  tmp_aic = try(simts::select(AR(9), Xt1, criterion = "aic", plot = FALSE))
+  tmp_bic = try(simts::select(AR(9), Xt1, criterion = "bic", plot = FALSE))
+  tmp_hq = try(simts::select(AR(9), Xt1, criterion = "hq", plot = FALSE))
   
-  result1$aic[i] = length(tmp_aic$model$phi)
-  result1$bic[i] = length(tmp_bic$model$phi)
-  result1$hq[i] = length(tmp_hq$model$phi)
+  if (class(tmp_aic) != "try-error"){ result1$aic[i] = length(tmp_aic$model$phi) }
+  if (class(tmp_bic) != "try-error"){ result1$bic[i] = length(tmp_bic$model$phi) }
+  if (class(tmp_hq) != "try-error"){ result1$hq[i] = length(tmp_hq$model$phi) }
   
   # model selection for Xt2
-  tmp_aic = simts::select(AR(9), Xt2, criterion = "aic", plot = FALSE)
-  tmp_bic = simts::select(AR(9), Xt2, criterion = "bic", plot = FALSE)
-  tmp_hq = simts::select(AR(9), Xt2, criterion = "hq", plot = FALSE)
+  tmp_aic = try(simts::select(AR(9), Xt2, criterion = "aic", plot = FALSE))
+  tmp_bic = try(simts::select(AR(9), Xt2, criterion = "bic", plot = FALSE))
+  tmp_hq = try(simts::select(AR(9), Xt2, criterion = "hq", plot = FALSE))
   
-  result2$aic[i] = length(tmp_aic$model$phi)
-  result2$bic[i] = length(tmp_bic$model$phi)
-  result2$hq[i] = length(tmp_hq$model$phi)
+  if (class(tmp_aic) != "try-error"){ result2$aic[i] = length(tmp_aic$model$phi) }
+  if (class(tmp_bic) != "try-error"){ result2$bic[i] = length(tmp_bic$model$phi) }
+  if (class(tmp_hq) != "try-error"){ result2$hq[i] = length(tmp_hq$model$phi) }
 }
 
 # calculate counts
@@ -1795,7 +1795,7 @@ colnames(result2) = c("1","2","3","4","5","6","7","8","9")
 rownames(result2) = c("AIC", "BIC", "HQ")
 ```
 
-```{r, fig.align='center', fig.height=4.5, fig.width=9, fig.cap="TO DO", echo = FALSE}
+```{r, fig.align='center', fig.height=4.5, fig.width=9, fig.cap="TO DO", echo = FALSE, warning=FALSE, message=FALSE, error=FALSE}
 # plot the results
 par(mfrow=c(1,2))
 mycolor = hcl(h = seq(15, 375, length = 4), l = 65, c = 100, alpha = 1)
@@ -1836,7 +1836,7 @@ lynx_select = select(AR(15), lynx_gts, include.mean = TRUE)
 ```
 
 ```{r, eval = TRUE, cache = TRUE, echo = FALSE}
-lynx_select = simts::select(AR(15), lynx_gts, include.mean = TRUE)
+lynx_select = try(simts::select(AR(15), lynx_gts, include.mean = TRUE))
 ```
 
 
