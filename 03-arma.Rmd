@@ -1103,7 +1103,7 @@ Each p-value represented in the plot above is therefore the p-value for the cons
 
 There are other Portmanteau tests with different advantages (and disadvantages) over the Ljung-Box test but these are beyond the scope of this textbook.
 
-## Inference for AR(p) Models
+## Inference for AR(p) Models `r emo::ji("warning")`
 
 For all the above methods, it would be necessary to understand how "precise" their estimates are. To do so we would need to obtain confidence intervals for these estimates and this can be done mainly in two manners:
 
@@ -1117,7 +1117,7 @@ The first approach consists in using the asymptotic distribution of the estimato
 which is represented in Figure \@ref(fig:simAR1ci)
 
 ``` {r simAR1ci, cache = TRUE, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap = "AR(1) with $\\phi$ close to parameter bound"}
-set.seed(32)
+set.seed(55)
 x = gen_gts(n = 100, AR1(0.96, 1))
 plot(x)
 ```
@@ -1154,7 +1154,7 @@ phi.sd.gmwm = res.gmwm[,"SE"][1]
 par(mfrow = c(1,2))
 xx = seq(from = 0, to = 1.2, length.out = 10^3)
 yy.ML = dnorm(xx, fit.ML$mod$coef, sqrt(fit.ML$mod$var.coef))
-plot(NA, xlim = c(0.8,1.04), ylim = range(yy.ML),
+plot(NA, xlim = c(0.8,1.05), ylim = range(yy.ML),
      xlab = expression(phi), ylab = "Density", main = "MLE")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
@@ -1166,7 +1166,7 @@ points(qnorm(0.025,fit.ML$mod$coef, sqrt(fit.ML$mod$var.coef)), 0, cex = 3,
        col = colors2[1], pch = "|")
 
 yy.gmwm = dnorm(xx, fit.gmwm$mod$estimate[1], phi.sd.gmwm)
-plot(NA, xlim = c(0.5,1.04), ylim = range(yy.gmwm),
+plot(NA, xlim = c(0.6,1.2), ylim = range(yy.gmwm),
      xlab = expression(phi), ylab = "Density", main = "GMWM")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
@@ -1182,7 +1182,7 @@ Therefore, if we estimate a stationary AR(1) model, it would be convenient to ha
 
 ``` {r paraAR1ciest, cache = TRUE, warning = FALSE, fig.height= 4.5, fig.width= 9}
 # Number of Iterations
-B = 10
+B = 10000
 
 # Set up storage for results
 est.phi.gmwm = rep(NA,B)
@@ -1213,15 +1213,15 @@ for(i in seq_len(B)){
 
 ``` {r paraAR1cigraphs, cache = TRUE, warning = FALSE, echo = FALSE, fig.height = 4.5, fig.width = 9, fig.cap = "Parametric bootstrap distributions of $\\hat{\\phi}$ for the MLE and GMWM parameter estimates. The histograms represent the empirical distributions resulting from the parametric bootstrap while the continuous densities represent the estimated asymptotic distributions. The vertical line represents the true value of $\\phi$, the dark solid lines represent the upper bound of the parameter space for $\\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for the asymptotic distributions (red and gold) and the empirical distributions (green and blue).", eval = TRUE}
 par(mfrow = c(1,2))
-
+ 
 hist.phi.ML = hist(est.phi.ML, plot = FALSE, breaks = 20)
 hist.phi.ML$counts = hist.phi.ML$counts/sum(hist.phi.ML$counts)/diff(hist.phi.ML$mids)[1]
-plot(NA, xlim = c(0.65,1.04), ylim = range(yy.ML),
+plot(NA, xlim = c(0.8,1.05), ylim = c(0, 30),
      xlab = expression(phi), ylab = "Density", main = "MLE")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
 abline(v = 0.96, lwd = 2, lty = 2, col = "grey60")
-plot(hist.phi.ML, xlim = c(0.6,1.1), ylim = range(yy.ML),
+plot(hist.phi.ML, xlim = c(0.8,1.05), ylim = c(0, 30),
      add = T, col = colors[3], border = "grey60")
 polygon(c(xx,rev(xx)), c(rep(0,length(yy.ML)), rev(yy.ML)), border = NA, col = colors[1])
 
@@ -1234,12 +1234,12 @@ points(quantile(est.phi.ML, 0.025, na.rm = T), 0, cex = 3, col = colors2[3], pch
 
 hist.phi.GMWM = hist(na.omit(est.phi.gmwm), plot = FALSE, breaks = 20)
 hist.phi.GMWM$counts = hist.phi.GMWM$counts/sum(hist.phi.GMWM$counts)/diff(hist.phi.GMWM$mids)[1]
-plot(NA, xlim = c(0.35,1.04), ylim = range(yy.gmwm),
+plot(NA, xlim = c(0.6,1.2), ylim = c(0, 26),
      xlab = expression(phi), ylab = "Density", main = "GMWM")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
 abline(v = 0.96, lwd = 2, lty = 2, col = "grey60")
-plot(hist.phi.GMWM, xlim = c(0.53,1.2), ylim = range(yy.gmwm),
+plot(hist.phi.GMWM, xlim = c(0.6,1.2), ylim = c(0, 26),
      add = T, col = colors[5], border = "grey60")
 polygon(c(xx,rev(xx)), c(rep(0,length(yy.gmwm)), rev(yy.gmwm)), border = NA, col = colors[2])
 
@@ -1249,7 +1249,7 @@ points(qnorm(0.025,fit.gmwm$mod$estimate[1], phi.sd.gmwm), 0, cex = 3, col = col
 points(quantile(est.phi.gmwm, 0.975, na.rm = T), 0, cex = 3, col = colors2[5], pch = "|")
 points(quantile(est.phi.gmwm, 0.025, na.rm = T), 0, cex = 3, col = colors2[5], pch = "|")
 ```
-
+   
 In Figure \@ref(fig:paraAR1cigraphs), we compare the estimated densities for $\hat{\phi}$ using asymptotic results and bootstrap techniques for the MLE and the GMWM estimators. It can be observed that the issue that arose previously with "non-stationary" confidence intervals does not occur with the parametric bootstrap approach since the interval regions of the latter lie entirely within the boundaries of the admissable parameter space.
 
 To further emphasize the advantages of parametric bootstrap, let us consider one additonal example of an AR(2) process. For this example, discussion will focus solely on the behaviour of the MLE. Having said this, the considered AR(2) process is defined as follows:
@@ -1435,13 +1435,13 @@ where $t_4$ represents the Student-$t$ distribution with 4 degrees of freedom (h
 
 ```{r mbbdata, fig.asp = 0.45, fig.width = 8, fig.align='center', caption = "TO DO", cache = FALSE}
 set.seed(1)         # Set seed for reproducibilty
-n = 500             # Sample size
+n = 300             # Sample size
 xt_m1 = gen_gts(n, AR1(phi = 0.5, sigma2 = 1))   # Gaussian noise only
-xt_m2 = gts(arima.sim(n = n, list(ar = 0.5, ma = 0), # Student-t noise
+xt_m2 = gts(arima.sim(n = n, list(ar = c(0.5,0.25), ma = 0), # Student-t noise
 rand.gen = function(n, ...) rt(n, df = 4)))
 ```
 
-
+ 
 ```{r mbbdatavis, echo = F, cache = FALSE, fig.cap="AR(1) processes generated under different noise conditions.", fig.asp = 0.5, fig.width = 8, fig.align='center', caption = "TO DO", dependson="mbbdata"}
 par(mfrow = c(1,2))
 plot(xt_m1, main = "Model 1")
@@ -1475,12 +1475,12 @@ B = 1000
 # Model 1 
 fit_m1_mle = estimate(AR(1), xt_m1, demean = FALSE)
 para_m1_phi  = ar1_paraboot(fit_m1_mle, B = B)
-block_m1_phi = ar1_blockboot(xt_m1, block_len = 25, B = B)
+block_m1_phi = ar1_blockboot(xt_m1, block_len = 15, B = B)
 
 # Model 2 
 fit_m2_mle = estimate(AR(1), xt_m2, demean = FALSE)
 para_m2_phi  = ar1_paraboot(fit_m2_mle, B = B)
-block_m2_phi = ar1_blockboot(xt_m2, block_len = 25, B = B)
+block_m2_phi = ar1_blockboot(xt_m2, block_len = 15, B = B)
 ```
 
 ```{r blockbootmodels, echo = FALSE, cache = FALSE, warning = FALSE, fig.height= 4.5, fig.width= 9, fig.align='center', fig.cap="Estimated parametric and non-parametric blockbootstrap distributions of $\\hat{\\phi}$ for the MLE parameter estimates. The histogram bars represent the empirical results from the bootstraps with the green representing parametric bootstrap and the red representing the block bootstrap approach. The dashed vertical line represents the true value of $\\phi$ and the vertical ticks correspond to the limits of the 95% confidence intervals for both estimation techniques."}
@@ -1494,22 +1494,22 @@ hist.phi.ML$counts = hist.phi.ML$counts/sum(hist.phi.ML$counts)/diff(hist.phi.ML
 hist.phi.ML.bboot = hist(block_m1_phi, plot = FALSE, breaks = 25)
 hist.phi.ML.bboot$counts = hist.phi.ML.bboot$counts/sum(hist.phi.ML.bboot$counts)/diff(hist.phi.ML.bboot$mids)[1]
 
-plot(NA, xlim = c(0.33,0.62), ylim = c(0,18),
+plot(NA, xlim = c(0.23,0.68), ylim = c(0,12),
 xlab = expression(phi), ylab = "Density", main = "Model 1")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
 abline(v = 0.95, lwd = 2, lty = 2, col = "grey60")
-plot(hist.phi.ML, xlim = c(0.33,0.62), ylim = c(0,18),
+plot(hist.phi.ML, xlim = c(0.23,0.68), ylim = c(0,12),
 add = T, col = colors[3], border = "grey60")
 
-plot(hist.phi.ML.bboot, xlim = c(0.33,0.62), ylim = c(0,18),
+plot(hist.phi.ML.bboot, xlim = c(0.23,0.68), ylim = c(0,12),
 add = T, col = colors[1], border = "grey60")
 
-points(quantile(para_m1_phi, 0.975), 0, cex = 3, col = colors[3], pch = "|")
-points(quantile(para_m1_phi, 0.025), 0, cex = 3, col = colors[3], pch = "|")
+points(quantile(para_m1_phi, 0.975), 0, cex = 3, col = colors2[3], pch = "|")
+points(quantile(para_m1_phi, 0.025), 0, cex = 3, col = colors2[3], pch = "|")
 
-points(quantile(block_m1_phi, 0.975), 0, cex = 3, col = colors[1], pch = "|")
-points(quantile(block_m1_phi, 0.025), 0, cex = 3, col = colors[1], pch = "|")
+points(quantile(block_m1_phi, 0.975), 0, cex = 3, col = colors2[1], pch = "|")
+points(quantile(block_m1_phi, 0.025), 0, cex = 3, col = colors2[1], pch = "|")
 abline(v = 0.5, lwd = 2, lty = 2, col = "grey60")
 
 ## Model 2
@@ -1519,29 +1519,29 @@ hist.phi.ML$counts = hist.phi.ML$counts/sum(hist.phi.ML$counts)/diff(hist.phi.ML
 hist.phi.ML.bboot = hist(block_m2_phi, plot = FALSE, breaks = 25)
 hist.phi.ML.bboot$counts = hist.phi.ML.bboot$counts/sum(hist.phi.ML.bboot$counts)/diff(hist.phi.ML.bboot$mids)[1]
 
-plot(NA, xlim = c(0.33,0.62), ylim = c(0,18),
+plot(NA, xlim = c(0.23,0.68), ylim = c(0,12),
 xlab = expression(phi), ylab = "Density", main = "Model 2")
 grid()
 abline(v = 1, lwd = 2, col = "grey60")
 abline(v = 0.95, lwd = 2, lty = 2, col = "grey60")
-plot(hist.phi.ML, xlim = c(0.33,0.62), ylim = c(0,18),
+plot(hist.phi.ML, xlim = c(0.23,0.68), ylim = c(0,12),
 add = T, col = colors[3], border = "grey60")
 
-plot(hist.phi.ML.bboot, xlim = c(0.33,0.62), ylim = c(0,18),
+plot(hist.phi.ML.bboot, xlim = c(0.23,0.68), ylim = c(0,12),
 add = T, col = colors[1], border = "grey60")
 
-points(quantile(para_m2_phi, 0.975), 0, cex = 3, col = colors[3], pch = "|")
-points(quantile(para_m2_phi, 0.025), 0, cex = 3, col = colors[3], pch = "|")
+points(quantile(para_m2_phi, 0.975), 0, cex = 3, col = colors2[3], pch = "|")
+points(quantile(para_m2_phi, 0.025), 0, cex = 3, col = colors2[3], pch = "|")
 
-points(quantile(block_m2_phi, 0.975), 0, cex = 3, col = colors[1], pch = "|")
-points(quantile(block_m2_phi, 0.025), 0, cex = 3, col = colors[1], pch = "|")
+points(quantile(block_m2_phi, 0.975), 0, cex = 3, col = colors2[1], pch = "|")
+points(quantile(block_m2_phi, 0.025), 0, cex = 3, col = colors2[1], pch = "|")
 
 abline(v = 0.5, lwd = 2, lty = 2, col = "grey60")
 ```
 
 The results from the parametric and nonparametric block bootstrapping techniques are displayed in Figure \@ref(fig:blockbootmodels). In both instances, we can  see that the block bootstrap has a narrower distribution. However, there is a considerable bias that leads the distribution to be off-centered. The origins of this bias comes from the independence associated between blocks as they are placed into $(X^*_t)$. 
 
-## Model Selection
+## Model Selection `r emo::ji("warning")`
 
 The diagnostic and inference tools that have been investigated this far are all based on analysing the residuals and checking the parameter confidence intervals to understand if the model is reasonable and fits the data well. However, one may be interested in understanding which, among a set of candidate models, appears to be the "best" to describe and forecast the observed time series. There are different approaches to tackling this problem among which stepwise procedures in which one starts with the simplest (or more complex) model and adds (removes) parameters until a certain statistic (criterion) is optimised. However, these approaches rely on the "paths" chosen to add the parameters (e.g. should one go from an AR(1) to an AR(2) or from an AR(1) to an MA(1)?) while there are other criteria available which are so-called "global" criteria. 
 
@@ -1663,7 +1663,7 @@ $$MAPE = \text{median}\left(\Big|X_{t+j} - X_{t+j}^t\Big|\right).$$
 
 The MAPE is a score function that assesses how far the model's predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model's performance (the median is what guarantees this). This score can also be used to assess a model's prediction performance and is implemented in the ADD FUNCTION AND EXAMPLE?
 
-## Moving Average Models
+## Moving Average Models `r emo::ji("warning")`
 
 A moving average model can be interpreted in a similar way to an AR(p) model, 
 except that in this case the time series is the result of a linear operation on 
