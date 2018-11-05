@@ -1422,12 +1422,12 @@ ar1_blockboot = function(Xt, block_len = 10, B = 500) {
 }
 ```
 
-Having defined the function above, let us consider a scenario where the model's assumption that the residuals are Gaussian is violated. Consider two AR(1) processes with the same coefficients but with different innovation noise generation procedures:
+Having defined the function above, let us consider a scenario where the model's assumptions are not respected (i.e. wrong model and/or non-Gaussian time series). Consider an AR(1) and an AR(2) process with the same coefficients for the first lagged variable (i.e. $\phi = \phi_1 = 0.5$) but with different innovation noise generation procedures:
 
 $$
     \begin{aligned}
   \mathcal{M}_1:&{}& X_t &=0.5 X_{t-1} + W_t,&{}& W_t\sim \mathcal{N} (0,1) \\
-  \mathcal{M}_2:&{}& X_t &=0.5 X_{t-1} + V_t,&{}& V_t\sim t_4
+  \mathcal{M}_2:&{}& X_t &=0.5 X_{t-1} + 0.25 X_{t-2} + V_t,&{}& V_t\sim t_4
   \end{aligned}
 $$
 
@@ -1437,7 +1437,7 @@ where $t_4$ represents the Student-$t$ distribution with 4 degrees of freedom (h
 set.seed(1)         # Set seed for reproducibilty
 n = 300             # Sample size
 xt_m1 = gen_gts(n, AR1(phi = 0.5, sigma2 = 1))   # Gaussian noise only
-xt_m2 = gts(arima.sim(n = n, list(ar = c(0.5,0.25), ma = 0), # Student-t noise
+xt_m2 = gts(arima.sim(n = n, list(ar = c(0.5, 0.25), ma = 0), # Student-t noise
 rand.gen = function(n, ...) rt(n, df = 4)))
 ```
 
@@ -1448,7 +1448,7 @@ plot(xt_m1, main = "Model 1")
 plot(xt_m2, main = "Model 2")
 ```
 
-From Figure \@ref(fig:mbbdatavis), the two time series appear to be considerably different as a result of the noise process being altered even though the $\phi$ coefficient is held constant. Among others, the difference is also related to the variance of the $t$ distribution defined as $\frac{\nu}{\nu-2}$ for $\nu > 2$ (and $\infty$ for $\nu \le 2$). Therefore, the innovation variance of the i.i.d white noise process is given by $\sigma^2_{\mathcal{M}_1} = 1$ while the noise generated from the $t$ distribution has innovation variance $\sigma^2_{\mathcal{M}_2} = 2$. To compare the performance of the bootstrap procedures, the function below performs parametric bootstrap for the MLE of an AR(1) process assuming the innovations are Gaussian.
+From Figure \@ref(fig:mbbdatavis), the two time series appear to be considerably different as a result of the different models and noise processes. Among others, the difference is also related to the variance of the $t$ distribution defined as $\frac{\nu}{\nu-2}$ for $\nu > 2$ (and $\infty$ for $\nu \le 2$). Therefore, the innovation variance of the i.i.d white noise process is given by $\sigma^2_{\mathcal{M}_1} = 1$ while the noise generated from the $t$ distribution has innovation variance $\sigma^2_{\mathcal{M}_2} = 2$. To compare the performance of the bootstrap procedures, the function below performs parametric bootstrap for the MLE of an AR(1) process assuming the innovations are Gaussian.
 
 ```{r ar1bootstrapper, cache = FALSE}
 ar1_paraboot = function(model, B = 10000) {
@@ -1467,7 +1467,7 @@ ar1_paraboot = function(model, B = 10000) {
 }
 ```
 
-Now that we have two functions implementing the block and parametric bootstraps, we can apply these procedures to obtain confidence intervals for the AR(1) parameters for the two time series generated respectively by model $\mathcal{M}_1$ and $\mathcal{M}_2$.
+Now that we have two functions implementing the block and parametric bootstraps, we can apply these procedures to obtain confidence intervals for the (first) $\phi$ parameter for the two time series generated respectively by model $\mathcal{M}_1$ and $\mathcal{M}_2$ (i.e. for $\phi = \phi_1 = 0.5$).
 
 ```{r blockbootsim, cache = TRUE}
 B = 1000
@@ -1539,7 +1539,7 @@ points(quantile(block_m2_phi, 0.025), 0, cex = 3, col = colors2[1], pch = "|")
 abline(v = 0.5, lwd = 2, lty = 2, col = "grey60")
 ```
 
-The results from the parametric and nonparametric block bootstrapping techniques are displayed in Figure \@ref(fig:blockbootmodels). In both instances, we can  see that the block bootstrap has a narrower distribution. However, there is a considerable bias that leads the distribution to be off-centered. The origins of this bias comes from the independence associated between blocks as they are placed into $(X^*_t)$. 
+The results from the parametric and nonparametric block bootstrapping techniques are displayed in Figure \@ref(fig:blockbootmodels). It can be seen how, for the first model $\mathcal{M}_1$ the parametric boostrap technique defines a confidence interval that includes the true parameter value (0.5) while the non-parametric bootstrap just misses it. In this case, being the model correctly specified for the parametric bootstrap, the latter is the preferred technique. However, it can be seen that for the second model $\mathcal{M}_2$, the parametric bootstrap approach is greatly affected by the miss-specified model it is based on. Indeed we can see how it shifts towards larger values of $\phi$ (although its confidence intervals still contain the true value) while the MBB remains in the proximity of the true value.
 
 ## Model Selection `r emo::ji("warning")`
 
