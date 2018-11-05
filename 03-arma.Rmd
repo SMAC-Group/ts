@@ -1647,7 +1647,7 @@ As we saw earlier, the PACF appears to be significant at lag $h = 8$ therefore l
 lynx_select = select(AR(15), lynx_gts, include.mean = TRUE)
 ```
 
-In this case, we see that the AIC and HQ select an AR(8) model in accordance with the selection procedure based on the ACF. However the BIC selects a much smaller model (AR(3)). This can be expected since the BIC tends to "underfit" given that it's penalty term becomes larger with $T$ with respect to the AIC and HQ.
+In this case, we see that the AIC and HQ select an AR(8) model in accordance with the selection procedure based on the ACF. However the BIC selects a much smaller model (AR(3)). This can be due to different reasons but the BIC requires the presence of the true model among the candidate models and this is possibly not the case for this example.
 
 To summarize, these techniques are all aiming at estimating the out-of-sample prediction error of a given model. However, they strongly rely on the chosen likelihood function and, if this does not adequately represent the model that generated the observed time series, then they could deliver misleading conclusions. For this reason, one could consider another approach to model selection based on model forecasting accuracy. Indeed, one could select a model based on the following procedure:
 
