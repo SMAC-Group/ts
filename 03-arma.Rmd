@@ -1661,7 +1661,13 @@ There are many "scores" that can assess the quality of the model using the empir
 
 $$MAPE = \text{median}\left(\Big|X_{t+j} - X_{t+j}^t\Big|\right).$$
 
-The MAPE is a score function that assesses how far the model's predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model's performance (the median is what guarantees this). This score can also be used to assess a model's prediction performance and is implemented in the ADD FUNCTION AND EXAMPLE?
+The MAPE is a score function that assesses how far the model's predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model's performance (the median is what guarantees this). This score can also be used to assess a model's prediction performance and is implemented in the `MAPE()` function in the `simts` package. Let us check the model selected for the Lynx trappings data seen earlier when using this approach using the first $0.8 \cdot T$ observations to estimate the model and the last $0.2 \cdot T$ to test the estimated model.
+
+```{r}
+lynx_mape = MAPE(AR(15), lynx_gts, start = 0.8)
+```
+
+As we can see, an AR(12) model is selected indicating that a more complicated model may be required for this time series data. However it can be seen how the value of the MAPE is extremely close to that of the previously selected AR(8) and lies abundantly within the confidence intervals of the MAPE for the AR(12). Therefore also this selection method would appear to indicate that the AR(8) model is a good candidate for this time series.
 
 ## Moving Average Models
 
