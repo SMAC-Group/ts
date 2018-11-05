@@ -1182,7 +1182,7 @@ Therefore, if we estimate a stationary AR(1) model, it would be convenient to ha
 
 ``` {r paraAR1ciest, cache = TRUE, warning = FALSE, fig.height= 4.5, fig.width= 9}
 # Number of Iterations
-B = 10000
+B = 10
 
 # Set up storage for results
 est.phi.gmwm = rep(NA,B)
@@ -1543,20 +1543,66 @@ The results from the parametric and nonparametric block bootstrapping techniques
 
 ## Model Selection
 
-The diagnostic and inference tools that have been investigated this far are all based on analysing the residuals and checking the parameter confidence intervals to understand if the model is reasonable and fits the data well. However, one may be interested in understanding which, among a set of candidate models, appears to be the "best" to describe and forecast the observed time series. There are different approaches to tackling this problem among which stepwise procedures in which one starts with the simplest (or more complex) model and adds (removes) parameters until a certain statistic (criterion) is optimised. However, these approaches rely on the "paths" chosen to add the parameters (e.g. should one go from an AR(1) to an AR(2) or from an AR(1) to an ARMA(1,1)?) while there are other criteria available which are so-called "global" criteria.
+The diagnostic and inference tools that have been investigated this far are all based on analysing the residuals and checking the parameter confidence intervals to understand if the model is reasonable and fits the data well. However, one may be interested in understanding which, among a set of candidate models, appears to be the "best" to describe and forecast the observed time series. There are different approaches to tackling this problem among which stepwise procedures in which one starts with the simplest (or more complex) model and adds (removes) parameters until a certain statistic (criterion) is optimised. However, these approaches rely on the "paths" chosen to add the parameters (e.g. should one go from an AR(1) to an AR(2) or from an AR(1) to an MA(1)?) while there are other criteria available which are so-called "global" criteria.
 
 Let us consider a general criterion that we would wish a model to respect in order to be considered a "good" model. Such a criterion, that we call $C$, could be the following:
 
-$$C = E\left[ {{E_0}\left[ {\left\| {{X_0} - \hat X} \right\|_2^2} \right]} \right],$$
-where $\|\cdot\|_2^2$ represents the L2-norm, $\hat{X}$ represents the predictions from a given (estimated) model, $X_0$ represents future unobserved values of the time series $(X_t)$ and $E_0$ represents the out-of-sample expectation (i.e. the expectation of my future values $X_0$). In general terms, this criterion is measuring the expected difference between my predicted values and the expected future values of my time series. Therefore, a "good" model would be a model that minimizes this criterion thereby minimising the expected "prediction error" of the model.
+\begin{equation}
+C = \mathbb{E}\left[ {{\mathbb{E}_0}\left[ {\left\| {{X_0} - \hat X} \right\|_2^2} \right]} \right],
+ (\#eq:theocp)
+\end{equation}
 
-Assuming that this is a good criterion to evaluate the "goodness" of a model, most of the quantites defining this criterion are not directly available and therefore we need estimators for this criterion. Denoting $logL()$ as being the log-likelihood function and $k$ as the number of parameters in the model, the most common criteria that aim at estimating this quantity are defined as follows:
+where $\|\cdot\|_2^2$ represents the L2-norm, $\hat{X}$ represents the predictions from a given (estimated) model, $X_0$ represents future unobserved values of the time series $(X_t)$ and $\mathbb{E}_0$ represents the out-of-sample expectation (i.e. the expectation of my future values $X_0$). In general terms, this criterion is measuring the expected difference between my predicted values and the expected future values of my time series. Therefore, a "good" model would be a model that minimizes this criterion thereby minimising the expected "prediction error" of the model. In fact, the theoretical quantity defined in \@ref(eq:theocp) is related to Mallow's $C_p$ [see @mallows1973some], which is still nowadays one of the most commonly used model selection criterion for regression. Indeed, let us consider the following theorem.
+
+```{theorem, label="optimthm"}
+\[C = \mathbb{E}\left[ {{\mathbb{E}_0}\left[ {\left\| {{X_0} - \hat X} \right\|_2^2} \right]} \right] \mathbb{E}\left[ {\left\| {X - \hat X} \right\|_2^2} \right] + 2tr\left( {\text{cov}\left( {X,\hat X} \right)} \right).\]
+```
+
+Then, in the context of linear regression we have
+
+\begin{equation*}
+\mathbf{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon},
+\end{equation*}
+
+and when considering the least-squares estimator we obtain
+
+\begin{equation*}
+\hat{\mathbf{Y}} = \mathbf{X} \hat{\boldsymbol{\beta}} = \mathbf{X} \left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X} \mathbf{Y} = \mathbf{H} \mathbf{Y},
+\end{equation*}
+
+where $\mathbf{H} \equiv \mathbf{X} \left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}$ denotes the ``Hat'' matrix (as it puts a `r emo::ji("tophat")` on $\mathbf{Y}$). Then,
+the theoretical $C$ becomes:
+
+\begin{equation*}
+C = \mathbb{E}\left[ \mathbb{E}_0 \left[ \left\| \mathbf{Y}_0 - \hat{\mathbf{Y}} \right\|_2^2 \right] \right],
+\end{equation*}
+
+and using Theorem \@ref{thm:optimthm}, we obtain (why? `r emo::ji("thinking_face")`)
 
 \begin{align*}
-  AIC &=  -2 \text{logL}(\hat{theta}) + 2k\\
-  BIC &=  -2 \text{logL}(\hat{theta}) + \log(T) k\\
-  HQ  &=  -2 \text{logL}(\hat{theta}) + 2\log(\log(T)) k .
+C &= \mathbb{E}\left[  \left\| \mathbf{Y} - \hat{\mathbf{Y}} \right\|_2^2 \right] + 2tr \left( \text{cov} \left( \mathbf{Y}, \hat{\mathbf{Y}} \right) \right) = \mathbb{E}\left[  \left\| \mathbf{Y} - \hat{\mathbf{Y}} \right\|_2^2 \right] + 2k \sigma^2,
 \end{align*}
+
+where $k$ is the number of colunms of the matrix $\mathbf{X}$ and $\sigma^2$ the variance of the residuals $\boldsymbol{\varepsilon}$. Thus, an **unbiased** estimator of $C$ is simply
+
+\begin{align*}
+\hat{C} &=  \left\| \mathbf{Y} - \hat{\mathbf{Y}} \right\|_2^2 + 2k \sigma^2,
+\end{align*}
+
+which is known as Mallow's $C_p$. 
+
+Alternatively, several researchers used in the 1970's a different approach based on the Kullback-Leibler disprepancy, which is ofen called the *Information Theory* approach. While a theoretical discussion of this method is clearly beyond the scope of this document, the general idea is essentially the same as Mallow's $C_p$, where one would constructed a theoretical quantity (such as $C$ in our previous example) and compute/derive a suitable estimator of this quantity. The most famous information theory-based model selection crierion is the landmark Akaike Information Criterion or AIC [see @akaike1974new], which is probably the most commonly used model selection crierion for time series data. In the late 1970's there was an explosion of work in this field and many model selection criteria were proposed including the Bayesian Information Criterion or BIC proposed by @schwarz1978estimating and the HQ criterion proposed by @hannan1979determination.  
+
+which were fallowed among other by the BIC approach
+
+Assuming that this is a good criterion to evaluate the "goodness" of a model, most of the quantites defining this criterion are not directly available and therefore we need estimators for this criterion. Denoting $\text{logL}(\hat{\boldsymbol{\theta}})$ as being the log-likelihood function evaluated at the estimated parameters and $k$ as the number of parameters in the model, the most common criteria that aim at estimating this quantity are defined as follows:
+
+\begin{align*}
+  \text{AIC} &=  -2 \text{logL}(\hat{\boldsymbol{\theta}}) + 2k\\
+  \text{BIC} &=  -2 \text{logL}(\hat{\boldsymbol{\theta}}) + \log(T) k\\
+  \text{HQ}  &=  -2 \text{logL}(\hat{\boldsymbol{\theta}}) + 2\log(\log(T)) k .
+\end{align*}
+
 
 As you can notice, all three criteria have a common structure to them composed of two terms: (i) the first is a quantity that is based the value of the likelihood function while (ii) the second is a value that depends on the number of parameters in the model $k$ (as well as on the length of the time series $T$). To interpret these terms, one can consider that the first term decreases as the likelihood increases which is true, among others, when more complex models are fitted to the observed time series. This implies that, all other things being equal, the criterion is minimized when the value of the likelihood is the largest possible which is (always) true when the most complex model is fitted to the time series. If we were to base our choice only on this term, we would always choose the most complex model for our time series thereby leading to the problem of "overfitting" which can introduce unnecessary variability if using this model to predict future values of the time series. In order to compensate for this, the second term can be seen as a penalty-term for model complexity. Indeed, the second term increases as more parameters are added to the model.
 
@@ -1576,7 +1622,7 @@ plot(auto_corr(Xt, pacf = TRUE))
 From the PACF plot one sees that the first three lags appear to be significant indicating that an AR(3) model would indeed appear to be a good candidate model for this observed time series. However, there is another value of the PACF that appears to be marginally significant at lag 10. Let us therefore suppose that we want to consider all possible AR(p) models with $p^* = 10$. The `select()` function from the `simts` package allows to evaluate and plot the value of the three criteria presented earlier in order to understand the value of $p$ that minimizes each of them.
 
 ```{r}
-best_model = select(AR(10), Xt, include.mean = FALSE)
+best_model = select(AR(10), Xt, include.mean = FALSE) 
 ```
 
 The output of this funtion is a plot of the values of each criterion over all possible AR(p) models with $p = 1,...,10$ and, as can be seen from the plot, all criteria are minimized at the value $p=3$ which shows how all criteria (in this particular case) agree and select the true underlying model. The function also delivers the MLE estimates of the parameters of the selected model:
