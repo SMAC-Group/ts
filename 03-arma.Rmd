@@ -1,10 +1,10 @@
 # The Family of Autoregressive Moving Average Models
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
+#detach("package:mgcv", TRUE)
 library(simts)
 library(ggplot2)
 library(robcor)
-library(gmwm2)
 ```
 
 In this chapter we introduce a class of time series models that is considerably flexible and among the most commonly used to describe stationary time series. This class is represented by the Seasonal AutoRegressive Integrated Moving Average (SARIMA) models which, among others, combine and include the autoregressive and moving average models seen in the previous chapter. To introduce this class of models, we start by describing a sub-class called AutoRegressive Moving Average (ARMA) models which represent the backbone on which the SARIMA class is built. The importance of ARMA models resides in their flexibility as well as their capacity of describing (or closely approximating) almost all the features of a stationary time series. The autoregressive parts of these models describe how consecutive observations in time influence each other while the moving average parts capture some possible unobserved shocks thereby allowing to model different phenomena which can be observed in various fields going from biology to finance.
@@ -1369,7 +1369,7 @@ Suppose that $\left(X_t\right)$ is a weakly stationary time series with $T$ obse
   the $B$ independent replications.
 ```
 
-The approach taken by MBB ensures that within each block the dependency between observations is preserved. However, one particular issue that now arises is that some inaccuracy is introduced as a result of successive blocks potentially being independent from each other. In reality, this is one of the trade-offs of the MBB approach that can be mitigated by selecting an optimal $\ell$ (to improve the accuracy of the procedure one should choose $\ell = T^{1/3}$ as $T \to \infty$ as being the optimal choice). An earlier variant of MBB is called the nonoverlapping block bootstrap (NBB) which doesn't allow the blocks to share common data points and is presented below.
+The approach taken by MBB ensures that within each block the dependency between observations is preserved. However, one particular issue that now arises is that some inaccuracy is introduced as a result of successive blocks potentially being independent from each other. In reality, this is one of the trade-offs of the MBB approach that can be mitigated by selecting an optimal $\ell$ (to improve the accuracy of the procedure one should choose $\ell = T^{1/3}$ as $T \to \infty$ as being the optimal choice). An earlier variant of MBB is called the Nonoverlapping Block Bootstrap (NBB) which doesn't allow the blocks to share common data points and is presented below.
 
 ```{definition, label="nbb", "Nonoverlapping Block Bootstrap"}
 Suppose that $\left(X_t\right)$ is weakly stationary time series with $T$ observations.
@@ -1554,10 +1554,10 @@ C = \mathbb{E}\left[ {{\mathbb{E}_0}\left[ {\left\| {{X_0} - \hat X} \right\|_2^
  (\#eq:theocp)
 \end{equation}
 
-where $\|\cdot\|_2^2$ represents the L2-norm, $\hat{X}$ represents the predictions from a given (estimated) model, $X_0$ represents future unobserved values of the time series $(X_t)$ and $\mathbb{E}_0$ represents the out-of-sample expectation (i.e. the expectation of my future values $X_0$). In general terms, this criterion is measuring the expected difference between my predicted values and the expected future values of my time series. Therefore, a "good" model would be a model that minimizes this criterion thereby minimising the expected "prediction error" of the model. In fact, the theoretical quantity defined in \@ref(eq:theocp) is related to Mallow's $C_p$ [see @mallows1973some], which is still nowadays one of the most commonly used model selection criterion for regression. Indeed, let us consider the following theorem.
+where $\|\cdot\|_2^2$ represents the L2-norm, $\hat{X}$ represents the predictions from a given (estimated) model, $X_0$ represents future unobserved values of the time series $(X_t)$ and $\mathbb{E}_0$ represents the out-of-sample expectation (i.e. the expectation of my future values $X_0$). In general terms, this criterion is measuring the expected difference between my predicted values and the expected future values of my time series. Therefore, a "good" model would be a model that minimizes this criterion thereby minimising the expected "prediction error" of the model. In fact, the theoretical quantity defined in \@ref(eq:theocp) is related to Mallow's $C_p$ [see @mallows1973some], which is still nowadays one of the most commonly used model selection criterion for regression. Indeed, let us consider the following theorem whose proof is given in Appendix \@ref{appendixoptim}. 
 
 ```{theorem, label="optimthm"}
-\[C = \mathbb{E}\left[ {{\mathbb{E}_0}\left[ {\left\| {{X_0} - \hat X} \right\|_2^2} \right]} \right] \mathbb{E}\left[ {\left\| {X - \hat X} \right\|_2^2} \right] + 2tr\left( {\text{cov}\left( {X,\hat X} \right)} \right).\]
+\[C = \mathbb{E}\left[ {{\mathbb{E}_0}\left[ {\left\| {{X_0} - \hat X} \right\|_2^2} \right]} \right] = \mathbb{E}\left[ {\left\| {X - \hat X} \right\|_2^2} \right] + 2tr\left( {\text{cov}\left( {X,\hat X} \right)} \right).\]
 ```
 
 Then, in the context of linear regression we have
@@ -1572,7 +1572,7 @@ and when considering the least-squares estimator we obtain
 \hat{\mathbf{Y}} = \mathbf{X} \hat{\boldsymbol{\beta}} = \mathbf{X} \left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X} \mathbf{Y} = \mathbf{H} \mathbf{Y},
 \end{equation*}
 
-where $\mathbf{H} \equiv \mathbf{X} \left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}$ denotes the ``Hat'' matrix (as it puts a `r emo::ji("tophat")` on $\mathbf{Y}$). Then, the theoretical $C$ becomes:
+where $\mathbf{H} \equiv \mathbf{X} \left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}$ denotes the "Hat" matrix (as it puts a `r emo::ji("tophat")` on $\mathbf{Y}$). Then, the theoretical $C$ becomes:
 
 \begin{equation*}
 C = \mathbb{E}\left[ \mathbb{E}_0 \left[ \left\| \mathbf{Y}_0 - \hat{\mathbf{Y}} \right\|_2^2 \right] \right],
@@ -1644,7 +1644,8 @@ The first one corresponds to a "strong" signal while the second one is called a 
 We consider sample size $N = 100$ and bootstrap replications $B = 500$. 
 ```
 
-```{r simuStrongWeak, eval = TRUE, cache = TRUE}
+
+```{r simuStrongWeak, eval = FALSE, cache = TRUE}
 B = 500
 result1 = result2 = data.frame(aic = rep(NA, B), 
                                bic = rep(NA, B), 

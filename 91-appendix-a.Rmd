@@ -342,23 +342,44 @@ Since we have shown that the expectation of the last term is zero, we have that
 
 Now the first term is positive and doesn't depend on $m$, so we focus on the second term which is minimized for $m = E\left[ {{X_t}|{\Omega _t}} \right]$ thereby minimizing the entire expression in terms of $m$. \blacksquare
 
-<!-- 
+ 
 ## Proof of Theorem 4.2 {#appendixoptim}
 
-We begin by examining the norm:
+We begin by examining the norm and notice that
+
+\begin{equation*}
+  \left\| {X_0 - \hat{X}} \right\|_2^2 = {X_0^T}X_0 + \hat{X}^T \hat{X}  - 2X_0^T \hat{X}
+\end{equation*}
+
+Therefore, we obtain
+
 \begin{align*}
-  \left\| {Y - \hat Y} \right\|_2^2 &= \left\| {Y - X\hat \phi } \right\|_2^2 = {Y^T}Y + {{\hat \phi }^T}{X^T}X\phi  - 2{Y^T}X\hat \phi  \hfill \\
-   &= {Y^T}Y + {{\hat \phi }^T}{X^T}X\phi  - 2{\left( {Y - X\hat \phi } \right)^T}X\hat \phi  \hfill \\ 
+  \mathbb{E}\left[ \mathbb{E}_0 \left[ \left\| {X_0 - \hat{X}} \right\|_2^2\right] \right] &=  \mathbb{E}\left[ \mathbb{E}_0 \left[{X_0^T}X_0\right] \right] +  \mathbb{E}\left[ \mathbb{E}_0 \left[\hat{X}^T \hat{X}\right] \right]  - 2 \mathbb{E}\left[ \mathbb{E}_0 \left[X_0^T \hat{X}\right] \right]\\
+  &= \mathbb{E}_0 \left[{X_0^T}X_0\right]  +  \mathbb{E}\left[ \hat{X}^T \hat{X}\right]   - 2 \mathbb{E}\left[ \mathbb{E}_0^T \left[X_0\right] \hat{X} \right].
 \end{align*}
-So,
-\[E\left[ {{E_0}\left[ {\left\| {Y_0 - \hat Y} \right\|_2^2} \right]} \right] = {E_0}\left[ {Y_0^TY} \right] - E\left[ {{{\hat \phi }^T}{X^T}X\hat \phi } \right] - 2E\left[ {{{\left( {{E_0}\left[ {{Y_0}} \right] - X\hat \phi } \right)}^T}X\hat \phi } \right]\]
-Let ${C^*} = E\left[ {\left\| {Y - \hat Y} \right\|_2^2} \right] = E\left[ {{Y^T}Y} \right] - E\left[ {\hat \phi {X^T}X\hat \phi } \right] - 2E\left[ {{{\left( {Y - X\hat \phi } \right)}^T}X\hat \phi } \right]$
-Therefore,
+
+Next, we let ${C^*} \equiv \mathbb{E}\left[ {\left\| {X - \hat X} \right\|_2^2} \right]$ which can be expressed as follows:
+
+\begin{equation*}
+  \mathbb{E}\left[  \left\| {X - \hat{X}} \right\|_2^2\right] = \mathbb{E} \left[{X^T}X\right]  +  \mathbb{E}\left[ \hat{X}^T \hat{X}\right]   - 2 \mathbb{E}\left[  X^T \hat{X} \right].
+\end{equation*}
+
+Since $X$ and $X_0$ have the same distribution we have that $\mathbb{E}[X] = \mathbb{E}_0 [X_0]$ and $\mathbb{E}[X^T X] = \mathbb{E}_0 [X_0^T X_0]$. By taking the difference between $C$ and $C^*$ we obtain
+
 \begin{align*}
-  C - {C^*} &= 2E\left[ {{{\left( {Y - {E_0}\left[ {{Y_0}} \right]} \right)}^T}X\hat \phi } \right]\overbrace  = ^{\left( * \right)}2tr\left( {\text{cov}\left( {{Y_0} - {E_0}\left[ {{Y_0}} \right],X\hat \phi } \right)} \right) + 2tr\left( {E\left[ {y - {E_0}\left[ {{Y_0}} \right]} \right]E\left[ {X\hat \phi } \right]} \right) \hfill \\
-   &= 2tr\left( {\text{cov}\left( {Y,X\hat \phi } \right)} \right) = 2tr\left( {\text{cov}\left( {Y,\hat Y} \right)} \right) \hfill \\ 
+  C - {C^*} &= 2 \mathbb{E}\left[  X^T \hat{X} \right] - 2 \mathbb{E}\left[ \mathbb{E}_0^T \left[X_0\right] \hat{X} \right] = 2 \mathbb{E}\left[ \left(X - \mathbb{E}_0 \left[X_0\right]\right)^T \hat{X} \right]\\
+  &=2 \mathbb{E}\left[ \left(X - \mathbb{E} \left[X\right]\right)^T \hat{X} \right] = 2 \mathbb{E}\left[ tr \left(\left(X - \mathbb{E} \left[X\right]\right)^T \hat{X}\right) \right]\\
+  &= 2 \mathbb{E}\left[ tr \left(\hat{X} \left(X - \mathbb{E} \left[X\right]\right)^T \right) \right] = 2 tr \left( \mathbb{E}\left[ \hat{X} \left(X - \mathbb{E} \left[X\right]\right)^T  \right] \right)\\
+  &= 2 tr \left( \text{cov}\left( X - \mathbb{E} \left[X\right], \hat{X} \right)\right) + 2 tr \left( \mathbb{E}\left[ X - \mathbb{E} \left[X\right] \right] \mathbb{E}^T[\hat{X}]\right)\\
+  &= 2 tr \left( \text{cov}\left( X, \hat{X} \right)\right) + 2 tr \left(\left( \mathbb{E}\left[ X \right] - \mathbb{E} \left[X\right] \right) \mathbb{E}^T[\hat{X}]\right)\\
+  &= 2 tr \left( \text{cov}\left( X, \hat{X} \right)\right).
 \end{align*}
-$\left({*}\right)$ follows from:
-\[E\left[ {{X^T}Z} \right] = E\left[ {tr\left( {{X^T}Z} \right)} \right] = E\left[ {tr\left( {Z{X^T}} \right)} \right] = tr\left( {\text{cov}\left( {X,Z} \right)} \right) + tr\left( {E\left[ X \right]{E^T}\left[ Z \right]} \right)\]
--->
+
+Thus, we have
+
+\begin{equation*}
+C = \mathbb{E}\left[ {\left\| {X - \hat X} \right\|_2^2} \right] + 2 tr \left( \text{cov}\left( X, \hat{X} \right)\right),
+\end{equation*}
+
+which concludes the proof. \blacksquare
 
