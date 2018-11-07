@@ -1,0 +1,70 @@
+\begin{thebibliography}{10}
+
+\bibitem{anscombe1960rejection}
+{\sc Anscombe, F., and Guttman, I.}
+\newblock {Rejection of Outliers}.
+\newblock {\em Technometrics 2}, 2 (1960), 123--147.
+
+\bibitem{cochrane2005time}
+{\sc Cochrane, J.~H.}
+\newblock Time series for macroeconomics and finance.
+\newblock {\em Manuscript, University of Chicago\/} (2005).
+
+\bibitem{duncan2016ela}
+{\sc Duncan, I., and Guerrier, S.}
+\newblock {Member Plan Choice and Migration in Response to Changes in Member
+  Premiums after Massachusetts Health Insurance Reform}.
+\newblock {\em North American Actuarial Journal\/} (2016).
+
+\bibitem{hamilton1994time}
+{\sc Hamilton, J.~D.}
+\newblock {\em Time series analysis}, vol.~2.
+\newblock Princeton university press Princeton, NJ, 1994.
+
+\bibitem{hampel1968contributions}
+{\sc Hampel, F.}
+\newblock {\em {Contributions to the Theory of Robust Estimation}}.
+\newblock PhD thesis, University of California, Berkeley, 1968.
+
+\bibitem{hampel1973robust}
+{\sc Hampel, F.}
+\newblock {Robust Estimation: A Condensed Partial Survey}.
+\newblock {\em Probability Theory and Related Fields 27}, 2 (1973), 87--104.
+
+\bibitem{hampel1987robust}
+{\sc Hampel, F., Ronchetti, E., Rousseeuw, P., and Stahel, W.}
+\newblock {\em {Robust Statistics: the Approach Based on Influence Functions}}.
+\newblock Wiley New York, 1987.
+
+\bibitem{friedman2001elements}
+{\sc Hastie, T., Friedman, J., and Tibshirani, R.}
+\newblock {\em The elements of statistical learning}, vol.~1.
+\newblock Springer series in statistics New York, NY, USA:, 2001.
+
+\bibitem{huber1973robust}
+{\sc Huber, P.}
+\newblock {Robust Regression: Asymptotics, Conjectures and Monte Carlo}.
+\newblock {\em The Annals of Statistics 1}, 5 (1973), 799--821.
+
+\bibitem{huber2009robust}
+{\sc Huber, P., and Ronchetti, E.}
+\newblock {\em {Robust Statistics}}.
+\newblock John Wiley \& Sons Inc, 2009.
+
+\bibitem{krasker1980estimation}
+{\sc Krasker, W.}
+\newblock {Estimation in Linear Regression Models with Disparate Data Points}.
+\newblock {\em Econometrica 48}, 6 (1980), 1333--1346.
+
+\bibitem{ronchetti2006historical}
+{\sc Ronchetti, E.}
+\newblock {The Historical Development of Robust Statistics}.
+\newblock In {\em Proceedings of the 7th International Conference on Teaching
+  Statistics, Salvador, Bahia, Brazil\/} (2006).
+
+\bibitem{shumway2010time}
+{\sc Shumway, R., and Stoffer, D.}
+\newblock {\em Time Series Analysis and Its Applications: With R Examples}.
+\newblock Springer Texts in Statistics. Springer New York, 2010.
+
+\end{thebibliography}

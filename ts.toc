@@ -1,0 +1,47 @@
+\contentsline {part}{I\hspace {1em}Foundation}{5}{part.1}
+\contentsline {chapter}{\numberline {1}Introduction}{7}{chapter.1}
+\contentsline {section}{\numberline {1.1}Conventions}{7}{section.1.1}
+\contentsline {section}{\numberline {1.2}Bibliographic Note}{8}{section.1.2}
+\contentsline {section}{\numberline {1.3}Acknowledgements}{8}{section.1.3}
+\contentsline {section}{\numberline {1.4}License}{8}{section.1.4}
+\contentsline {chapter}{\numberline {2}Basic Elements of Time Series}{9}{chapter.2}
+\contentsline {section}{\numberline {2.1}The Wold Decomposition}{12}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}The Deterministic Component (Signal)}{13}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}The Random Component (Noise)}{15}{subsection.2.1.2}
+\contentsline {section}{\numberline {2.2}Exploratory Data Analysis for Time Series}{15}{section.2.2}
+\contentsline {section}{\numberline {2.3}Dependence in Time Series}{18}{section.2.3}
+\contentsline {section}{\numberline {2.4}Basic Time Series Models}{19}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}White Noise}{19}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Random Walk}{20}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}First-Order Autoregressive Model}{21}{subsection.2.4.3}
+\contentsline {subsection}{\numberline {2.4.4}Moving Average Process of Order 1}{22}{subsection.2.4.4}
+\contentsline {subsection}{\numberline {2.4.5}Linear Drift}{23}{subsection.2.4.5}
+\contentsline {section}{\numberline {2.5}Composite Stochastic Processes}{23}{section.2.5}
+\contentsline {chapter}{\numberline {3}Fundamental Properties of Time Series}{27}{chapter.3}
+\contentsline {section}{\numberline {3.1}The Autocorrelation and Autocovariance Functions}{27}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}A Fundamental Representation}{30}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Admissible Autocorrelation Functions \GenericError {(inputenc) }{Package inputenc Error: Unicode char 😱 (U+1F631)\MessageBreak not set up for use with LaTeX}{See the inputenc package documentation for explanation.}{Your command was ignored.\MessageBreak Type I <command> <return> to replace it with another command,\MessageBreak or <return> to continue without it.}}{30}{subsection.3.1.2}
+\contentsline {section}{\numberline {3.2}Stationarity}{31}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Assessing Weak Stationarity of Time Series Models}{32}{subsection.3.2.1}
+\contentsline {section}{\numberline {3.3}Estimation of Moments (Stationary Processes)}{36}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Estimation of the Mean Function}{37}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Sample Autocovariance and Autocorrelation Functions}{39}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}Robustness Issues}{43}{subsection.3.3.3}
+\contentsline {chapter}{\numberline {4}The Family of Autoregressive Moving Average Models}{49}{chapter.4}
+\contentsline {section}{\numberline {4.1}Linear Processes}{49}{section.4.1}
+\contentsline {section}{\numberline {4.2}Autoregressive Models - AR(p)}{52}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Properties of AR(p) models}{53}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Estimation of AR(p) models}{55}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Forecasting AR(p) Models}{64}{subsection.4.2.3}
+\contentsline {section}{\numberline {4.3}Diagnostic Tools for Time Series}{68}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}The Partial AutoCorrelation Function (PACF)}{68}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Portmanteau Tests}{71}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}Inference for AR(p) Models}{72}{section.4.4}
+\contentsline {chapter}{\numberline {A}Proofs}{81}{appendix.A}
+\contentsline {section}{\numberline {A.1}Proof of Theorem 1 \GenericError {(inputenc) }{Package inputenc Error: Unicode char 😱 (U+1F631)\MessageBreak not set up for use with LaTeX}{See the inputenc package documentation for explanation.}{Your command was ignored.\MessageBreak Type I <command> <return> to replace it with another command,\MessageBreak or <return> to continue without it.}}{81}{section.A.1}
+\contentsline {chapter}{\numberline {B}Robust Regression Methods}{87}{appendix.B}
+\contentsline {section}{\numberline {B.1}The Classical Least-Squares Estimator}{88}{section.B.1}
+\contentsline {section}{\numberline {B.2}Robust Estimators for Linear Regression Models}{88}{section.B.2}
+\contentsline {section}{\numberline {B.3}Applications of Robust Estimation}{89}{section.B.3}
+\contentsline {chapter}{\numberline {C}Proofs}{95}{appendix.C}
+\contentsline {section}{\numberline {C.1}Proof of Theorem \ref {condexp} \GenericError {(inputenc) }{Package inputenc Error: Unicode char 😱 (U+1F631)\MessageBreak not set up for use with LaTeX}{See the inputenc package documentation for explanation.}{Your command was ignored.\MessageBreak Type I <command> <return> to replace it with another command,\MessageBreak or <return> to continue without it.}}{95}{section.C.1}
