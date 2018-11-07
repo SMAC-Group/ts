@@ -1382,7 +1382,7 @@ C = \mathbb{E}\left[ {{\mathbb{E}_0}\left[ {\left\| {{X_0} - \hat X} \right\|_2^
 <span class="math display">\[\begin{equation*}
 C = \mathbb{E}\left[ \mathbb{E}_0 \left[ \left\| \mathbf{Y}_0 - \hat{\mathbf{Y}} \right\|_2^2 \right] \right],
 \end{equation*}\]</span>
-<p>and using Theorem @ref{thm:optimthm}, we obtain (why? 🤔)</p>
+<p>and using Theorem <a href="the-family-of-autoregressive-moving-average-models.html#thm:optimthm">4.2</a>, we obtain (why? 🤔)</p>
 <span class="math display">\[\begin{align*}
 C &amp;= \mathbb{E}\left[  \left\| \mathbf{Y} - \hat{\mathbf{Y}} \right\|_2^2 \right] + 2tr \left( \text{cov} \left( \mathbf{Y}, \hat{\mathbf{Y}} \right) \right) = \mathbb{E}\left[  \left\| \mathbf{Y} - \hat{\mathbf{Y}} \right\|_2^2 \right] + 2k \sigma^2,
 \end{align*}\]</span>
@@ -1451,7 +1451,7 @@ Figure 4.25: Barplots representing the frequency with which each considered mode
 <p>Having studied th performance of these three criteria through the described simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.</p>
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1">cor_lynx =<span class="st"> </span><span class="kw">corr_analysis</span>(lynx_gts)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-56"></span>
-<img src="ts_files/figure-html/unnamed-chunk-56-1.png" alt="Empirical PACF of the yearly lynx trapping time series." width="672" />
+<img src="ts_files/figure-html/unnamed-chunk-56-1.png" alt="Empirical PACF of the yearly lynx trapping time series." width="864" />
 <p class="caption">
 Figure 4.26: Empirical PACF of the yearly lynx trapping time series.
 </p>

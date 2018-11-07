@@ -1579,7 +1579,7 @@ where $\mathbf{H} \equiv \mathbf{X} \left(\mathbf{X}^T \mathbf{X}\right)^{-1} \m
 C = \mathbb{E}\left[ \mathbb{E}_0 \left[ \left\| \mathbf{Y}_0 - \hat{\mathbf{Y}} \right\|_2^2 \right] \right],
 \end{equation*}
 
-and using Theorem \@ref{thm:optimthm}, we obtain (why? `r emo::ji("thinking_face")`)
+and using Theorem \@ref(thm:optimthm), we obtain (why? `r emo::ji("thinking_face")`)
 
 \begin{align*}
 C &= \mathbb{E}\left[  \left\| \mathbf{Y} - \hat{\mathbf{Y}} \right\|_2^2 \right] + 2tr \left( \text{cov} \left( \mathbf{Y}, \hat{\mathbf{Y}} \right) \right) = \mathbb{E}\left[  \left\| \mathbf{Y} - \hat{\mathbf{Y}} \right\|_2^2 \right] + 2k \sigma^2,
@@ -1805,7 +1805,7 @@ As anticipated, it can be seen how the BIC (green bars) often selects a small di
 
 Having studied th performance of these three criteria through the described simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.
 
-```{r, cache = TRUE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Empirical PACF of the yearly lynx trapping time series."}
+```{r, cache = TRUE, fig.asp = 0.45, fig.width = 9, fig.align='center', fig.cap="Empirical PACF of the yearly lynx trapping time series."}
 cor_lynx = corr_analysis(lynx_gts)
 ```
 
