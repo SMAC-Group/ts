@@ -1806,7 +1806,7 @@ As anticipated, it can be seen how the BIC (green bars) often selects a small di
 Having studied th performance of these three criteria through the described simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.
 
 ```{r, cache = TRUE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Empirical PACF of the yearly lynx trapping time series."}
-plot(auto_corr(lynx_gts, pacf = TRUE)) 
+cor_lynx = corr_analysis(lynx_gts)
 ```
 
 As we saw earlier, the PACF appears to be significant at lag $h = 11$ therefore leading to the conclusion that an AR(11) model would be good to describe/forecast the observed time series. However, let us check if we reach the same conclusion using the three model selection criteria described above. For this reason, let us use an AR(16) as the maximum order for the candidate AR(p) models.
