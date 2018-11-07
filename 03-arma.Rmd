@@ -1103,7 +1103,7 @@ Each p-value represented in the plot above is therefore the p-value for the cons
 
 There are other Portmanteau tests with different advantages (and disadvantages) over the Ljung-Box test but these are beyond the scope of this textbook.
 
-## Inference for AR(p) Models `r emo::ji("warning")`
+## Inference for AR(p) Models
 
 For all the above methods, it would be necessary to understand how "precise" their estimates are. To do so we would need to obtain confidence intervals for these estimates and this can be done mainly in two manners:
 
@@ -1541,7 +1541,7 @@ abline(v = 0.5, lwd = 2, lty = 2, col = "grey60")
 
 The results from the parametric and nonparametric block bootstrapping techniques are displayed in Figure \@ref(fig:blockbootmodels). It can be seen how, for the first model $\mathcal{M}_1$ the parametric boostrap technique defines a confidence interval that includes the true parameter value (0.5) while the non-parametric bootstrap just misses it. In this case, being the model correctly specified for the parametric bootstrap, the latter is the preferred technique. However, it can be seen that for the second model $\mathcal{M}_2$, the parametric bootstrap approach is greatly affected by the miss-specified model it is based on. Indeed we can see how it shifts towards larger values of $\phi$ (although its confidence intervals still contain the true value) while the MBB remains in the proximity of the true value.
 
-## Model Selection `r emo::ji("warning")`
+## Model Selection
 
 The diagnostic and inference tools that have been investigated this far are all based on analysing the residuals and checking the parameter confidence intervals to understand if the model is reasonable and fits the data well. However, one may be interested in understanding which, among a set of candidate models, appears to be the "best" to describe and forecast the observed time series. There are different approaches to tackling this problem among which stepwise procedures in which one starts with the simplest (or more complex) model and adds (removes) parameters until a certain statistic (criterion) is optimised. However, these approaches rely on the "paths" chosen to add the parameters (e.g. should one go from an AR(1) to an AR(2) or from an AR(1) to an MA(1)?) while there are other criteria available which are so-called "global" criteria. 
 
@@ -1621,12 +1621,14 @@ plot(auto_corr(Xt, pacf = TRUE))
 
 From the PACF plot one sees that the first three lags appear to be significant indicating that an AR(3) model would indeed appear to be a good candidate model for this observed time series. However, there is another value of the PACF that appears to be marginally significant at lag 10. Let us therefore suppose that we want to consider all possible AR(p) models with $p^* = 10$. The `select()` function from the `simts` package allows to evaluate and plot the value of the three criteria presented earlier in order to understand the value of $p$ that minimizes each of them.
 
-```{r}
-select
+
+```{r, fig.height= 5.5, fig.width= 7.5, fig.align='center', fig.cap="TO DO.", eval = FALSE}
+best_model = select(AR(10), Xt, include.mean = FALSE) 
 ```
 
-```{r, fig.height= 5.5, fig.width= 7.5, fig.align='center', fig.cap="TO DO."}
-best_model = select(AR(10), Xt, include.mean = FALSE) 
+
+```{r, fig.height= 5.5, fig.width= 7.5, fig.align='center', fig.cap="TO DO.", echo = FALSE}
+best_model = simts::select(AR(10), Xt, include.mean = FALSE) 
 ```
 
 The output of this funtion is a plot of the values of each criterion over all possible AR($p$) models with $p = 1,...,10$ and, as can be seen from the plot, all criteria are minimized at the value $p=3$ which shows how all criteria (in this particular case) agree and select the true underlying model. The function also delivers the MLE estimates of the parameters of the selected model:
@@ -1635,15 +1637,22 @@ The output of this funtion is a plot of the values of each criterion over all po
 best_model$coef
 ```
 
-It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners.
+It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners. SAY WE REMOVED CODE.
 
 ```{example, name="Simulation Study: Strong Signal vs Weak Signal"}
-In this simulation study, we consider the following two models:
-$$X_t = 0.6X_{t-1} + 0.3X_{t-2} + W_t,$$
-$$X_t = 0.5X_{t-1} + 0.25X_{t-2} + 0.125X_{t-3} + 0.0625X_{t-4} + W_t,$$
+In this simulation study, we consider the following three models:
+\begin{align*}
+  X_t &= 0.9X_{t-1} + W_t,\\
+  X_t &= 0.6X_{t-1} + 0.3X_{t-2} + W_t,\\
+  X_t &= 0.5X_{t-1} + 0.25X_{t-2} + 0.125X_{t-3} + 0.0625X_{t-4} + W_t,\\
+  X_t &= 0.9 W_{t-1} + W_t,
+\end{align*}
+
 where $W_t \overset{iid}{\sim} \mathcal{N}(0,1).$
 
-The first one corresponds to a "strong" signal while the second one is called a "weak" signal. Based on the theoretical (i.e. asymptotic) properties of model selection criteria, we expect the BIC to perform very well for the first model, while the AIC should give "good" results on the second model.
+The first one corresponds to a "strong" signal while the second one is called a "weak" signal. The third one is an example of an AR process of infinte dimension. Indeed, we have
+
+Based on the theoretical (i.e. asymptotic) properties of model selection criteria, we expect the BIC to perform very well for the first model, while the AIC should give "good" results on the second model.
 
 We consider sample size $N = 100$ and bootstrap replications $B = 500$. 
 ```
@@ -1651,7 +1660,7 @@ We consider sample size $N = 100$ and bootstrap replications $B = 500$.
 
 ```{r simuStrongWeakFake, eval = FALSE}
 B = 500
-result1 = result2 = data.frame(aic = rep(NA, B), 
+result1 = result2 = result3 = data.frame(aic = rep(NA, B), 
                                bic = rep(NA, B), 
                                hq = rep(NA, B))
 
@@ -1661,6 +1670,7 @@ for(i in 1:B){
   # generate data
   Xt1 = gen_gts(n = 100, AR(phi = c(0.6, 0.3), sigma2 = 1))
   Xt2 = gen_gts(n = 100, AR(phi = c(0.5, 0.25, 0.125, 0.0625), sigma2 = 1))
+  Xt3 = gen_gts(n = 100, MA(theta = 0.9, sigma2 = 1))
   
   # model selection for Xt1
   tmp_aic = select(AR(9), Xt1, criterion = "aic", plot = FALSE)
@@ -1679,6 +1689,15 @@ for(i in 1:B){
   result2$aic[i] = length(tmp_aic$model$phi)
   result2$bic[i] = length(tmp_bic$model$phi)
   result2$hq[i] = length(tmp_hq$model$phi)
+  
+  # model selection for Xt3
+  tmp_aic = select(AR(9), Xt3, criterion = "aic", plot = FALSE)
+  tmp_bic = select(AR(9), Xt3, criterion = "bic", plot = FALSE)
+  tmp_hq = select(AR(9), Xt3, criterion = "hq", plot = FALSE)
+  
+  result3$aic[i] = length(tmp_aic$model$phi)
+  result3$bic[i] = length(tmp_bic$model$phi)
+  result3$hq[i] = length(tmp_hq$model$phi)
 }
 
 # calculate counts
@@ -1690,7 +1709,11 @@ counts2_aic = table(result2$aic)
 counts2_bic = table(result2$bic)
 counts2_hq = table(result2$hq)
 
-aic1 = bic1 = hq1 = aic2 = bic2 = hq2 = rep(0, 9)
+counts3_aic = table(result3$aic)
+counts3_bic = table(result3$bic)
+counts3_hq = table(result3$hq)
+
+aic1 = bic1 = hq1 = aic2 = bic2 = hq3 = aic3 = bic3 = hq3 = rep(0, 9)
 
 aic1[as.numeric(names(counts1_aic))] = as.vector(counts1_aic)
 bic1[as.numeric(names(counts1_bic))] = as.vector(counts1_bic)
@@ -1700,16 +1723,23 @@ aic2[as.numeric(names(counts2_aic))] = as.vector(counts2_aic)
 bic2[as.numeric(names(counts2_bic))] = as.vector(counts2_bic)
 hq2[as.numeric(names(counts2_hq))] = as.vector(counts2_hq)
 
+aic3[as.numeric(names(counts2_aic))] = as.vector(counts3_aic)
+bic3[as.numeric(names(counts2_bic))] = as.vector(counts3_bic)
+hq3[as.numeric(names(counts2_hq))] = as.vector(counts3_hq)
+
 result1 = rbind(aic1, bic1, hq1)
 result2 = rbind(aic2, bic2, hq2)
+result3 = rbind(aic3, bic3, hq3)
 
 colnames(result1) = c("1","2","3","4","5","6","7","8","9")
 rownames(result1) = c("AIC", "BIC", "HQ")
 colnames(result2) = c("1","2","3","4","5","6","7","8","9")
 rownames(result2) = c("AIC", "BIC", "HQ")
+colnames(result3) = c("1","2","3","4","5","6","7","8","9")
+rownames(result3) = c("AIC", "BIC", "HQ")
 
 # plot the results
-par(mfrow=c(1,2))
+par(mfrow=c(1,3))
 mycolor = hcl(h = seq(15, 375, length = 4), l = 65, c = 100, alpha = 1)
 
 # Xt1
@@ -1733,20 +1763,34 @@ legend("topright",
        legend = c("AIC", "BIC", "HQ"),
        bty = "n",
        fill = mycolor[1:3])
+
+# Xt2
+barplot(result3, 
+        col = mycolor[1:3],
+        beside = T, ylim = c(0, max(result2)+1),
+        main = "MA(1)", 
+        xlab = "autoregressive order (p)", ylab = "Selection Frequency")
+legend("topright",
+       legend = c("AIC", "BIC", "HQ"),
+       bty = "n",
+       fill = mycolor[1:3])
 ```
 
 ```{r simuStrongWeak, eval = TRUE, cache = TRUE, echo = FALSE, warning=FALSE, message=FALSE, error=FALSE}
-B = 500
-result1 = result2 = data.frame(aic = rep(NA, B), 
-                               bic = rep(NA, B), 
-                               hq = rep(NA, B))
+B = 1000
+result1 = result2 = result3 = 
+  result4 = data.frame(aic = rep(NA, B), 
+                        bic = rep(NA, B), 
+                        hq = rep(NA, B))
 
 for(i in 1:B){
   set.seed(1+i)
   
   # generate data
-  Xt1 = gen_gts(n = 100, AR(phi = c(0.6, 0.3), sigma2 = 1))
-  Xt2 = gen_gts(n = 100, AR(phi = c(0.5, 0.25, 0.125, 0.0625), sigma2 = 1))
+  Xt1 = gen_gts(n = 100, AR(phi = 0.9, sigma2 = 1))
+  Xt2 = gen_gts(n = 100, AR(phi = c(0.6, 0.3), sigma2 = 1))
+  Xt3 = gen_gts(n = 100, AR(phi = c(0.5, 0.25, 0.125, 0.0625), sigma2 = 1))
+  Xt4 = gen_gts(n = 100, MA(theta = 0.9, sigma2 = 1))
   
   # model selection for Xt1
   tmp_aic = try(simts::select(AR(9), Xt1, criterion = "aic", plot = FALSE))
@@ -1764,7 +1808,25 @@ for(i in 1:B){
   
   if (class(tmp_aic) != "try-error"){ result2$aic[i] = length(tmp_aic$model$phi) }
   if (class(tmp_bic) != "try-error"){ result2$bic[i] = length(tmp_bic$model$phi) }
-  if (class(tmp_hq) != "try-error"){ result2$hq[i] = length(tmp_hq$model$phi) }
+  if (class(tmp_hq) != "try-error"){ result2$hq[i] = length(tmp_hq$model$phi) } 
+  
+  # model selection for Xt3
+  tmp_aic = try(simts::select(AR(9), Xt3, criterion = "aic", plot = FALSE))
+  tmp_bic = try(simts::select(AR(9), Xt3, criterion = "bic", plot = FALSE))
+  tmp_hq = try(simts::select(AR(9), Xt3, criterion = "hq", plot = FALSE))
+  
+  if (class(tmp_aic) != "try-error"){ result3$aic[i] = length(tmp_aic$model$phi) }
+  if (class(tmp_bic) != "try-error"){ result3$bic[i] = length(tmp_bic$model$phi) }
+  if (class(tmp_hq) != "try-error"){ result3$hq[i] = length(tmp_hq$model$phi) }
+  
+    # model selection for Xt4
+  tmp_aic = try(simts::select(AR(9), Xt4, criterion = "aic", plot = FALSE))
+  tmp_bic = try(simts::select(AR(9), Xt4, criterion = "bic", plot = FALSE))
+  tmp_hq = try(simts::select(AR(9), Xt4, criterion = "hq", plot = FALSE))
+  
+  if (class(tmp_aic) != "try-error"){ result4$aic[i] = length(tmp_aic$model$phi) }
+  if (class(tmp_bic) != "try-error"){ result4$bic[i] = length(tmp_bic$model$phi) }
+  if (class(tmp_hq) != "try-error"){ result4$hq[i] = length(tmp_hq$model$phi) }
 }
 
 # calculate counts
@@ -1776,7 +1838,16 @@ counts2_aic = table(result2$aic)
 counts2_bic = table(result2$bic)
 counts2_hq = table(result2$hq)
 
-aic1 = bic1 = hq1 = aic2 = bic2 = hq2 = rep(0, 9)
+counts3_aic = table(result3$aic)
+counts3_bic = table(result3$bic)
+counts3_hq = table(result3$hq)
+
+counts4_aic = table(result4$aic)
+counts4_bic = table(result4$bic)
+counts4_hq = table(result4$hq)
+
+aic1 = bic1 = hq1 = aic2 = bic2 = hq2 = 
+  aic3 = bic3 = hq3 = aic4 = bic4 = hq4 = rep(0, 9)
 
 aic1[as.numeric(names(counts1_aic))] = as.vector(counts1_aic)
 bic1[as.numeric(names(counts1_bic))] = as.vector(counts1_bic)
@@ -1786,41 +1857,65 @@ aic2[as.numeric(names(counts2_aic))] = as.vector(counts2_aic)
 bic2[as.numeric(names(counts2_bic))] = as.vector(counts2_bic)
 hq2[as.numeric(names(counts2_hq))] = as.vector(counts2_hq)
 
+aic3[as.numeric(names(counts3_aic))] = as.vector(counts3_aic)
+bic3[as.numeric(names(counts3_bic))] = as.vector(counts3_bic)
+hq3[as.numeric(names(counts3_hq))] = as.vector(counts3_hq)
+
+aic4[as.numeric(names(counts4_aic))] = as.vector(counts4_aic)
+bic4[as.numeric(names(counts4_bic))] = as.vector(counts4_bic)
+hq4[as.numeric(names(counts4_hq))] = as.vector(counts4_hq)
+
 result1 = rbind(aic1, bic1, hq1)
 result2 = rbind(aic2, bic2, hq2)
+result3 = rbind(aic3, bic3, hq3)
+result4 = rbind(aic4, bic4, hq4)
 
 colnames(result1) = c("1","2","3","4","5","6","7","8","9")
 rownames(result1) = c("AIC", "BIC", "HQ")
 colnames(result2) = c("1","2","3","4","5","6","7","8","9")
 rownames(result2) = c("AIC", "BIC", "HQ")
+colnames(result3) = c("1","2","3","4","5","6","7","8","9")
+rownames(result3) = c("AIC", "BIC", "HQ")
+colnames(result4) = c("1","2","3","4","5","6","7","8","9")
+rownames(result4) = c("AIC", "BIC", "HQ")
 ```
 
-```{r, fig.align='center', fig.height=4.5, fig.width=9, fig.cap="TO DO", echo = FALSE, warning=FALSE, message=FALSE, error=FALSE}
+```{r, fig.align='center', fig.height=8, fig.width=10, fig.cap="TO DO", echo = FALSE, warning=FALSE, message=FALSE, error=FALSE}
 # plot the results
-par(mfrow=c(1,2))
+par(mfrow=c(2,2))
 mycolor = hcl(h = seq(15, 375, length = 4), l = 65, c = 100, alpha = 1)
 
 # Xt1
-barplot(result1, 
+barplot(result1/B*100, 
         col = mycolor[1:3],
-        beside = T, ylim = c(0, max(result1)+1),
-        main = "Strong Signal", 
-        xlab = "autoregressive order (p)", ylab = "Selection Frequency")
+        beside = T, ylim = c(0, max(result1/B*100)+1),
+        main = "AR(1) - Strong Signal", 
+        xlab = "autoregressive order (p)", ylab = "Selection Frequency (%)")
 legend("topright",
        legend = c("AIC", "BIC", "HQ"),
        bty = "n",
        fill = mycolor[1:3])
 
 # Xt2
-barplot(result2, 
+barplot(result2/B*100, 
         col = mycolor[1:3],
-        beside = T, ylim = c(0, max(result2)+1),
-        main = "Weak Signal", 
-        xlab = "autoregressive order (p)", ylab = "Selection Frequency")
-legend("topright",
-       legend = c("AIC", "BIC", "HQ"),
-       bty = "n",
-       fill = mycolor[1:3])
+        beside = T, ylim = c(0, max(result2/B*100)+1),
+        main = "AR(2) - Strong Signal", 
+        xlab = "autoregressive order (p)", ylab = "Selection Frequency (%)")
+
+# Xt3
+barplot(result3/B*100, 
+        col = mycolor[1:3],
+        beside = T, ylim = c(0, max(result3/B*100)+1),
+        main = "AR(4) - Weak Signal", 
+        xlab = "autoregressive order (p)", ylab = "Selection Frequency (%)")
+
+# Xt4
+barplot(result4/B*100, 
+        col = mycolor[1:3],
+        beside = T, ylim = c(0, max(result4/B*100)+1),
+        main = "MA(1)", 
+        xlab = "autoregressive order (p)", ylab = "Selection Frequency (%)")
 ```
 
 Having studied th performance of these three criteria through a simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.
@@ -1838,7 +1933,6 @@ lynx_select = select(AR(15), lynx_gts, include.mean = TRUE)
 ```{r, eval = TRUE, cache = TRUE, echo = FALSE}
 lynx_select = try(simts::select(AR(15), lynx_gts, include.mean = TRUE))
 ```
-
 
 In this case, we see that the AIC and HQ select an AR(8) model in accordance with the selection procedure based on the ACF. However the BIC selects a much smaller model (AR(3)). This can be due to different reasons but the BIC requires the presence of the true model among the candidate models and this is possibly not the case for this example. Hence, for this case the AIC or HQ are probably better choices.
 
