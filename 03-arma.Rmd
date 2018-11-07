@@ -990,7 +990,7 @@ where $\hat{X}_{t+j}$ represents an estimator of the conditional expectation $E[
 
 The standard approach to understanding how well a model fits the data is analysing the residuals (e.g. linear regression). The same approach can be taken for time series analysis where, given our knowledge on forecasts from the previous section, we can now deliver residuals. The first step (and possibly the most important) is to use visual tools to check the residuals and also the original time series. Below is a figure that collects different diagnostic tools for time series analysis and is applied to a simulated AR(1) process of length $T = 100$.
 
-```{r diagnostic_plot, fig.align='center', fig.height=6, fig.width=9.5, fig.cap="TO DO."}
+```{r diagnostic_plot, fig.align='center', fig.height=6, fig.width=9.5, fig.cap="Ljung-Box test p-values for the residuals of the fitted AR(1) model over lags $h = 1, ...., 20$."}
 set.seed(333)
 true_model = AR(phi = 0.8, sigma2 = 1)
 Xt = gen_gts(n = 100, model = true_model)
@@ -1081,7 +1081,7 @@ plot(auto_corr(lynx_gts))
 plot(auto_corr(lynx_gts, pacf = TRUE))
 ```
 
-The seasonal behaviour also appears in the ACF plot but we see that it decreases in a sinusoidal fashion as the lag increases hinting that an AR($p$) model could be a potential candidate for the time series. Looking at the PACF plot on the right we can see that a few partial autocorrelations appear to be significant up to lag $h=11$. Therefore an AR(11) model could be a possibly good candidate to explain (and predict) this time series.
+The seasonal behaviour also appears in the ACF plot but we see that it decreases in a sinusoidal fashion as the lag increases hinting that an AR(p) model could be a potential candidate for the time series. Looking at the PACF plot on the right we can see that a few partial autocorrelations appear to be significant up to lag $h=11$. Therefore an AR(11) model could be a possibly good candidate to explain (and predict) this time series.
 
 ### Portmanteau Tests
 
@@ -1805,22 +1805,21 @@ As anticipated, it can be seen how the BIC (green bars) often selects a small di
 
 Having studied th performance of these three criteria through the described simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.
 
-```{r, cache = TRUE, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="TO DO"}
+```{r, cache = TRUE, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Empirical PACF of the yearly lynx trapping time series."}
 plot(auto_corr(lynx_gts, pacf = TRUE)) 
 ```
 
-As we saw earlier, the PACF appears to be significant at lag $h = 11$ therefore leading to the conclusion that an AR(11) model would be good to describe/forecast the observed time series. However, let us check if we reach the same conclusion using the three model selection criteria described above. For this reason, let us use an AR(16) as the maximum order for the candidate AR($p$) models.
+As we saw earlier, the PACF appears to be significant at lag $h = 11$ therefore leading to the conclusion that an AR(11) model would be good to describe/forecast the observed time series. However, let us check if we reach the same conclusion using the three model selection criteria described above. For this reason, let us use an AR(16) as the maximum order for the candidate AR(p) models.
 
 ```{r, eval = FALSE}
 lynx_select = select(AR(16), lynx_gts, include.mean = TRUE)
 ```
 
-```{r, eval = TRUE, cache = TRUE, echo = FALSE, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="TO DO"}
+```{r, eval = TRUE, cache = TRUE, echo = FALSE, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Values of the three model selection criteria described in the text for all candidate models included in an AR(16) model for the yearly lynx trapping time series."}
 lynx_select = try(simts::select(AR(16), lynx_gts, include.mean = TRUE)) 
 ```
 
-
-In this case, we see that the AIC and HQ select an AR(11) model in accordance with the selection procedure based on the ACF. However the BIC selects a much smaller model (AR(3)). This is in some way consistent with the simulation study seen earlier where the BIC generally tends to select lower-dimensional models. Moreover, the true model for the lynx data may not be among the candidate models and therefore the BIC would not be a good choice. Hence, for this case the AIC or HQ are probably better choices.
+In this case, we see that the AIC and HQ select an AR(11) model in accordance with the selection procedure based on the PACF. However the BIC selects a much smaller model (AR(3)). This is in some way consistent with the simulation study seen earlier where the BIC generally tends to select lower-dimensional models. Moreover, the true model for the lynx data may not be among the candidate models and therefore the BIC would not be a good choice. Hence, for this case the AIC or HQ are probably better choices.
 
 To summarize, all these techniques aim at estimating the out-of-sample prediction error of a given model. However, they strongly rely on the chosen likelihood function and, if this does not adequately represent the model that generated the observed time series, then they could deliver misleading conclusions. For this reason, one could consider another approach to model-selection based on model forecasting accuracy. Indeed, one could select a model based on the following procedure:
 
@@ -1850,13 +1849,13 @@ Xt = gen_gts(500, AR(phi = c(0.1, 0, 0.8), sigma2 = 1))
 MAPE(AR(8), Xt)
 ```
 
-In this case we see that the smallest value of the MAPE corresponds to the AR(3) which is also the smallest model below the upper confidence interval of the smallest value of the MAPE (hence the green and red dots correspond, leaving only the red dot). Having studied the MAPE in a couple of examples, let us check the model selected for the Lynx trappings data seen earlier when using this approach using the first $0.8 \cdot T$ observations to estimate the model and the last $0.2 \cdot T$ to test the estimated model.
+In this case we see that the smallest value of the MAPE corresponds to the AR(3) which is also the smallest model below the upper confidence interval of the smallest value of the MAPE (hence the green and red dots correspond, leaving only the red dot). Having studied the MAPE in a couple of examples, let us check the model selected for the lynx trappings data seen earlier when using this approach using the first $0.8 \cdot T$ observations to estimate the model and the last $0.2 \cdot T$ to test the estimated model.
 
 ```{r, cache = TRUE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Estimated MAPE for the lynx dataset."}
 lynx_mape = MAPE(AR(16), lynx_gts)
 ```
 
-As we can see, an AR(11) model is selected which is equivalent to the model selected by the AIC and HQ criteria. Moverover, it can observed that MAPE is quite variable and that several models have MAPE close to the one of the selected model. As the MAPE is prone to overfitting a reasonable approach is to select a model based on the "one standard deviation rule" which in this case would corespond to an AR(3), the same as the model selected by the BIC. Therefore also this selection method would appear to indicate that either an AR(11) or an AR(3) appears to be "good" models for this time series. 
+As we can see, an AR(11) model is selected which is equivalent to the model selected by the AIC and HQ criteria. Moveover, it can observed that MAPE is quite variable and that several models have a MAPE value close to the one of the selected model. As the MAPE is prone to overfitting, a reasonable approach is to select a model based on the "one standard deviation rule" which in this case would correspond to an AR(3), the same as the model selected by the BIC. Therefore also this selection method would appear to indicate that either an AR(11) or an AR(3) appear to be "good" models for this time series. 
 
 <!--
 As we can see, an AR(12) model is selected indicating that a more complicated model may be required for this time series data. However it can be seen how the value of the MAPE is extremely close to that of the previously selected AR(8) and lies abundantly within the confidence intervals of the MAPE for the AR(12). Therefore, in addition to the PACF and the model selection criteriea presented earlier, also this selection method would appear to indicate that the AR(8) model is a good candidate for this time series data. 
