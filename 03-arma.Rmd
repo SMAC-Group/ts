@@ -1613,7 +1613,7 @@ $$\mathcal{M}_j: {X_t} = \sum\limits_{i = 1}^j {{\phi _i}{X_{t - i}}}  + {W_t},$
 
 where $\mathcal{M}_j$ is used to denote an AR($j$) model, with $j = 1,...,p^*$ where $p^*$ represents the maximum order of the AR($p$) model considered for a given observed time series (e.g. $p^*$ could be the maximum lag at which the PACF appears to be significant). Let us illustrate the properties of these model selection criteria through the following example of an AR(3) model for which we show the PACF of a possible realization from this process ($T = 500$).
 
-```{r, fig.height= 4.5, fig.width= 5, fig.align='center', fig.cap="Estimated PACF of a time series from an AR(3) model with parameters $\\phi_1 = 1.2$, $\\phi_2 = -0.9$ and $\phi_3 = 0.3$."}
+```{r, fig.height= 4.5, fig.width= 5, fig.align='center', fig.cap="Estimated PACF of a time series from an AR(3) model with parameters $\\phi_1 = 1.2$, $\\phi_2 = -0.9$ and $\\phi_3 = 0.3$."}
 set.seed(1)
 true_model = AR(phi = c(1.2, -0.9, 0.3), sigma2 = 1)
 Xt = gen_gts(n = 500, model = true_model)

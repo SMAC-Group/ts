@@ -1010,9 +1010,9 @@ and
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">residuals =<span class="st"> </span>model<span class="op">$</span>mod<span class="op">$</span>residuals</a>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(residuals, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-16"></span>
-<img src="ts_files/figure-html/unnamed-chunk-16-1.png" alt="TO DO" width="576" />
+<img src="ts_files/figure-html/unnamed-chunk-16-1.png" alt="Empirical PACF on the residuals of the AR(1) model fitted to the simulated time series generated from an AR(1) process." width="576" />
 <p class="caption">
-Figure 4.9: TO DO
+Figure 4.9: Empirical PACF on the residuals of the AR(1) model fitted to the simulated time series generated from an AR(1) process.
 </p>
 </div>
 <p>From the plot we see that the estimated PACF at all lags lies within the blue shaded area representing the 95% confidence intervals indicating that the residuals don’t appear to have any form of direct autocorrelation over lags and, hence, that they can be considered as white noise. In addition to delivering a tool to analyse the residuals of a model fit, the PACF is especially useful for diagnostic purposes in order to detect the possible models that have generated an observed time series. With respect to the class of models studied this far (i.e. AR(<span class="math inline">\(p\)</span>) models), the PACF can give important insight to the order of the AR(<span class="math inline">\(p\)</span>) model, more specifically the value of <span class="math inline">\(p\)</span>. Indeed, the ACF of an AR(<span class="math inline">\(p\)</span>) model tends to decrease in a sinusoidal fashion and exponetially fast to zero as the lag <span class="math inline">\(h\)</span> increases thereby giving a hint that the underlying model belongs to the AR(<span class="math inline">\(p\)</span>) family. However, aside from hinting to the fact that the model belongs to the family of AR(<span class="math inline">\(p\)</span>) models, the latter function tends to be less informative with respect to which AR(<span class="math inline">\(p\)</span>) model (i.e. which value of <span class="math inline">\(p\)</span>) is best suited for the observed time series. The PACF on the other hand is non-zero for the first <span class="math inline">\(p\)</span> lags and then becomes zero for <span class="math inline">\(h &gt; p\)</span>, therefore it can give an important indication with respect to which order should be considered to best model the time series.</p>
@@ -1021,9 +1021,9 @@ Figure 4.9: TO DO
 <a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="fl">0.95</span>, <span class="dt">ma =</span> <span class="ot">NULL</span>))</a>
 <a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="fl">0.95</span>, <span class="dt">ma =</span> <span class="ot">NULL</span>))</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-17"></span>
-<img src="ts_files/figure-html/unnamed-chunk-17-1.png" alt="TO DO" width="768" />
+<img src="ts_files/figure-html/unnamed-chunk-17-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(1) model with parameter $\phi = 0.95$." width="768" />
 <p class="caption">
-Figure 4.10: TO DO
+Figure 4.10: Theoretical ACF (left) and PACF (right) of an AR(1) model with parameter <span class="math inline">\(\phi = 0.95\)</span>.
 </p>
 </div>
 <p>We can see that the ACF decreases exponentially fast as we would expect for an AR(p) model while the PACF has the same values of the ACF at lag 1 (which is always the case) and is zero for <span class="math inline">\(h &gt; 1\)</span>. The latter therefore indicates the order <span class="math inline">\(p\)</span> of the AR(<span class="math inline">\(p\)</span>) model which in this case is <span class="math inline">\(p=1\)</span>. Let us now consider the following models as further examples:</p>
@@ -1035,9 +1035,9 @@ Figure 4.10: TO DO
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.125</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a>
 <a class="sourceLine" id="cb21-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.125</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-18"></span>
-<img src="ts_files/figure-html/unnamed-chunk-18-1.png" alt="TO DO" width="768" />
+<img src="ts_files/figure-html/unnamed-chunk-18-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(3) model with parameters $\phi_1 = 0.95$, $\phi_2 = 0.25$ and $\phi_3 = 0.125$." width="768" />
 <p class="caption">
-Figure 4.11: TO DO
+Figure 4.11: Theoretical ACF (left) and PACF (right) of an AR(3) model with parameters <span class="math inline">\(\phi_1 = 0.95\)</span>, <span class="math inline">\(\phi_2 = 0.25\)</span> and <span class="math inline">\(\phi_3 = 0.125\)</span>.
 </p>
 </div>
 <p>Again, we see that the ACF decreases exponentially and also the PACF plot shows a steady decrease until it becomes zero for <span class="math inline">\(h &gt; 3\)</span>. This is because the values of <span class="math inline">\(\phi_i\)</span> are all positive and decreasing as well. Let us now consider the second model (the AR(5) model) whose ACF and PACF plots are represented below.</p>
@@ -1045,19 +1045,19 @@ Figure 4.11: TO DO
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="fl">0.6</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a>
 <a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="fl">0.6</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-19"></span>
-<img src="ts_files/figure-html/unnamed-chunk-19-1.png" alt="TO DO" width="768" />
+<img src="ts_files/figure-html/unnamed-chunk-19-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(4) model with parameters $\phi_1 = 0$, $\phi_2 = -0.1$, $\phi_3 = 0$ and $\phi_4 = 0$." width="768" />
 <p class="caption">
-Figure 4.12: TO DO
+Figure 4.12: Theoretical ACF (left) and PACF (right) of an AR(4) model with parameters <span class="math inline">\(\phi_1 = 0\)</span>, <span class="math inline">\(\phi_2 = -0.1\)</span>, <span class="math inline">\(\phi_3 = 0\)</span> and <span class="math inline">\(\phi_4 = 0\)</span>.
 </p>
 </div>
 <p>In this case we see that the ACF has a sinusoidal-like behaviour where the values of <span class="math inline">\(\phi_1 = \phi_3 = 0\)</span> and the negative <span class="math inline">\(\phi_2 = \phi_4 = -0.1\)</span> values deliver this alternating ACF form which nevertheless decreases as <span class="math inline">\(h\)</span> increases. These values deliver the PACF plot on the right which is negative for the first lags and is greatly positive at <span class="math inline">\(h=5\)</span> only to become zero for <span class="math inline">\(h &gt; 5\)</span>.</p>
 <p>These examples therefore give us further insight as to how to interpret the empirical (or estimated) versions of these functions. For this reason, let us study the empirical ACF and PACF of some real time series, the first of which is the data representing the natural logarithm of the annual number of Lynx trappings in Canada between 1821 and 1934. The time series is represented below.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">lynx_gts =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">log</span>(lynx), <span class="dt">start =</span> <span class="dv">1821</span>, <span class="dt">data_name =</span> <span class="st">&quot;Lynx Trappings&quot;</span>, <span class="dt">unit_time =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Trappings (log)&quot;</span>)</a>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">lynx_gts =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">log</span>(lynx), <span class="dt">start =</span> <span class="dv">1821</span>, <span class="dt">data_name =</span> <span class="st">&quot;Lynx Trappings&quot;</span>, <span class="dt">unit_time =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Trappings&quot;</span>)</a>
 <a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">plot</span>(lynx_gts)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-21"></span>
-<img src="ts_files/figure-html/unnamed-chunk-21-1.png" alt="TO DO" width="672" />
+<img src="ts_files/figure-html/unnamed-chunk-21-1.png" alt="Time series of annual number of lynx data trappings in Canada between 1821 and 1934." width="672" />
 <p class="caption">
-Figure 4.13: TO DO
+Figure 4.13: Time series of annual number of lynx data trappings in Canada between 1821 and 1934.
 </p>
 </div>
 <p>We can see that there appears to be a seasonal trend within the data but let us ignore this for the moment and check the ACF and PACF plots below.</p>
@@ -1065,9 +1065,9 @@ Figure 4.13: TO DO
 <a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(lynx_gts))</a>
 <a class="sourceLine" id="cb24-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(lynx_gts, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-22"></span>
-<img src="ts_files/figure-html/unnamed-chunk-22-1.png" alt="TO DO" width="768" />
+<img src="ts_files/figure-html/unnamed-chunk-22-1.png" alt="Empirical ACF (left) and PACF (right) of the lynx time series data." width="768" />
 <p class="caption">
-Figure 4.14: TO DO
+Figure 4.14: Empirical ACF (left) and PACF (right) of the lynx time series data.
 </p>
 </div>
 <p>The seasonal behaviour also appears in the ACF plot but we see that it decreases in a sinusoidal fashion as the lag increases hinting that an AR(<span class="math inline">\(p\)</span>) model could be a potential candidate for the time series. Looking at the PACF plot on the right we can see that a few partial autocorrelations appear to be significant up to lag <span class="math inline">\(h=11\)</span>. Therefore an AR(11) model could be a possibly good candidate to explain (and predict) this time series.</p>
@@ -1080,9 +1080,9 @@ Figure 4.14: TO DO
 where <span class="math inline">\(h\)</span> represents the maximum lag of the set of lags for which we wish to test for serial autocorrelation (i.e. from lag 1 to lag <span class="math inline">\(h\)</span>). Under the null hypothesis <span class="math inline">\(Q_h \sim \chi_h^2\)</span> since asymptotically <span class="math inline">\(\hat{\rho}_j \sim \mathcal{N}\left(0, \frac{1}{T}\right)\)</span> under the null and therefore the statistic is proportional to the sum of squared standard normal variables. The last plot of Figure @ref(fig:diagnostic_plot) can therefore be better interpreted under this framework and is reproduced below.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">lb_test =<span class="st"> </span><span class="kw">diag_ljungbox</span>(<span class="kw">as.numeric</span>(residuals), <span class="dt">order =</span> <span class="dv">0</span>, <span class="dt">stop_lag =</span> <span class="dv">20</span>, <span class="dt">stdres =</span> <span class="ot">FALSE</span>, <span class="dt">plot =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-24"></span>
-<img src="ts_files/figure-html/unnamed-chunk-24-1.png" alt="TO DO" width="576" />
+<img src="ts_files/figure-html/unnamed-chunk-24-1.png" alt="Ljung-Box p-values for lags $h = 1,...,20$ on the residuals of the fitted AR(1) model." width="576" />
 <p class="caption">
-Figure 4.15: TO DO
+Figure 4.15: Ljung-Box p-values for lags <span class="math inline">\(h = 1,...,20\)</span> on the residuals of the fitted AR(1) model.
 </p>
 </div>
 <p>Each p-value represented in the plot above is therefore the p-value for the considered maximum lag. Therefore the first p-value (at lag 1) is the p-value for the null hypothesis that all lags up to lag 1 are equal to zero, the second is for the null hypothesis that all lags up to lag 2 are equal to zero and so on. Hence, each p-value represents a global test on the autocorrelations up to the considered maximum lag <span class="math inline">\(h\)</span> and delivers additional information regarding the dependence structure within the residuals. In this case, as interpreted earlier, all p-values are larger than the <span class="math inline">\(\alpha = 0.05\)</span> level and is an additional indication that the residuals follow a white noise process (and that the fitted model appears to well describe the observed time series).</p>
@@ -1408,24 +1408,24 @@ C &amp;= \mathbb{E}\left[  \left\| \mathbf{Y} - \hat{\mathbf{Y}} \right\|_2^2 \r
 <a class="sourceLine" id="cb41-3" data-line-number="3">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">model =</span> true_model)</a>
 <a class="sourceLine" id="cb41-4" data-line-number="4"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(Xt, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-25"></span>
-<img src="ts_files/figure-html/unnamed-chunk-25-1.png" alt="TO DO." width="480" />
+<img src="ts_files/figure-html/unnamed-chunk-25-1.png" alt="Estimated PACF of a time series from an AR(3) model with parameters $\phi_1 = 1.2$, $\phi_2 = -0.9$ and $\phi_3 = 0.3$." width="480" />
 <p class="caption">
-Figure 4.23: TO DO.
+Figure 4.23: Estimated PACF of a time series from an AR(3) model with parameters <span class="math inline">\(\phi_1 = 1.2\)</span>, <span class="math inline">\(\phi_2 = -0.9\)</span> and <span class="math inline">\(\phi_3 = 0.3\)</span>.
 </p>
 </div>
 <p>From the PACF plot one sees that the first three lags appear to be significant indicating that an AR(3) model would indeed appear to be a good candidate model for this observed time series. However, there is another value of the PACF that appears to be marginally significant at lag 10. Let us therefore suppose that we want to consider all possible AR(p) models with <span class="math inline">\(p^* = 10\)</span>. The <code>select()</code> function from the <code>simts</code> package allows to evaluate and plot the value of the three criteria presented earlier in order to understand the value of <span class="math inline">\(p\)</span> that minimizes each of them.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">best_model =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">10</span>), Xt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>) </a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-27"></span>
-<img src="ts_files/figure-html/unnamed-chunk-27-1.png" alt="TO DO" width="672" />
+<img src="ts_files/figure-html/unnamed-chunk-27-1.png" alt="Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model." width="720" />
 <p class="caption">
-Figure 4.24: TO DO
+Figure 4.24: Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model.
 </p>
 </div>
 <p>The output of this funtion is a plot of the values of each criterion over all possible AR(<span class="math inline">\(p\)</span>) models with <span class="math inline">\(p = 1,...,10\)</span> and, as can be seen from the plot, all criteria are minimized at the value <span class="math inline">\(p=3\)</span> which shows how all criteria (in this particular case) agree and select the true underlying model. The function also delivers the MLE estimates of the parameters of the selected model:</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">best_model<span class="op">$</span>coef</a></code></pre></div>
 <pre><code>##        ar1        ar2        ar3 
 ##  1.1726319 -0.8830923  0.2752257</code></pre>
-<p>It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners.</p>
+<p>It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners. To further investigate the properties of these criteria let us consider the following simulation study.</p>
 
 <div class="example">
 <p><span id="exm:unnamed-chunk-29" class="example"><strong>Example 4.12  (Simulation Study: Strong Signal vs Weak Signal)  </strong></span>In this simulation study, we consider the following three models:
@@ -1436,18 +1436,19 @@ Figure 4.24: TO DO
   X_t &amp;= 0.9 W_{t-1} + W_t,
 \end{align*}\]</span></p>
 <p>where <span class="math inline">\(W_t \overset{iid}{\sim} \mathcal{N}(0,1).\)</span></p>
-<p>The first one corresponds to a “strong” signal while the second one is called a “weak” signal. The third one is an example of an AR process of infinte dimension. Indeed, we have</p>
-<p>Based on the theoretical (i.e. asymptotic) properties of model selection criteria, we expect the BIC to perform very well for the first model, while the AIC should give “good” results on the second model.</p>
-We consider sample size <span class="math inline">\(N = 100\)</span> and bootstrap replications <span class="math inline">\(B = 1000\)</span>. The code for this simulation is long and is therefore omitted.
+<p>The first two time series correspond to (relatively) “strong” signals (generally meaning that the values of the parameters are above 0.5) while the third is called a “weak” signal (since the parameters are mostly quite close to 0). Finally, the fourth time series is an example of an AR process of infinte dimension which corresponds to an MA(1) (which is discussed and justified further on in this chapter).</p>
+<p>Based on the theoretical (i.e. asymptotic) properties of the considered model selection criteria, we expect the BIC to perform very well for the first two models (strong signals where the true model is among the candidate models), while the AIC should give “good” results on the last two models (weak signals with models of “larger” dimensions).</p>
+For the purpose of the simulation we consider a sample size <span class="math inline">\(T = 100\)</span> and <span class="math inline">\(B = 1000\)</span> bootstrap replications. The code used for the simulation study (being lengthy) is omitted for practical exposition purposes.
 </div>
 
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-30"></span>
-<img src="ts_files/figure-html/unnamed-chunk-30-1.png" alt="TO DO" width="960" />
+<img src="ts_files/figure-html/unnamed-chunk-30-1.png" alt="Barplots representing the frequency with which each considered model selection criterion (AIC, BIC, HQ) selects each of the possible candidate models within an AR(9) in each of the four simulation settings described in the text." width="960" />
 <p class="caption">
-Figure 4.25: TO DO
+Figure 4.25: Barplots representing the frequency with which each considered model selection criterion (AIC, BIC, HQ) selects each of the possible candidate models within an AR(9) in each of the four simulation settings described in the text.
 </p>
 </div>
-<p>Having studied th performance of these three criteria through a simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.</p>
+<p>As anticipated, it can be seen how the BIC (green bars) often selects a small dimensional model for the first two settings, which corresponds to the truth. In these cases the AIC (red bars) performs less well compared to the other two criteria where the HQ (blue bars) appears to do better than the others for the “strong” signal AR(2). However, as the signal becomes weaker and the true model size increases (last two settings) the AIC does a better job than the BIC and the HQ since it selects higher dimensional models (which corresponds to the truth) with a higher frequency with respect to the HQ and even more so with respect to the BIC. Overall, it would appear that if a “strong” signal is present and the model dimension is low (finite), the BIC is the best choice. However, when the signal is “weaker” and the model dimension is larger (infinite), the AIC tends to select “better” models. Finally, the HQ criterion appears to be inbetween the AIC and BIC in terms of performance for the considered simulation setting.</p>
+<p>Having studied th performance of these three criteria through the described simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(lynx_gts, <span class="dt">pacf =</span> <span class="ot">TRUE</span>)) </a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-31"></span>
 <img src="ts_files/figure-html/unnamed-chunk-31-1.png" alt="TO DO" width="672" />
@@ -1463,10 +1464,10 @@ Figure 4.26: TO DO
 Figure 4.27: TO DO
 </p>
 </div>
-<p>In this case, we see that the AIC and HQ select an AR(11) model in accordance with the selection procedure based on the ACF. However the BIC selects a much smaller model (AR(3)). This can be due to different reasons but the BIC requires the presence of the true model among the candidate models and this is possibly not the case for this example. Hence, for this case the AIC or HQ are probably better choices.</p>
-<p>To summarize, these techniques are all aiming at estimating the out-of-sample prediction error of a given model. However, they strongly rely on the chosen likelihood function and, if this does not adequately represent the model that generated the observed time series, then they could deliver misleading conclusions. For this reason, one could consider another approach to model selection based on model forecasting accuracy. Indeed, one could select a model based on the following procedure:</p>
+<p>In this case, we see that the AIC and HQ select an AR(11) model in accordance with the selection procedure based on the ACF. However the BIC selects a much smaller model (AR(3)). This is in some way consistent with the simulation study seen earlier where the BIC generally tends to select lower-dimensional models. Moreover, the true model for the lynx data may not be among the candidate models and therefore the BIC would not be a good choice. Hence, for this case the AIC or HQ are probably better choices.</p>
+<p>To summarize, all these techniques aim at estimating the out-of-sample prediction error of a given model. However, they strongly rely on the chosen likelihood function and, if this does not adequately represent the model that generated the observed time series, then they could deliver misleading conclusions. For this reason, one could consider another approach to model-selection based on model forecasting accuracy. Indeed, one could select a model based on the following procedure:</p>
 <ol style="list-style-type: decimal">
-<li>Split the observed time series of length <span class="math inline">\(T\)</span> into two sub-series. The first one (i.e. training set) goes from 1 to <span class="math inline">\(n\)</span> (where <span class="math inline">\(n\)</span> is for example <span class="math inline">\(0.8T\)</span>) and the second one (i.e. testing set) goes from <span class="math inline">\(n + 1\)</span> to <span class="math inline">\(T\)</span>.</li>
+<li>Split the observed time series of length <span class="math inline">\(T\)</span> into two sub-series. The first one (i.e. training set) goes from 1 to <span class="math inline">\(n\)</span> (where <span class="math inline">\(n\)</span> is for example <span class="math inline">\(0.8T\)</span>) and the second one (i.e. testing set) goes from <span class="math inline">\(n + 1\)</span> to <span class="math inline">\(T.\)</span></li>
 <li>Estimate the model you wish to evaluate on the training set and forecast the next observation (i.e. <span class="math inline">\(X_{n+1}^n\)</span>). Compute the difference between your forecast and the actual value <span class="math inline">\(X_{n+1}\)</span>.</li>
 <li>Add the observation <span class="math inline">\(X_{n+1}\)</span> to the training set and let <span class="math inline">\(n = n + 1\)</span>. Go to Step 2 until <span class="math inline">\(n = T\)</span>.</li>
 <li>Compute a suitable “score” to asses the quality of your model based on the
@@ -1474,15 +1475,38 @@ empirical “prediction errors” vector.</li>
 </ol>
 <p>There are many “scores” that can assess the quality of the model using the empirical prediction errors such as the Root Mean Squared Error (RMSE), mean absolute percentage error, etc. A generally used and common score is the Median Absolute Prediction Error which is defined as follows:</p>
 <p><span class="math display">\[\text{MAPE} = \text{median}\left(\Big|X_{t+j} - X_{t+j}^t\Big|\right).\]</span></p>
-<p>The MAPE is a score function that assesses how far the model’s predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model’s performance (the median is what guarantees this). This score can also be used to assess a model’s prediction performance and is implemented in the <code>MAPE()</code> function in the <code>simts</code> package. Let us check the model selected for the Lynx trappings data seen earlier when using this approach using the first <span class="math inline">\(0.8 \cdot T\)</span> observations to estimate the model and the last <span class="math inline">\(0.2 \cdot T\)</span> to test the estimated model.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">lynx_mape =<span class="st"> </span><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">16</span>), lynx_gts)</a></code></pre></div>
+<p>The MAPE is a score function that assesses how far the model’s predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model’s performance (the median is what guarantees this). This score can also be used to assess a model’s prediction performance and is implemented in the <code>MAPE()</code> function in the <code>simts</code> package (by default this function uses the first <span class="math inline">\(0.8T\)</span> observations as training data). Let us study a few simulated examples of how the MAPE can be a “good” model selection (and evaluation) criterion. In the first example we simulate a time series from an AR(3) model and compute the MAPE on all possible candidate models within an AR(8) model.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="dv">0</span>, <span class="fl">0.8</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">8</span>), Xt)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-34"></span>
-<img src="ts_files/figure-html/unnamed-chunk-34-1.png" alt="TO DO" width="672" />
+<img src="ts_files/figure-html/unnamed-chunk-34-1.png" alt="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)." width="480" />
 <p class="caption">
-Figure 4.28: TO DO
+Figure 4.28: Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3).
+</p>
+</div>
+<p>From the plot we can see the value of the MAPE for all models up to the AR(8) model. Aside from the MAPE itself we can also see the confidence intervals for each value of the MAPE (representing the distance of one standard deviation from the estimated MAPE). In this example we see that the MAPE is minimized for the AR(6) (red dot) although there are other values of the MAPE that lie below the upper confidence interval of the smallest MAPE. In this case, the MAPE of the smallest model whose value lies below this bound is indeed the one corresponding to the AR(3) model and, in the optic of choosing simple models, our choice would probably go on the latter model. Another example is simply another time series from the same model as above.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">7</span>)</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="dv">0</span>, <span class="fl">0.8</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">8</span>), Xt)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-35"></span>
+<img src="ts_files/figure-html/unnamed-chunk-35-1.png" alt="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)." width="480" />
+<p class="caption">
+Figure 4.29: Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3).
+</p>
+</div>
+<p>In this case we see that the smallest value of the MAPE corresponds to the AR(3) which is also the smallest model below the upper confidence interval of the smallest value of the MAPE (hence the green and red dots correspond, leaving only the red dot). Having studied the MAPE in a couple of examples, let us check the model selected for the Lynx trappings data seen earlier when using this approach using the first <span class="math inline">\(0.8 \cdot T\)</span> observations to estimate the model and the last <span class="math inline">\(0.2 \cdot T\)</span> to test the estimated model.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">lynx_mape =<span class="st"> </span><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">16</span>), lynx_gts)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-36"></span>
+<img src="ts_files/figure-html/unnamed-chunk-36-1.png" alt="Estimated MAPE for the lynx dataset." width="672" />
+<p class="caption">
+Figure 4.30: Estimated MAPE for the lynx dataset.
 </p>
 </div>
 <p>As we can see, an AR(11) model is selected which is equivalent to the model selected by the AIC and HQ criteria. Moverover, it can observed that MAPE is quite variable and that several models have MAPE close to the one of the selected model. As the MAPE is prone to overfitting a reasonable approach is to select a model based on the “one standard deviation rule” which in this case would corespond to an AR(3), the same as the model selected by the BIC. Therefore also this selection method would appear to indicate that either an AR(11) or an AR(3) appears to be “good” models for this time series.</p>
+<!--
+As we can see, an AR(12) model is selected indicating that a more complicated model may be required for this time series data. However it can be seen how the value of the MAPE is extremely close to that of the previously selected AR(8) and lies abundantly within the confidence intervals of the MAPE for the AR(12). Therefore, in addition to the PACF and the model selection criteriea presented earlier, also this selection method would appear to indicate that the AR(8) model is a good candidate for this time series data. 
+-->
 </div>
 <div id="moving-average-models" class="section level2">
 <h2><span class="header-section-number">4.6</span> Moving Average Models ⚠️</h2>
@@ -1511,7 +1535,7 @@ would therefore be impossible to retrieve the parameters of the model by only
 looking at the autocovariance function.</p>
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-35" class="example"><strong>Example 4.13  (Writing a Moving Average in Operator Form)  </strong></span>Consider the following MA(q) process:</p>
+<p><span id="exm:unnamed-chunk-37" class="example"><strong>Example 4.13  (Writing a Moving Average in Operator Form)  </strong></span>Consider the following MA(q) process:</p>
 <p><span class="math display">\[{X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t\]</span></p>
 <p>With a little bit of work this can be condensed to:</p>
 <p><span class="math display">\[{X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}\]</span></p>
@@ -1523,7 +1547,7 @@ looking at the autocovariance function.</p>
 
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-36" class="example"><strong>Example 4.14  (Stationarity of an MA(Q) Process)  </strong></span>The stationarity of an MA(q) process is able to be shown assuming that <span class="math inline">\(\sum\limits_{j = 1}^q {\theta _j^2} &lt; \infty\)</span>.</p>
+<p><span id="exm:unnamed-chunk-38" class="example"><strong>Example 4.14  (Stationarity of an MA(Q) Process)  </strong></span>The stationarity of an MA(q) process is able to be shown assuming that <span class="math inline">\(\sum\limits_{j = 1}^q {\theta _j^2} &lt; \infty\)</span>.</p>
 <p>First, the expectation is able to be derived to be <span class="math inline">\(E\left[ {{X_t}} \right] = 0\)</span>.</p>
 <p>Prior to proceeding to the computation for autocovariance, note that if <span class="math inline">\(\theta_0 = 1\)</span>, then</p>
 <p><span class="math display">\[{X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}\]</span></p>
@@ -1542,7 +1566,7 @@ Hence, the process is stationary.
 
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-37" class="example"><strong>Example 4.15  (Non-uniqueness of MA models)  </strong></span>One particular issue of MA models is the fact that they are not unique.
+<p><span id="exm:unnamed-chunk-39" class="example"><strong>Example 4.15  (Non-uniqueness of MA models)  </strong></span>One particular issue of MA models is the fact that they are not unique.
 In essence, one is not able to correctly tell if the process is of one model
 or another. Consider the following two models:</p>
 <p><span class="math display">\[
