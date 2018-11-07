@@ -1020,7 +1020,7 @@ $$\rho_{h,h} = \operatorname{corr}((X_{t+h} - \hat{X}_{t+h}), (X_t - \hat{X}_t))
 
 Therefore, the PACF is not defined at lag zero while it is the same as the ACF at the first lag since there are no intermediate observations. The defintion of this function is important for different reasons. Firstly, as mentioned earlier, we have an asymptotic distribution for the estimator of the PACF which allows us to deliver confidence intervals as for the ACF. Indeed, representing the empirical PACF along with its confidence intervals can provide a further tool to make sure that the residuals of a model fit can be considered as being white noise. The latter is a reasonable hypothesis if both the empirical ACF and PACF lie within the confidence intervals indicating that there is no significant correlation between lagged variables. Let us focus on the empirical PACF of the residuals we saw earlier in the diagnostic plot.
 
-```{r, fig.asp = 0.75, fig.width = 6, fig.align='center', fig.cap="TO DO"}
+```{r, fig.asp = 0.75, fig.width = 6, fig.align='center', fig.cap="Empirical PACF on the residuals of the AR(1) model fitted to the simulated time series generated from an AR(1) process."}
 residuals = model$mod$residuals
 plot(auto_corr(residuals, pacf = TRUE))
 ```
@@ -1029,7 +1029,7 @@ From the plot we see that the estimated PACF at all lags lies within the blue sh
 
 With the above discussion in mind, let us consider some examples where we study the theoretical ACF and PACF of different AR($p$) models. The first is an AR(1) model with parameter $\phi = 0.95$ and its ACF and PACF are shown below.
 
-```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="TO DO"}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Theoretical ACF (left) and PACF (right) of an AR(1) model with parameter $\\phi = 0.95$."}
 par(mfrow = c(1, 2))
 plot(theo_acf(ar = 0.95, ma = NULL))
 plot(theo_pacf(ar = 0.95, ma = NULL))
@@ -1045,7 +1045,7 @@ $$X_t = -0.1 X_{t-2} -0.1 X_{t-4} + 0.6 X_{t-5} + W_t.$$
 
 The first model is an AR(3) model with positive coefficients while the second is an AR(5) model where $\phi_1 = \phi_3 = 0$. The ACF and PACF of the first AR(3) model is shown below.
 
-```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="TO DO"}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Theoretical ACF (left) and PACF (right) of an AR(3) model with parameters $\\phi_1 = 0.95$, $\\phi_2 = 0.25$ and $\\phi_3 = 0.125$."}
 par(mfrow = c(1, 2))
 plot(theo_acf(ar = c(0.5, 0.25, 0.125), ma = NULL))
 plot(theo_pacf(ar = c(0.5, 0.25, 0.125), ma = NULL))
@@ -1053,7 +1053,7 @@ plot(theo_pacf(ar = c(0.5, 0.25, 0.125), ma = NULL))
 
 Again, we see that the ACF decreases exponentially and also the PACF plot shows a steady decrease until it becomes zero for $h > 3$. This is because the values of $\phi_i$ are all positive and decreasing as well. Let us now consider the second model (the AR(5) model) whose ACF and PACF plots are represented below.
 
-```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="TO DO"}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Theoretical ACF (left) and PACF (right) of an AR(4) model with parameters $\\phi_1 = 0$, $\\phi_2 = -0.1$, $\\phi_3 = 0$ and $\\phi_4 = 0$."}
 par(mfrow = c(1, 2))
 plot(theo_acf(ar = c(0, -0.1, 0, -0.1, 0.6), ma = NULL))
 plot(theo_pacf(ar = c(0, -0.1, 0, -0.1, 0.6), ma = NULL))
@@ -1067,14 +1067,15 @@ These examples therefore give us further insight as to how to interpret the empi
 par(mfrow = c(1,1))
 ```
 
-```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="TO DO"}
-lynx_gts = gts(log(lynx), start = 1821, data_name = "Lynx Trappings", unit_time = "year", name_ts = "Trappings (log)")
+
+```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Time series of annual number of lynx data trappings in Canada between 1821 and 1934."}
+lynx_gts = gts(log(lynx), start = 1821, data_name = "Lynx Trappings", unit_time = "year", name_ts = "Trappings")
 plot(lynx_gts)
 ```
 
 We can see that there appears to be a seasonal trend within the data but let us ignore this for the moment and check the ACF and PACF plots below.
 
-```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="TO DO"}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the lynx time series data."}
 par(mfrow = c(1, 2))
 plot(auto_corr(lynx_gts))
 plot(auto_corr(lynx_gts, pacf = TRUE))
@@ -1095,7 +1096,7 @@ where $h$ represents the maximum lag of the set of lags for which we wish to tes
 par(mfrow = c(1,1))
 ```
 
-```{r, fig.asp = 0.75, fig.width = 6, fig.align='center', fig.cap="TO DO"}
+```{r, fig.asp = 0.75, fig.width = 6, fig.align='center', fig.cap="Ljung-Box p-values for lags $h = 1,...,20$ on the residuals of the fitted AR(1) model."}
 lb_test = diag_ljungbox(as.numeric(residuals), order = 0, stop_lag = 20, stdres = FALSE, plot = TRUE)
 ```
 
@@ -1433,7 +1434,7 @@ $$
 
 where $t_4$ represents the Student-$t$ distribution with 4 degrees of freedom (heavy tails). For the first model ($\mathcal{M}_1$) we will use the `gen_gts()` function while for the second model $\mathcal{M}_2$ we will make use the `arima.sim()` function in which we can assign a vector of innovations from a $t$ distribution.
 
-```{r mbbdata, fig.asp = 0.45, fig.width = 8, fig.align='center', caption = "TO DO", cache = FALSE}
+```{r mbbdata, fig.asp = 0.45, fig.width = 8, fig.align='center', caption = "Simulated time series from the first model (AR(1) with Gaussian innocvations) and the second time series (AR(2) with Student innovations).", cache = FALSE}
 set.seed(1)         # Set seed for reproducibilty
 n = 300             # Sample size
 xt_m1 = gen_gts(n, AR1(phi = 0.5, sigma2 = 1))   # Gaussian noise only
@@ -1442,7 +1443,7 @@ rand.gen = function(n, ...) rt(n, df = 4)))
 ```
 
  
-```{r mbbdatavis, echo = F, cache = FALSE, fig.cap="AR(1) processes generated under different noise conditions.", fig.asp = 0.5, fig.width = 8, fig.align='center', caption = "TO DO", dependson="mbbdata"}
+```{r mbbdatavis, echo = F, cache = FALSE, fig.cap="AR(1) processes generated under different noise conditions.", fig.asp = 0.5, fig.width = 8, fig.align='center', caption = "Plots of the time series from the first model (AR(1) with Gaussian innocvations) and the second time series (AR(2) with Student innovations)", dependson="mbbdata"}
 par(mfrow = c(1,2))
 plot(xt_m1, main = "Model 1")
 plot(xt_m2, main = "Model 2")
@@ -1612,7 +1613,7 @@ $$\mathcal{M}_j: {X_t} = \sum\limits_{i = 1}^j {{\phi _i}{X_{t - i}}}  + {W_t},$
 
 where $\mathcal{M}_j$ is used to denote an AR($j$) model, with $j = 1,...,p^*$ where $p^*$ represents the maximum order of the AR($p$) model considered for a given observed time series (e.g. $p^*$ could be the maximum lag at which the PACF appears to be significant). Let us illustrate the properties of these model selection criteria through the following example of an AR(3) model for which we show the PACF of a possible realization from this process ($T = 500$).
 
-```{r, fig.height= 4.5, fig.width= 5, fig.align='center', fig.cap="TO DO."}
+```{r, fig.height= 4.5, fig.width= 5, fig.align='center', fig.cap="Estimated PACF of a time series from an AR(3) model with parameters $\\phi_1 = 1.2$, $\\phi_2 = -0.9$ and $\phi_3 = 0.3$."}
 set.seed(1)
 true_model = AR(phi = c(1.2, -0.9, 0.3), sigma2 = 1)
 Xt = gen_gts(n = 500, model = true_model)
@@ -1622,12 +1623,12 @@ plot(auto_corr(Xt, pacf = TRUE))
 From the PACF plot one sees that the first three lags appear to be significant indicating that an AR(3) model would indeed appear to be a good candidate model for this observed time series. However, there is another value of the PACF that appears to be marginally significant at lag 10. Let us therefore suppose that we want to consider all possible AR(p) models with $p^* = 10$. The `select()` function from the `simts` package allows to evaluate and plot the value of the three criteria presented earlier in order to understand the value of $p$ that minimizes each of them.
 
 
-```{r, fig.height= 5.5, fig.width= 7.5, fig.align='center', fig.cap="TO DO.", eval = FALSE}
+```{r, fig.height= 5.5, fig.width= 7.5, fig.align='center', fig.cap="Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model.", eval = FALSE}
 best_model = select(AR(10), Xt, include.mean = FALSE) 
 ```
 
 
-```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="TO DO", echo = FALSE}
+```{r, fig.height= 5.5, fig.width= 7.5, fig.align='center', fig.cap="Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model.", echo = FALSE}
 best_model = simts::select(AR(10), Xt, include.mean = FALSE) 
 ```
 
@@ -1637,7 +1638,7 @@ The output of this funtion is a plot of the values of each criterion over all po
 best_model$coef
 ```
 
-It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners. 
+It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners. To further investigate the properties of these criteria let us consider the following simulation study.
 
 ```{example, name="Simulation Study: Strong Signal vs Weak Signal"}
 In this simulation study, we consider the following three models:
@@ -1650,11 +1651,11 @@ In this simulation study, we consider the following three models:
 
 where $W_t \overset{iid}{\sim} \mathcal{N}(0,1).$
 
-The first one corresponds to a "strong" signal while the second one is called a "weak" signal. The third one is an example of an AR process of infinte dimension. Indeed, we have
+The first two time series correspond to (relatively) "strong" signals (generally meaning that the values of the parameters are above 0.5) while the third is called a "weak" signal (since the parameters are mostly quite close to 0). Finally, the fourth time series is an example of an AR process of infinte dimension which corresponds to an MA(1) (which is discussed and justified further on in this chapter).
 
-Based on the theoretical (i.e. asymptotic) properties of model selection criteria, we expect the BIC to perform very well for the first model, while the AIC should give "good" results on the second model.
+Based on the theoretical (i.e. asymptotic) properties of the considered model selection criteria, we expect the BIC to perform very well for the first two models (strong signals where the true model is among the candidate models), while the AIC should give "good" results on the last two models (weak signals with models of "larger" dimensions).
 
-We consider sample size $N = 100$ and bootstrap replications $B = 1000$. The code for this simulation is long and is therefore omitted. 
+For the purpose of the simulation we consider a sample size $T = 100$ and $B = 1000$ bootstrap replications. The code used for the simulation study (being lengthy) is omitted for practical exposition purposes.
 ```
 
 
@@ -1762,7 +1763,7 @@ colnames(result4) = c("1","2","3","4","5","6","7","8","9")
 rownames(result4) = c("AIC", "BIC", "HQ")
 ```
 
-```{r, fig.align='center', fig.height=8, fig.width=10, fig.cap="TO DO", echo = FALSE, warning=FALSE, message=FALSE, error=FALSE}
+```{r, fig.align='center', fig.height=8, fig.width=10, fig.cap="Barplots representing the frequency with which each considered model selection criterion (AIC, BIC, HQ) selects each of the possible candidate models within an AR(9) in each of the four simulation settings described in the text.", echo = FALSE, warning=FALSE, message=FALSE, error=FALSE}
 # plot the results
 par(mfrow=c(2,2))
 mycolor = hcl(h = seq(15, 375, length = 4), l = 65, c = 100, alpha = 1)
@@ -1800,7 +1801,9 @@ barplot(result4/B*100,
         xlab = "autoregressive order (p)", ylab = "Selection Frequency (%)")
 ```
 
-Having studied th performance of these three criteria through a simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.
+As anticipated, it can be seen how the BIC (green bars) often selects a small dimensional model for the first two settings, which corresponds to the truth. In these cases the AIC (red bars) performs less well compared to the other two criteria where the HQ (blue bars) appears to do better than the others for the "strong" signal AR(2). However, as the signal becomes weaker and the true model size increases (last two settings) the AIC does a better job than the BIC and the HQ since it selects higher dimensional models (which corresponds to the truth) with a higher frequency with respect to the HQ and even more so with respect to the BIC. Overall, it would appear that if a "strong" signal is present and the model dimension is low (finite), the BIC is the best choice. However, when the signal is "weaker" and the model dimension is larger (infinite), the AIC tends to select "better" models. Finally, the HQ criterion appears to be inbetween the AIC and BIC in terms of performance for the considered simulation setting.
+
+Having studied th performance of these three criteria through the described simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.
 
 ```{r, cache = TRUE, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="TO DO"}
 plot(auto_corr(lynx_gts, pacf = TRUE)) 
@@ -1816,11 +1819,12 @@ lynx_select = select(AR(16), lynx_gts, include.mean = TRUE)
 lynx_select = try(simts::select(AR(16), lynx_gts, include.mean = TRUE)) 
 ```
 
-In this case, we see that the AIC and HQ select an AR(11) model in accordance with the selection procedure based on the ACF. However the BIC selects a much smaller model (AR(3)). This can be due to different reasons but the BIC requires the presence of the true model among the candidate models and this is possibly not the case for this example. Hence, for this case the AIC or HQ are probably better choices.
 
-To summarize, these techniques are all aiming at estimating the out-of-sample prediction error of a given model. However, they strongly rely on the chosen likelihood function and, if this does not adequately represent the model that generated the observed time series, then they could deliver misleading conclusions. For this reason, one could consider another approach to model selection based on model forecasting accuracy. Indeed, one could select a model based on the following procedure:
+In this case, we see that the AIC and HQ select an AR(11) model in accordance with the selection procedure based on the ACF. However the BIC selects a much smaller model (AR(3)). This is in some way consistent with the simulation study seen earlier where the BIC generally tends to select lower-dimensional models. Moreover, the true model for the lynx data may not be among the candidate models and therefore the BIC would not be a good choice. Hence, for this case the AIC or HQ are probably better choices.
 
-1. Split the observed time series of length $T$ into two sub-series. The first one (i.e. training set) goes from 1 to $n$ (where $n$ is for example $0.8T$) and the second one (i.e. testing set) goes from $n + 1$ to $T$.
+To summarize, all these techniques aim at estimating the out-of-sample prediction error of a given model. However, they strongly rely on the chosen likelihood function and, if this does not adequately represent the model that generated the observed time series, then they could deliver misleading conclusions. For this reason, one could consider another approach to model-selection based on model forecasting accuracy. Indeed, one could select a model based on the following procedure:
+
+1. Split the observed time series of length $T$ into two sub-series. The first one (i.e. training set) goes from 1 to $n$ (where $n$ is for example $0.8T$) and the second one (i.e. testing set) goes from $n + 1$ to $T.$
 2. Estimate the model you wish to evaluate on the training set and forecast the next observation (i.e. $X_{n+1}^n$). Compute the difference between your forecast and the actual value $X_{n+1}$.
 3. Add the observation $X_{n+1}$ to the training set and let $n = n + 1$. Go to Step 2 until $n = T$.
 4. Compute a suitable "score" to asses the quality of your model based on the
@@ -1830,13 +1834,33 @@ There are many "scores" that can assess the quality of the model using the empir
 
 $$\text{MAPE} = \text{median}\left(\Big|X_{t+j} - X_{t+j}^t\Big|\right).$$
 
-The MAPE is a score function that assesses how far the model's predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model's performance (the median is what guarantees this). This score can also be used to assess a model's prediction performance and is implemented in the `MAPE()` function in the `simts` package. Let us check the model selected for the Lynx trappings data seen earlier when using this approach using the first $0.8 \cdot T$ observations to estimate the model and the last $0.2 \cdot T$ to test the estimated model.
+The MAPE is a score function that assesses how far the model's predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model's performance (the median is what guarantees this). This score can also be used to assess a model's prediction performance and is implemented in the `MAPE()` function in the `simts` package (by default this function uses the first $0.8T$ observations as training data). Let us study a few simulated examples of how the MAPE can be a "good" model selection (and evaluation) criterion. In the first example we simulate a time series from an AR(3) model and compute the MAPE on all possible candidate models within an AR(8) model.
 
-```{r, cache = TRUE, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="TO DO"}
+```{r, fig.height= 4.5, fig.width= 5, fig.align='center', fig.cap="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)."}
+set.seed(5)
+Xt = gen_gts(500, AR(phi = c(0.1, 0, 0.8), sigma2 = 1))
+MAPE(AR(8), Xt)
+```
+
+From the plot we can see the value of the MAPE for all models up to the AR(8) model. Aside from the MAPE itself we can also see the confidence intervals for each value of the MAPE (representing the distance of one standard deviation from the estimated MAPE). In this example we see that the MAPE is minimized for the AR(6) (red dot) although there are other values of the MAPE that lie below the upper confidence interval of the smallest MAPE. In this case, the MAPE of the smallest model whose value lies below this bound is indeed the one corresponding to the AR(3) model and, in the optic of choosing simple models, our choice would probably go on the latter model. Another example is simply another time series from the same model as above.
+
+```{r, fig.height= 4.5, fig.width= 5, fig.align='center', fig.cap="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)."}
+set.seed(7)
+Xt = gen_gts(500, AR(phi = c(0.1, 0, 0.8), sigma2 = 1))
+MAPE(AR(8), Xt)
+```
+
+In this case we see that the smallest value of the MAPE corresponds to the AR(3) which is also the smallest model below the upper confidence interval of the smallest value of the MAPE (hence the green and red dots correspond, leaving only the red dot). Having studied the MAPE in a couple of examples, let us check the model selected for the Lynx trappings data seen earlier when using this approach using the first $0.8 \cdot T$ observations to estimate the model and the last $0.2 \cdot T$ to test the estimated model.
+
+```{r, cache = TRUE, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Estimated MAPE for the lynx dataset."}
 lynx_mape = MAPE(AR(16), lynx_gts)
 ```
 
 As we can see, an AR(11) model is selected which is equivalent to the model selected by the AIC and HQ criteria. Moverover, it can observed that MAPE is quite variable and that several models have MAPE close to the one of the selected model. As the MAPE is prone to overfitting a reasonable approach is to select a model based on the "one standard deviation rule" which in this case would corespond to an AR(3), the same as the model selected by the BIC. Therefore also this selection method would appear to indicate that either an AR(11) or an AR(3) appears to be "good" models for this time series. 
+
+<!--
+As we can see, an AR(12) model is selected indicating that a more complicated model may be required for this time series data. However it can be seen how the value of the MAPE is extremely close to that of the previously selected AR(8) and lies abundantly within the confidence intervals of the MAPE for the AR(12). Therefore, in addition to the PACF and the model selection criteriea presented earlier, also this selection method would appear to indicate that the AR(8) model is a good candidate for this time series data. 
+-->
  
 ## Moving Average Models `r emo::ji("warning")`
 
