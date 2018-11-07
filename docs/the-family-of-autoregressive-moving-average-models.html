@@ -983,7 +983,12 @@ where <span class="math inline">\(\hat{X}_{t+j}\)</span> represents an estimator
 <a class="sourceLine" id="cb18-3" data-line-number="3">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">model =</span> true_model)</a>
 <a class="sourceLine" id="cb18-4" data-line-number="4">model =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), Xt, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb18-5" data-line-number="5"><span class="kw">check</span>(<span class="dt">model =</span> model)</a></code></pre></div>
-<p><img src="ts_files/figure-html/diagnostic_plot-1.png" width="672" /></p>
+<div class="figure" style="text-align: center">
+<img src="ts_files/figure-html/diagnostic_plot-1.png" alt="TO DO." width="912" />
+<p class="caption">
+(#fig:diagnostic_plot)TO DO.
+</p>
+</div>
 <p>All plots refer to the residuals of the model-fit and aim at visually assessing whether the fitted time series model captures the dependence structure in the data. The first row contains plots that can be interpreted in the same manner as the residuals from a linear regression. The first plot simply represents the residuals over time and should show if there is any presence of trends, seasonality or heteroskedasticity. The second plot gives a histogram (and smoothed histrogram called a kernel) of the residuals which should be centered in zero and (possibly) have an approximate normal distribution. The latter hypothesis can also be checked using the third plot which consists in a Normal quantile-quantile plot and the residuals should lie on (or close to) the diagonal line representing correspondance between the distributions.</p>
 <p>The first plot in the second row in the above figureshows the estimated ACF. It can be seen how the estimated autocorrelations all lie within the blue shaded area representing the confidence intervals. The second plot represents the Partial AutoCorrelation Function (PACF) and is another tool that will be investigated further on. In the meantime, suffice it to say that this tool can be interpreted as a different version of the ACF which measures autocorrelation conditionally on the previous lags (in some sense, it measures the direct impact of <span class="math inline">\(X_t\)</span> on <span class="math inline">\(X{t+h}\)</span> removing the influence of all observations inbetween). In this case, we see that also the estimated PACF lies within the confidence intervals and, along with the intepretation of the ACF, we can state that the model appears to fit the time series reasonably well since the residuals can be considered as following a white noise process. Finally, the last plot visualises the “Ljung-Box Test” (which is a type of Portmanteau test) that tests whether the autocorrelation of the residuals at a set of lags is different from zero. The plot represents the p-value of this test at the different lags and also shows a dashed line representing the common significance level of <span class="math inline">\(\alpha = 0.05\)</span>. If the modelling has done a good job, all p-values should be larger than this level. In this case, using the latter level, we can see that the autocorrelations for the residuals appear to be non-significant and therefore fitting an AR(1) model to the time series (which is the true model in this example) appears to do a reasonably good job.</p>
 <div id="the-partial-autocorrelation-function-pacf" class="section level3">
@@ -1046,8 +1051,8 @@ Figure 4.12: TO DO
 </p>
 </div>
 <p>In this case we see that the ACF has a sinusoidal-like behaviour where the values of <span class="math inline">\(\phi_1 = \phi_3 = 0\)</span> and the negative <span class="math inline">\(\phi_2 = \phi_4 = -0.1\)</span> values deliver this alternating ACF form which nevertheless decreases as <span class="math inline">\(h\)</span> increases. These values deliver the PACF plot on the right which is negative for the first lags and is greatly positive at <span class="math inline">\(h=5\)</span> only to become zero for <span class="math inline">\(h &gt; 5\)</span>.</p>
-<p>These examples therefore give us further insight as to how to interpret the empirical (or estimated) versions of these functions. For this reason, let us study the empirical ACF and PACF of some real time series, the first of which is the data representing the annual number of Lynx trappings in Canada between 1821 and 1934. The time series is represented below.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">lynx_gts =<span class="st"> </span><span class="kw">gts</span>(lynx, <span class="dt">start =</span> <span class="dv">1821</span>, <span class="dt">data_name =</span> <span class="st">&quot;Lynx Trappings&quot;</span>, <span class="dt">unit_time =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Trappings&quot;</span>)</a>
+<p>These examples therefore give us further insight as to how to interpret the empirical (or estimated) versions of these functions. For this reason, let us study the empirical ACF and PACF of some real time series, the first of which is the data representing the natural logarithm of the annual number of Lynx trappings in Canada between 1821 and 1934. The time series is represented below.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">lynx_gts =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">log</span>(lynx), <span class="dt">start =</span> <span class="dv">1821</span>, <span class="dt">data_name =</span> <span class="st">&quot;Lynx Trappings&quot;</span>, <span class="dt">unit_time =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Trappings (log)&quot;</span>)</a>
 <a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">plot</span>(lynx_gts)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-21"></span>
 <img src="ts_files/figure-html/unnamed-chunk-21-1.png" alt="TO DO" width="672" />
@@ -1065,7 +1070,7 @@ Figure 4.13: TO DO
 Figure 4.14: TO DO
 </p>
 </div>
-<p>The seasonal behaviour also appears in the ACF plot but we see that it decreases in a sinusoidal fashion as the lag increases hinting that an AR(<span class="math inline">\(p\)</span>) model could be a potential candidate for the time series. Looking at the PACF plot on the right we can see that a few partial autocorrelations appear to be significant up to lag <span class="math inline">\(h=8\)</span>. Therefore an AR(8) model could be a possibly good candidate to explain (and predict) this time series.</p>
+<p>The seasonal behaviour also appears in the ACF plot but we see that it decreases in a sinusoidal fashion as the lag increases hinting that an AR(<span class="math inline">\(p\)</span>) model could be a potential candidate for the time series. Looking at the PACF plot on the right we can see that a few partial autocorrelations appear to be significant up to lag <span class="math inline">\(h=11\)</span>. Therefore an AR(11) model could be a possibly good candidate to explain (and predict) this time series.</p>
 </div>
 <div id="portmanteau-tests" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> Portmanteau Tests</h3>
@@ -1411,16 +1416,16 @@ Figure 4.23: TO DO.
 <p>From the PACF plot one sees that the first three lags appear to be significant indicating that an AR(3) model would indeed appear to be a good candidate model for this observed time series. However, there is another value of the PACF that appears to be marginally significant at lag 10. Let us therefore suppose that we want to consider all possible AR(p) models with <span class="math inline">\(p^* = 10\)</span>. The <code>select()</code> function from the <code>simts</code> package allows to evaluate and plot the value of the three criteria presented earlier in order to understand the value of <span class="math inline">\(p\)</span> that minimizes each of them.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">best_model =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">10</span>), Xt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>) </a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-27"></span>
-<img src="ts_files/figure-html/unnamed-chunk-27-1.png" alt="TO DO." width="720" />
+<img src="ts_files/figure-html/unnamed-chunk-27-1.png" alt="TO DO" width="672" />
 <p class="caption">
-Figure 4.24: TO DO.
+Figure 4.24: TO DO
 </p>
 </div>
 <p>The output of this funtion is a plot of the values of each criterion over all possible AR(<span class="math inline">\(p\)</span>) models with <span class="math inline">\(p = 1,...,10\)</span> and, as can be seen from the plot, all criteria are minimized at the value <span class="math inline">\(p=3\)</span> which shows how all criteria (in this particular case) agree and select the true underlying model. The function also delivers the MLE estimates of the parameters of the selected model:</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">best_model<span class="op">$</span>coef</a></code></pre></div>
 <pre><code>##        ar1        ar2        ar3 
 ##  1.1726319 -0.8830923  0.2752257</code></pre>
-<p>It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners. SAY WE REMOVED CODE.</p>
+<p>It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners.</p>
 
 <div class="example">
 <p><span id="exm:unnamed-chunk-29" class="example"><strong>Example 4.12  (Simulation Study: Strong Signal vs Weak Signal)  </strong></span>In this simulation study, we consider the following three models:
@@ -1433,124 +1438,9 @@ Figure 4.24: TO DO.
 <p>where <span class="math inline">\(W_t \overset{iid}{\sim} \mathcal{N}(0,1).\)</span></p>
 <p>The first one corresponds to a “strong” signal while the second one is called a “weak” signal. The third one is an example of an AR process of infinte dimension. Indeed, we have</p>
 <p>Based on the theoretical (i.e. asymptotic) properties of model selection criteria, we expect the BIC to perform very well for the first model, while the AIC should give “good” results on the second model.</p>
-We consider sample size <span class="math inline">\(N = 100\)</span> and bootstrap replications <span class="math inline">\(B = 500\)</span>.
+We consider sample size <span class="math inline">\(N = 100\)</span> and bootstrap replications <span class="math inline">\(B = 1000\)</span>. The code for this simulation is long and is therefore omitted.
 </div>
 
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">B =<span class="st"> </span><span class="dv">500</span></a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">result1 =<span class="st"> </span>result2 =<span class="st"> </span>result3 =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">aic =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, B), </a>
-<a class="sourceLine" id="cb45-3" data-line-number="3">                               <span class="dt">bic =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, B), </a>
-<a class="sourceLine" id="cb45-4" data-line-number="4">                               <span class="dt">hq =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, B))</a>
-<a class="sourceLine" id="cb45-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb45-6" data-line-number="6"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>B){</a>
-<a class="sourceLine" id="cb45-7" data-line-number="7">  <span class="kw">set.seed</span>(<span class="dv">1</span><span class="op">+</span>i)</a>
-<a class="sourceLine" id="cb45-8" data-line-number="8">  </a>
-<a class="sourceLine" id="cb45-9" data-line-number="9">  <span class="co"># generate data</span></a>
-<a class="sourceLine" id="cb45-10" data-line-number="10">  Xt1 =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.6</span>, <span class="fl">0.3</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb45-11" data-line-number="11">  Xt2 =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.125</span>, <span class="fl">0.0625</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb45-12" data-line-number="12">  Xt3 =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">MA</span>(<span class="dt">theta =</span> <span class="fl">0.9</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb45-13" data-line-number="13">  </a>
-<a class="sourceLine" id="cb45-14" data-line-number="14">  <span class="co"># model selection for Xt1</span></a>
-<a class="sourceLine" id="cb45-15" data-line-number="15">  tmp_aic =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt1, <span class="dt">criterion =</span> <span class="st">&quot;aic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-16" data-line-number="16">  tmp_bic =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt1, <span class="dt">criterion =</span> <span class="st">&quot;bic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-17" data-line-number="17">  tmp_hq =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt1, <span class="dt">criterion =</span> <span class="st">&quot;hq&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-18" data-line-number="18">  </a>
-<a class="sourceLine" id="cb45-19" data-line-number="19">  result1<span class="op">$</span>aic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_aic<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-20" data-line-number="20">  result1<span class="op">$</span>bic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_bic<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-21" data-line-number="21">  result1<span class="op">$</span>hq[i] =<span class="st"> </span><span class="kw">length</span>(tmp_hq<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-22" data-line-number="22">  </a>
-<a class="sourceLine" id="cb45-23" data-line-number="23">  <span class="co"># model selection for Xt2</span></a>
-<a class="sourceLine" id="cb45-24" data-line-number="24">  tmp_aic =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt2, <span class="dt">criterion =</span> <span class="st">&quot;aic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-25" data-line-number="25">  tmp_bic =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt2, <span class="dt">criterion =</span> <span class="st">&quot;bic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-26" data-line-number="26">  tmp_hq =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt2, <span class="dt">criterion =</span> <span class="st">&quot;hq&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-27" data-line-number="27">  </a>
-<a class="sourceLine" id="cb45-28" data-line-number="28">  result2<span class="op">$</span>aic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_aic<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-29" data-line-number="29">  result2<span class="op">$</span>bic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_bic<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-30" data-line-number="30">  result2<span class="op">$</span>hq[i] =<span class="st"> </span><span class="kw">length</span>(tmp_hq<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-31" data-line-number="31">  </a>
-<a class="sourceLine" id="cb45-32" data-line-number="32">  <span class="co"># model selection for Xt3</span></a>
-<a class="sourceLine" id="cb45-33" data-line-number="33">  tmp_aic =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt3, <span class="dt">criterion =</span> <span class="st">&quot;aic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-34" data-line-number="34">  tmp_bic =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt3, <span class="dt">criterion =</span> <span class="st">&quot;bic&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-35" data-line-number="35">  tmp_hq =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">9</span>), Xt3, <span class="dt">criterion =</span> <span class="st">&quot;hq&quot;</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb45-36" data-line-number="36">  </a>
-<a class="sourceLine" id="cb45-37" data-line-number="37">  result3<span class="op">$</span>aic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_aic<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-38" data-line-number="38">  result3<span class="op">$</span>bic[i] =<span class="st"> </span><span class="kw">length</span>(tmp_bic<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-39" data-line-number="39">  result3<span class="op">$</span>hq[i] =<span class="st"> </span><span class="kw">length</span>(tmp_hq<span class="op">$</span>model<span class="op">$</span>phi)</a>
-<a class="sourceLine" id="cb45-40" data-line-number="40">}</a>
-<a class="sourceLine" id="cb45-41" data-line-number="41"></a>
-<a class="sourceLine" id="cb45-42" data-line-number="42"><span class="co"># calculate counts</span></a>
-<a class="sourceLine" id="cb45-43" data-line-number="43">counts1_aic =<span class="st"> </span><span class="kw">table</span>(result1<span class="op">$</span>aic)</a>
-<a class="sourceLine" id="cb45-44" data-line-number="44">counts1_bic =<span class="st"> </span><span class="kw">table</span>(result1<span class="op">$</span>bic)</a>
-<a class="sourceLine" id="cb45-45" data-line-number="45">counts1_hq =<span class="st"> </span><span class="kw">table</span>(result1<span class="op">$</span>hq)</a>
-<a class="sourceLine" id="cb45-46" data-line-number="46"></a>
-<a class="sourceLine" id="cb45-47" data-line-number="47">counts2_aic =<span class="st"> </span><span class="kw">table</span>(result2<span class="op">$</span>aic)</a>
-<a class="sourceLine" id="cb45-48" data-line-number="48">counts2_bic =<span class="st"> </span><span class="kw">table</span>(result2<span class="op">$</span>bic)</a>
-<a class="sourceLine" id="cb45-49" data-line-number="49">counts2_hq =<span class="st"> </span><span class="kw">table</span>(result2<span class="op">$</span>hq)</a>
-<a class="sourceLine" id="cb45-50" data-line-number="50"></a>
-<a class="sourceLine" id="cb45-51" data-line-number="51">counts3_aic =<span class="st"> </span><span class="kw">table</span>(result3<span class="op">$</span>aic)</a>
-<a class="sourceLine" id="cb45-52" data-line-number="52">counts3_bic =<span class="st"> </span><span class="kw">table</span>(result3<span class="op">$</span>bic)</a>
-<a class="sourceLine" id="cb45-53" data-line-number="53">counts3_hq =<span class="st"> </span><span class="kw">table</span>(result3<span class="op">$</span>hq)</a>
-<a class="sourceLine" id="cb45-54" data-line-number="54"></a>
-<a class="sourceLine" id="cb45-55" data-line-number="55">aic1 =<span class="st"> </span>bic1 =<span class="st"> </span>hq1 =<span class="st"> </span>aic2 =<span class="st"> </span>bic2 =<span class="st"> </span>hq3 =<span class="st"> </span>aic3 =<span class="st"> </span>bic3 =<span class="st"> </span>hq3 =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">9</span>)</a>
-<a class="sourceLine" id="cb45-56" data-line-number="56"></a>
-<a class="sourceLine" id="cb45-57" data-line-number="57">aic1[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts1_aic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts1_aic)</a>
-<a class="sourceLine" id="cb45-58" data-line-number="58">bic1[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts1_bic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts1_bic)</a>
-<a class="sourceLine" id="cb45-59" data-line-number="59">hq1[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts1_hq))] =<span class="st"> </span><span class="kw">as.vector</span>(counts1_hq)</a>
-<a class="sourceLine" id="cb45-60" data-line-number="60"></a>
-<a class="sourceLine" id="cb45-61" data-line-number="61">aic2[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_aic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts2_aic)</a>
-<a class="sourceLine" id="cb45-62" data-line-number="62">bic2[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_bic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts2_bic)</a>
-<a class="sourceLine" id="cb45-63" data-line-number="63">hq2[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_hq))] =<span class="st"> </span><span class="kw">as.vector</span>(counts2_hq)</a>
-<a class="sourceLine" id="cb45-64" data-line-number="64"></a>
-<a class="sourceLine" id="cb45-65" data-line-number="65">aic3[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_aic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts3_aic)</a>
-<a class="sourceLine" id="cb45-66" data-line-number="66">bic3[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_bic))] =<span class="st"> </span><span class="kw">as.vector</span>(counts3_bic)</a>
-<a class="sourceLine" id="cb45-67" data-line-number="67">hq3[<span class="kw">as.numeric</span>(<span class="kw">names</span>(counts2_hq))] =<span class="st"> </span><span class="kw">as.vector</span>(counts3_hq)</a>
-<a class="sourceLine" id="cb45-68" data-line-number="68"></a>
-<a class="sourceLine" id="cb45-69" data-line-number="69">result1 =<span class="st"> </span><span class="kw">rbind</span>(aic1, bic1, hq1)</a>
-<a class="sourceLine" id="cb45-70" data-line-number="70">result2 =<span class="st"> </span><span class="kw">rbind</span>(aic2, bic2, hq2)</a>
-<a class="sourceLine" id="cb45-71" data-line-number="71">result3 =<span class="st"> </span><span class="kw">rbind</span>(aic3, bic3, hq3)</a>
-<a class="sourceLine" id="cb45-72" data-line-number="72"></a>
-<a class="sourceLine" id="cb45-73" data-line-number="73"><span class="kw">colnames</span>(result1) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;3&quot;</span>,<span class="st">&quot;4&quot;</span>,<span class="st">&quot;5&quot;</span>,<span class="st">&quot;6&quot;</span>,<span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>)</a>
-<a class="sourceLine" id="cb45-74" data-line-number="74"><span class="kw">rownames</span>(result1) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>)</a>
-<a class="sourceLine" id="cb45-75" data-line-number="75"><span class="kw">colnames</span>(result2) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;3&quot;</span>,<span class="st">&quot;4&quot;</span>,<span class="st">&quot;5&quot;</span>,<span class="st">&quot;6&quot;</span>,<span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>)</a>
-<a class="sourceLine" id="cb45-76" data-line-number="76"><span class="kw">rownames</span>(result2) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>)</a>
-<a class="sourceLine" id="cb45-77" data-line-number="77"><span class="kw">colnames</span>(result3) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;3&quot;</span>,<span class="st">&quot;4&quot;</span>,<span class="st">&quot;5&quot;</span>,<span class="st">&quot;6&quot;</span>,<span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>)</a>
-<a class="sourceLine" id="cb45-78" data-line-number="78"><span class="kw">rownames</span>(result3) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>)</a>
-<a class="sourceLine" id="cb45-79" data-line-number="79"></a>
-<a class="sourceLine" id="cb45-80" data-line-number="80"><span class="co"># plot the results</span></a>
-<a class="sourceLine" id="cb45-81" data-line-number="81"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb45-82" data-line-number="82">mycolor =<span class="st"> </span><span class="kw">hcl</span>(<span class="dt">h =</span> <span class="kw">seq</span>(<span class="dv">15</span>, <span class="dv">375</span>, <span class="dt">length =</span> <span class="dv">4</span>), <span class="dt">l =</span> <span class="dv">65</span>, <span class="dt">c =</span> <span class="dv">100</span>, <span class="dt">alpha =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb45-83" data-line-number="83"></a>
-<a class="sourceLine" id="cb45-84" data-line-number="84"><span class="co"># Xt1</span></a>
-<a class="sourceLine" id="cb45-85" data-line-number="85"><span class="kw">barplot</span>(result1, </a>
-<a class="sourceLine" id="cb45-86" data-line-number="86">        <span class="dt">col =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
-<a class="sourceLine" id="cb45-87" data-line-number="87">        <span class="dt">beside =</span> T, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(result1)<span class="op">+</span><span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb45-88" data-line-number="88">        <span class="dt">main =</span> <span class="st">&quot;Strong Signal&quot;</span>, </a>
-<a class="sourceLine" id="cb45-89" data-line-number="89">        <span class="dt">xlab =</span> <span class="st">&quot;autoregressive order (p)&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Selection Frequency&quot;</span>)</a>
-<a class="sourceLine" id="cb45-90" data-line-number="90"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,</a>
-<a class="sourceLine" id="cb45-91" data-line-number="91">       <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>),</a>
-<a class="sourceLine" id="cb45-92" data-line-number="92">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</a>
-<a class="sourceLine" id="cb45-93" data-line-number="93">       <span class="dt">fill =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb45-94" data-line-number="94"></a>
-<a class="sourceLine" id="cb45-95" data-line-number="95"><span class="co"># Xt2</span></a>
-<a class="sourceLine" id="cb45-96" data-line-number="96"><span class="kw">barplot</span>(result2, </a>
-<a class="sourceLine" id="cb45-97" data-line-number="97">        <span class="dt">col =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
-<a class="sourceLine" id="cb45-98" data-line-number="98">        <span class="dt">beside =</span> T, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(result2)<span class="op">+</span><span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb45-99" data-line-number="99">        <span class="dt">main =</span> <span class="st">&quot;Weak Signal&quot;</span>, </a>
-<a class="sourceLine" id="cb45-100" data-line-number="100">        <span class="dt">xlab =</span> <span class="st">&quot;autoregressive order (p)&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Selection Frequency&quot;</span>)</a>
-<a class="sourceLine" id="cb45-101" data-line-number="101"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,</a>
-<a class="sourceLine" id="cb45-102" data-line-number="102">       <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>),</a>
-<a class="sourceLine" id="cb45-103" data-line-number="103">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</a>
-<a class="sourceLine" id="cb45-104" data-line-number="104">       <span class="dt">fill =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb45-105" data-line-number="105"></a>
-<a class="sourceLine" id="cb45-106" data-line-number="106"><span class="co"># Xt2</span></a>
-<a class="sourceLine" id="cb45-107" data-line-number="107"><span class="kw">barplot</span>(result3, </a>
-<a class="sourceLine" id="cb45-108" data-line-number="108">        <span class="dt">col =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
-<a class="sourceLine" id="cb45-109" data-line-number="109">        <span class="dt">beside =</span> T, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(result2)<span class="op">+</span><span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb45-110" data-line-number="110">        <span class="dt">main =</span> <span class="st">&quot;MA(1)&quot;</span>, </a>
-<a class="sourceLine" id="cb45-111" data-line-number="111">        <span class="dt">xlab =</span> <span class="st">&quot;autoregressive order (p)&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Selection Frequency&quot;</span>)</a>
-<a class="sourceLine" id="cb45-112" data-line-number="112"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,</a>
-<a class="sourceLine" id="cb45-113" data-line-number="113">       <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;BIC&quot;</span>, <span class="st">&quot;HQ&quot;</span>),</a>
-<a class="sourceLine" id="cb45-114" data-line-number="114">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</a>
-<a class="sourceLine" id="cb45-115" data-line-number="115">       <span class="dt">fill =</span> mycolor[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-30"></span>
 <img src="ts_files/figure-html/unnamed-chunk-30-1.png" alt="TO DO" width="960" />
 <p class="caption">
@@ -1558,12 +1448,22 @@ Figure 4.25: TO DO
 </p>
 </div>
 <p>Having studied th performance of these three criteria through a simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(lynx_gts, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
-<p><img src="ts_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
-<p>As we saw earlier, the PACF appears to be significant at lag <span class="math inline">\(h = 8\)</span> therefore leading to the conclusion that an AR(8) model would be good to describe/forecast the observed time series. However, let us check if we reach the same conclusion using the three model selection criteria described above. For this reason, let us use an AR(15) as the maximum order for the candidate AR(<span class="math inline">\(p\)</span>) models.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">lynx_select =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">15</span>), lynx_gts, <span class="dt">include.mean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="ts_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
-<p>In this case, we see that the AIC and HQ select an AR(8) model in accordance with the selection procedure based on the ACF. However the BIC selects a much smaller model (AR(3)). This can be due to different reasons but the BIC requires the presence of the true model among the candidate models and this is possibly not the case for this example. Hence, for this case the AIC or HQ are probably better choices.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(lynx_gts, <span class="dt">pacf =</span> <span class="ot">TRUE</span>)) </a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-31"></span>
+<img src="ts_files/figure-html/unnamed-chunk-31-1.png" alt="TO DO" width="672" />
+<p class="caption">
+Figure 4.26: TO DO
+</p>
+</div>
+<p>As we saw earlier, the PACF appears to be significant at lag <span class="math inline">\(h = 11\)</span> therefore leading to the conclusion that an AR(11) model would be good to describe/forecast the observed time series. However, let us check if we reach the same conclusion using the three model selection criteria described above. For this reason, let us use an AR(16) as the maximum order for the candidate AR(<span class="math inline">\(p\)</span>) models.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">lynx_select =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">16</span>), lynx_gts, <span class="dt">include.mean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-33"></span>
+<img src="ts_files/figure-html/unnamed-chunk-33-1.png" alt="TO DO" width="672" />
+<p class="caption">
+Figure 4.27: TO DO
+</p>
+</div>
+<p>In this case, we see that the AIC and HQ select an AR(11) model in accordance with the selection procedure based on the ACF. However the BIC selects a much smaller model (AR(3)). This can be due to different reasons but the BIC requires the presence of the true model among the candidate models and this is possibly not the case for this example. Hence, for this case the AIC or HQ are probably better choices.</p>
 <p>To summarize, these techniques are all aiming at estimating the out-of-sample prediction error of a given model. However, they strongly rely on the chosen likelihood function and, if this does not adequately represent the model that generated the observed time series, then they could deliver misleading conclusions. For this reason, one could consider another approach to model selection based on model forecasting accuracy. Indeed, one could select a model based on the following procedure:</p>
 <ol style="list-style-type: decimal">
 <li>Split the observed time series of length <span class="math inline">\(T\)</span> into two sub-series. The first one (i.e. training set) goes from 1 to <span class="math inline">\(n\)</span> (where <span class="math inline">\(n\)</span> is for example <span class="math inline">\(0.8T\)</span>) and the second one (i.e. testing set) goes from <span class="math inline">\(n + 1\)</span> to <span class="math inline">\(T\)</span>.</li>
@@ -1575,9 +1475,14 @@ empirical “prediction errors” vector.</li>
 <p>There are many “scores” that can assess the quality of the model using the empirical prediction errors such as the Root Mean Squared Error (RMSE), mean absolute percentage error, etc. A generally used and common score is the Median Absolute Prediction Error which is defined as follows:</p>
 <p><span class="math display">\[\text{MAPE} = \text{median}\left(\Big|X_{t+j} - X_{t+j}^t\Big|\right).\]</span></p>
 <p>The MAPE is a score function that assesses how far the model’s predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model’s performance (the median is what guarantees this). This score can also be used to assess a model’s prediction performance and is implemented in the <code>MAPE()</code> function in the <code>simts</code> package. Let us check the model selected for the Lynx trappings data seen earlier when using this approach using the first <span class="math inline">\(0.8 \cdot T\)</span> observations to estimate the model and the last <span class="math inline">\(0.2 \cdot T\)</span> to test the estimated model.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">lynx_mape =<span class="st"> </span><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">15</span>), lynx_gts, <span class="dt">start =</span> <span class="fl">0.8</span>)</a></code></pre></div>
-<p><img src="ts_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
-<p>As we can see, an AR(12) model is selected indicating that a more complicated model may be required for this time series data. However it can be seen how the value of the MAPE is extremely close to that of the previously selected AR(8) and lies abundantly within the confidence intervals of the MAPE for the AR(12). Therefore also this selection method would appear to indicate that the AR(8) model is a good candidate for this time series.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">lynx_mape =<span class="st"> </span><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">16</span>), lynx_gts)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-34"></span>
+<img src="ts_files/figure-html/unnamed-chunk-34-1.png" alt="TO DO" width="672" />
+<p class="caption">
+Figure 4.28: TO DO
+</p>
+</div>
+<p>As we can see, an AR(11) model is selected which is equivalent to the model selected by the AIC and HQ criteria. Moverover, it can observed that MAPE is quite variable and that several models have MAPE close to the one of the selected model. As the MAPE is prone to overfitting a reasonable approach is to select a model based on the “one standard deviation rule” which in this case would corespond to an AR(3), the same as the model selected by the BIC. Therefore also this selection method would appear to indicate that either an AR(11) or an AR(3) appears to be “good” models for this time series.</p>
 </div>
 <div id="moving-average-models" class="section level2">
 <h2><span class="header-section-number">4.6</span> Moving Average Models ⚠️</h2>
