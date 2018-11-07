@@ -1,6 +1,6 @@
 --- 
 title: "Applied Time Series Analysis with R"
-author: "Stéphane Guerrier, Roberto Molinari and Haotian Xu"
+author: "Stéphane Guerrier, Roberto Molinari, Haotian Xu and Yuming Zhang"
 date: "`r format(Sys.time(), '%B %d %Y')`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook

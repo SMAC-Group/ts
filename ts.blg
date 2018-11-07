@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: ts.aux
+The style file: acm.bst
+Database file #1: book.bib.bib
+Repeated entry---line 117 of file book.bib.bib
+ : @article{cochrane2005time
+ :                          ,
+I'm skipping whatever remains of this entry
+Database file #2: packages.bib.bib
+Warning--can't use both volume and number fields in friedman2001elements
+You've used 13 entries,
+            2253 wiz_defined-function locations,
+            605 strings with 5789 characters,
+and the built_in function-call counts, 3470 in all, are:
+= -- 328
+> -- 136
+< -- 0
++ -- 58
+- -- 44
+* -- 245
+:= -- 594
+add.period$ -- 40
+call.type$ -- 13
+change.case$ -- 55
+chr.to.int$ -- 0
+cite$ -- 14
+duplicate$ -- 143
+empty$ -- 307
+format.name$ -- 44
+if$ -- 710
+int.to.chr$ -- 0
+int.to.str$ -- 13
+missing$ -- 17
+newline$ -- 68
+num.names$ -- 26
+pop$ -- 70
+preamble$ -- 1
+purify$ -- 48
+quote$ -- 0
+skip$ -- 75
+stack$ -- 0
+substring$ -- 169
+swap$ -- 27
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 42
+warning$ -- 1
+while$ -- 34
+width$ -- 15
+write$ -- 133
+(There was 1 error message)
