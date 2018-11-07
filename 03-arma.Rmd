@@ -1613,7 +1613,7 @@ $$\mathcal{M}_j: {X_t} = \sum\limits_{i = 1}^j {{\phi _i}{X_{t - i}}}  + {W_t},$
 
 where $\mathcal{M}_j$ is used to denote an AR($j$) model, with $j = 1,...,p^*$ where $p^*$ represents the maximum order of the AR($p$) model considered for a given observed time series (e.g. $p^*$ could be the maximum lag at which the PACF appears to be significant). Let us illustrate the properties of these model selection criteria through the following example of an AR(3) model for which we show the PACF of a possible realization from this process ($T = 500$).
 
-```{r, fig.height= 4.5, fig.width= 5, fig.align='center', fig.cap="Estimated PACF of a time series from an AR(3) model with parameters $\\phi_1 = 1.2$, $\\phi_2 = -0.9$ and $\\phi_3 = 0.3$."}
+```{r, fig.asp = 0.73, fig.width = 6, fig.align='center', fig.cap="Estimated PACF of a time series from an AR(3) model with parameters $\\phi_1 = 1.2$, $\\phi_2 = -0.9$ and $\\phi_3 = 0.3$."}
 set.seed(1)
 true_model = AR(phi = c(1.2, -0.9, 0.3), sigma2 = 1)
 Xt = gen_gts(n = 500, model = true_model)
@@ -1628,7 +1628,7 @@ best_model = select(AR(10), Xt, include.mean = FALSE)
 ```
 
 
-```{r, fig.height= 5.5, fig.width= 7.5, fig.align='center', fig.cap="Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model.", echo = FALSE}
+```{r, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model.", echo = FALSE}
 best_model = simts::select(AR(10), Xt, include.mean = FALSE) 
 ```
 
@@ -1805,7 +1805,7 @@ As anticipated, it can be seen how the BIC (green bars) often selects a small di
 
 Having studied th performance of these three criteria through the described simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.
 
-```{r, cache = TRUE, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Empirical PACF of the yearly lynx trapping time series."}
+```{r, cache = TRUE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Empirical PACF of the yearly lynx trapping time series."}
 plot(auto_corr(lynx_gts, pacf = TRUE)) 
 ```
 
@@ -1815,7 +1815,7 @@ As we saw earlier, the PACF appears to be significant at lag $h = 11$ therefore 
 lynx_select = select(AR(16), lynx_gts, include.mean = TRUE)
 ```
 
-```{r, eval = TRUE, cache = TRUE, echo = FALSE, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Values of the three model selection criteria described in the text for all candidate models included in an AR(16) model for the yearly lynx trapping time series."}
+```{r, eval = TRUE, cache = TRUE, echo = FALSE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Values of the three model selection criteria described in the text for all candidate models included in an AR(16) model for the yearly lynx trapping time series."}
 lynx_select = try(simts::select(AR(16), lynx_gts, include.mean = TRUE)) 
 ```
 
