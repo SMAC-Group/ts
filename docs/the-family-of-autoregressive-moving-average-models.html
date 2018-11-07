@@ -593,93 +593,93 @@ available tool in <code>R</code> which does not require a strict specification o
 where <span class="math inline">\(\hat{\boldsymbol{\nu}}\)</span> is the robustly estimated wavelet variance, <span class="math inline">\(\boldsymbol{\nu}({\boldsymbol{\theta}})\)</span> is
 the theoretical wavelet variance (implied by the model we want to estimate) and <span class="math inline">\(\boldsymbol{\Omega}\)</span> is a positive definite weighting matrix. Below we show some simulation studies where we present the results of the above estimation procedures in absence and in presence of contamination in the data. As a reminder, so far we have mainly discussed three estimators for the parameters of AR(<span class="math inline">\(p\)</span>) models (i.e. Yule-Walker, maximum likelihod, and RGMWM estimators).</p>
 <p>Using the <code>simts</code> package, the first three estimators can be computed as follows:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">mod =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(p), Xt, <span class="dt">method =</span> select_method, <span class="dt">demean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">mod =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(p), Xt, <span class="dt">method =</span> select_method, <span class="dt">demean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>In the above sample code <code>Xt</code> denotes the time series (a vector of length <span class="math inline">\(T\)</span>), <code>p</code> is the order of the AR(<span class="math inline">\(p\)</span>) and <code>demean = TRUE</code> indicates that the mean of the process should be estimated (if this is not the case, then use <code>demean = FALSE</code>). The <code>select_method</code> input can be (among others) <code>&quot;mle&quot;</code> for the maximum likelihood and <code>&quot;yule-walker&quot;</code> for the Yule-Walker estimator or <code>&quot;rgmwm&quot;</code> for the RGMWM. For example, if you would like to estimate a zero mean AR(3) with the MLE you can use the code:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">mod =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">3</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">mod =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">3</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>On the other hand, if one wishes to estimate the parameters of this model through the RGMWM one can use the following syntax:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">mod =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">3</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;rgmwm&quot;</span>, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">mod =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">3</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;rgmwm&quot;</span>, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>Removing the mean is not strictly necessary for the <code>rgmwm</code> (or <code>gmwm</code>) function since it won’t estimate it and can consistently estimate the parameters of the time series model anyway. We now have the necessary <code>R</code> functions to deliver the above mentioned estimators and we can now proceed to the simulation study. In particular, we simulate three different processes <span class="math inline">\(X_t, Y_t, Z_t\)</span> by using the first as an uncontaminated process defined as <span class="math display">\[X_t = 0.5 X_{t-1} - 0.25 X_{t-2} + W_t,\]</span> with <span class="math inline">\(W_t \overset{iid}{\sim} N(0, 1)\)</span>. This first process <span class="math inline">\((X_t)\)</span> is uncontaminated while the other two processes are contaminated versions of the first that can often be observed in practice. The first type of contamination can be seen in <span class="math inline">\((Y_t)\)</span> and is delivered by replacing a portion of the original process with a process defined as <span class="math display">\[U_t = 0.90 U_{t-1} - 0.40 U_{t-2} + V_t,\]</span> where <span class="math inline">\(V_t \overset{iid}{\sim} N(0, 9)\)</span>. The second form of contamination can be seen in <span class="math inline">\((Z_t)\)</span> and consists in the so-called point-wise contamination where randomly selected points from <span class="math inline">\(X_t\)</span> are replaced with <span class="math inline">\(N_t \overset{iid}{\sim} N(0, 9)\)</span>.</p>
 <p>The code below performs the simulation study where it can be seen how the contaminated processes <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span> are generated. Once this is done, for each simultation the code estimates the parameters of the AR(2) model using the three different estimation methods.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="co"># Load simts</span></a>
-<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="kw">library</span>(simts)</a>
-<a class="sourceLine" id="cb57-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb57-4" data-line-number="4"><span class="co"># Number of bootstrap iterations</span></a>
-<a class="sourceLine" id="cb57-5" data-line-number="5">B =<span class="st"> </span><span class="dv">250</span></a>
-<a class="sourceLine" id="cb57-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb57-7" data-line-number="7"><span class="co"># Sample size</span></a>
-<a class="sourceLine" id="cb57-8" data-line-number="8">n =<span class="st"> </span><span class="dv">500</span></a>
-<a class="sourceLine" id="cb57-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb57-10" data-line-number="10"> <span class="co"># Proportion of contamination</span></a>
-<a class="sourceLine" id="cb57-11" data-line-number="11">eps =<span class="st"> </span><span class="fl">0.05</span>       </a>
-<a class="sourceLine" id="cb57-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb57-13" data-line-number="13"><span class="co"># Number of contaminated observations</span></a>
-<a class="sourceLine" id="cb57-14" data-line-number="14">cont =<span class="st"> </span><span class="kw">round</span>(eps<span class="op">*</span>n)   </a>
-<a class="sourceLine" id="cb57-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb57-16" data-line-number="16"><span class="co"># Simulation storage</span></a>
-<a class="sourceLine" id="cb57-17" data-line-number="17">res.Xt.MLE =<span class="st"> </span>res.Xt.YW =<span class="st"> </span>res.Xt.RGMWM =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb57-18" data-line-number="18">res.Yt.MLE =<span class="st"> </span>res.Yt.YW =<span class="st"> </span>res.Yt.RGMWM =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb57-19" data-line-number="19">res.Zt.MLE =<span class="st"> </span>res.Zt.YW =<span class="st"> </span>res.Zt.RGMWM =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb57-20" data-line-number="20">  </a>
-<a class="sourceLine" id="cb57-21" data-line-number="21"><span class="co"># Begin bootstrap</span></a>
-<a class="sourceLine" id="cb57-22" data-line-number="22"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){</a>
-<a class="sourceLine" id="cb57-23" data-line-number="23">  <span class="co"># Set seed for reproducibility</span></a>
-<a class="sourceLine" id="cb57-24" data-line-number="24">  <span class="kw">set.seed</span>(<span class="dv">1982</span> <span class="op">+</span><span class="st"> </span>i)</a>
-<a class="sourceLine" id="cb57-25" data-line-number="25">  </a>
-<a class="sourceLine" id="cb57-26" data-line-number="26">  <span class="co"># Generate processes</span></a>
-<a class="sourceLine" id="cb57-27" data-line-number="27">  Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb57-28" data-line-number="28">  Yt =<span class="st"> </span>Zt =<span class="st"> </span>Xt</a>
-<a class="sourceLine" id="cb57-29" data-line-number="29">  </a>
-<a class="sourceLine" id="cb57-30" data-line-number="30">  <span class="co"># Generate Ut contamination process that replaces a portion of original signal</span></a>
-<a class="sourceLine" id="cb57-31" data-line-number="31">  index_start =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>(n<span class="op">-</span>cont<span class="dv">-1</span>), <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb57-32" data-line-number="32">  index_end =<span class="st"> </span>index_start <span class="op">+</span><span class="st"> </span>cont <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb57-33" data-line-number="33">  Yt[index_start<span class="op">:</span>index_end] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.9</span>,<span class="op">-</span><span class="fl">0.4</span>), <span class="dt">sigma2 =</span> <span class="dv">9</span>))</a>
-<a class="sourceLine" id="cb57-34" data-line-number="34">  </a>
-<a class="sourceLine" id="cb57-35" data-line-number="35">  <span class="co"># Generate Nt contamination that inject noise at random</span></a>
-<a class="sourceLine" id="cb57-36" data-line-number="36">  Zt[<span class="kw">sample</span>(n, cont, <span class="dt">replace =</span> <span class="ot">FALSE</span>)] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">9</span>))</a>
-<a class="sourceLine" id="cb57-37" data-line-number="37">  </a>
-<a class="sourceLine" id="cb57-38" data-line-number="38">  <span class="co"># Fit Yule-Walker estimators on the three time series</span></a>
-<a class="sourceLine" id="cb57-39" data-line-number="39">  mod.Xt.YW =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;yule-walker&quot;</span>, </a>
-<a class="sourceLine" id="cb57-40" data-line-number="40">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb57-41" data-line-number="41">  mod.Yt.YW =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Yt, <span class="dt">method =</span> <span class="st">&quot;yule-walker&quot;</span>, </a>
-<a class="sourceLine" id="cb57-42" data-line-number="42">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb57-43" data-line-number="43">  mod.Zt.YW =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Zt, <span class="dt">method =</span> <span class="st">&quot;yule-walker&quot;</span>, </a>
-<a class="sourceLine" id="cb57-44" data-line-number="44">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb57-45" data-line-number="45">  </a>
-<a class="sourceLine" id="cb57-46" data-line-number="46">  <span class="co"># Store results</span></a>
-<a class="sourceLine" id="cb57-47" data-line-number="47">  res.Xt.YW[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Xt.YW<span class="op">$</span>mod<span class="op">$</span>coef, mod.Xt.YW<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
-<a class="sourceLine" id="cb57-48" data-line-number="48">  res.Yt.YW[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Yt.YW<span class="op">$</span>mod<span class="op">$</span>coef, mod.Yt.YW<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
-<a class="sourceLine" id="cb57-49" data-line-number="49">  res.Zt.YW[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Zt.YW<span class="op">$</span>mod<span class="op">$</span>coef, mod.Zt.YW<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
-<a class="sourceLine" id="cb57-50" data-line-number="50">  </a>
-<a class="sourceLine" id="cb57-51" data-line-number="51"></a>
-<a class="sourceLine" id="cb57-52" data-line-number="52">  <span class="co"># Fit MLE on the three time series</span></a>
-<a class="sourceLine" id="cb57-53" data-line-number="53">  mod.Xt.MLE =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, </a>
-<a class="sourceLine" id="cb57-54" data-line-number="54">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb57-55" data-line-number="55">  mod.Yt.MLE =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Yt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, </a>
-<a class="sourceLine" id="cb57-56" data-line-number="56">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb57-57" data-line-number="57">  mod.Zt.MLE =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Zt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, </a>
-<a class="sourceLine" id="cb57-58" data-line-number="58">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb57-59" data-line-number="59">  </a>
-<a class="sourceLine" id="cb57-60" data-line-number="60">  <span class="co"># Store results</span></a>
-<a class="sourceLine" id="cb57-61" data-line-number="61">  res.Xt.MLE[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Xt.MLE<span class="op">$</span>mod<span class="op">$</span>coef, mod.Xt.MLE<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
-<a class="sourceLine" id="cb57-62" data-line-number="62">  res.Yt.MLE[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Yt.MLE<span class="op">$</span>mod<span class="op">$</span>coef, mod.Yt.MLE<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
-<a class="sourceLine" id="cb57-63" data-line-number="63">  res.Zt.MLE[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Zt.MLE<span class="op">$</span>mod<span class="op">$</span>coef, mod.Zt.MLE<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
-<a class="sourceLine" id="cb57-64" data-line-number="64">  </a>
-<a class="sourceLine" id="cb57-65" data-line-number="65">  <span class="co"># Fit RGMWM on the three time series</span></a>
-<a class="sourceLine" id="cb57-66" data-line-number="66">  res.Xt.RGMWM[i, ] =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;rgmwm&quot;</span>, </a>
-<a class="sourceLine" id="cb57-67" data-line-number="67">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>estimate</a>
-<a class="sourceLine" id="cb57-68" data-line-number="68">  res.Yt.RGMWM[i, ] =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Yt, <span class="dt">method =</span> <span class="st">&quot;rgmwm&quot;</span>, </a>
-<a class="sourceLine" id="cb57-69" data-line-number="69">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>estimate</a>
-<a class="sourceLine" id="cb57-70" data-line-number="70">  res.Zt.RGMWM[i, ] =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Zt, <span class="dt">method =</span> <span class="st">&quot;rgmwm&quot;</span>, </a>
-<a class="sourceLine" id="cb57-71" data-line-number="71">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>estimate</a>
-<a class="sourceLine" id="cb57-72" data-line-number="72">}</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Load simts</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">library</span>(simts)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co"># Number of bootstrap iterations</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">B =<span class="st"> </span><span class="dv">250</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># Sample size</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">n =<span class="st"> </span><span class="dv">500</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"> <span class="co"># Proportion of contamination</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">eps =<span class="st"> </span><span class="fl">0.05</span>       </a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co"># Number of contaminated observations</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">cont =<span class="st"> </span><span class="kw">round</span>(eps<span class="op">*</span>n)   </a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co"># Simulation storage</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">res.Xt.MLE =<span class="st"> </span>res.Xt.YW =<span class="st"> </span>res.Xt.RGMWM =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18">res.Yt.MLE =<span class="st"> </span>res.Yt.YW =<span class="st"> </span>res.Yt.RGMWM =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb4-19" data-line-number="19">res.Zt.MLE =<span class="st"> </span>res.Zt.YW =<span class="st"> </span>res.Zt.RGMWM =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb4-20" data-line-number="20">  </a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co"># Begin bootstrap</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){</a>
+<a class="sourceLine" id="cb4-23" data-line-number="23">  <span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24">  <span class="kw">set.seed</span>(<span class="dv">1982</span> <span class="op">+</span><span class="st"> </span>i)</a>
+<a class="sourceLine" id="cb4-25" data-line-number="25">  </a>
+<a class="sourceLine" id="cb4-26" data-line-number="26">  <span class="co"># Generate processes</span></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27">  Xt =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb4-28" data-line-number="28">  Yt =<span class="st"> </span>Zt =<span class="st"> </span>Xt</a>
+<a class="sourceLine" id="cb4-29" data-line-number="29">  </a>
+<a class="sourceLine" id="cb4-30" data-line-number="30">  <span class="co"># Generate Ut contamination process that replaces a portion of original signal</span></a>
+<a class="sourceLine" id="cb4-31" data-line-number="31">  index_start =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>(n<span class="op">-</span>cont<span class="dv">-1</span>), <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-32" data-line-number="32">  index_end =<span class="st"> </span>index_start <span class="op">+</span><span class="st"> </span>cont <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb4-33" data-line-number="33">  Yt[index_start<span class="op">:</span>index_end] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.9</span>,<span class="op">-</span><span class="fl">0.4</span>), <span class="dt">sigma2 =</span> <span class="dv">9</span>))</a>
+<a class="sourceLine" id="cb4-34" data-line-number="34">  </a>
+<a class="sourceLine" id="cb4-35" data-line-number="35">  <span class="co"># Generate Nt contamination that inject noise at random</span></a>
+<a class="sourceLine" id="cb4-36" data-line-number="36">  Zt[<span class="kw">sample</span>(n, cont, <span class="dt">replace =</span> <span class="ot">FALSE</span>)] =<span class="st"> </span><span class="kw">gen_gts</span>(cont, <span class="kw">WN</span>(<span class="dt">sigma2 =</span> <span class="dv">9</span>))</a>
+<a class="sourceLine" id="cb4-37" data-line-number="37">  </a>
+<a class="sourceLine" id="cb4-38" data-line-number="38">  <span class="co"># Fit Yule-Walker estimators on the three time series</span></a>
+<a class="sourceLine" id="cb4-39" data-line-number="39">  mod.Xt.YW =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;yule-walker&quot;</span>, </a>
+<a class="sourceLine" id="cb4-40" data-line-number="40">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-41" data-line-number="41">  mod.Yt.YW =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Yt, <span class="dt">method =</span> <span class="st">&quot;yule-walker&quot;</span>, </a>
+<a class="sourceLine" id="cb4-42" data-line-number="42">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-43" data-line-number="43">  mod.Zt.YW =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Zt, <span class="dt">method =</span> <span class="st">&quot;yule-walker&quot;</span>, </a>
+<a class="sourceLine" id="cb4-44" data-line-number="44">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-45" data-line-number="45">  </a>
+<a class="sourceLine" id="cb4-46" data-line-number="46">  <span class="co"># Store results</span></a>
+<a class="sourceLine" id="cb4-47" data-line-number="47">  res.Xt.YW[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Xt.YW<span class="op">$</span>mod<span class="op">$</span>coef, mod.Xt.YW<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
+<a class="sourceLine" id="cb4-48" data-line-number="48">  res.Yt.YW[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Yt.YW<span class="op">$</span>mod<span class="op">$</span>coef, mod.Yt.YW<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
+<a class="sourceLine" id="cb4-49" data-line-number="49">  res.Zt.YW[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Zt.YW<span class="op">$</span>mod<span class="op">$</span>coef, mod.Zt.YW<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
+<a class="sourceLine" id="cb4-50" data-line-number="50">  </a>
+<a class="sourceLine" id="cb4-51" data-line-number="51"></a>
+<a class="sourceLine" id="cb4-52" data-line-number="52">  <span class="co"># Fit MLE on the three time series</span></a>
+<a class="sourceLine" id="cb4-53" data-line-number="53">  mod.Xt.MLE =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, </a>
+<a class="sourceLine" id="cb4-54" data-line-number="54">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-55" data-line-number="55">  mod.Yt.MLE =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Yt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, </a>
+<a class="sourceLine" id="cb4-56" data-line-number="56">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-57" data-line-number="57">  mod.Zt.MLE =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Zt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, </a>
+<a class="sourceLine" id="cb4-58" data-line-number="58">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-59" data-line-number="59">  </a>
+<a class="sourceLine" id="cb4-60" data-line-number="60">  <span class="co"># Store results</span></a>
+<a class="sourceLine" id="cb4-61" data-line-number="61">  res.Xt.MLE[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Xt.MLE<span class="op">$</span>mod<span class="op">$</span>coef, mod.Xt.MLE<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
+<a class="sourceLine" id="cb4-62" data-line-number="62">  res.Yt.MLE[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Yt.MLE<span class="op">$</span>mod<span class="op">$</span>coef, mod.Yt.MLE<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
+<a class="sourceLine" id="cb4-63" data-line-number="63">  res.Zt.MLE[i, ] =<span class="st"> </span><span class="kw">c</span>(mod.Zt.MLE<span class="op">$</span>mod<span class="op">$</span>coef, mod.Zt.MLE<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
+<a class="sourceLine" id="cb4-64" data-line-number="64">  </a>
+<a class="sourceLine" id="cb4-65" data-line-number="65">  <span class="co"># Fit RGMWM on the three time series</span></a>
+<a class="sourceLine" id="cb4-66" data-line-number="66">  res.Xt.RGMWM[i, ] =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;rgmwm&quot;</span>, </a>
+<a class="sourceLine" id="cb4-67" data-line-number="67">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>estimate</a>
+<a class="sourceLine" id="cb4-68" data-line-number="68">  res.Yt.RGMWM[i, ] =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Yt, <span class="dt">method =</span> <span class="st">&quot;rgmwm&quot;</span>, </a>
+<a class="sourceLine" id="cb4-69" data-line-number="69">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>estimate</a>
+<a class="sourceLine" id="cb4-70" data-line-number="70">  res.Zt.RGMWM[i, ] =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Zt, <span class="dt">method =</span> <span class="st">&quot;rgmwm&quot;</span>, </a>
+<a class="sourceLine" id="cb4-71" data-line-number="71">                 <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>estimate</a>
+<a class="sourceLine" id="cb4-72" data-line-number="72">}</a></code></pre></div>
 <p>Having performed the estimation, we should now have 250 estimates for each AR(2) parameter and each estimation method. The code below takes the results of the simulation and shows them in the shape of boxplots along with the true values of the parameters. The estimation methods that are denoted as follows:</p>
 <ul>
 <li><strong>YW</strong>: Yule-Walker estimator</li>
 <li><strong>MLE</strong>: Maximum Likelihood Estimator</li>
 <li><strong>RGMWM</strong>: the robust version of the GMWM estimator</li>
 </ul>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-30"></span>
-<img src="ts_files/figure-html/unnamed-chunk-30-1.png" alt="Boxplots of the empirical distribution functions of the Yule-Walker (YW), MLE and GMWM estimators for the parameters of the AR(2) model when using the Xt process (first row of boxplots), Yt process (second row of boxplots) and Zt (third row of boxplots)." width="864" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
+<img src="ts_files/figure-html/unnamed-chunk-5-1.png" alt="Boxplots of the empirical distribution functions of the Yule-Walker (YW), MLE and GMWM estimators for the parameters of the AR(2) model when using the Xt process (first row of boxplots), Yt process (second row of boxplots) and Zt (third row of boxplots)." width="864" />
 <p class="caption">
 Figure 4.2: Boxplots of the empirical distribution functions of the Yule-Walker (YW), MLE and GMWM estimators for the parameters of the AR(2) model when using the Xt process (first row of boxplots), Yt process (second row of boxplots) and Zt (third row of boxplots).
 </p>
@@ -687,81 +687,81 @@ Figure 4.2: Boxplots of the empirical distribution functions of the Yule-Walker 
 <p>It can be seen how all methods appear to properly estimate the true parameter values on average when they are applied to the simulated time series from the uncontaminated process <span class="math inline">\((X_t)\)</span>. However, the MLE appears to be slightly more efficient (less variable) compared to the other methods and, in addition, the robust method (RGMWM) appears to be less efficient than the other two estimators. The latter is a known result since robust estimators usually pay a price in terms of efficiency (as an insurance against bias).</p>
 <p>On the other hand, when checking the performance of the same methods when applied to the two contaminated processes <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span> it can be seen that the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimator remains close (on average) to the true parameter values that we are aiming to estimate. Therefore, when there’s a suspicion that there could be some (small) contamination in the observed time series, it may be more appropriate to use a robust estimator.</p>
 <p>To conclude this section on estimation, we now compare the above studied estimators in different applied settings where we can highlight how to assess which estimator is more appropriate according to the type of setting. For this purpose, let us start with an example we have already checked in the previous chapter when discussing standard and robust estimators of the ACF, more specifically the data on monthly precipitations. As mentioned before when discussing this example, the importance of modelling precipitation data lies in the fact that its usually used to successively model the entire water cycle. Common models for this purpose are either the white noise (WN) model or the AR(1) model. Let us compare the standard and robust ACF again to understand which of these two models seems more appropriate for the data at hand.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">compare_acf</span>(hydro)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-31"></span>
-<img src="ts_files/figure-html/unnamed-chunk-31-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the monthly precipitation data (hydro)" width="864" />
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">compare_acf</span>(hydro)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="ts_files/figure-html/unnamed-chunk-6-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the monthly precipitation data (hydro)" width="864" />
 <p class="caption">
 Figure 4.3: Standard (left) and robust (left) estimates of the ACF function on the monthly precipitation data (hydro)
 </p>
 </div>
 <p>As we had underlined in the previous chapter, the standard ACF estimates would suggest that there appears to be no correlation among lags and consequently, the WN model would be the most appropriate. However, the robust ACF estimates depict an entirely different picture where it can be seen that there appears to be a significant autocorrelation over different lags which exponentially decay. Although there appears to be some seasonality in the plot, we will assume that the correct model for this data is an AR(1) since that’s what hydrology theory suggests. Let us therefore estimate the parameters of this model by using a standard estimator (MLE) and a robust estimator (RGMWM). The estimates for the MLE are the following:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">mle_hydro =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), <span class="kw">as.vector</span>(hydro),  <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, <span class="dt">demean =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb59-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="co"># MLE Estimates</span></a>
-<a class="sourceLine" id="cb59-4" data-line-number="4"><span class="kw">c</span>(mle_hydro<span class="op">$</span>mod<span class="op">$</span>coef[<span class="dv">1</span>], mle_hydro<span class="op">$</span>mod<span class="op">$</span>sigma2)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">mle_hydro =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), <span class="kw">as.vector</span>(hydro),  <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, <span class="dt">demean =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co"># MLE Estimates</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw">c</span>(mle_hydro<span class="op">$</span>mod<span class="op">$</span>coef[<span class="dv">1</span>], mle_hydro<span class="op">$</span>mod<span class="op">$</span>sigma2)</a></code></pre></div>
 <pre><code>##        ar1            
 ## 0.06497727 0.22205713</code></pre>
 <p>From these estimates it would appear that the autocorrelation between lagged variables (i.e. lags of order 1) is extremely low and that (as suggested by the standard ACF plot) a WN model may be more appropriate. Considering the robust ACF however, it is possible that the MLE estimates may not be reliable in this setting. Hence, let us use the RGMWM to estimate the same parameters.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">rgmwm_hydro =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), hydro, <span class="dt">method =</span> <span class="st">&quot;rgmwm&quot;</span>)<span class="op">$</span>mod<span class="op">$</span>estimate</a>
-<a class="sourceLine" id="cb61-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb61-3" data-line-number="3"><span class="co"># RGMWM Estimates</span></a>
-<a class="sourceLine" id="cb61-4" data-line-number="4"><span class="kw">t</span>(rgmwm_hydro)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">rgmwm_hydro =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), hydro, <span class="dt">method =</span> <span class="st">&quot;rgmwm&quot;</span>)<span class="op">$</span>mod<span class="op">$</span>estimate</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co"># RGMWM Estimates</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="kw">t</span>(rgmwm_hydro)</a></code></pre></div>
 <pre><code>##                  AR    SIGMA2
 ## Estimates 0.4048702 0.1065875</code></pre>
 <p>In this case, we see how the autocorrelation between lagged values is much higher (0.4 compared to 0.06) indicating that there is a stronger dependence in the data than what is suggested by standard estimators. Moreover, the innovation variance is smaller compared to that of the MLE. This is also a known phenomenon when there’s contamination in the data since it leads to less dependence and more variability being detected by non-robust estimators. This estimate of the variance also has a considerable impact on forecast precision (as we’ll see in the next section).</p>
 <p>A final applied example that highlights the (potential) difference between estimators according to the type of setting is given by the “Recruitment” data set (in the <code>astsa</code> library). This data refers to the presence of new fish in the population of the Pacific Ocean and is often linked to the currents and temperatures passing through the ocean. As for the previous data set, let us take a look at the data itself and then analyse the standard and robust estimations of the ACF.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="co"># Format data</span></a>
-<a class="sourceLine" id="cb63-2" data-line-number="2">fish =<span class="st"> </span><span class="kw">gts</span>(rec, <span class="dt">start =</span> <span class="dv">1950</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">unit_time =</span> <span class="st">&#39;month&#39;</span>, <span class="dt">name_ts =</span> <span class="st">&#39;Recruitment&#39;</span>)</a>
-<a class="sourceLine" id="cb63-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb63-4" data-line-number="4"><span class="co"># Plot data</span></a>
-<a class="sourceLine" id="cb63-5" data-line-number="5"><span class="kw">plot</span>(fish)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-35"></span>
-<img src="ts_files/figure-html/unnamed-chunk-35-1.png" alt="Plot of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987" width="768" />
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># Format data</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">fish =<span class="st"> </span><span class="kw">gts</span>(rec, <span class="dt">start =</span> <span class="dv">1950</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">unit_time =</span> <span class="st">&#39;month&#39;</span>, <span class="dt">name_ts =</span> <span class="st">&#39;Recruitment&#39;</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co"># Plot data</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw">plot</span>(fish)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-10"></span>
+<img src="ts_files/figure-html/unnamed-chunk-10-1.png" alt="Plot of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987" width="768" />
 <p class="caption">
 Figure 4.4: Plot of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987
 </p>
 </div>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="kw">compare_acf</span>(fish)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-36"></span>
-<img src="ts_files/figure-html/unnamed-chunk-36-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the monthly fish recruitment data (rec)" width="864" />
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">compare_acf</span>(fish)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-11"></span>
+<img src="ts_files/figure-html/unnamed-chunk-11-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the monthly fish recruitment data (rec)" width="864" />
 <p class="caption">
 Figure 4.5: Standard (left) and robust (left) estimates of the ACF function on the monthly fish recruitment data (rec)
 </p>
 </div>
 <p>We can see that there appears to be a considerable dependence between the lagged variables which decays (in a similar way to the ACF of an AR(<span class="math inline">\(p\)</span>)). Also in this case we see a seasonality in the data but we won’t consider this for the purpose of this example. Given that there doesn’t appear to be any significant contamination in the data, let us consider the Yule-Walker and MLE estimators. The MLE highly depends on the assumed parametric distribution of the time series (i.e. usually Gaussian) and, if this is not respected, the resulting estimations could be unreliable. Hence, a first difference of the time series can often give an idea of the marginal distribution of the time series.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="co"># Take first differencing of the recruitment data</span></a>
-<a class="sourceLine" id="cb65-2" data-line-number="2">diff_fish =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">diff</span>(rec), <span class="dt">start =</span> <span class="dv">1950</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">unit_time =</span> <span class="st">&#39;month&#39;</span>, <span class="dt">name_ts =</span> <span class="st">&#39;Recruitment&#39;</span>)</a>
-<a class="sourceLine" id="cb65-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb65-4" data-line-number="4"><span class="co"># Plot first differencing of the recruitment data</span></a>
-<a class="sourceLine" id="cb65-5" data-line-number="5"><span class="kw">plot</span>(diff_fish)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-38"></span>
-<img src="ts_files/figure-html/unnamed-chunk-38-1.png" alt="Plot of the first difference of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987" width="768" />
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># Take first differencing of the recruitment data</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">diff_fish =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">diff</span>(rec), <span class="dt">start =</span> <span class="dv">1950</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">unit_time =</span> <span class="st">&#39;month&#39;</span>, <span class="dt">name_ts =</span> <span class="st">&#39;Recruitment&#39;</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co"># Plot first differencing of the recruitment data</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="kw">plot</span>(diff_fish)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-13"></span>
+<img src="ts_files/figure-html/unnamed-chunk-13-1.png" alt="Plot of the first difference of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987" width="768" />
 <p class="caption">
 Figure 4.6: Plot of the first difference of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987
 </p>
 </div>
 <p>From the plot we can see that observations appear to be collected around a constant value and fewer appear to be further from this value (as would be the case for a normal distribution). However, various of these “more extreme” observations appear to be quite frequent suggesting that the underlying distribution may have a heavier tail compared to the normal distribution. Let us compare the standard and robust ACF estimates of this new time series.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="kw">compare_acf</span>(diff_fish)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-39"></span>
-<img src="ts_files/figure-html/unnamed-chunk-39-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the first difference of the monthly fish recruitment data (rec)" width="864" />
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">compare_acf</span>(diff_fish)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-14"></span>
+<img src="ts_files/figure-html/unnamed-chunk-14-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the first difference of the monthly fish recruitment data (rec)" width="864" />
 <p class="caption">
 Figure 4.7: Standard (left) and robust (left) estimates of the ACF function on the first difference of the monthly fish recruitment data (rec)
 </p>
 </div>
 <p>In this case we see that the patterns appear to be the same but the values between the standard and robust estimates are slightly (to moderately) different over different lags. This would suggest that there could be some contamination in the data or, in any case, that the normal assumption may not hold exactly. With this in mind, let us estimate an AR(2) model for this data using the Yule-Walker and MLE.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="co"># MLE of Recruitment data</span></a>
-<a class="sourceLine" id="cb67-2" data-line-number="2">yw_fish =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), rec, <span class="dt">method =</span> <span class="st">&quot;yule-walker&quot;</span>, <span class="dt">demean =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb67-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb67-4" data-line-number="4"><span class="co"># MLE of Recruitment data</span></a>
-<a class="sourceLine" id="cb67-5" data-line-number="5">mle_fish =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), rec, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, <span class="dt">demean =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb67-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb67-7" data-line-number="7"><span class="co"># Compare estimates</span></a>
-<a class="sourceLine" id="cb67-8" data-line-number="8"><span class="co"># Yule-Walker Estimation</span></a>
-<a class="sourceLine" id="cb67-9" data-line-number="9"><span class="kw">c</span>(yw_fish<span class="op">$</span>mod<span class="op">$</span>coef[<span class="dv">1</span>], yw_fish<span class="op">$</span>mod<span class="op">$</span>sigma2)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># MLE of Recruitment data</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">yw_fish =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), rec, <span class="dt">method =</span> <span class="st">&quot;yule-walker&quot;</span>, <span class="dt">demean =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co"># MLE of Recruitment data</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">mle_fish =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), rec, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>, <span class="dt">demean =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co"># Compare estimates</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co"># Yule-Walker Estimation</span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="kw">c</span>(yw_fish<span class="op">$</span>mod<span class="op">$</span>coef[<span class="dv">1</span>], yw_fish<span class="op">$</span>mod<span class="op">$</span>sigma2)</a></code></pre></div>
 <pre><code>##       ar1           
 ##  1.354069 89.717052</code></pre>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="co"># MLE Estimation</span></a>
-<a class="sourceLine" id="cb69-2" data-line-number="2"><span class="kw">c</span>(mle_fish<span class="op">$</span>mod<span class="op">$</span>coef[<span class="dv">1</span>], mle_fish<span class="op">$</span>mod<span class="op">$</span>sigma2)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># MLE Estimation</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw">c</span>(mle_fish<span class="op">$</span>mod<span class="op">$</span>coef[<span class="dv">1</span>], mle_fish<span class="op">$</span>mod<span class="op">$</span>sigma2)</a></code></pre></div>
 <pre><code>##       ar1           
 ##  1.351218 89.334361</code></pre>
 <p>It can be seen that, in this setting, the two estimators deliver very similar results (at least in terms of the <span class="math inline">\(\phi_1\)</span> and <span class="math inline">\(\phi_2\)</span> coefficients). Indeed, there doesn’t appear to be a strong need for robust estimation and the choice of a standard estimator is justified by the will to obtain efficient estimations. The only slight difference between the two estimations is in the innovation variance parameter <span class="math inline">\(\sigma^2\)</span> and this could be (evenutally) due to the normality assumption that the MLE estimator upholds in this case. If there is therefore a doubt on the fact that the Gaussian assumption does not hold for this data, then it is probably more convenient to use the Yule-Walker estimates.</p>
@@ -978,11 +978,11 @@ where <span class="math inline">\(\hat{X}_{t+j}\)</span> represents an estimator
 <div id="diagnostic-tools-for-time-series" class="section level2">
 <h2><span class="header-section-number">4.3</span> Diagnostic Tools for Time Series</h2>
 <p>The standard approach to understanding how well a model fits the data is analysing the residuals (e.g. linear regression). The same approach can be taken for time series analysis where, given our knowledge on forecasts from the previous section, we can now deliver residuals. The first step (and possibly the most important) is to use visual tools to check the residuals and also the original time series. Below is a figure that collects different diagnostic tools for time series analysis and is applied to a simulated AR(1) process of length <span class="math inline">\(T = 100\)</span>.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">333</span>)</a>
-<a class="sourceLine" id="cb71-2" data-line-number="2">true_model =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> <span class="fl">0.8</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb71-3" data-line-number="3">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">model =</span> true_model)</a>
-<a class="sourceLine" id="cb71-4" data-line-number="4">model =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), Xt, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb71-5" data-line-number="5"><span class="kw">check</span>(<span class="dt">model =</span> model)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">333</span>)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">true_model =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> <span class="fl">0.8</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">model =</span> true_model)</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">model =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), Xt, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="kw">check</span>(<span class="dt">model =</span> model)</a></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="ts_files/figure-html/diagnostic_plot-1.png" alt="Ljung-Box test p-values for the residuals of the fitted AR(1) model over lags $h = 1, ...., 20$." width="912" />
 <p class="caption">
@@ -1007,21 +1007,21 @@ and
 </div>
 
 <p>Therefore, the PACF is not defined at lag zero while it is the same as the ACF at the first lag since there are no intermediate observations. The defintion of this function is important for different reasons. Firstly, as mentioned earlier, we have an asymptotic distribution for the estimator of the PACF which allows us to deliver confidence intervals as for the ACF. Indeed, representing the empirical PACF along with its confidence intervals can provide a further tool to make sure that the residuals of a model fit can be considered as being white noise. The latter is a reasonable hypothesis if both the empirical ACF and PACF lie within the confidence intervals indicating that there is no significant correlation between lagged variables. Let us focus on the empirical PACF of the residuals we saw earlier in the diagnostic plot.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1">residuals =<span class="st"> </span>model<span class="op">$</span>mod<span class="op">$</span>residuals</a>
-<a class="sourceLine" id="cb72-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(residuals, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-41"></span>
-<img src="ts_files/figure-html/unnamed-chunk-41-1.png" alt="Empirical PACF on the residuals of the AR(1) model fitted to the simulated time series generated from an AR(1) process." width="576" />
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">residuals =<span class="st"> </span>model<span class="op">$</span>mod<span class="op">$</span>residuals</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(residuals, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-16"></span>
+<img src="ts_files/figure-html/unnamed-chunk-16-1.png" alt="Empirical PACF on the residuals of the AR(1) model fitted to the simulated time series generated from an AR(1) process." width="576" />
 <p class="caption">
 Figure 4.9: Empirical PACF on the residuals of the AR(1) model fitted to the simulated time series generated from an AR(1) process.
 </p>
 </div>
 <p>From the plot we see that the estimated PACF at all lags lies within the blue shaded area representing the 95% confidence intervals indicating that the residuals don’t appear to have any form of direct autocorrelation over lags and, hence, that they can be considered as white noise. In addition to delivering a tool to analyse the residuals of a model fit, the PACF is especially useful for diagnostic purposes in order to detect the possible models that have generated an observed time series. With respect to the class of models studied this far (i.e. AR(<span class="math inline">\(p\)</span>) models), the PACF can give important insight to the order of the AR(<span class="math inline">\(p\)</span>) model, more specifically the value of <span class="math inline">\(p\)</span>. Indeed, the ACF of an AR(<span class="math inline">\(p\)</span>) model tends to decrease in a sinusoidal fashion and exponetially fast to zero as the lag <span class="math inline">\(h\)</span> increases thereby giving a hint that the underlying model belongs to the AR(<span class="math inline">\(p\)</span>) family. However, aside from hinting to the fact that the model belongs to the family of AR(<span class="math inline">\(p\)</span>) models, the latter function tends to be less informative with respect to which AR(<span class="math inline">\(p\)</span>) model (i.e. which value of <span class="math inline">\(p\)</span>) is best suited for the observed time series. The PACF on the other hand is non-zero for the first <span class="math inline">\(p\)</span> lags and then becomes zero for <span class="math inline">\(h &gt; p\)</span>, therefore it can give an important indication with respect to which order should be considered to best model the time series.</p>
 <p>With the above discussion in mind, let us consider some examples where we study the theoretical ACF and PACF of different AR(<span class="math inline">\(p\)</span>) models. The first is an AR(1) model with parameter <span class="math inline">\(\phi = 0.95\)</span> and its ACF and PACF are shown below.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb73-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="fl">0.95</span>, <span class="dt">ma =</span> <span class="ot">NULL</span>))</a>
-<a class="sourceLine" id="cb73-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="fl">0.95</span>, <span class="dt">ma =</span> <span class="ot">NULL</span>))</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-42"></span>
-<img src="ts_files/figure-html/unnamed-chunk-42-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(1) model with parameter $\phi = 0.95$." width="768" />
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="fl">0.95</span>, <span class="dt">ma =</span> <span class="ot">NULL</span>))</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="fl">0.95</span>, <span class="dt">ma =</span> <span class="ot">NULL</span>))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-17"></span>
+<img src="ts_files/figure-html/unnamed-chunk-17-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(1) model with parameter $\phi = 0.95$." width="768" />
 <p class="caption">
 Figure 4.10: Theoretical ACF (left) and PACF (right) of an AR(1) model with parameter <span class="math inline">\(\phi = 0.95\)</span>.
 </p>
@@ -1031,41 +1031,41 @@ Figure 4.10: Theoretical ACF (left) and PACF (right) of an AR(1) model with para
 <p>and</p>
 <p><span class="math display">\[X_t = -0.1 X_{t-2} -0.1 X_{t-4} + 0.6 X_{t-5} + W_t.\]</span></p>
 <p>The first model is an AR(3) model with positive coefficients while the second is an AR(5) model where <span class="math inline">\(\phi_1 = \phi_3 = 0\)</span>. The ACF and PACF of the first AR(3) model is shown below.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb74-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.125</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a>
-<a class="sourceLine" id="cb74-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.125</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-43"></span>
-<img src="ts_files/figure-html/unnamed-chunk-43-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(3) model with parameters $\phi_1 = 0.95$, $\phi_2 = 0.25$ and $\phi_3 = 0.125$." width="768" />
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.125</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.125</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-18"></span>
+<img src="ts_files/figure-html/unnamed-chunk-18-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(3) model with parameters $\phi_1 = 0.95$, $\phi_2 = 0.25$ and $\phi_3 = 0.125$." width="768" />
 <p class="caption">
 Figure 4.11: Theoretical ACF (left) and PACF (right) of an AR(3) model with parameters <span class="math inline">\(\phi_1 = 0.95\)</span>, <span class="math inline">\(\phi_2 = 0.25\)</span> and <span class="math inline">\(\phi_3 = 0.125\)</span>.
 </p>
 </div>
 <p>Again, we see that the ACF decreases exponentially and also the PACF plot shows a steady decrease until it becomes zero for <span class="math inline">\(h &gt; 3\)</span>. This is because the values of <span class="math inline">\(\phi_i\)</span> are all positive and decreasing as well. Let us now consider the second model (the AR(5) model) whose ACF and PACF plots are represented below.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb75-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="fl">0.6</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a>
-<a class="sourceLine" id="cb75-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="fl">0.6</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-44"></span>
-<img src="ts_files/figure-html/unnamed-chunk-44-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(4) model with parameters $\phi_1 = 0$, $\phi_2 = -0.1$, $\phi_3 = 0$ and $\phi_4 = 0$." width="768" />
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="fl">0.6</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="dv">0</span>, <span class="fl">-0.1</span>, <span class="fl">0.6</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-19"></span>
+<img src="ts_files/figure-html/unnamed-chunk-19-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(4) model with parameters $\phi_1 = 0$, $\phi_2 = -0.1$, $\phi_3 = 0$ and $\phi_4 = 0$." width="768" />
 <p class="caption">
 Figure 4.12: Theoretical ACF (left) and PACF (right) of an AR(4) model with parameters <span class="math inline">\(\phi_1 = 0\)</span>, <span class="math inline">\(\phi_2 = -0.1\)</span>, <span class="math inline">\(\phi_3 = 0\)</span> and <span class="math inline">\(\phi_4 = 0\)</span>.
 </p>
 </div>
 <p>In this case we see that the ACF has a sinusoidal-like behaviour where the values of <span class="math inline">\(\phi_1 = \phi_3 = 0\)</span> and the negative <span class="math inline">\(\phi_2 = \phi_4 = -0.1\)</span> values deliver this alternating ACF form which nevertheless decreases as <span class="math inline">\(h\)</span> increases. These values deliver the PACF plot on the right which is negative for the first lags and is greatly positive at <span class="math inline">\(h=5\)</span> only to become zero for <span class="math inline">\(h &gt; 5\)</span>.</p>
 <p>These examples therefore give us further insight as to how to interpret the empirical (or estimated) versions of these functions. For this reason, let us study the empirical ACF and PACF of some real time series, the first of which is the data representing the natural logarithm of the annual number of Lynx trappings in Canada between 1821 and 1934. The time series is represented below.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1">lynx_gts =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">log</span>(lynx), <span class="dt">start =</span> <span class="dv">1821</span>, <span class="dt">data_name =</span> <span class="st">&quot;Lynx Trappings&quot;</span>, <span class="dt">unit_time =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Trappings&quot;</span>)</a>
-<a class="sourceLine" id="cb76-2" data-line-number="2"><span class="kw">plot</span>(lynx_gts)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-46"></span>
-<img src="ts_files/figure-html/unnamed-chunk-46-1.png" alt="Time series of annual number of lynx data trappings in Canada between 1821 and 1934." width="672" />
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">lynx_gts =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">log</span>(lynx), <span class="dt">start =</span> <span class="dv">1821</span>, <span class="dt">data_name =</span> <span class="st">&quot;Lynx Trappings&quot;</span>, <span class="dt">unit_time =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Trappings&quot;</span>)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">plot</span>(lynx_gts)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-21"></span>
+<img src="ts_files/figure-html/unnamed-chunk-21-1.png" alt="Time series of annual number of lynx data trappings in Canada between 1821 and 1934." width="672" />
 <p class="caption">
 Figure 4.13: Time series of annual number of lynx data trappings in Canada between 1821 and 1934.
 </p>
 </div>
 <p>We can see that there appears to be a seasonal trend within the data but let us ignore this for the moment and check the ACF and PACF plots below.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb77-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(lynx_gts))</a>
-<a class="sourceLine" id="cb77-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(lynx_gts, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-47"></span>
-<img src="ts_files/figure-html/unnamed-chunk-47-1.png" alt="Empirical ACF (left) and PACF (right) of the lynx time series data." width="768" />
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(lynx_gts))</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(lynx_gts, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-22"></span>
+<img src="ts_files/figure-html/unnamed-chunk-22-1.png" alt="Empirical ACF (left) and PACF (right) of the lynx time series data." width="768" />
 <p class="caption">
 Figure 4.14: Empirical ACF (left) and PACF (right) of the lynx time series data.
 </p>
@@ -1078,9 +1078,9 @@ Figure 4.14: Empirical ACF (left) and PACF (right) of the lynx time series data.
 <p>One of the most popular Portmanteau tests is the Ljung-Box test whose statistic is defined as follows:</p>
 <p><span class="math display">\[Q_h = T(T+2) \sum_{j=1}^{h} \frac{\hat{\rho}_j^2}{T - j},\]</span>
 where <span class="math inline">\(h\)</span> represents the maximum lag of the set of lags for which we wish to test for serial autocorrelation (i.e. from lag 1 to lag <span class="math inline">\(h\)</span>). Under the null hypothesis <span class="math inline">\(Q_h \sim \chi_h^2\)</span> since asymptotically <span class="math inline">\(\hat{\rho}_j \sim \mathcal{N}\left(0, \frac{1}{T}\right)\)</span> under the null and therefore the statistic is proportional to the sum of squared standard normal variables. The last plot of Figure @ref(fig:diagnostic_plot) can therefore be better interpreted under this framework and is reproduced below.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1">lb_test =<span class="st"> </span><span class="kw">diag_ljungbox</span>(<span class="kw">as.numeric</span>(residuals), <span class="dt">order =</span> <span class="dv">0</span>, <span class="dt">stop_lag =</span> <span class="dv">20</span>, <span class="dt">stdres =</span> <span class="ot">FALSE</span>, <span class="dt">plot =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-49"></span>
-<img src="ts_files/figure-html/unnamed-chunk-49-1.png" alt="Ljung-Box p-values for lags $h = 1,...,20$ on the residuals of the fitted AR(1) model." width="576" />
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">lb_test =<span class="st"> </span><span class="kw">diag_ljungbox</span>(<span class="kw">as.numeric</span>(residuals), <span class="dt">order =</span> <span class="dv">0</span>, <span class="dt">stop_lag =</span> <span class="dv">20</span>, <span class="dt">stdres =</span> <span class="ot">FALSE</span>, <span class="dt">plot =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-24"></span>
+<img src="ts_files/figure-html/unnamed-chunk-24-1.png" alt="Ljung-Box p-values for lags $h = 1,...,20$ on the residuals of the fitted AR(1) model." width="576" />
 <p class="caption">
 Figure 4.15: Ljung-Box p-values for lags <span class="math inline">\(h = 1,...,20\)</span> on the residuals of the fitted AR(1) model.
 </p>
@@ -1099,9 +1099,9 @@ Figure 4.15: Ljung-Box p-values for lags <span class="math inline">\(h = 1,...,2
 <p>The first approach consists in using the asymptotic distribution of the estimators presented earlier to deliver approximations of the confidence intervals which get better as the length of the observed time series increases. Hence, if for example we wanted to find a 95% confidence interval for the parameter <span class="math inline">\(\phi\)</span>, we would use the quantiles of the normal distribution (given that all methods presented earlier present this asymptotic distribution). However, this approach can present some drawbacks, one of which its behaviour when the parameters are close to the boundaries of the parameter space. Suppose we consider a realization of length <span class="math inline">\(T = 100\)</span> of the following AR(1) model:</p>
 <p><span class="math display">\[X_t = 0.96 X_{t-1} + W_t, \;\;\;\; W_t \sim \mathcal{N}(0,1),\]</span></p>
 <p>which is represented in Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:simAR1ci">4.16</a></p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">55</span>)</a>
-<a class="sourceLine" id="cb79-2" data-line-number="2">x =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">AR1</span>(<span class="fl">0.96</span>, <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb79-3" data-line-number="3"><span class="kw">plot</span>(x)</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">55</span>)</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">x =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="kw">AR1</span>(<span class="fl">0.96</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="kw">plot</span>(x)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:simAR1ci"></span>
 <img src="ts_files/figure-html/simAR1ci-1.png" alt="AR(1) with $\phi$ close to parameter bound" width="672" />
 <p class="caption">
@@ -1109,13 +1109,13 @@ Figure 4.16: AR(1) with <span class="math inline">\(\phi\)</span> close to param
 </p>
 </div>
 <p>It can be seen that the parameter <span class="math inline">\(\phi = 0.96\)</span> respects the condition for stationarity (i.e.<span class="math inline">\(\left| \phi \right| &lt; 1\)</span>) but is very close to its boundary. Using the MLE, we first estimate the parameters and then compute confidence intervals for <span class="math inline">\(\phi\)</span> using the asymptotic normal distribution.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1"><span class="co"># Compute the parameter estimates using MLE</span></a>
-<a class="sourceLine" id="cb80-2" data-line-number="2">fit.ML =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb80-3" data-line-number="3"><span class="kw">c</span>(<span class="st">&quot;phi&quot;</span> =<span class="st"> </span>fit.ML<span class="op">$</span>mod<span class="op">$</span>coef[<span class="dv">1</span>], <span class="st">&quot;sigma2&quot;</span> =<span class="st"> </span><span class="kw">sqrt</span>(fit.ML<span class="op">$</span>mod<span class="op">$</span>sigma2))</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># Compute the parameter estimates using MLE</span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">fit.ML =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="kw">c</span>(<span class="st">&quot;phi&quot;</span> =<span class="st"> </span>fit.ML<span class="op">$</span>mod<span class="op">$</span>coef[<span class="dv">1</span>], <span class="st">&quot;sigma2&quot;</span> =<span class="st"> </span><span class="kw">sqrt</span>(fit.ML<span class="op">$</span>mod<span class="op">$</span>sigma2))</a></code></pre></div>
 <pre><code>##   phi.ar1    sigma2 
 ## 0.9740770 0.8538777</code></pre>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1"><span class="co"># Construct asymptotic confidence interval for phi</span></a>
-<a class="sourceLine" id="cb82-2" data-line-number="2">fit.ML<span class="op">$</span>mod<span class="op">$</span>coef[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="op">*</span><span class="fl">1.96</span><span class="op">*</span><span class="kw">as.numeric</span>(<span class="kw">sqrt</span>(fit.ML<span class="op">$</span>mod<span class="op">$</span>var.coef))</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="co"># Construct asymptotic confidence interval for phi</span></a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">fit.ML<span class="op">$</span>mod<span class="op">$</span>coef[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="op">*</span><span class="fl">1.96</span><span class="op">*</span><span class="kw">as.numeric</span>(<span class="kw">sqrt</span>(fit.ML<span class="op">$</span>mod<span class="op">$</span>var.coef))</a></code></pre></div>
 <pre><code>## [1] 0.9393414 1.0088127</code></pre>
 <pre><code>## Fitted model: AR(1)
 ## 
@@ -1140,34 +1140,34 @@ Figure 4.17: Estimated asymptotic distribution of <span class="math inline">\(\h
 </p>
 </div>
 <p>Therefore, if we estimate a stationary AR(1) model, it would be convenient to have more “realistic” confidence intervals that give limits for a stationary AR(1) model. A viable solution for this purpose is to use parametric bootstrap. Indeed, parametric bootstrap takes the estimated parameter values and uses them in order to simulate from the assumed model (an AR(1) process in this case). For each simulation, the parameters are estimated and stored in order to obtain an empirical (finite sample) distribution of the estimators. Based on this distribution it is consequently possible to find the <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> empirical quantiles thereby delivering confidence intervals that should not suffer from boundary problems (since the estimation procedure looks for solutions within the admissable regions). The code below gives an example of how this confidence interval is built based on the same estimation procedure but using parametric bootstrap (using <span class="math inline">\(B = 10,000\)</span> bootstrap replicates).</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="co"># Number of Iterations</span></a>
-<a class="sourceLine" id="cb85-2" data-line-number="2">B =<span class="st"> </span><span class="dv">10000</span></a>
-<a class="sourceLine" id="cb85-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb85-4" data-line-number="4"><span class="co"># Set up storage for results</span></a>
-<a class="sourceLine" id="cb85-5" data-line-number="5">est.phi.gmwm =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)</a>
-<a class="sourceLine" id="cb85-6" data-line-number="6">est.phi.ML =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)</a>
-<a class="sourceLine" id="cb85-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb85-8" data-line-number="8"><span class="co"># Model generation statements</span></a>
-<a class="sourceLine" id="cb85-9" data-line-number="9">model.gmwm =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(fit.gmwm<span class="op">$</span>mod<span class="op">$</span>estimate[<span class="dv">1</span>]), <span class="dt">sigma2 =</span> <span class="kw">c</span>(fit.gmwm<span class="op">$</span>mod<span class="op">$</span>estimate[<span class="dv">2</span>]))</a>
-<a class="sourceLine" id="cb85-10" data-line-number="10">model.mle =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(fit.ML<span class="op">$</span>mod<span class="op">$</span>coef), <span class="dt">sigma2 =</span> <span class="kw">c</span>(fit.ML<span class="op">$</span>mod<span class="op">$</span>sigma2))</a>
-<a class="sourceLine" id="cb85-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb85-12" data-line-number="12"><span class="co"># Begin bootstrap</span></a>
-<a class="sourceLine" id="cb85-13" data-line-number="13"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){</a>
-<a class="sourceLine" id="cb85-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb85-15" data-line-number="15">  <span class="co"># Set seed for reproducibility</span></a>
-<a class="sourceLine" id="cb85-16" data-line-number="16">  <span class="kw">set.seed</span>(B <span class="op">+</span><span class="st"> </span>i)</a>
-<a class="sourceLine" id="cb85-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb85-18" data-line-number="18">  <span class="co"># Generate process under MLE parameter estimate</span></a>
-<a class="sourceLine" id="cb85-19" data-line-number="19">  x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">100</span>, model.mle)</a>
-<a class="sourceLine" id="cb85-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb85-21" data-line-number="21">  <span class="co"># Attempt to estimate phi by employing a try</span></a>
-<a class="sourceLine" id="cb85-22" data-line-number="22">  est.phi.ML[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x.star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
-<a class="sourceLine" id="cb85-23" data-line-number="23">                           <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb85-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb85-25" data-line-number="25">  <span class="co"># Generate process under GMWM parameter estimate</span></a>
-<a class="sourceLine" id="cb85-26" data-line-number="26">  x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">100</span>, model.gmwm)</a>
-<a class="sourceLine" id="cb85-27" data-line-number="27">  est.phi.gmwm[i] =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x.star, <span class="dt">method =</span> <span class="st">&quot;gmwm&quot;</span>)<span class="op">$</span>mod<span class="op">$</span>estimate[<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb85-28" data-line-number="28">}</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co"># Number of Iterations</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">B =<span class="st"> </span><span class="dv">10000</span></a>
+<a class="sourceLine" id="cb32-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co"># Set up storage for results</span></a>
+<a class="sourceLine" id="cb32-5" data-line-number="5">est.phi.gmwm =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)</a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">est.phi.ML =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)</a>
+<a class="sourceLine" id="cb32-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co"># Model generation statements</span></a>
+<a class="sourceLine" id="cb32-9" data-line-number="9">model.gmwm =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(fit.gmwm<span class="op">$</span>mod<span class="op">$</span>estimate[<span class="dv">1</span>]), <span class="dt">sigma2 =</span> <span class="kw">c</span>(fit.gmwm<span class="op">$</span>mod<span class="op">$</span>estimate[<span class="dv">2</span>]))</a>
+<a class="sourceLine" id="cb32-10" data-line-number="10">model.mle =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(fit.ML<span class="op">$</span>mod<span class="op">$</span>coef), <span class="dt">sigma2 =</span> <span class="kw">c</span>(fit.ML<span class="op">$</span>mod<span class="op">$</span>sigma2))</a>
+<a class="sourceLine" id="cb32-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb32-12" data-line-number="12"><span class="co"># Begin bootstrap</span></a>
+<a class="sourceLine" id="cb32-13" data-line-number="13"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(B)){</a>
+<a class="sourceLine" id="cb32-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb32-15" data-line-number="15">  <span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb32-16" data-line-number="16">  <span class="kw">set.seed</span>(B <span class="op">+</span><span class="st"> </span>i)</a>
+<a class="sourceLine" id="cb32-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb32-18" data-line-number="18">  <span class="co"># Generate process under MLE parameter estimate</span></a>
+<a class="sourceLine" id="cb32-19" data-line-number="19">  x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">100</span>, model.mle)</a>
+<a class="sourceLine" id="cb32-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb32-21" data-line-number="21">  <span class="co"># Attempt to estimate phi by employing a try</span></a>
+<a class="sourceLine" id="cb32-22" data-line-number="22">  est.phi.ML[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x.star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
+<a class="sourceLine" id="cb32-23" data-line-number="23">                           <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb32-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb32-25" data-line-number="25">  <span class="co"># Generate process under GMWM parameter estimate</span></a>
+<a class="sourceLine" id="cb32-26" data-line-number="26">  x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">100</span>, model.gmwm)</a>
+<a class="sourceLine" id="cb32-27" data-line-number="27">  est.phi.gmwm[i] =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x.star, <span class="dt">method =</span> <span class="st">&quot;gmwm&quot;</span>)<span class="op">$</span>mod<span class="op">$</span>estimate[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb32-28" data-line-number="28">}</a></code></pre></div>
 <div class="figure"><span id="fig:paraAR1cigraphs"></span>
 <img src="ts_files/figure-html/paraAR1cigraphs-1.png" alt="Parametric bootstrap distributions of $\hat{\phi}$ for the MLE and GMWM parameter estimates. The histograms represent the empirical distributions resulting from the parametric bootstrap while the continuous densities represent the estimated asymptotic distributions. The vertical line represents the true value of $\phi$, the dark solid lines represent the upper bound of the parameter space for $\phi$ and the vertical ticks represent the limits of the 95% confidence intervals for the asymptotic distributions (red and gold) and the empirical distributions (green and blue)." width="864" />
 <p class="caption">
@@ -1181,17 +1181,17 @@ Figure 4.18: Parametric bootstrap distributions of <span class="math inline">\(\
 \tag{4.2}
 \end{equation}\]</span>
 <p>where <span class="math inline">\(W_t \sim \mathcal{N}(0, 1)\)</span>. The generated process is displayed in Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:CIAR2data">4.19</a>.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">432</span>)</a>
-<a class="sourceLine" id="cb86-2" data-line-number="2">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">1.98</span>, <span class="fl">-0.99</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb86-3" data-line-number="3"><span class="kw">plot</span>(Xt)</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">432</span>)</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">1.98</span>, <span class="fl">-0.99</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw">plot</span>(Xt)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:CIAR2data"></span>
 <img src="ts_files/figure-html/CIAR2data-1.png" alt="Generated AR(2) Process" width="672" />
 <p class="caption">
 Figure 4.19: Generated AR(2) Process
 </p>
 </div>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">fit =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Xt, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb87-2" data-line-number="2">fit</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">fit =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), Xt, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">fit</a></code></pre></div>
 <pre><code>## Fitted model: AR(2)
 ## 
 ## Estimated parameters:
@@ -1207,19 +1207,19 @@ Figure 4.19: Generated AR(2) Process
 ## 
 ## sigma^2 estimated as 0.8419:  log likelihood = -672.58,  aic = 1351.15</code></pre>
 <p>Having estimated the model’s coefficients, we can again perform the parametric bootstrap. It must be noticed that in these simulations there can be various cases where a method may fail to estimate due to numerical issues (e.g. numerically singular covariance matrices, etc.) and therefore we add a check for each estimation to ensure that we preserve those estimations that have succeeded.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1">B =<span class="st"> </span><span class="dv">500</span></a>
-<a class="sourceLine" id="cb89-2" data-line-number="2">est.phi.ML =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb89-3" data-line-number="3">model =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> fit<span class="op">$</span>mod<span class="op">$</span>coef, <span class="dt">sigma2 =</span> fit<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
-<a class="sourceLine" id="cb89-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb89-5" data-line-number="5"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {</a>
-<a class="sourceLine" id="cb89-6" data-line-number="6">  <span class="kw">set.seed</span>(B <span class="op">+</span><span class="st"> </span>i)              <span class="co"># Set Seed for reproducibilty</span></a>
-<a class="sourceLine" id="cb89-7" data-line-number="7">  x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, model) <span class="co"># Simulate the process</span></a>
-<a class="sourceLine" id="cb89-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb89-9" data-line-number="9">  <span class="co"># Obtain parameter estimate with protection</span></a>
-<a class="sourceLine" id="cb89-10" data-line-number="10">  <span class="co"># that defaults to NA if unable to estimate</span></a>
-<a class="sourceLine" id="cb89-11" data-line-number="11">  est.phi.ML[i,] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), x.star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
-<a class="sourceLine" id="cb89-12" data-line-number="12">  <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb89-13" data-line-number="13">}</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">B =<span class="st"> </span><span class="dv">500</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">est.phi.ML =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, B, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">model =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> fit<span class="op">$</span>mod<span class="op">$</span>coef, <span class="dt">sigma2 =</span> fit<span class="op">$</span>mod<span class="op">$</span>sigma2)</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb36-5" data-line-number="5"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6">  <span class="kw">set.seed</span>(B <span class="op">+</span><span class="st"> </span>i)              <span class="co"># Set Seed for reproducibilty</span></a>
+<a class="sourceLine" id="cb36-7" data-line-number="7">  x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, model) <span class="co"># Simulate the process</span></a>
+<a class="sourceLine" id="cb36-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb36-9" data-line-number="9">  <span class="co"># Obtain parameter estimate with protection</span></a>
+<a class="sourceLine" id="cb36-10" data-line-number="10">  <span class="co"># that defaults to NA if unable to estimate</span></a>
+<a class="sourceLine" id="cb36-11" data-line-number="11">  est.phi.ML[i,] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">2</span>), x.star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
+<a class="sourceLine" id="cb36-12" data-line-number="12">  <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb36-13" data-line-number="13">}</a></code></pre></div>
 <p>Once this is done, we can compare the bivariate distributions (asymptotic and bootsrapped) of the two estimated parameters <span class="math inline">\(\hat{\phi}_1\)</span> and <span class="math inline">\(\hat{\phi}_2\)</span>.</p>
 <div class="figure"><span id="fig:ciAR2d"></span>
 <img src="ts_files/figure-html/ciAR2d-1.png" alt="Estimated distributions of $\hat{\phi_1}$ and $\hat{\phi_2}$ based on the MLE using asymptotic and parametric bootstrap techniques. The colored contours represent the density of the distributions and the dark grey lines represent the boundary constraints of $\left|\phi_2\right|&lt;1$ and $\phi_2 = 1 - \phi_1$." width="864" />
@@ -1279,28 +1279,28 @@ the <span class="math inline">\(B\)</span> independent replications.
 </div></li>
 </ol>
 <p>Alternatively, depending on the case one can also use modifications of the MBB that seeks to change how the beginning and end of the time series is weighted such as a Circular Block-Bootstrap (CBB) or a Stationary Bootstrap (SB). The code below implements the MMB to obtain a bootrstrap distribution for the estimated parameters of an AR(1) model.</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1">ar1_blockboot =<span class="st"> </span><span class="cf">function</span>(Xt, <span class="dt">block_len =</span> <span class="dv">10</span>, <span class="dt">B =</span> <span class="dv">500</span>) {</a>
-<a class="sourceLine" id="cb90-2" data-line-number="2">  n =<span class="st"> </span><span class="kw">length</span>(Xt)            <span class="co"># Length of Time Series</span></a>
-<a class="sourceLine" id="cb90-3" data-line-number="3">  res =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, B)          <span class="co"># Bootstrapped Statistics</span></a>
-<a class="sourceLine" id="cb90-4" data-line-number="4">  m =<span class="st"> </span><span class="kw">floor</span>(n<span class="op">/</span>block_len)    <span class="co"># Amount of Blocks</span></a>
-<a class="sourceLine" id="cb90-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb90-6" data-line-number="6">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {   <span class="co"># Begin MMB</span></a>
-<a class="sourceLine" id="cb90-7" data-line-number="7">    <span class="kw">set.seed</span>(i <span class="op">+</span><span class="st"> </span><span class="dv">1199</span>)      <span class="co"># Set seed for reproducibility</span></a>
-<a class="sourceLine" id="cb90-8" data-line-number="8">    x_star =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, n)     <span class="co"># Setup storage for new TS</span></a>
-<a class="sourceLine" id="cb90-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb90-10" data-line-number="10">    <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_len</span>(m)) { <span class="co"># Simulate new time series</span></a>
-<a class="sourceLine" id="cb90-11" data-line-number="11">      index =<span class="st"> </span><span class="kw">sample</span>(m, <span class="dv">1</span>)  <span class="co"># Randomize block starting points</span></a>
-<a class="sourceLine" id="cb90-12" data-line-number="12">      <span class="co"># Place block into time series</span></a>
-<a class="sourceLine" id="cb90-13" data-line-number="13">      x_star[(block_len<span class="op">*</span>(j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(block_len<span class="op">*</span>j)] =</a>
-<a class="sourceLine" id="cb90-14" data-line-number="14"><span class="st">      </span>Xt[(block_len<span class="op">*</span>(index <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(block_len<span class="op">*</span>index)]</a>
-<a class="sourceLine" id="cb90-15" data-line-number="15">    }</a>
-<a class="sourceLine" id="cb90-16" data-line-number="16">    </a>
-<a class="sourceLine" id="cb90-17" data-line-number="17">  <span class="co"># Calculate parameters with protection</span></a>
-<a class="sourceLine" id="cb90-18" data-line-number="18">  res[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x_star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
-<a class="sourceLine" id="cb90-19" data-line-number="19">  <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb90-20" data-line-number="20">  }</a>
-<a class="sourceLine" id="cb90-21" data-line-number="21">  <span class="kw">na.omit</span>(res)              <span class="co"># Deliver results</span></a>
-<a class="sourceLine" id="cb90-22" data-line-number="22">}</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">ar1_blockboot =<span class="st"> </span><span class="cf">function</span>(Xt, <span class="dt">block_len =</span> <span class="dv">10</span>, <span class="dt">B =</span> <span class="dv">500</span>) {</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">  n =<span class="st"> </span><span class="kw">length</span>(Xt)            <span class="co"># Length of Time Series</span></a>
+<a class="sourceLine" id="cb37-3" data-line-number="3">  res =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, B)          <span class="co"># Bootstrapped Statistics</span></a>
+<a class="sourceLine" id="cb37-4" data-line-number="4">  m =<span class="st"> </span><span class="kw">floor</span>(n<span class="op">/</span>block_len)    <span class="co"># Amount of Blocks</span></a>
+<a class="sourceLine" id="cb37-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb37-6" data-line-number="6">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {   <span class="co"># Begin MMB</span></a>
+<a class="sourceLine" id="cb37-7" data-line-number="7">    <span class="kw">set.seed</span>(i <span class="op">+</span><span class="st"> </span><span class="dv">1199</span>)      <span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb37-8" data-line-number="8">    x_star =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, n)     <span class="co"># Setup storage for new TS</span></a>
+<a class="sourceLine" id="cb37-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb37-10" data-line-number="10">    <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_len</span>(m)) { <span class="co"># Simulate new time series</span></a>
+<a class="sourceLine" id="cb37-11" data-line-number="11">      index =<span class="st"> </span><span class="kw">sample</span>(m, <span class="dv">1</span>)  <span class="co"># Randomize block starting points</span></a>
+<a class="sourceLine" id="cb37-12" data-line-number="12">      <span class="co"># Place block into time series</span></a>
+<a class="sourceLine" id="cb37-13" data-line-number="13">      x_star[(block_len<span class="op">*</span>(j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(block_len<span class="op">*</span>j)] =</a>
+<a class="sourceLine" id="cb37-14" data-line-number="14"><span class="st">      </span>Xt[(block_len<span class="op">*</span>(index <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(block_len<span class="op">*</span>index)]</a>
+<a class="sourceLine" id="cb37-15" data-line-number="15">    }</a>
+<a class="sourceLine" id="cb37-16" data-line-number="16">    </a>
+<a class="sourceLine" id="cb37-17" data-line-number="17">  <span class="co"># Calculate parameters with protection</span></a>
+<a class="sourceLine" id="cb37-18" data-line-number="18">  res[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x_star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
+<a class="sourceLine" id="cb37-19" data-line-number="19">  <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb37-20" data-line-number="20">  }</a>
+<a class="sourceLine" id="cb37-21" data-line-number="21">  <span class="kw">na.omit</span>(res)              <span class="co"># Deliver results</span></a>
+<a class="sourceLine" id="cb37-22" data-line-number="22">}</a></code></pre></div>
 <p>Having defined the function above, let us consider a scenario where the model’s assumptions are not respected (i.e. wrong model and/or non-Gaussian time series). Consider an AR(1) and an AR(2) process with the same coefficients for the first lagged variable (i.e. <span class="math inline">\(\phi = \phi_1 = 0.5\)</span>) but with different innovation noise generation procedures:</p>
 <p><span class="math display">\[
     \begin{aligned}
@@ -1309,11 +1309,11 @@ the <span class="math inline">\(B\)</span> independent replications.
   \end{aligned}
 \]</span></p>
 <p>where <span class="math inline">\(t_4\)</span> represents the Student-<span class="math inline">\(t\)</span> distribution with 4 degrees of freedom (heavy tails). For the first model (<span class="math inline">\(\mathcal{M}_1\)</span>) we will use the <code>gen_gts()</code> function while for the second model <span class="math inline">\(\mathcal{M}_2\)</span> we will make use the <code>arima.sim()</code> function in which we can assign a vector of innovations from a <span class="math inline">\(t\)</span> distribution.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">1</span>)         <span class="co"># Set seed for reproducibilty</span></a>
-<a class="sourceLine" id="cb91-2" data-line-number="2">n =<span class="st"> </span><span class="dv">300</span>             <span class="co"># Sample size</span></a>
-<a class="sourceLine" id="cb91-3" data-line-number="3">xt_m1 =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">AR1</span>(<span class="dt">phi =</span> <span class="fl">0.5</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))   <span class="co"># Gaussian noise only</span></a>
-<a class="sourceLine" id="cb91-4" data-line-number="4">xt_m2 =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">arima.sim</span>(<span class="dt">n =</span> n, <span class="kw">list</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>), <span class="dt">ma =</span> <span class="dv">0</span>), <span class="co"># Student-t noise</span></a>
-<a class="sourceLine" id="cb91-5" data-line-number="5"><span class="dt">rand.gen =</span> <span class="cf">function</span>(n, ...) <span class="kw">rt</span>(n, <span class="dt">df =</span> <span class="dv">4</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">1</span>)         <span class="co"># Set seed for reproducibilty</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">n =<span class="st"> </span><span class="dv">300</span>             <span class="co"># Sample size</span></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3">xt_m1 =<span class="st"> </span><span class="kw">gen_gts</span>(n, <span class="kw">AR1</span>(<span class="dt">phi =</span> <span class="fl">0.5</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))   <span class="co"># Gaussian noise only</span></a>
+<a class="sourceLine" id="cb38-4" data-line-number="4">xt_m2 =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">arima.sim</span>(<span class="dt">n =</span> n, <span class="kw">list</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>), <span class="dt">ma =</span> <span class="dv">0</span>), <span class="co"># Student-t noise</span></a>
+<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="dt">rand.gen =</span> <span class="cf">function</span>(n, ...) <span class="kw">rt</span>(n, <span class="dt">df =</span> <span class="dv">4</span>)))</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:mbbdatavis"></span>
 <img src="ts_files/figure-html/mbbdatavis-1.png" alt="AR(1) processes generated under different noise conditions." width="768" />
 <p class="caption">
@@ -1321,32 +1321,32 @@ Figure 4.21: AR(1) processes generated under different noise conditions.
 </p>
 </div>
 <p>From Figure <a href="the-family-of-autoregressive-moving-average-models.html#fig:mbbdatavis">4.21</a>, the two time series appear to be considerably different as a result of the different models and noise processes. Among others, the difference is also related to the variance of the <span class="math inline">\(t\)</span> distribution defined as <span class="math inline">\(\frac{\nu}{\nu-2}\)</span> for <span class="math inline">\(\nu &gt; 2\)</span> (and <span class="math inline">\(\infty\)</span> for <span class="math inline">\(\nu \le 2\)</span>). Therefore, the innovation variance of the i.i.d white noise process is given by <span class="math inline">\(\sigma^2_{\mathcal{M}_1} = 1\)</span> while the noise generated from the <span class="math inline">\(t\)</span> distribution has innovation variance <span class="math inline">\(\sigma^2_{\mathcal{M}_2} = 2\)</span>. To compare the performance of the bootstrap procedures, the function below performs parametric bootstrap for the MLE of an AR(1) process assuming the innovations are Gaussian.</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1">ar1_paraboot =<span class="st"> </span><span class="cf">function</span>(model, <span class="dt">B =</span> <span class="dv">10000</span>) {</a>
-<a class="sourceLine" id="cb92-2" data-line-number="2">  est.phi =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)    <span class="co"># Define a storage vector</span></a>
-<a class="sourceLine" id="cb92-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb92-4" data-line-number="4">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) { <span class="co"># Perform bootstrap</span></a>
-<a class="sourceLine" id="cb92-5" data-line-number="5">    <span class="kw">set.seed</span>(B <span class="op">+</span><span class="st"> </span>i)      <span class="co"># Set seed for reproducibility</span></a>
-<a class="sourceLine" id="cb92-6" data-line-number="6">    <span class="co"># Simulate time series underneath the estimated model</span></a>
-<a class="sourceLine" id="cb92-7" data-line-number="7">    x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> model<span class="op">$</span>mod<span class="op">$</span>coef, <span class="dt">sigma2 =</span> model<span class="op">$</span>mod<span class="op">$</span>sigma2))</a>
-<a class="sourceLine" id="cb92-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb92-9" data-line-number="9">    <span class="co"># Attempt to estimate parameters with recovery</span></a>
-<a class="sourceLine" id="cb92-10" data-line-number="10">    est.phi[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x.star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
-<a class="sourceLine" id="cb92-11" data-line-number="11">    <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb92-12" data-line-number="12">  }</a>
-<a class="sourceLine" id="cb92-13" data-line-number="13">  <span class="kw">na.omit</span>(est.phi)       <span class="co"># Return estimated phis</span></a>
-<a class="sourceLine" id="cb92-14" data-line-number="14">}</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">ar1_paraboot =<span class="st"> </span><span class="cf">function</span>(model, <span class="dt">B =</span> <span class="dv">10000</span>) {</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">  est.phi =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,B)    <span class="co"># Define a storage vector</span></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) { <span class="co"># Perform bootstrap</span></a>
+<a class="sourceLine" id="cb39-5" data-line-number="5">    <span class="kw">set.seed</span>(B <span class="op">+</span><span class="st"> </span>i)      <span class="co"># Set seed for reproducibility</span></a>
+<a class="sourceLine" id="cb39-6" data-line-number="6">    <span class="co"># Simulate time series underneath the estimated model</span></a>
+<a class="sourceLine" id="cb39-7" data-line-number="7">    x.star =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> model<span class="op">$</span>mod<span class="op">$</span>coef, <span class="dt">sigma2 =</span> model<span class="op">$</span>mod<span class="op">$</span>sigma2))</a>
+<a class="sourceLine" id="cb39-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb39-9" data-line-number="9">    <span class="co"># Attempt to estimate parameters with recovery</span></a>
+<a class="sourceLine" id="cb39-10" data-line-number="10">    est.phi[i] =<span class="st"> </span><span class="kw">tryCatch</span>(<span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), x.star, <span class="dt">demean =</span> <span class="ot">FALSE</span>)<span class="op">$</span>mod<span class="op">$</span>coef,</a>
+<a class="sourceLine" id="cb39-11" data-line-number="11">    <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb39-12" data-line-number="12">  }</a>
+<a class="sourceLine" id="cb39-13" data-line-number="13">  <span class="kw">na.omit</span>(est.phi)       <span class="co"># Return estimated phis</span></a>
+<a class="sourceLine" id="cb39-14" data-line-number="14">}</a></code></pre></div>
 <p>Now that we have two functions implementing the block and parametric bootstraps, we can apply these procedures to obtain confidence intervals for the (first) <span class="math inline">\(\phi\)</span> parameter for the two time series generated respectively by model <span class="math inline">\(\mathcal{M}_1\)</span> and <span class="math inline">\(\mathcal{M}_2\)</span> (i.e. for <span class="math inline">\(\phi = \phi_1 = 0.5\)</span>).</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1">B =<span class="st"> </span><span class="dv">1000</span></a>
-<a class="sourceLine" id="cb93-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb93-3" data-line-number="3"><span class="co"># Model 1 </span></a>
-<a class="sourceLine" id="cb93-4" data-line-number="4">fit_m1_mle =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), xt_m1, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb93-5" data-line-number="5">para_m1_phi  =<span class="st"> </span><span class="kw">ar1_paraboot</span>(fit_m1_mle, <span class="dt">B =</span> B)</a>
-<a class="sourceLine" id="cb93-6" data-line-number="6">block_m1_phi =<span class="st"> </span><span class="kw">ar1_blockboot</span>(xt_m1, <span class="dt">block_len =</span> <span class="dv">15</span>, <span class="dt">B =</span> B)</a>
-<a class="sourceLine" id="cb93-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb93-8" data-line-number="8"><span class="co"># Model 2 </span></a>
-<a class="sourceLine" id="cb93-9" data-line-number="9">fit_m2_mle =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), xt_m2, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb93-10" data-line-number="10">para_m2_phi  =<span class="st"> </span><span class="kw">ar1_paraboot</span>(fit_m2_mle, <span class="dt">B =</span> B)</a>
-<a class="sourceLine" id="cb93-11" data-line-number="11">block_m2_phi =<span class="st"> </span><span class="kw">ar1_blockboot</span>(xt_m2, <span class="dt">block_len =</span> <span class="dv">15</span>, <span class="dt">B =</span> B)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">B =<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="co"># Model 1 </span></a>
+<a class="sourceLine" id="cb40-4" data-line-number="4">fit_m1_mle =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), xt_m1, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb40-5" data-line-number="5">para_m1_phi  =<span class="st"> </span><span class="kw">ar1_paraboot</span>(fit_m1_mle, <span class="dt">B =</span> B)</a>
+<a class="sourceLine" id="cb40-6" data-line-number="6">block_m1_phi =<span class="st"> </span><span class="kw">ar1_blockboot</span>(xt_m1, <span class="dt">block_len =</span> <span class="dv">15</span>, <span class="dt">B =</span> B)</a>
+<a class="sourceLine" id="cb40-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb40-8" data-line-number="8"><span class="co"># Model 2 </span></a>
+<a class="sourceLine" id="cb40-9" data-line-number="9">fit_m2_mle =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), xt_m2, <span class="dt">demean =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb40-10" data-line-number="10">para_m2_phi  =<span class="st"> </span><span class="kw">ar1_paraboot</span>(fit_m2_mle, <span class="dt">B =</span> B)</a>
+<a class="sourceLine" id="cb40-11" data-line-number="11">block_m2_phi =<span class="st"> </span><span class="kw">ar1_blockboot</span>(xt_m2, <span class="dt">block_len =</span> <span class="dv">15</span>, <span class="dt">B =</span> B)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:blockbootmodels"></span>
 <img src="ts_files/figure-html/blockbootmodels-1.png" alt="Estimated parametric and non-parametric blockbootstrap distributions of $\hat{\phi}$ for the MLE parameter estimates. The histogram bars represent the empirical results from the bootstraps with the green representing parametric bootstrap and the red representing the block bootstrap approach. The dashed vertical line represents the true value of $\phi$ and the vertical ticks correspond to the limits of the 95% confidence intervals for both estimation techniques." width="864" />
 <p class="caption">
@@ -1403,32 +1403,32 @@ C &amp;= \mathbb{E}\left[  \left\| \mathbf{Y} - \hat{\mathbf{Y}} \right\|_2^2 \r
 <p>With this in mind, let us consider the use of these criteria in the selection of AR(<span class="math inline">\(p\)</span>) models seen this far. As we saw in the previous sections, the PACF is a very useful tool to identify the order of the AR(<span class="math inline">\(p\)</span>) model that is underlying the observed time series. However, the choice based on the PACF can possibly lead to selecting models that may adequately describe the observed time series but do not necessarily perform well in terms of predictions. For this reason, consider distinct AR(<span class="math inline">\(p\)</span>) models with different values of <span class="math inline">\(p\)</span>:</p>
 <p><span class="math display">\[\mathcal{M}_j: {X_t} = \sum\limits_{i = 1}^j {{\phi _i}{X_{t - i}}}  + {W_t},\]</span></p>
 <p>where <span class="math inline">\(\mathcal{M}_j\)</span> is used to denote an AR(<span class="math inline">\(j\)</span>) model, with <span class="math inline">\(j = 1,...,p^*\)</span> where <span class="math inline">\(p^*\)</span> represents the maximum order of the AR(<span class="math inline">\(p\)</span>) model considered for a given observed time series (e.g. <span class="math inline">\(p^*\)</span> could be the maximum lag at which the PACF appears to be significant). Let us illustrate the properties of these model selection criteria through the following example of an AR(3) model for which we show the PACF of a possible realization from this process (<span class="math inline">\(T = 500\)</span>).</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb94-2" data-line-number="2">true_model =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">-0.9</span>, <span class="fl">0.3</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb94-3" data-line-number="3">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">model =</span> true_model)</a>
-<a class="sourceLine" id="cb94-4" data-line-number="4"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(Xt, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-50"></span>
-<img src="ts_files/figure-html/unnamed-chunk-50-1.png" alt="Estimated PACF of a time series from an AR(3) model with parameters $\phi_1 = 1.2$, $\phi_2 = -0.9$ and $\phi_3 = 0.3$." width="576" />
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb41-2" data-line-number="2">true_model =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">-0.9</span>, <span class="fl">0.3</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">model =</span> true_model)</a>
+<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="kw">plot</span>(<span class="kw">auto_corr</span>(Xt, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-25"></span>
+<img src="ts_files/figure-html/unnamed-chunk-25-1.png" alt="Estimated PACF of a time series from an AR(3) model with parameters $\phi_1 = 1.2$, $\phi_2 = -0.9$ and $\phi_3 = 0.3$." width="576" />
 <p class="caption">
 Figure 4.23: Estimated PACF of a time series from an AR(3) model with parameters <span class="math inline">\(\phi_1 = 1.2\)</span>, <span class="math inline">\(\phi_2 = -0.9\)</span> and <span class="math inline">\(\phi_3 = 0.3\)</span>.
 </p>
 </div>
 <p>From the PACF plot one sees that the first three lags appear to be significant indicating that an AR(3) model would indeed appear to be a good candidate model for this observed time series. However, there is another value of the PACF that appears to be marginally significant at lag 10. Let us therefore suppose that we want to consider all possible AR(p) models with <span class="math inline">\(p^* = 10\)</span>. The <code>select()</code> function from the <code>simts</code> package allows to evaluate and plot the value of the three criteria presented earlier in order to understand the value of <span class="math inline">\(p\)</span> that minimizes each of them.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1">best_model =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">10</span>), Xt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>) </a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-52"></span>
-<img src="ts_files/figure-html/unnamed-chunk-52-1.png" alt="Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model." width="672" />
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">best_model =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">10</span>), Xt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>) </a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-27"></span>
+<img src="ts_files/figure-html/unnamed-chunk-27-1.png" alt="Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model." width="672" />
 <p class="caption">
 Figure 4.24: Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model.
 </p>
 </div>
 <p>The output of this funtion is a plot of the values of each criterion over all possible AR(<span class="math inline">\(p\)</span>) models with <span class="math inline">\(p = 1,...,10\)</span> and, as can be seen from the plot, all criteria are minimized at the value <span class="math inline">\(p=3\)</span> which shows how all criteria (in this particular case) agree and select the true underlying model. The function also delivers the MLE estimates of the parameters of the selected model:</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1">best_model<span class="op">$</span>coef</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">best_model<span class="op">$</span>coef</a></code></pre></div>
 <pre><code>##        ar1        ar2        ar3 
 ##  1.1726319 -0.8830923  0.2752257</code></pre>
 <p>It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners. To further investigate the properties of these criteria let us consider the following simulation study.</p>
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-54" class="example"><strong>Example 4.12  (Simulation Study: Strong Signal vs Weak Signal)  </strong></span>In this simulation study, we consider the following three models:
+<p><span id="exm:unnamed-chunk-29" class="example"><strong>Example 4.12  (Simulation Study: Strong Signal vs Weak Signal)  </strong></span>In this simulation study, we consider the following three models:
 <span class="math display">\[\begin{align*}
   X_t &amp;= 0.9X_{t-1} + W_t,\\
   X_t &amp;= 0.6X_{t-1} + 0.3X_{t-2} + W_t,\\
@@ -1441,25 +1441,25 @@ Figure 4.24: Plot of the AIC, BIC and HQ model selection criteria from all model
 For the purpose of the simulation we consider a sample size <span class="math inline">\(T = 100\)</span> and <span class="math inline">\(B = 1000\)</span> bootstrap replications. The code used for the simulation study (being lengthy) is omitted for practical exposition purposes.
 </div>
 
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-55"></span>
-<img src="ts_files/figure-html/unnamed-chunk-55-1.png" alt="Barplots representing the frequency with which each considered model selection criterion (AIC, BIC, HQ) selects each of the possible candidate models within an AR(9) in each of the four simulation settings described in the text." width="960" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-30"></span>
+<img src="ts_files/figure-html/unnamed-chunk-30-1.png" alt="Barplots representing the frequency with which each considered model selection criterion (AIC, BIC, HQ) selects each of the possible candidate models within an AR(9) in each of the four simulation settings described in the text." width="960" />
 <p class="caption">
 Figure 4.25: Barplots representing the frequency with which each considered model selection criterion (AIC, BIC, HQ) selects each of the possible candidate models within an AR(9) in each of the four simulation settings described in the text.
 </p>
 </div>
 <p>As anticipated, it can be seen how the BIC (green bars) often selects a small dimensional model for the first two settings, which corresponds to the truth. In these cases the AIC (red bars) performs less well compared to the other two criteria where the HQ (blue bars) appears to do better than the others for the “strong” signal AR(2). However, as the signal becomes weaker and the true model size increases (last two settings) the AIC does a better job than the BIC and the HQ since it selects higher dimensional models (which corresponds to the truth) with a higher frequency with respect to the HQ and even more so with respect to the BIC. Overall, it would appear that if a “strong” signal is present and the model dimension is low (finite), the BIC is the best choice. However, when the signal is “weaker” and the model dimension is larger (infinite), the AIC tends to select “better” models. Finally, the HQ criterion appears to be inbetween the AIC and BIC in terms of performance for the considered simulation setting.</p>
 <p>Having studied th performance of these three criteria through the described simultation study, let us now consider an example we considered when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1">cor_lynx =<span class="st"> </span><span class="kw">corr_analysis</span>(lynx_gts)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-56"></span>
-<img src="ts_files/figure-html/unnamed-chunk-56-1.png" alt="Empirical PACF of the yearly lynx trapping time series." width="864" />
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">cor_lynx =<span class="st"> </span><span class="kw">corr_analysis</span>(lynx_gts)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-31"></span>
+<img src="ts_files/figure-html/unnamed-chunk-31-1.png" alt="Empirical PACF of the yearly lynx trapping time series." width="864" />
 <p class="caption">
 Figure 4.26: Empirical PACF of the yearly lynx trapping time series.
 </p>
 </div>
 <p>As we saw earlier, the PACF appears to be significant at lag <span class="math inline">\(h = 11\)</span> therefore leading to the conclusion that an AR(11) model would be good to describe/forecast the observed time series. However, let us check if we reach the same conclusion using the three model selection criteria described above. For this reason, let us use an AR(16) as the maximum order for the candidate AR(p) models.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1">lynx_select =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">16</span>), lynx_gts, <span class="dt">include.mean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-58"></span>
-<img src="ts_files/figure-html/unnamed-chunk-58-1.png" alt="Values of the three model selection criteria described in the text for all candidate models included in an AR(16) model for the yearly lynx trapping time series." width="672" />
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">lynx_select =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">16</span>), lynx_gts, <span class="dt">include.mean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-33"></span>
+<img src="ts_files/figure-html/unnamed-chunk-33-1.png" alt="Values of the three model selection criteria described in the text for all candidate models included in an AR(16) model for the yearly lynx trapping time series." width="672" />
 <p class="caption">
 Figure 4.27: Values of the three model selection criteria described in the text for all candidate models included in an AR(16) model for the yearly lynx trapping time series.
 </p>
@@ -1476,29 +1476,29 @@ empirical “prediction errors” vector.</li>
 <p>There are many “scores” that can assess the quality of the model using the empirical prediction errors such as the Root Mean Squared Error (RMSE), mean absolute percentage error, etc. A generally used and common score is the Median Absolute Prediction Error which is defined as follows:</p>
 <p><span class="math display">\[\text{MAPE} = \text{median}\left(\Big|X_{t+j} - X_{t+j}^t\Big|\right).\]</span></p>
 <p>The MAPE is a score function that assesses how far the model’s predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model’s performance (the median is what guarantees this). This score can also be used to assess a model’s prediction performance and is implemented in the <code>MAPE()</code> function in the <code>simts</code> package (by default this function uses the first <span class="math inline">\(0.8T\)</span> observations as training data). Let us study a few simulated examples of how the MAPE can be a “good” model selection (and evaluation) criterion. In the first example we simulate a time series from an AR(3) model and compute the MAPE on all possible candidate models within an AR(8) model.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb100-2" data-line-number="2">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="dv">0</span>, <span class="fl">0.8</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb100-3" data-line-number="3"><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">8</span>), Xt)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-59"></span>
-<img src="ts_files/figure-html/unnamed-chunk-59-1.png" alt="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)." width="672" />
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="dv">0</span>, <span class="fl">0.8</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">8</span>), Xt)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-34"></span>
+<img src="ts_files/figure-html/unnamed-chunk-34-1.png" alt="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)." width="672" />
 <p class="caption">
 Figure 4.28: Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3).
 </p>
 </div>
 <p>From the plot we can see the value of the MAPE for all models up to the AR(8) model. Aside from the MAPE itself we can also see the confidence intervals for each value of the MAPE (representing the distance of one standard deviation from the estimated MAPE). In this example we see that the MAPE is minimized for the AR(6) (red dot) although there are other values of the MAPE that lie below the upper confidence interval of the smallest MAPE. In this case, the MAPE of the smallest model whose value lies below this bound is indeed the one corresponding to the AR(3) model and, in the optic of choosing simple models, our choice would probably go on the latter model. Another example is simply another time series from the same model as above.</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">7</span>)</a>
-<a class="sourceLine" id="cb101-2" data-line-number="2">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="dv">0</span>, <span class="fl">0.8</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb101-3" data-line-number="3"><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">8</span>), Xt)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-60"></span>
-<img src="ts_files/figure-html/unnamed-chunk-60-1.png" alt="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)." width="672" />
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">7</span>)</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="dv">0</span>, <span class="fl">0.8</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">8</span>), Xt)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-35"></span>
+<img src="ts_files/figure-html/unnamed-chunk-35-1.png" alt="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)." width="672" />
 <p class="caption">
 Figure 4.29: Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3).
 </p>
 </div>
 <p>In this case we see that the smallest value of the MAPE corresponds to the AR(3) which is also the smallest model below the upper confidence interval of the smallest value of the MAPE (hence the green and red dots correspond, leaving only the red dot). Having studied the MAPE in a couple of examples, let us check the model selected for the lynx trappings data seen earlier when using this approach using the first <span class="math inline">\(0.8 \cdot T\)</span> observations to estimate the model and the last <span class="math inline">\(0.2 \cdot T\)</span> to test the estimated model.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1">lynx_mape =<span class="st"> </span><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">16</span>), lynx_gts)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-61"></span>
-<img src="ts_files/figure-html/unnamed-chunk-61-1.png" alt="Estimated MAPE for the lynx dataset." width="672" />
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">lynx_mape =<span class="st"> </span><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">16</span>), lynx_gts)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-36"></span>
+<img src="ts_files/figure-html/unnamed-chunk-36-1.png" alt="Estimated MAPE for the lynx dataset." width="672" />
 <p class="caption">
 Figure 4.30: Estimated MAPE for the lynx dataset.
 </p>
@@ -1535,7 +1535,7 @@ would therefore be impossible to retrieve the parameters of the model by only
 looking at the autocovariance function.</p>
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-62" class="example"><strong>Example 4.13  (Writing a Moving Average in Operator Form)  </strong></span>Consider the following MA(q) process:</p>
+<p><span id="exm:unnamed-chunk-37" class="example"><strong>Example 4.13  (Writing a Moving Average in Operator Form)  </strong></span>Consider the following MA(q) process:</p>
 <p><span class="math display">\[{X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t\]</span></p>
 <p>With a little bit of work this can be condensed to:</p>
 <p><span class="math display">\[{X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}\]</span></p>
@@ -1547,7 +1547,7 @@ looking at the autocovariance function.</p>
 
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-63" class="example"><strong>Example 4.14  (Stationarity of an MA(Q) Process)  </strong></span>The stationarity of an MA(q) process is able to be shown assuming that <span class="math inline">\(\sum\limits_{j = 1}^q {\theta _j^2} &lt; \infty\)</span>.</p>
+<p><span id="exm:unnamed-chunk-38" class="example"><strong>Example 4.14  (Stationarity of an MA(Q) Process)  </strong></span>The stationarity of an MA(q) process is able to be shown assuming that <span class="math inline">\(\sum\limits_{j = 1}^q {\theta _j^2} &lt; \infty\)</span>.</p>
 <p>First, the expectation is able to be derived to be <span class="math inline">\(E\left[ {{X_t}} \right] = 0\)</span>.</p>
 <p>Prior to proceeding to the computation for autocovariance, note that if <span class="math inline">\(\theta_0 = 1\)</span>, then</p>
 <p><span class="math display">\[{X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}\]</span></p>
@@ -1566,7 +1566,7 @@ Hence, the process is stationary.
 
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-64" class="example"><strong>Example 4.15  (Non-uniqueness of MA models)  </strong></span>One particular issue of MA models is the fact that they are not unique.
+<p><span id="exm:unnamed-chunk-39" class="example"><strong>Example 4.15  (Non-uniqueness of MA models)  </strong></span>One particular issue of MA models is the fact that they are not unique.
 In essence, one is not able to correctly tell if the process is of one model
 or another. Consider the following two models:</p>
 <p><span class="math display">\[
