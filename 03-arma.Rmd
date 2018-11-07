@@ -1950,7 +1950,23 @@ There are many "scores" that can assess the quality of the model using the empir
 
 $$\text{MAPE} = \text{median}\left(\Big|X_{t+j} - X_{t+j}^t\Big|\right).$$
 
-The MAPE is a score function that assesses how far the model's predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model's performance (the median is what guarantees this). This score can also be used to assess a model's prediction performance and is implemented in the `MAPE()` function in the `simts` package. Let us check the model selected for the Lynx trappings data seen earlier when using this approach using the first $0.8 \cdot T$ observations to estimate the model and the last $0.2 \cdot T$ to test the estimated model.
+The MAPE is a score function that assesses how far the model's predictions are from the actual values while ensuring that a possible few outlying values can affect that evaluation of a model's performance (the median is what guarantees this). This score can also be used to assess a model's prediction performance and is implemented in the `MAPE()` function in the `simts` package (by default this function uses the first $0.8T$ observations as training data). Let us study a few simulated examples of how the MAPE can be a "good" model selection (and evaluation) criterion. In the first example we simulate a time series from an AR(3) model and compute the MAPE on all possible candidate models within an AR(8) model.
+
+```{r, fig.height= 4.5, fig.width= 5, fig.align='center', fig.cap="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)."}
+set.seed(5)
+Xt = gen_gts(500, AR(phi = c(0.1, 0, 0.8), sigma2 = 1))
+MAPE(AR(8), Xt)
+```
+
+From the plot we can see the value of the MAPE for all models up to the AR(8) model. Aside from the MAPE itself we can also see the confidence intervals for each value of the MAPE (representing the distance of one standard deviation from the estimated MAPE). In this example we see that the MAPE is minimized for the AR(6) (red dot) although there are other values of the MAPE that lie below the upper confidence interval of the smallest MAPE. In this case, the MAPE of the smallest model whose value lies below this bound is indeed the one corresponding to the AR(3) model and, in the optic of choosing simple models, our choice would probably go on the latter model. Another example is simply another time series from the same model as above.
+
+```{r, fig.height= 4.5, fig.width= 5, fig.align='center', fig.cap="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)."}
+set.seed(7)
+Xt = gen_gts(500, AR(phi = c(0.1, 0, 0.8), sigma2 = 1))
+MAPE(AR(8), Xt)
+```
+
+In this case we see that the smallest value of the MAPE corresponds to the AR(3) which is also the smallest model below the upper confidence interval of the smallest value of the MAPE (hence the green and red dots correspond, leaving only the red dot). Having studied the MAPE in a couple of examples, let us check the model selected for the Lynx trappings data seen earlier when using this approach using the first $0.8 \cdot T$ observations to estimate the model and the last $0.2 \cdot T$ to test the estimated model.
 
 ```{r, cache = TRUE}
 lynx_mape = MAPE(AR(15), lynx_gts, start = 0.8)
