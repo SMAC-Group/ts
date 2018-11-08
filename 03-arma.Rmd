@@ -1641,7 +1641,7 @@ best_model$coef
 It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners. To further investigate the properties of these criteria let us consider the following simulation study.
 
 ```{example, name="Simulation Study: Strong Signal vs Weak Signal"}
-In this simulation study, we consider the following three models:
+In this simulation study, we consider the following four models:
 \begin{align*}
   X_t &= 0.9X_{t-1} + W_t,\\
   X_t &= 0.6X_{t-1} + 0.3X_{t-2} + W_t,\\
