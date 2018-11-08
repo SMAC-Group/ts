@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Applied Time Series Analysis with R</title>
+  <meta name="description" content="Applied Time Series Analysis with R">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Applied Time Series Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="SMAC-Group/ts" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Applied Time Series Analysis with R" />
+  
+  
+  
+
+<meta name="author" content="Stéphane Guerrier, Roberto Molinari, Haotian Xu and Yuming Zhang">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="prev" href="the-family-of-autoregressive-moving-average-models.html">
+<link rel="next" href="references.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Applied Time Series Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Foundation</b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i><b>1.1</b> Conventions</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#bibliographic-note"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i><b>1.4</b> License</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-wold-decomposition"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The Deterministic Component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The Random Component (Noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#eda"><i class="fa fa-check"></i><b>2.2</b> Exploratory Data Analysis for Time Series</a></li>
+<li class="chapter" data-level="2.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#dependence-in-time-series"><i class="fa fa-check"></i><b>2.3</b> Dependence in Time Series</a></li>
+<li class="chapter" data-level="2.4" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#basicmodels"><i class="fa fa-check"></i><b>2.4</b> Basic Time Series Models</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#wn"><i class="fa fa-check"></i><b>2.4.1</b> White Noise</a></li>
+<li class="chapter" data-level="2.4.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#rw"><i class="fa fa-check"></i><b>2.4.2</b> Random Walk</a></li>
+<li class="chapter" data-level="2.4.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ar1"><i class="fa fa-check"></i><b>2.4.3</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.4.4" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ma1"><i class="fa fa-check"></i><b>2.4.4</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.4.5" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#drift"><i class="fa fa-check"></i><b>2.4.5</b> Linear Drift</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#lts"><i class="fa fa-check"></i><b>2.5</b> Composite Stochastic Processes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="fundtimeseries.html"><a href="fundtimeseries.html"><i class="fa fa-check"></i><b>3</b> Fundamental Properties of Time Series</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#the-autocorrelation-and-autocovariance-functions"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#a-fundamental-representation"><i class="fa fa-check"></i><b>3.1.1</b> A Fundamental Representation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#admissible-autocorrelation-functions"><i class="fa fa-check"></i><b>3.1.2</b> Admissible Autocorrelation Functions 😱</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#stationary"><i class="fa fa-check"></i><b>3.2</b> Stationarity</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#assessing-weak-stationarity-of-time-series-models"><i class="fa fa-check"></i><b>3.2.1</b> Assessing Weak Stationarity of Time Series Models</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="fundtimeseries.html"><a href="fundtimeseries.html#estimation-of-moments-stationary-processes"><i class="fa fa-check"></i><b>3.3</b> Estimation of Moments (Stationary Processes)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#estimation-of-the-mean-function"><i class="fa fa-check"></i><b>3.3.1</b> Estimation of the Mean Function</a></li>
+<li class="chapter" data-level="3.3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#sample-autocovariance-and-autocorrelation-functions"><i class="fa fa-check"></i><b>3.3.2</b> Sample Autocovariance and Autocorrelation Functions</a></li>
+<li class="chapter" data-level="3.3.3" data-path="fundtimeseries.html"><a href="fundtimeseries.html#robustness-issues"><i class="fa fa-check"></i><b>3.3.3</b> Robustness Issues</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html"><i class="fa fa-check"></i><b>4</b> The Family of Autoregressive Moving Average Models</a><ul>
+<li class="chapter" data-level="4.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#linear-processes"><i class="fa fa-check"></i><b>4.1</b> Linear Processes</a></li>
+<li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#ardefinition"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models - AR(p)</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#properties-of-arp-models"><i class="fa fa-check"></i><b>4.2.1</b> Properties of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.2.2</b> Estimation of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#forecasting-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Forecasting AR(p) Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#diagnostic-tools-for-time-series"><i class="fa fa-check"></i><b>4.3</b> Diagnostic Tools for Time Series</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#the-partial-autocorrelation-function-pacf"><i class="fa fa-check"></i><b>4.3.1</b> The Partial AutoCorrelation Function (PACF)</a></li>
+<li class="chapter" data-level="4.3.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#portmanteau-tests"><i class="fa fa-check"></i><b>4.3.2</b> Portmanteau Tests</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) Models</a></li>
+<li class="chapter" data-level="4.5" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-1"><i class="fa fa-check"></i><b>4.5</b> Model 1</a></li>
+<li class="chapter" data-level="4.6" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-2"><i class="fa fa-check"></i><b>4.6</b> Model 2</a></li>
+<li class="chapter" data-level="4.7" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-selection"><i class="fa fa-check"></i><b>4.7</b> Model Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="sdzlj.html"><a href="sdzlj.html"><i class="fa fa-check"></i><b>5</b> sdzlj</a><ul>
+<li class="chapter" data-level="5.1" data-path="sdzlj.html"><a href="sdzlj.html#moving-average-models"><i class="fa fa-check"></i><b>5.1</b> Moving Average Models ⚠️</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="proofs.html"><a href="proofs.html"><i class="fa fa-check"></i><b>A</b> Proofs 😱</a><ul>
+<li class="chapter" data-level="A.1" data-path="proofs.html"><a href="proofs.html#appendixa"><i class="fa fa-check"></i><b>A.1</b> Proof of Theorem 3.1</a></li>
+<li class="chapter" data-level="A.2" data-path="proofs.html"><a href="proofs.html#appendixc"><i class="fa fa-check"></i><b>A.2</b> Proof of Theorem 4.1</a></li>
+<li class="chapter" data-level="A.3" data-path="proofs.html"><a href="proofs.html#appendixoptim"><i class="fa fa-check"></i><b>A.3</b> Proof of Theorem 4.2</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendixb.html"><a href="appendixb.html"><i class="fa fa-check"></i><b>B</b> Robust Regression Methods</a><ul>
+<li class="chapter" data-level="B.1" data-path="appendixb.html"><a href="appendixb.html#the-classical-least-squares-estimator"><i class="fa fa-check"></i><b>B.1</b> The Classical Least-Squares Estimator</a></li>
+<li class="chapter" data-level="B.2" data-path="appendixb.html"><a href="appendixb.html#robust-estimators-for-linear-regression-models"><i class="fa fa-check"></i><b>B.2</b> Robust Estimators for Linear Regression Models</a></li>
+<li class="chapter" data-level="B.3" data-path="appendixb.html"><a href="appendixb.html#applications-of-robust-estimation"><i class="fa fa-check"></i><b>B.3</b> Applications of Robust Estimation</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="proofs.html"><a href="proofs.html#appendixc"><i class="fa fa-check"></i><b>C</b> Proofs</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/SMAC-Group/ts" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Time Series Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sdzlj" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> sdzlj</h1>
+<div id="moving-average-models" class="section level2">
+<h2><span class="header-section-number">5.1</span> Moving Average Models ⚠️</h2>
+<p>Moving average models are a popular alternative to the autoregressive representation. In addition, these models can be interpreted in a similar way to AR(<span class="math inline">\(p\)</span>) models, except that in this case the time series is the result of a linear operation on the innovation process rather than on the time series itself. These processes are defined as follows.</p>
+
+<div class="definition">
+<p><span id="def:maq" class="definition"><strong>Definition 5.1  (Moving Average of Order Q)  </strong></span>A Moving Average of Order <span class="math inline">\(q\)</span> or MA(<span class="math inline">\(q\)</span>) model is defined as follows:</p>
+<span class="math display">\[{X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t.\]</span>
+</div>
+
+<p><br></p>
+<p>Using a notation similar to the autogressive operator defined in Section <a href="the-family-of-autoregressive-moving-average-models.html#ardefinition">4.2</a>, we may write an MA(<span class="math inline">\(q\)</span>) process as</p>
+<p><span class="math display">\[X_t = {\theta}(B) W_t,\]</span>
+using the following definition.</p>
+
+<div class="definition">
+<span id="def:maqo" class="definition"><strong>Definition 5.2  (Moving Average Operator)  </strong></span>The moving average operator is defined as
+<span class="math display">\[\theta(B) \equiv 1 + \theta_1 B + ... + \theta_q B^q.\]</span>
+</div>
+
+<p><br></p>
+<p>These processes are always stationary, no matter the values that the parameters may takes. The reason for this property is due to the fact that MA processes are linear process (see Definition <a href="#def:lp"><strong>??</strong></a>) which are, under very mild conditions, weakly stationary processes. The following example</p>
+<p>However, the MA(q) processes may not be identifiable through their
+autocovariance functions. By the latter we mean that different parameteres for a
+same order MA(q) model can deliver the exact same autocovariance function and it
+would therefore be impossible to retrieve the parameters of the model by only
+looking at the autocovariance function.</p>
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-1" class="example"><strong>Example 5.1  (Writing a Moving Average in Operator Form)  </strong></span>Consider the following MA(q) process:</p>
+<p><span class="math display">\[{X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t\]</span></p>
+<p>With a little bit of work this can be condensed to:</p>
+<p><span class="math display">\[{X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}\]</span></p>
+<p>The operator form then follows from:</p>
+<span class="math display">\[{X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{B^i}{W_t}}  \Leftrightarrow {X_t} 
+= \left( {1 + \sum\limits_{i = 1}^q {{\theta _i}{B^i}} } \right){W_t} \Leftrightarrow {X_t} 
+= \theta \left( B \right){W_t}\]</span>
+</div>
+
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-2" class="example"><strong>Example 5.2  (Stationarity of an MA(Q) Process)  </strong></span>The stationarity of an MA(q) process is able to be shown assuming that <span class="math inline">\(\sum\limits_{j = 1}^q {\theta _j^2} &lt; \infty\)</span>.</p>
+<p>First, the expectation is able to be derived to be <span class="math inline">\(E\left[ {{X_t}} \right] = 0\)</span>.</p>
+<p>Prior to proceeding to the computation for autocovariance, note that if <span class="math inline">\(\theta_0 = 1\)</span>, then</p>
+<p><span class="math display">\[{X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}\]</span></p>
+<p>may be written succiently as <span class="math inline">\(X_t = \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}}\)</span>.</p>
+<p>Therefore, the autocovariance is obtainable by:</p>
+<span class="math display">\[\begin{align}
+\cov \left( {{X_{t + h}},{X_t}} \right) &amp;= \cov \left( {\sum\limits_{j = 0}^q {{\theta _j}{W_{t + h - j}}} ,\sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} } \right) \\
+&amp;= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\cov \left( {{W_{t + h - j}},{W_{t - j}}} \right)} }  \\
+&amp;= \underbrace {\sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\underbrace {\cov \left( {{W_{t + h - j}},{W_{t - j}}} \right)}_{ = 0}} } }_{j \ne i - h} + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}\cov \left( {{W_t},{W_t}} \right)} \\
+&amp;= {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}
+\end{align}\]</span>
+<p>As a result, we have:</p>
+<p><span class="math display">\[{1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}  \leqslant {\sigma ^2}\sum\limits_{j = 0}^q {\theta _j^2}  &lt; \infty \]</span></p>
+Hence, the process is stationary.
+</div>
+
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-3" class="example"><strong>Example 5.3  (Non-uniqueness of MA models)  </strong></span>One particular issue of MA models is the fact that they are not unique.
+In essence, one is not able to correctly tell if the process is of one model
+or another. Consider the following two models:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{M}_1:&amp;{}&amp; X_t &amp;= W_{t-1} + \frac{1}{\theta}W_t,&amp;{}&amp; W_t\sim \mathcal{N} (0, \sigma^2\theta^2) \\
+\mathcal{M}_2:&amp;{}&amp; Y_t &amp;= V_{t-1} + \theta V_t,&amp;{}&amp; V_t\sim \mathcal{N} (0,\sigma^2)
+\end{aligned}
+\]</span></p>
+<p>By observation, one can note that the models share the same expectation:</p>
+<p><span class="math display">\[E\left[ {{X_t}} \right] = E\left[ {{Y_t}} \right] = 0\]</span></p>
+<p>However, for the autocovariance, the process requires a bit more effort.</p>
+<span class="math display">\[\begin{align}
+\cov \left( {{X_t},{X_{t + h}}} \right) &amp;= \cov \left( {{W_t} + \frac{1}{\theta }{W_{t - 1}},{W_{t + h}} + \frac{1}{\theta }{W_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta } = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\
+\cov \left( {{Y_t},{Y_{t + h}}} \right) &amp;= \cov \left( {{V_t} + \theta {V_{t - 1}},{V_{t + h}} + \theta {V_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta  = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right)
+\end{align}\]</span>
+Therefore, <span class="math inline">\(\cov \left( {{X_t},{X_{t + h}}} \right) = \cov \left( {{Y_t},{Y_{t + h}}} \right)\)</span>! Moreover, since <span class="math inline">\(W_t\)</span> and <span class="math inline">\(V_t\)</span> are Gaussian
+the models are viewed as being similar and, thus, cannot be distinguished.
+</div>
+
+<p>The implication of the last example is rather profound. In particular, consider</p>
+<p><span class="math display">\[\vec X = \left[ {\begin{array}{*{20}{c}}
+  {{X_1}} \\ 
+   \vdots  \\ 
+  {{X_N}} 
+\end{array}} \right],\vec Y = \left[ {\begin{array}{*{20}{c}}
+  {{Y_1}} \\ 
+   \vdots  \\ 
+  {{Y_N}} 
+\end{array}} \right]\]</span></p>
+<p>Thus, the covariance matrix is given by:</p>
+<p><span class="math display">\[\cov \left( {\vec X} \right) = {\sigma ^2}\left[ {\begin{array}{*{20}{c}}
+  {\left( {1 + {\theta ^2}} \right)}&amp;\theta &amp;0&amp; \cdots &amp;0 \\ 
+  \theta &amp;{\left( {1 + {\theta ^2}} \right)}&amp;\theta &amp;{}&amp; \vdots  \\ 
+  0&amp;\theta &amp;{\left( {1 + {\theta ^2}} \right)}&amp;{}&amp;{} \\ 
+   \vdots &amp;{}&amp;{}&amp; \ddots &amp;{} \\ 
+  0&amp; \cdots &amp;{}&amp;{}&amp;{\left( {1 + {\theta ^2}} \right)} 
+\end{array}} \right] = \cov \left( {\vec Y} \right) = \Omega \]</span></p>
+<p>Now, consider the <span class="math inline">\(\vec \beta\)</span> to be the parameter vector for estimates and
+the approach to estimate is via the MLE:</p>
+<p><span class="math display">\[L\left( {\vec \beta |\vec X} \right) = {\left( {2\pi } \right)^{ - \frac{N}{2}}}{\left| \Omega  \right|^{ - \frac{1}{2}}}\exp \left( { - \frac{1}{2}{{\vec X}^T}{\Omega ^{ - 1}}\vec X} \right)\]</span></p>
+<p>If for both models the following parameters <span class="math inline">\({{\vec \beta }_1} = \left[ {\begin{array}{*{20}{c}}  \theta \\  {{\sigma ^2}} \end{array}} \right],{{\vec \beta }_2} = \left[ {\begin{array}{*{20}{c}}  {\frac{1}{\theta }} \\  {{\sigma ^2}\theta } \end{array}} \right]\)</span> are set, then</p>
+<p><span class="math display">\[L\left( {{{\vec \beta }_1}|\vec X} \right) = L\left( {{{\vec \beta }_2}|\vec X} \right)\]</span></p>
+<p>There is a huge problem being able to identify what the values of the parameters
+are. To ensure that this problem does not arise in practice, there is
+the requirement for invertibility, or being able to transform an MA(q) into
+an AR(<span class="math inline">\(\infty\)</span>).</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="the-family-of-autoregressive-moving-average-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/SMAC-Group/ts/edit/master/04-inter.Rmd",
+"text": "Edit"
+},
+"download": ["ts.pdf", "ts.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

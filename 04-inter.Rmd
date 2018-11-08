@@ -1,0 +1,143 @@
+# sdzlj
+
+## Moving Average Models `r emo::ji("warning")`
+
+Moving average models are a popular alternative to the autoregressive representation. In addition, these models can be interpreted in a similar way to AR($p$) models, except that in this case the time series is the result of a linear operation on the innovation process rather than on the time series itself. These processes are defined as follows.
+
+```{definition, label="maq", name="Moving Average of Order Q"}
+A Moving Average of Order $q$ or MA($q$) model is defined as follows:
+
+$${X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t.$$
+```
+<br>
+
+Using a notation similar to the autogressive operator defined in Section \@ref(ardefinition), we may write an MA($q$) process as
+
+$$X_t = {\theta}(B) W_t,$$
+using the following definition.
+
+```{definition, label="maqo", name="Moving Average Operator"}
+The moving average operator is defined as
+$$\theta(B) \equiv 1 + \theta_1 B + ... + \theta_q B^q.$$
+```
+<br>
+
+These processes are always stationary, no matter the values that the parameters may takes. The reason for this property is due to the fact that MA processes are linear process (see Definition \@ref(def:lp)) which are, under very mild conditions, weakly stationary processes. The following example 
+
+However, the MA(q) processes may not be identifiable through their 
+autocovariance functions. By the latter we mean that different parameteres for a
+same order MA(q) model can deliver the exact same autocovariance function and it
+would therefore be impossible to retrieve the parameters of the model by only 
+looking at the autocovariance function.
+
+```{example, name="Writing a Moving Average in Operator Form"}
+Consider the following MA(q) process:
+
+$${X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t$$
+
+With a little bit of work this can be condensed to:
+
+$${X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}$$
+
+The operator form then follows from:
+
+\[{X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{B^i}{W_t}}  \Leftrightarrow {X_t} 
+= \left( {1 + \sum\limits_{i = 1}^q {{\theta _i}{B^i}} } \right){W_t} \Leftrightarrow {X_t} 
+= \theta \left( B \right){W_t}\]
+```
+
+```{example, name="Stationarity of an MA(Q) Process"}
+The stationarity of an MA(q) process is able to be shown assuming that $\sum\limits_{j = 1}^q {\theta _j^2}  < \infty$.
+
+First, the expectation is able to be derived to be $E\left[ {{X_t}} \right] = 0$.
+
+Prior to proceeding to the computation for autocovariance, note that if $\theta_0 = 1$, then 
+
+$${X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}$$
+
+may be written succiently as $X_t = \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}}$.
+
+Therefore, the autocovariance is obtainable by:
+
+\begin{align}
+\cov \left( {{X_{t + h}},{X_t}} \right) &= \cov \left( {\sum\limits_{j = 0}^q {{\theta _j}{W_{t + h - j}}} ,\sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} } \right) \\
+&= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\cov \left( {{W_{t + h - j}},{W_{t - j}}} \right)} }  \\
+&= \underbrace {\sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\underbrace {\cov \left( {{W_{t + h - j}},{W_{t - j}}} \right)}_{ = 0}} } }_{j \ne i - h} + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}\cov \left( {{W_t},{W_t}} \right)} \\
+&= {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}
+\end{align}
+
+As a result, we have:
+
+\[{1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}  \leqslant {\sigma ^2}\sum\limits_{j = 0}^q {\theta _j^2}  < \infty \]
+
+Hence, the process is stationary.
+```
+
+```{example, name="Non-uniqueness of MA models"}
+One particular issue of MA models is the fact that they are not unique. 
+In essence, one is not able to correctly tell if the process is of one model
+or another. Consider the following two models:
+
+$$
+\begin{aligned}
+\mathcal{M}_1:&{}& X_t &= W_{t-1} + \frac{1}{\theta}W_t,&{}& W_t\sim \mathcal{N} (0, \sigma^2\theta^2) \\
+\mathcal{M}_2:&{}& Y_t &= V_{t-1} + \theta V_t,&{}& V_t\sim \mathcal{N} (0,\sigma^2)
+\end{aligned}
+$$
+
+By observation, one can note that the models share the same expectation:
+
+\[E\left[ {{X_t}} \right] = E\left[ {{Y_t}} \right] = 0\]
+
+However, for the autocovariance, the process requires a bit more effort.
+
+\begin{align}
+\cov \left( {{X_t},{X_{t + h}}} \right) &= \cov \left( {{W_t} + \frac{1}{\theta }{W_{t - 1}},{W_{t + h}} + \frac{1}{\theta }{W_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta } = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\
+\cov \left( {{Y_t},{Y_{t + h}}} \right) &= \cov \left( {{V_t} + \theta {V_{t - 1}},{V_{t + h}} + \theta {V_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta  = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right)
+\end{align}
+
+Therefore, $\cov \left( {{X_t},{X_{t + h}}} \right) = \cov \left( {{Y_t},{Y_{t + h}}} \right)$! Moreover, since $W_t$ and $V_t$ are Gaussian
+the models are viewed as being similar and, thus, cannot be distinguished.
+```
+
+The implication of the last example is rather profound. In particular, consider
+
+\[\vec X = \left[ {\begin{array}{*{20}{c}}
+  {{X_1}} \\ 
+   \vdots  \\ 
+  {{X_N}} 
+\end{array}} \right],\vec Y = \left[ {\begin{array}{*{20}{c}}
+  {{Y_1}} \\ 
+   \vdots  \\ 
+  {{Y_N}} 
+\end{array}} \right]\]
+
+Thus, the covariance matrix is given by:
+
+\[\cov \left( {\vec X} \right) = {\sigma ^2}\left[ {\begin{array}{*{20}{c}}
+  {\left( {1 + {\theta ^2}} \right)}&\theta &0& \cdots &0 \\ 
+  \theta &{\left( {1 + {\theta ^2}} \right)}&\theta &{}& \vdots  \\ 
+  0&\theta &{\left( {1 + {\theta ^2}} \right)}&{}&{} \\ 
+   \vdots &{}&{}& \ddots &{} \\ 
+  0& \cdots &{}&{}&{\left( {1 + {\theta ^2}} \right)} 
+\end{array}} \right] = \cov \left( {\vec Y} \right) = \Omega \]
+
+Now, consider the $\vec \beta$ to be the parameter vector for estimates and
+the approach to estimate is via the MLE:
+
+\[L\left( {\vec \beta |\vec X} \right) = {\left( {2\pi } \right)^{ - \frac{N}{2}}}{\left| \Omega  \right|^{ - \frac{1}{2}}}\exp \left( { - \frac{1}{2}{{\vec X}^T}{\Omega ^{ - 1}}\vec X} \right)\]
+
+If for both models the following parameters ${{\vec \beta }_1} = \left[ {\begin{array}{*{20}{c}}
+  \theta  \\ 
+  {{\sigma ^2}} 
+\end{array}} \right],{{\vec \beta }_2} = \left[ {\begin{array}{*{20}{c}}
+  {\frac{1}{\theta }} \\ 
+  {{\sigma ^2}\theta } 
+\end{array}} \right]$ are set, then
+
+\[L\left( {{{\vec \beta }_1}|\vec X} \right) = L\left( {{{\vec \beta }_2}|\vec X} \right)\]
+
+There is a huge problem being able to identify what the values of the parameters
+are. To ensure that this problem does not arise in practice, there is 
+the requirement for invertibility, or being able to transform an MA(q) into
+an AR($\infty$).
