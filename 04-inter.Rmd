@@ -22,7 +22,7 @@ $$\theta(B) \equiv 1 + \theta_1 B + ... + \theta_q B^q.$$
 ```
 <br>
 
-These processes are always stationary, no matter the values that the parameters may takes. The reason for this property is due to the fact that MA processes are linear process (see Definition \@ref(def:lp)) which are, under very mild conditions, weakly stationary processes. The following example 
+These processes are always stationary, no matter the values that the parameters may takes. The reason for this property is due to the fact that MA processes are linear process (see Definition \@ref(def:lp)) which are, under very mild conditions, weakly stationary processes. The following examples illustrates this property of MA processes.
 
 However, the MA(q) processes may not be identifiable through their 
 autocovariance functions. By the latter we mean that different parameteres for a
@@ -30,21 +30,7 @@ same order MA(q) model can deliver the exact same autocovariance function and it
 would therefore be impossible to retrieve the parameters of the model by only 
 looking at the autocovariance function.
 
-```{example, name="Writing a Moving Average in Operator Form"}
-Consider the following MA(q) process:
 
-$${X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t$$
-
-With a little bit of work this can be condensed to:
-
-$${X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}$$
-
-The operator form then follows from:
-
-\[{X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{B^i}{W_t}}  \Leftrightarrow {X_t} 
-= \left( {1 + \sum\limits_{i = 1}^q {{\theta _i}{B^i}} } \right){W_t} \Leftrightarrow {X_t} 
-= \theta \left( B \right){W_t}\]
-```
 
 ```{example, name="Stationarity of an MA(Q) Process"}
 The stationarity of an MA(q) process is able to be shown assuming that $\sum\limits_{j = 1}^q {\theta _j^2}  < \infty$.
