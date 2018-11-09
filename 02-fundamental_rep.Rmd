@@ -1057,7 +1057,7 @@ for(i in 1:B) {
   
   # Store Classic and Robust ACF values
   cl_acf[i, ] = as.numeric(auto_corr(Yt))[1:15]
-  rob_acf[i, ] = as.numeric(auto_corr(Xt, robust = TRUE))[1:15]
+  rob_acf[i, ] = as.numeric(auto_corr(Yt, robust = TRUE))[1:15]
   
 }
 
