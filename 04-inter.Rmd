@@ -1,15 +1,18 @@
-# sdzlj
+# Under development
 
 ## Moving Average Models `r emo::ji("warning")`
 
-Moving average models are a popular alternative to the autoregressive representation. In addition, these models can be interpreted in a similar way to AR($p$) models, except that in this case the time series is the result of a linear operation on the innovation process rather than on the time series itself. These processes are defined as follows.
+The class of AR($p$) models is a very general class that allows to take into account different forms of linear dependence between past and future observations. However, there are some forms of linear dependence that can appear as "shocks" in the innovation noise of a time series. In this sense, we have already seen a model that describes a certain form of this dependence which is the MA(1) defined as
+
+$$X_t = \theta W_{t-1} + W_t$$
+where $(W_t)$ is a white noise process. As can be seen, the observed time series $(X_t)$ is a linear combination of the innovation process. In this section we generalise this process to the class of MA($q$) processes that are defined as follows.
 
 ```{definition, label="maq", name="Moving Average of Order Q"}
 A Moving Average of Order $q$ or MA($q$) model is defined as follows:
 
 $${X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t.$$
 ```
-<br>
+
 
 Using a notation similar to the autogressive operator defined in Section \@ref(ardefinition), we may write an MA($q$) process as
 
