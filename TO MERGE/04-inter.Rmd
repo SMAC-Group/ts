@@ -10,35 +10,34 @@ where $(W_t)$ is a white noise process. As can be seen, the observed time series
 ```{definition, label="maq", name="Moving Average of Order Q"}
 A Moving Average of Order $q$ or MA($q$) model is defined as follows:
 
-$${X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t.$$
+$${X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t,$$
+  
+where $\theta_q \neq 0$.
 ```
 
+If we make use of the backshift operator defined earlier in this chapter, we can rewrite this model as:
 
-Using a notation similar to the autogressive operator defined in Section \@ref(ardefinition), we may write an MA($q$) process as
+\[\begin{aligned}
+  X_t &= \theta_1 B W_t + ... + \theta_q  B^q W_t + W_t \\ 
+  &= (\theta_1  B + ... + \theta_q  B^q) W_t .\\
+\end{aligned} \]
 
-$$X_t = {\theta}(B) W_t,$$
-using the following definition.
+Based on this we can deliver the following definition.
 
 ```{definition, label="maqo", name="Moving Average Operator"}
 The moving average operator is defined as
 $$\theta(B) \equiv 1 + \theta_1 B + ... + \theta_q B^q.$$
 ```
-<br>
 
-These processes are always stationary, no matter the values that the parameters may takes. The reason for this property is due to the fact that MA processes are linear process (see Definition \@ref(def:lp)) which are, under very mild conditions, weakly stationary processes. The following examples illustrates this property of MA processes.
+This allows us to write an MA($q$) process as
 
-However, the MA(q) processes may not be identifiable through their 
-autocovariance functions. By the latter we mean that different parameteres for a
-same order MA(q) model can deliver the exact same autocovariance function and it
-would therefore be impossible to retrieve the parameters of the model by only 
-looking at the autocovariance function.
-
-
+$$X_t = \theta (B) W_t .$$
+Following this definition, it is possible to see that an MA($q$) process is always stationary. Indeed, an MA($q$) respects the defintion of a linear process (see Definition \@ref(def:lp)) where $\psi_0 = 1$, $\psi_j = \theta_j$ for $j = 1, ..., q$, and $\psi_j = 0$ for $j > q$. 
 
 ```{example, name="Stationarity of an MA(Q) Process"}
-The stationarity of an MA(q) process is able to be shown assuming that $\sum\limits_{j = 1}^q {\theta _j^2}  < \infty$.
+The stationarity of an MA(q) process can be shown assuming that $\sum\limits_{j = 1}^q {\theta _j^2}  < \infty$.
 
-First, the expectation is able to be derived to be $E\left[ {{X_t}} \right] = 0$.
+Firstly, the expectation is given by $E\left[ {{X_t}} \right] = 0$.
 
 Prior to proceeding to the computation for autocovariance, note that if $\theta_0 = 1$, then 
 
@@ -61,6 +60,19 @@ As a result, we have:
 
 Hence, the process is stationary.
 ```
+
+As a consequence, MA($q$) processes are weakly stationary processes.
+
+Although an MA($q$) process is always weakly stationary, it is important to well define these models since they can be characterized by 
+However, the MA(q) processes may not be identifiable through their 
+autocovariance functions. By the latter we mean that different parameteres for a
+same order MA(q) model can deliver the exact same autocovariance function and it
+would therefore be impossible to retrieve the parameters of the model by only 
+looking at the autocovariance function.
+
+
+
+
 
 ```{example, name="Non-uniqueness of MA models"}
 One particular issue of MA models is the fact that they are not unique. 
