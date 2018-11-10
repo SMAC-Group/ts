@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path=""><a href="#under-development"><i class="fa fa-check"></i><b>1</b> Under development</a><ul>
+<li class="chapter" data-level="1.1" data-path=""><a href="#moving-average-models"><i class="fa fa-check"></i><b>1.1</b> Moving Average Models ⚠️</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!--bookdown:title:end-->
+<!--bookdown:title:start-->
+<div id="under-development" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Under development</h1>
+<div id="moving-average-models" class="section level2">
+<h2><span class="header-section-number">1.1</span> Moving Average Models ⚠️</h2>
+<p>The class of AR(<span class="math inline">\(p\)</span>) models is a very general class that allows to take into account different forms of linear dependence between past and future observations. However, there are some forms of linear dependence that can appear as “shocks” in the innovation noise of a time series. In this sense, we have already seen a model that describes a certain form of this dependence which is the MA(1) defined as</p>
+<p><span class="math display">\[X_t = \theta W_{t-1} + W_t\]</span> where <span class="math inline">\((W_t)\)</span> is a white noise process. As can be seen, the observed time series <span class="math inline">\((X_t)\)</span> is a linear combination of the innovation process. In this section we generalise this process to the class of MA(<span class="math inline">\(q\)</span>) processes that are defined as follows.</p>
+
+<div class="definition">
+<p><span id="def:maq" class="definition"><strong>Definition 1.1  (Moving Average of Order Q)  </strong></span>A Moving Average of Order <span class="math inline">\(q\)</span> or MA(<span class="math inline">\(q\)</span>) model is defined as follows:</p>
+<p><span class="math display">\[{X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t,\]</span></p>
+where <span class="math inline">\(\theta_q \neq 0\)</span>.
+</div>
+
+<p>If we make use of the backshift operator defined earlier in this chapter, we can rewrite this model as:</p>
+<p><span class="math display">\[\begin{aligned}
+  X_t &amp;= \theta_1 B W_t + ... + \theta_q  B^q W_t + W_t \\ 
+  &amp;= (\theta_1  B + ... + \theta_q  B^q + 1) W_t .\\
+\end{aligned} \]</span></p>
+<p>Based on this we can deliver the following definition.</p>
+
+<div class="definition">
+<span id="def:maqo" class="definition"><strong>Definition 1.2  (Moving Average Operator)  </strong></span>The moving average operator is defined as <span class="math display">\[\theta(B) \equiv 1 + \theta_1 B + ... + \theta_q B^q.\]</span>
+</div>
+
+<p>This allows us to write an MA(<span class="math inline">\(q\)</span>) process as</p>
+<p><span class="math display">\[X_t = \theta (B) W_t .\]</span> Following this definition, it is possible to see that an MA(<span class="math inline">\(q\)</span>) process is always stationary. Indeed, an MA(<span class="math inline">\(q\)</span>) respects the defintion of a linear process (see Definition <a href="#def:lp"><strong>??</strong></a>) where <span class="math inline">\(\psi_0 = 1\)</span>, <span class="math inline">\(\psi_j = \theta_j\)</span> for <span class="math inline">\(j = 1, ..., q\)</span>, and <span class="math inline">\(\psi_j = 0\)</span> for <span class="math inline">\(j &gt; q\)</span> and, based on this, we can show its stationarity.</p>
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-1" class="example"><strong>Example 1.1  (Stationarity of an MA(q) Process)  </strong></span>Based on the above definitions, we can rewrite an MA(q) process as <span class="math inline">\(X_t = \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}}\)</span>, where <span class="math inline">\(\theta_0 = 1\)</span> and assume the condition that <span class="math inline">\(\sum\limits_{j = 0}^q {\theta _j^2} &lt; \infty\)</span> (if <span class="math inline">\(\theta_j &lt; \infty\)</span> for all <span class="math inline">\(j\)</span> and <span class="math inline">\(q &lt; \infty\)</span>, this condition is verified). Using this expression we start verifying (weak) stationarity by checking the expectation of an MA(q) process which is given by</p>
+<p><span class="math display">\[E\left[ X_t \right] = E\left[ \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} \right] = \sum\limits_{i = 0}^q {{\theta _i}}  E\left[ {W_{t - i}} \right] = 0,\]</span></p>
+<p>which confirms that the expectation is constant. We now have to verify the conditions on the autocovariance function which is derived as follows:</p>
+<span class="math display">\[\begin{align}
+Cov \left( {{X_{t + h}},{X_t}} \right) &amp;= Cov \left( {\sum\limits_{j = 0}^q {{\theta _j}{W_{t + h - j}}} ,\sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} } \right) \\
+&amp;= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}Cov \left( {{W_{t + h - j}},{W_{t - i}}} \right)} }  \\
+&amp;= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\underbrace {Cov \left( {{W_{t + h - j}},{W_{t - i}}} \right)}_{ = 0 \, \text{for} \, i = j - h}} }  + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}Cov \left( {{W_t},{W_t}} \right)} \\
+&amp;= {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}
+\end{align}\]</span>
+<p>As a result, we have:</p>
+<p><span class="math display">\[{1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}  \leqslant {\sigma ^2}\sum\limits_{j = 0}^q {\theta _j^2}  &lt; \infty \]</span></p>
+Hence, the process is stationary.
+</div>
+
+<p>As a consequence, MA(<span class="math inline">\(q\)</span>) processes are weakly stationary processes.</p>
+<p>Although an MA(<span class="math inline">\(q\)</span>) process is always weakly stationary, it is important to well define these models since they can be characterized by However, the MA(q) processes may not be identifiable through their autocovariance functions. By the latter we mean that different parameteres for a same order MA(q) model can deliver the exact same autocovariance function and it would therefore be impossible to retrieve the parameters of the model by only looking at the autocovariance function.</p>
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-2" class="example"><strong>Example 1.2  (Non-uniqueness of MA models)  </strong></span>One particular issue of MA models is the fact that they are not unique. In essence, one is not able to correctly tell if the process is of one model or another. Consider the following two models:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{M}_1:&amp;{}&amp; X_t &amp;= W_{t-1} + \frac{1}{\theta}W_t,&amp;{}&amp; W_t\sim \mathcal{N} (0, \sigma^2\theta^2) \\
+\mathcal{M}_2:&amp;{}&amp; Y_t &amp;= V_{t-1} + \theta V_t,&amp;{}&amp; V_t\sim \mathcal{N} (0,\sigma^2)
+\end{aligned}
+\]</span></p>
+<p>By observation, one can note that the models share the same expectation:</p>
+<p><span class="math display">\[E\left[ {{X_t}} \right] = E\left[ {{Y_t}} \right] = 0\]</span></p>
+<p>However, for the autocovariance, the process requires a bit more effort.</p>
+<span class="math display">\[\begin{align}
+\cov \left( {{X_t},{X_{t + h}}} \right) &amp;= \cov \left( {{W_t} + \frac{1}{\theta }{W_{t - 1}},{W_{t + h}} + \frac{1}{\theta }{W_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta } = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\
+\cov \left( {{Y_t},{Y_{t + h}}} \right) &amp;= \cov \left( {{V_t} + \theta {V_{t - 1}},{V_{t + h}} + \theta {V_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta  = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right)
+\end{align}\]</span>
+Therefore, <span class="math inline">\(\cov \left( {{X_t},{X_{t + h}}} \right) = \cov \left( {{Y_t},{Y_{t + h}}} \right)\)</span>! Moreover, since <span class="math inline">\(W_t\)</span> and <span class="math inline">\(V_t\)</span> are Gaussian the models are viewed as being similar and, thus, cannot be distinguished.
+</div>
+
+<p>The implication of the last example is rather profound. In particular, consider</p>
+<p><span class="math display">\[\vec X = \left[ {\begin{array}{*{20}{c}}
+  {{X_1}} \\ 
+   \vdots  \\ 
+  {{X_N}} 
+\end{array}} \right],\vec Y = \left[ {\begin{array}{*{20}{c}}
+  {{Y_1}} \\ 
+   \vdots  \\ 
+  {{Y_N}} 
+\end{array}} \right]\]</span></p>
+<p>Thus, the covariance matrix is given by:</p>
+<p><span class="math display">\[\cov \left( {\vec X} \right) = {\sigma ^2}\left[ {\begin{array}{*{20}{c}}
+  {\left( {1 + {\theta ^2}} \right)}&amp;\theta &amp;0&amp; \cdots &amp;0 \\ 
+  \theta &amp;{\left( {1 + {\theta ^2}} \right)}&amp;\theta &amp;{}&amp; \vdots  \\ 
+  0&amp;\theta &amp;{\left( {1 + {\theta ^2}} \right)}&amp;{}&amp;{} \\ 
+   \vdots &amp;{}&amp;{}&amp; \ddots &amp;{} \\ 
+  0&amp; \cdots &amp;{}&amp;{}&amp;{\left( {1 + {\theta ^2}} \right)} 
+\end{array}} \right] = \cov \left( {\vec Y} \right) = \Omega \]</span></p>
+<p>Now, consider the <span class="math inline">\(\vec \beta\)</span> to be the parameter vector for estimates and the approach to estimate is via the MLE:</p>
+<p><span class="math display">\[L\left( {\vec \beta |\vec X} \right) = {\left( {2\pi } \right)^{ - \frac{N}{2}}}{\left| \Omega  \right|^{ - \frac{1}{2}}}\exp \left( { - \frac{1}{2}{{\vec X}^T}{\Omega ^{ - 1}}\vec X} \right)\]</span></p>
+<p>If for both models the following parameters <span class="math inline">\({{\vec \beta }_1} = \left[ {\begin{array}{*{20}{c}}  \theta \\  {{\sigma ^2}} \end{array}} \right],{{\vec \beta }_2} = \left[ {\begin{array}{*{20}{c}}  {\frac{1}{\theta }} \\  {{\sigma ^2}\theta } \end{array}} \right]\)</span> are set, then</p>
+<p><span class="math display">\[L\left( {{{\vec \beta }_1}|\vec X} \right) = L\left( {{{\vec \beta }_2}|\vec X} \right)\]</span></p>
+<p>There is a huge problem being able to identify what the values of the parameters are. To ensure that this problem does not arise in practice, there is the requirement for invertibility, or being able to transform an MA(q) into an AR(<span class="math inline">\(\infty\)</span>).</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/%s",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"search": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

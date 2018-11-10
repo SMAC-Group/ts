@@ -19,7 +19,7 @@ If we make use of the backshift operator defined earlier in this chapter, we can
 
 \[\begin{aligned}
   X_t &= \theta_1 B W_t + ... + \theta_q  B^q W_t + W_t \\ 
-  &= (\theta_1  B + ... + \theta_q  B^q) W_t .\\
+  &= (\theta_1  B + ... + \theta_q  B^q + 1) W_t .\\
 \end{aligned} \]
 
 Based on this we can deliver the following definition.
@@ -32,25 +32,19 @@ $$\theta(B) \equiv 1 + \theta_1 B + ... + \theta_q B^q.$$
 This allows us to write an MA($q$) process as
 
 $$X_t = \theta (B) W_t .$$
-Following this definition, it is possible to see that an MA($q$) process is always stationary. Indeed, an MA($q$) respects the defintion of a linear process (see Definition \@ref(def:lp)) where $\psi_0 = 1$, $\psi_j = \theta_j$ for $j = 1, ..., q$, and $\psi_j = 0$ for $j > q$. 
+Following this definition, it is possible to see that an MA($q$) process is always stationary. Indeed, an MA($q$) respects the defintion of a linear process (see Definition \@ref(def:lp)) where $\psi_0 = 1$, $\psi_j = \theta_j$ for $j = 1, ..., q$, and $\psi_j = 0$ for $j > q$ and, based on this, we can show its stationarity.
 
-```{example, name="Stationarity of an MA(Q) Process"}
-The stationarity of an MA(q) process can be shown assuming that $\sum\limits_{j = 1}^q {\theta _j^2}  < \infty$.
+```{example, name="Stationarity of an MA(q) Process"}
+Based on the above definitions, we can rewrite an MA(q) process as $X_t = \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}}$, where $\theta_0 = 1$ and assume the condition that $\sum\limits_{j = 0}^q {\theta _j^2} < \infty$ (if $\theta_j < \infty$ for all $j$ and $q < \infty$, this condition is verified). Using this expression we start verifying (weak) stationarity by checking the expectation of an MA(q) process which is given by
 
-Firstly, the expectation is given by $E\left[ {{X_t}} \right] = 0$.
-
-Prior to proceeding to the computation for autocovariance, note that if $\theta_0 = 1$, then 
-
-$${X_t} = {W_t} + \sum\limits_{i = 1}^q {{\theta _i}{W_{t - i}}}$$
-
-may be written succiently as $X_t = \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}}$.
-
-Therefore, the autocovariance is obtainable by:
+$$E\left[ X_t \right] = E\left[ \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} \right] = \sum\limits_{i = 0}^q {{\theta _i}}  E\left[ {W_{t - i}} \right] = 0,$$
+  
+which confirms that the expectation is constant. We now have to verify the conditions on the autocovariance function which is derived as follows:
 
 \begin{align}
-\cov \left( {{X_{t + h}},{X_t}} \right) &= \cov \left( {\sum\limits_{j = 0}^q {{\theta _j}{W_{t + h - j}}} ,\sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} } \right) \\
-&= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\cov \left( {{W_{t + h - j}},{W_{t - j}}} \right)} }  \\
-&= \underbrace {\sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\underbrace {\cov \left( {{W_{t + h - j}},{W_{t - j}}} \right)}_{ = 0}} } }_{j \ne i - h} + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}\cov \left( {{W_t},{W_t}} \right)} \\
+Cov \left( {{X_{t + h}},{X_t}} \right) &= Cov \left( {\sum\limits_{j = 0}^q {{\theta _j}{W_{t + h - j}}} ,\sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} } \right) \\
+&= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}Cov \left( {{W_{t + h - j}},{W_{t - i}}} \right)} }  \\
+&= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\underbrace {Cov \left( {{W_{t + h - j}},{W_{t - i}}} \right)}_{ = 0 \, \text{for} \, i = j - h}} }  + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}Cov \left( {{W_t},{W_t}} \right)} \\
 &= {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}
 \end{align}
 
@@ -93,11 +87,11 @@ By observation, one can note that the models share the same expectation:
 However, for the autocovariance, the process requires a bit more effort.
 
 \begin{align}
-\cov \left( {{X_t},{X_{t + h}}} \right) &= \cov \left( {{W_t} + \frac{1}{\theta }{W_{t - 1}},{W_{t + h}} + \frac{1}{\theta }{W_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta } = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\
-\cov \left( {{Y_t},{Y_{t + h}}} \right) &= \cov \left( {{V_t} + \theta {V_{t - 1}},{V_{t + h}} + \theta {V_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta  = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right)
+Cov \left( {{X_t},{X_{t + h}}} \right) &= Cov \left( {{W_t} + \frac{1}{\theta }{W_{t - 1}},{W_{t + h}} + \frac{1}{\theta }{W_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta } = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\
+Cov \left( {{Y_t},{Y_{t + h}}} \right) &= Cov \left( {{V_t} + \theta {V_{t - 1}},{V_{t + h}} + \theta {V_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta  = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right)
 \end{align}
 
-Therefore, $\cov \left( {{X_t},{X_{t + h}}} \right) = \cov \left( {{Y_t},{Y_{t + h}}} \right)$! Moreover, since $W_t$ and $V_t$ are Gaussian
+Therefore, $Cov \left( {{X_t},{X_{t + h}}} \right) = Cov \left( {{Y_t},{Y_{t + h}}} \right)$! Moreover, since $W_t$ and $V_t$ are Gaussian
 the models are viewed as being similar and, thus, cannot be distinguished.
 ```
 
@@ -115,13 +109,13 @@ The implication of the last example is rather profound. In particular, consider
 
 Thus, the covariance matrix is given by:
 
-\[\cov \left( {\vec X} \right) = {\sigma ^2}\left[ {\begin{array}{*{20}{c}}
+\[Cov \left( {\vec X} \right) = {\sigma ^2}\left[ {\begin{array}{*{20}{c}}
   {\left( {1 + {\theta ^2}} \right)}&\theta &0& \cdots &0 \\ 
   \theta &{\left( {1 + {\theta ^2}} \right)}&\theta &{}& \vdots  \\ 
   0&\theta &{\left( {1 + {\theta ^2}} \right)}&{}&{} \\ 
    \vdots &{}&{}& \ddots &{} \\ 
   0& \cdots &{}&{}&{\left( {1 + {\theta ^2}} \right)} 
-\end{array}} \right] = \cov \left( {\vec Y} \right) = \Omega \]
+\end{array}} \right] = Cov \left( {\vec Y} \right) = \Omega \]
 
 Now, consider the $\vec \beta$ to be the parameter vector for estimates and
 the approach to estimate is via the MLE:
