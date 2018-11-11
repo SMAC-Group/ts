@@ -182,18 +182,17 @@ Cov \left( {{X_{t + h}},{X_t}} \right) &amp;= Cov \left( {\sum\limits_{j = 0}^q 
 \end{align}\]</span>
 <p>As a result, we have:</p>
 <p><span class="math display">\[{1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}  \leqslant {\sigma ^2}\sum\limits_{j = 0}^q {\theta _j^2}  &lt; \infty \]</span></p>
-Hence, an MA(q) process is weakly stationary since the variance is .
+Given these results, we can see that the variance is given by <span class="math inline">\({\sigma ^2}\sum\limits_{j = 0}^q {\theta _j^2}\)</span> which is finite and does not depend on time and the covariance only depends on the lag <span class="math inline">\(h\)</span> (not on the time <span class="math inline">\(t\)</span>). Therefore, an MA(q) process is weakly stationary.
 </div>
 
-<p>As a consequence, MA(<span class="math inline">\(q\)</span>) processes are weakly stationary processes.</p>
-<p>Although an MA(<span class="math inline">\(q\)</span>) process is always weakly stationary, it is important to well define these models since they can be characterized by However, the MA(q) processes may not be identifiable through their autocovariance functions. By the latter we mean that different parameteres for a same order MA(q) model can deliver the exact same autocovariance function and it would therefore be impossible to retrieve the parameters of the model by only looking at the autocovariance function.</p>
+<p>Although an MA(<span class="math inline">\(q\)</span>) process is always weakly stationary, it is important to well define these models since they can be characterized by certain parametrizations that don’t allow them to be uniquely identify them. Indeed, the latter issues can be referred to as identifiability issues in which different MA(<span class="math inline">\(q\)</span>) models (of the same order <span class="math inline">\(q\)</span>) can produce identical autocovariance functions.</p>
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-2" class="example"><strong>Example 4.2  (Non-uniqueness of MA models)  </strong></span>One particular issue of MA models is the fact that they are not unique. In essence, one is not able to correctly tell if the process is of one model or another. Consider the following two models:</p>
+<p><span id="exm:unnamed-chunk-2" class="example"><strong>Example 4.2  (Non-uniqueness of MA models)  </strong></span>For example, consider the following two MA(1) processes:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \mathcal{M}_1:&amp;{}&amp; X_t &amp;= W_{t-1} + \frac{1}{\theta}W_t,&amp;{}&amp; W_t\sim \mathcal{N} (0, \sigma^2\theta^2) \\
-\mathcal{M}_2:&amp;{}&amp; Y_t &amp;= V_{t-1} + \theta V_t,&amp;{}&amp; V_t\sim \mathcal{N} (0,\sigma^2)
+\mathcal{M}_2:&amp;{}&amp; Y_t &amp;= Z_{t-1} + \theta Z_t,&amp;{}&amp; Z_t\sim \mathcal{N} (0,\sigma^2)
 \end{aligned}
 \]</span></p>
 <p>By observation, one can note that the models share the same expectation:</p>
@@ -201,11 +200,13 @@ Hence, an MA(q) process is weakly stationary since the variance is .
 <p>However, for the autocovariance, the process requires a bit more effort.</p>
 <span class="math display">\[\begin{align}
 Cov \left( {{X_t},{X_{t + h}}} \right) &amp;= Cov \left( {{W_t} + \frac{1}{\theta }{W_{t - 1}},{W_{t + h}} + \frac{1}{\theta }{W_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta } = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\
-Cov \left( {{Y_t},{Y_{t + h}}} \right) &amp;= Cov \left( {{V_t} + \theta {V_{t - 1}},{V_{t + h}} + \theta {V_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta  = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right)
+Cov \left( {{Y_t},{Y_{t + h}}} \right) &amp;= Cov \left( {{Z_t} + \theta {Z_{t - 1}},{Z_{t + h}} + \theta {Z_{t + h - 1}}} \right) = {1_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\sigma ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta  = {\sigma ^2}\left( {{1_{\left\{ {h = 0} \right\}}}{\theta ^2} + 1 + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right)
 \end{align}\]</span>
-Therefore, <span class="math inline">\(Cov \left( {{X_t},{X_{t + h}}} \right) = Cov \left( {{Y_t},{Y_{t + h}}} \right)\)</span>! Moreover, since <span class="math inline">\(W_t\)</span> and <span class="math inline">\(V_t\)</span> are Gaussian the models are viewed as being similar and, thus, cannot be distinguished.
+From this we can see that <span class="math inline">\(Cov \left( {{X_t},{X_{t + h}}} \right) = Cov \left( {{Y_t},{Y_{t + h}}} \right)\)</span>.
 </div>
 
+<p>Therefore, aside from having the same ACF, these two processes also have the same autocovariance function (due to the Gaussian innovations) and therefore are the same process (as highlighted in Chapter 2). In fact, among other orders <span class="math inline">\(q\)</span>, we can determine MA(1) models that have identical ACF simply by defining <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\frac{1}{\theta}\)</span> as the parameters of the two MA(1) models (as for the above example). Due to this issue, there is no objective criterion to determine which of the two models is to be considered for a given time series.</p>
+<p>Given this, the chosen rule is to only consider the MA(<span class="math inline">\(q\)</span>) models that, when rewritten in an AR(<span class="math inline">\(p\)</span>) form, can be defined as been causal AR(<span class="math inline">\(p\)</span>) models.</p>
 <p>The implication of the last example is rather profound. In particular, consider</p>
 <p><span class="math display">\[\vec X = \left[ {\begin{array}{*{20}{c}}
   {{X_1}} \\ 
