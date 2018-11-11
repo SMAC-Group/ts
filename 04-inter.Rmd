@@ -230,11 +230,11 @@ corr_analysis(Xt)
 From these plots, using the PACF we could conclude that this function appears to decay as the lags increase (as the PACF of an MA($q$) model is expected to do) while using the ACF we could state that the correct order for the MA($q$) model is $q = 1$ since the ACF does not appear to be significant after lag 1. Let us now also consider the model selection criteria described in the previous section by applying the `select()` function to the simulated time series.
 
 ```{r, eval = FALSE}
-lynx_select = select(MA(10), Xt, include.mean = FALSE)
+select(MA(10), Xt, include.mean = FALSE)
 ```
 
 ```{r, eval = TRUE, cache = TRUE, echo = FALSE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Values of the three model selection criteria for all candidate models included in an MA(10) model for the previously simulated MA(1)."}
-lynx_select = try(simts::select(MA(10), Xt, include.mean = FALSE)) 
+try(simts::select(MA(10), Xt, include.mean = FALSE)) 
 ```
 
 Also in this case we see that the model selection criteria all tend to agree with each other on the fact that the best model to describe the observed time series is indeed an MA(1) model.
