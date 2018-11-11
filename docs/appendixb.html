@@ -49,69 +49,41 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -137,21 +109,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i><b>1.4</b> License</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
-<li class="chapter" data-level="2.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-wold-decomposition"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
-<li class="chapter" data-level="2.1.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The Deterministic Component (Signal)</a></li>
-<li class="chapter" data-level="2.1.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The Random Component (Noise)</a></li>
+<li class="chapter" data-level="2" data-path="introtimeseries.html"><a href="introtimeseries.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="introtimeseries.html"><a href="introtimeseries.html#the-wold-decomposition"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="introtimeseries.html"><a href="introtimeseries.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The Deterministic Component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introtimeseries.html"><a href="introtimeseries.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The Random Component (Noise)</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#eda"><i class="fa fa-check"></i><b>2.2</b> Exploratory Data Analysis for Time Series</a></li>
-<li class="chapter" data-level="2.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#dependence-in-time-series"><i class="fa fa-check"></i><b>2.3</b> Dependence in Time Series</a></li>
-<li class="chapter" data-level="2.4" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#basicmodels"><i class="fa fa-check"></i><b>2.4</b> Basic Time Series Models</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#wn"><i class="fa fa-check"></i><b>2.4.1</b> White Noise</a></li>
-<li class="chapter" data-level="2.4.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#rw"><i class="fa fa-check"></i><b>2.4.2</b> Random Walk</a></li>
-<li class="chapter" data-level="2.4.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ar1"><i class="fa fa-check"></i><b>2.4.3</b> First-Order Autoregressive Model</a></li>
-<li class="chapter" data-level="2.4.4" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ma1"><i class="fa fa-check"></i><b>2.4.4</b> Moving Average Process of Order 1</a></li>
-<li class="chapter" data-level="2.4.5" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#drift"><i class="fa fa-check"></i><b>2.4.5</b> Linear Drift</a></li>
+<li class="chapter" data-level="2.2" data-path="introtimeseries.html"><a href="introtimeseries.html#eda"><i class="fa fa-check"></i><b>2.2</b> Exploratory Data Analysis for Time Series</a></li>
+<li class="chapter" data-level="2.3" data-path="introtimeseries.html"><a href="introtimeseries.html#dependence-in-time-series"><i class="fa fa-check"></i><b>2.3</b> Dependence in Time Series</a></li>
+<li class="chapter" data-level="2.4" data-path="introtimeseries.html"><a href="introtimeseries.html#basicmodels"><i class="fa fa-check"></i><b>2.4</b> Basic Time Series Models</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="introtimeseries.html"><a href="introtimeseries.html#wn"><i class="fa fa-check"></i><b>2.4.1</b> White Noise</a></li>
+<li class="chapter" data-level="2.4.2" data-path="introtimeseries.html"><a href="introtimeseries.html#rw"><i class="fa fa-check"></i><b>2.4.2</b> Random Walk</a></li>
+<li class="chapter" data-level="2.4.3" data-path="introtimeseries.html"><a href="introtimeseries.html#ar1"><i class="fa fa-check"></i><b>2.4.3</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.4.4" data-path="introtimeseries.html"><a href="introtimeseries.html#ma1"><i class="fa fa-check"></i><b>2.4.4</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.4.5" data-path="introtimeseries.html"><a href="introtimeseries.html#drift"><i class="fa fa-check"></i><b>2.4.5</b> Linear Drift</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#lts"><i class="fa fa-check"></i><b>2.5</b> Composite Stochastic Processes</a></li>
+<li class="chapter" data-level="2.5" data-path="introtimeseries.html"><a href="introtimeseries.html#lts"><i class="fa fa-check"></i><b>2.5</b> Composite Stochastic Processes</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="fundtimeseries.html"><a href="fundtimeseries.html"><i class="fa fa-check"></i><b>3</b> Fundamental Properties of Time Series</a><ul>
 <li class="chapter" data-level="3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#the-autocorrelation-and-autocovariance-functions"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
@@ -169,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html"><i class="fa fa-check"></i><b>4</b> The Family of Autoregressive Moving Average Models</a><ul>
 <li class="chapter" data-level="4.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#linear-processes"><i class="fa fa-check"></i><b>4.1</b> Linear Processes</a></li>
-<li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autoregressive-models---arp"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models - AR(p)</a><ul>
+<li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#ardefinition"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models - AR(p)</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#properties-of-arp-models"><i class="fa fa-check"></i><b>4.2.1</b> Properties of AR(p) models</a></li>
 <li class="chapter" data-level="4.2.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.2.2</b> Estimation of AR(p) models</a></li>
 <li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#forecasting-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Forecasting AR(p) Models</a></li>
@@ -180,7 +152,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) Models</a></li>
 <li class="chapter" data-level="4.5" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-selection"><i class="fa fa-check"></i><b>4.5</b> Model Selection</a></li>
-<li class="chapter" data-level="4.6" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#moving-average-models"><i class="fa fa-check"></i><b>4.6</b> Moving Average Models ⚠️</a></li>
+<li class="chapter" data-level="4.6" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#moving-average-models"><i class="fa fa-check"></i><b>4.6</b> Moving Average Models ⚠️</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autocovariance-of-ma-processes"><i class="fa fa-check"></i><b>4.6.1</b> Autocovariance of MA processes</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -217,88 +191,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="appendixb" class="section level1">
 <h1><span class="header-section-number">B</span> Robust Regression Methods</h1>
-<p>This appendix is largely based on the introduction to linear robust regression
-presented in <span class="citation">Ronchetti (<a href="#ref-ronchetti2006historical">2006</a>)</span> and <span class="citation">Duncan and Guerrier (<a href="#ref-duncan2016ela">2016</a>)</span>. In these references
-it is stated that the vast majority of the statistical models employed in
-different fields going from finance to biology and engineering, for example,
-are parametric models. Based on these models, assumptions are made concerning
-the properties of the variables of interest (and the models themselves) and
-optimal procedures are derived under these assumptions. Among these procedures,
-the least squares and maximum likelihood estimators are well known examples
-that, however, are only optimal when the underlying statistical assumptions are
-exactly satisfied. If the latter case does not hold, then these procedures can
-become considerably biased and/or inefficient when there exist small deviations
-from the model. The results obtained by classical procedures can therefore be
-misleading when applied to real data (see e.g. <span class="citation">Ronchetti (<a href="#ref-ronchetti2006historical">2006</a>)</span> and
-<span class="citation">Huber and Ronchetti (<a href="#ref-huber2009robust">2009</a>)</span>).</p>
-<p>In order to address the problems arising from violated parametric assumptions,
-robust statistics can be seen as an extension to classical parametric statistics
-by directly considering the deviations from the models. Indeed, while parametric
-models may be a good approximation of the true underlying situation, robust
-statistics does not assume that the model is exactly correct. A robust procedure
-as stated in <span class="citation">Huber and Ronchetti (<a href="#ref-huber2009robust">2009</a>)</span> therefore should have the following features:</p>
+<p>This appendix is largely based on the introduction to linear robust regression presented in <span class="citation">Ronchetti (<a href="#ref-ronchetti2006historical">2006</a>)</span> and <span class="citation">Duncan and Guerrier (<a href="#ref-duncan2016ela">2016</a>)</span>. In these references it is stated that the vast majority of the statistical models employed in different fields going from finance to biology and engineering, for example, are parametric models. Based on these models, assumptions are made concerning the properties of the variables of interest (and the models themselves) and optimal procedures are derived under these assumptions. Among these procedures, the least squares and maximum likelihood estimators are well known examples that, however, are only optimal when the underlying statistical assumptions are exactly satisfied. If the latter case does not hold, then these procedures can become considerably biased and/or inefficient when there exist small deviations from the model. The results obtained by classical procedures can therefore be misleading when applied to real data (see e.g. <span class="citation">Ronchetti (<a href="#ref-ronchetti2006historical">2006</a>)</span> and <span class="citation">Huber and Ronchetti (<a href="#ref-huber2009robust">2009</a>)</span>).</p>
+<p>In order to address the problems arising from violated parametric assumptions, robust statistics can be seen as an extension to classical parametric statistics by directly considering the deviations from the models. Indeed, while parametric models may be a good approximation of the true underlying situation, robust statistics does not assume that the model is exactly correct. A robust procedure as stated in <span class="citation">Huber and Ronchetti (<a href="#ref-huber2009robust">2009</a>)</span> therefore should have the following features:</p>
 <ul>
 <li>It should efficiently estimate the assumed model.</li>
-<li>It should be reliable and reasonably efficient under small deviations from the
-model (e.g. when the distribution lies in a neighborhood of the assumed model).</li>
-<li>Larger deviations from the model should not affect the estimation procedure
-excessively.</li>
+<li>It should be reliable and reasonably efficient under small deviations from the model (e.g. when the distribution lies in a neighborhood of the assumed model).</li>
+<li>Larger deviations from the model should not affect the estimation procedure excessively.</li>
 </ul>
-<p>A robust estimation method is a compromise with respect to these three features.
-This compromise is illustrated by <span class="citation">Anscombe and Guttman (<a href="#ref-anscombe1960rejection">1960</a>)</span> using an insurance
-metaphor: “sacrifice some efficiency at the model in order to insure against
-accidents caused by deviations from the model”.</p>
-<p>It is often believed that robust procedures may be avoided by using the
-following two-step procedure:</p>
+<p>A robust estimation method is a compromise with respect to these three features. This compromise is illustrated by <span class="citation">Anscombe and Guttman (<a href="#ref-anscombe1960rejection">1960</a>)</span> using an insurance metaphor: “sacrifice some efficiency at the model in order to insure against accidents caused by deviations from the model”.</p>
+<p>It is often believed that robust procedures may be avoided by using the following two-step procedure:</p>
 <ul>
 <li>Clean the data using some rule for outlier rejection.</li>
 <li>Apply classical optimal procedures on the “clean” data.</li>
 </ul>
-<p>Unfortunately such procedures cannot replace robust methods as discussed in
-<span class="citation">Huber and Ronchetti (<a href="#ref-huber2009robust">2009</a>)</span> for the following reasons:</p>
+<p>Unfortunately such procedures cannot replace robust methods as discussed in <span class="citation">Huber and Ronchetti (<a href="#ref-huber2009robust">2009</a>)</span> for the following reasons:</p>
 <ul>
-<li>It is rarely possible to seperate the two steps. For example, in a parametric
-regression setting, outliers are difficult to recognize without reliable
-(i.e. robust) estimates of the model’s parameters.</li>
-<li>The cleaned data will not correspond to the assumed model since there will be
-statistical errors of both kinds (false acceptance and false rejection).
-Therefore in general the classical theory is not applicable to the cleaned
-sample.</li>
-<li>Empirically, the best rejection procedures do not reach the performance of
-the best robust procedures. The latter are apparently superior because they
-can make a smoother transition between the full acceptance and full rejection
-of an observation using weighting procedures <span class="citation">Hampel et al. (<a href="#ref-hampel1987robust">1987</a>)</span>.</li>
-<li>Empirical studies have also shown that many of the classical rejection methods
-are unable to deal with multiple outliers. Indeed, it is possible that a
-second outlier “masks” the effect of the first so that neither are rejected.</li>
+<li>It is rarely possible to seperate the two steps. For example, in a parametric regression setting, outliers are difficult to recognize without reliable (i.e. robust) estimates of the model’s parameters.</li>
+<li>The cleaned data will not correspond to the assumed model since there will be statistical errors of both kinds (false acceptance and false rejection). Therefore in general the classical theory is not applicable to the cleaned sample.</li>
+<li>Empirically, the best rejection procedures do not reach the performance of the best robust procedures. The latter are apparently superior because they can make a smoother transition between the full acceptance and full rejection of an observation using weighting procedures <span class="citation">Hampel et al. (<a href="#ref-hampel1987robust">1987</a>)</span>.</li>
+<li>Empirical studies have also shown that many of the classical rejection methods are unable to deal with multiple outliers. Indeed, it is possible that a second outlier “masks” the effect of the first so that neither are rejected.</li>
 </ul>
-<p>Unfortunately the least squares estimator suffers from a dramatic lack of
-robustness. A single outlier can have an arbitrarily large effect on the
-estimated parameters. In order to assess the robustness of an estimator we first
-need to introduce an important concept, namely the influence function. This
-concept was introduced in <span class="citation">Hampel (<a href="#ref-hampel1968contributions">1968</a>)</span> and it formalizes the bias
-caused by one outlier. The influence function of an estimator represents the
-effect of an infinitesimal contamination at the point <span class="math inline">\(x\)</span> or (<span class="math inline">\(\mathbf{x}\)</span>, <span class="math inline">\(y\)</span>)
-in the regression setting) on the estimate, standardized by the mass of
-contamination. Mathematically, the influence function of the estimator <span class="math inline">\(T\)</span> for
-the model <span class="math inline">\(F\)</span> is given by:</p>
+<p>Unfortunately the least squares estimator suffers from a dramatic lack of robustness. A single outlier can have an arbitrarily large effect on the estimated parameters. In order to assess the robustness of an estimator we first need to introduce an important concept, namely the influence function. This concept was introduced in <span class="citation">Hampel (<a href="#ref-hampel1968contributions">1968</a>)</span> and it formalizes the bias caused by one outlier. The influence function of an estimator represents the effect of an infinitesimal contamination at the point <span class="math inline">\(x\)</span> or (<span class="math inline">\(\mathbf{x}\)</span>, <span class="math inline">\(y\)</span>) in the regression setting) on the estimate, standardized by the mass of contamination. Mathematically, the influence function of the estimator <span class="math inline">\(T\)</span> for the model <span class="math inline">\(F\)</span> is given by:</p>
 <p><span class="math display">\[\text{IF}(x| T, F) = \lim_{\varepsilon \rightarrow 0} \frac{T\left((1-\varepsilon) F + \varepsilon \Delta_x \right) - T\left(F\right)}{\varepsilon}\]</span></p>
 <p>where <span class="math inline">\(\Delta_x\)</span> is a probability measure which puts mass <span class="math inline">\(1\)</span> at the point <span class="math inline">\(x\)</span>.</p>
 <div id="the-classical-least-squares-estimator" class="section level2">
 <h2><span class="header-section-number">B.1</span> The Classical Least-Squares Estimator</h2>
-<p>The standard definition of the linear model is derived as follows.
-Let <span class="math inline">\({(\mathbf{x}_{i},y_{i}): i = 1, \ldots, n}\)</span> be a sequence of independent
-identically distributed random variables such that:</p>
+<p>The standard definition of the linear model is derived as follows. Let <span class="math inline">\({(\mathbf{x}_{i},y_{i}): i = 1, \ldots, n}\)</span> be a sequence of independent identically distributed random variables such that:</p>
 <p><span class="math display">\[y_{i} = \mathbf{x}_{i}^{T} {\boldsymbol{\beta}} + u_{i}\]</span></p>
-<p>where <span class="math inline">\(y_{i} \in \mathbb{R}\)</span> is the <span class="math inline">\(i\)</span>-th observation, <span class="math inline">\(\mathbf{x}_{i} \in \mathbb{R}^{p}\)</span>
-is the <span class="math inline">\(i\)</span>-th row of the design matrix <span class="math inline">\(\mathbf{X} \in \mathbb{R}^{n\times p}\)</span>,
-<span class="math inline">\(\boldsymbol{\beta} \in \boldsymbol{\Theta} \subseteq \mathbb{R}\)</span> is a <em>p</em>-vector of unknown
-parameters, <span class="math inline">\(u_{i} \in \mathbb{R}\)</span> is the <span class="math inline">\(i\)</span>-th error.</p>
-<p>The least-squares estimator <span class="math inline">\(\hat{\boldsymbol{\beta}}_{LS}\)</span> of <span class="math inline">\(\boldsymbol{\beta}\)</span> can be
-expressed as an <span class="math inline">\(M\)</span>-estimator<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Least-squares estimators are an
-example of the larger class of <span class="math inline">\(M\)</span>-estimators. The definition of <span class="math inline">\(M\)</span>-estimators
-was motivated by robust statistics which delivered new types of <span class="math inline">\(M\)</span>-estimators.
-defined by the estimating equation:</p>
+<p>where <span class="math inline">\(y_{i} \in \mathbb{R}\)</span> is the <span class="math inline">\(i\)</span>-th observation, <span class="math inline">\(\mathbf{x}_{i} \in \mathbb{R}^{p}\)</span> is the <span class="math inline">\(i\)</span>-th row of the design matrix <span class="math inline">\(\mathbf{X} \in \mathbb{R}^{n\times p}\)</span>, <span class="math inline">\(\boldsymbol{\beta} \in \boldsymbol{\Theta} \subseteq \mathbb{R}\)</span> is a <em>p</em>-vector of unknown parameters, <span class="math inline">\(u_{i} \in \mathbb{R}\)</span> is the <span class="math inline">\(i\)</span>-th error.</p>
+<p>The least-squares estimator <span class="math inline">\(\hat{\boldsymbol{\beta}}_{LS}\)</span> of <span class="math inline">\(\boldsymbol{\beta}\)</span> can be expressed as an <span class="math inline">\(M\)</span>-estimator<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> Least-squares estimators are an example of the larger class of <span class="math inline">\(M\)</span>-estimators. The definition of <span class="math inline">\(M\)</span>-estimators was motivated by robust statistics which delivered new types of <span class="math inline">\(M\)</span>-estimators. defined by the estimating equation:</p>
 <span class="math display" id="eq:lsMestim2">\[\begin{equation}
   \sum_{i = 1}^{n} \left(y_{i} - \mathbf{x}_{i}^{T} \boldsymbol{\beta} \right)\mathbf{x}_{i} = 0.
     \tag{B.1}
@@ -307,26 +228,18 @@ defined by the estimating equation:</p>
 <ul>
 <li><span class="math inline">\(u_{i}\)</span> are normally distributed.</li>
 <li><span class="math inline">\(\mathbb{E}[u_{i}] = 0\)</span> for <span class="math inline">\(i = 1, \ldots, n\)</span>.</li>
-<li><span class="math inline">\(Cov(u_{1}, \ldots, u_{n}) = \sigma^2 \, \mathbf{I}_{n}\)</span> where <span class="math inline">\(\mathbf{I}_{n}\)</span>
-denotes the identity matrix of size <span class="math inline">\(n\)</span>.</li>
+<li><span class="math inline">\(Cov(u_{1}, \ldots, u_{n}) = \sigma^2 \, \mathbf{I}_{n}\)</span> where <span class="math inline">\(\mathbf{I}_{n}\)</span> denotes the identity matrix of size <span class="math inline">\(n\)</span>.</li>
 </ul>
-<p>In other words, least-squares estimation is only optimal when the errors are
-normally distributed. Small departures from the normality assumption for the
-errors results in considerable loss of efficiency of the least-squares estimator
-(see <span class="citation">Hampel et al. (<a href="#ref-hampel1987robust">1987</a>)</span>, <span class="citation">Huber (<a href="#ref-huber1973robust">1973</a>)</span> and <span class="citation">Hampel (<a href="#ref-hampel1973robust">1973</a>)</span>).</p>
+<p>In other words, least-squares estimation is only optimal when the errors are normally distributed. Small departures from the normality assumption for the errors results in considerable loss of efficiency of the least-squares estimator (see <span class="citation">Hampel et al. (<a href="#ref-hampel1987robust">1987</a>)</span>, <span class="citation">Huber (<a href="#ref-huber1973robust">1973</a>)</span> and <span class="citation">Hampel (<a href="#ref-hampel1973robust">1973</a>)</span>).</p>
 </div>
 <div id="robust-estimators-for-linear-regression-models" class="section level2">
 <h2><span class="header-section-number">B.2</span> Robust Estimators for Linear Regression Models</h2>
-<p>The “Huber estimator” introduced in <span class="citation">Huber (<a href="#ref-huber1973robust">1973</a>)</span> was one of the first robust
-estimation methods applied to linear models. Basically, this estimator is a
-weighted version of the least-squares estimate with weights of the form:</p>
+<p>The “Huber estimator” introduced in <span class="citation">Huber (<a href="#ref-huber1973robust">1973</a>)</span> was one of the first robust estimation methods applied to linear models. Basically, this estimator is a weighted version of the least-squares estimate with weights of the form:</p>
 <p><span class="math display">\[
 w_{i} = \min \left(1,\frac{c}{|r_{i}|}\right)
 \]</span></p>
-<p>where <span class="math inline">\(r_{i}\)</span> is the <span class="math inline">\(i\)</span>-th residual and <span class="math inline">\(c\)</span> is a positive constant which
-controls the trade-off between robustness and efficiency.</p>
-<p>Huber proposed an -estimator <span class="math inline">\(\hat{\boldsymbol{\beta}}_{H}\)</span> of <span class="math inline">\(\boldsymbol{\beta}\)</span>
-defined by the estimating equation:</p>
+<p>where <span class="math inline">\(r_{i}\)</span> is the <span class="math inline">\(i\)</span>-th residual and <span class="math inline">\(c\)</span> is a positive constant which controls the trade-off between robustness and efficiency.</p>
+<p>Huber proposed an -estimator <span class="math inline">\(\hat{\boldsymbol{\beta}}_{H}\)</span> of <span class="math inline">\(\boldsymbol{\beta}\)</span> defined by the estimating equation:</p>
 <p><span class="math display">\[
     \sum_{i = 1}^{n} \psi_{c}\left(y_{i} - \mathbf{x}_{i}^{T} \boldsymbol{\beta} \right)\mathbf{x}_{i} = 0
 \]</span></p>
@@ -346,116 +259,90 @@ w\left({x}\right) = \begin{cases}
   c \cdot \text{sign}(r). &amp; \quad \\
 \end{array} \right. 
 \]</span></p>
-<p>However, the Huber estimator cannot cope with problems caused by outlying points
-in the design (or covariate) matrix <span class="math inline">\(X\)</span>. An estimator which was developed to
-address this particular issue is the one proposed by Mallows which has the
-important property that the influence function is bounded also for the matrix
-<span class="math inline">\(X\)</span> (see <span class="citation">Krasker (<a href="#ref-krasker1980estimation">1980</a>)</span> for more details).</p>
+<p>However, the Huber estimator cannot cope with problems caused by outlying points in the design (or covariate) matrix <span class="math inline">\(X\)</span>. An estimator which was developed to address this particular issue is the one proposed by Mallows which has the important property that the influence function is bounded also for the matrix <span class="math inline">\(X\)</span> (see <span class="citation">Krasker (<a href="#ref-krasker1980estimation">1980</a>)</span> for more details).</p>
 </div>
 <div id="applications-of-robust-estimation" class="section level2">
 <h2><span class="header-section-number">B.3</span> Applications of Robust Estimation</h2>
-<p>Having rapidly highlighted the theory of robustness, we now focus on the
-application of robust techniques in practical settings. Over the next three
-examples, estimation between classical or traditional methods will be compared
-with robust methods to illustrate the usefulness of using the latter techniques
-can have in specific scenarios.</p>
+<p>Having rapidly highlighted the theory of robustness, we now focus on the application of robust techniques in practical settings. Over the next three examples, estimation between classical or traditional methods will be compared with robust methods to illustrate the usefulness of using the latter techniques can have in specific scenarios.</p>
 
 <div class="example">
-<p><span id="exm:slmrobust" class="example"><strong>Example B.1  </strong></span>
-Consider a simple linear model with Gaussian errors such as</p>
+<p><span id="exm:slmrobust" class="example"><strong>Example B.1  </strong></span> Consider a simple linear model with Gaussian errors such as</p>
 <span class="math display" id="eq:exam">\[\begin{equation}
         y_i = \alpha + \beta x_i + \varepsilon_i, \;\; \varepsilon_i \overset{iid}{\sim} \mathcal{N}(0,\sigma^2)
   \tag{B.3}
 \end{equation}\]</span>
-for <span class="math inline">\(i = 1,...,n\)</span>. Next, we set the parameter values <span class="math inline">\(\alpha = 5\)</span>,
-<span class="math inline">\(\beta = 0.5\)</span> and <span class="math inline">\(\sigma^2 = 1\)</span> in order to simulate 20 observations from
-the above simple linear model where we define <span class="math inline">\(x_i = i\)</span> for <span class="math inline">\(i = 1,...,20\)</span>. In the left panel of Figure <a href="appendixb.html#fig:slmrobex">B.1</a>, we present the simulated observations
-together with the fitted regression lines obtained by least-squares and a
-robust estimation method. It can be observed that both lines are very similar
-and “close” to the true model given by <span class="math inline">\(y_i = 5 + 0.5 i\)</span>. Indeed, although the
-robust estimator pays a small price in terms of efficiency compared to the the
-least-squares estimator, the two methods generally deliver very “similar” results
-when the model assumption holds. On the other hand, the robust estimators provide
-(in general) far more reliable results when outliers are present in a data-set.
-To illustrate this behavior we modify the last observation by
-setting <span class="math inline">\(\varepsilon_{20} = -10\)</span> (which is “extreme” under the assumption
-that <span class="math inline">\(\varepsilon_i \overset{iid}{\sim} \mathcal{N}(0,1)\)</span>).
-The modified observations are presented in the right panel of
-Figure <a href="appendixb.html#fig:slmrobex">B.1</a> together with the fitted regression lines.
-In this case, the least-squares is strongly influenced by the outlier
-we introduced while the robust estimator remains stable and “close” to the
-true model.
+for <span class="math inline">\(i = 1,...,n\)</span>. Next, we set the parameter values <span class="math inline">\(\alpha = 5\)</span>, <span class="math inline">\(\beta = 0.5\)</span> and <span class="math inline">\(\sigma^2 = 1\)</span> in order to simulate 20 observations from the above simple linear model where we define <span class="math inline">\(x_i = i\)</span> for <span class="math inline">\(i = 1,...,20\)</span>. In the left panel of Figure <a href="appendixb.html#fig:slmrobex">B.1</a>, we present the simulated observations together with the fitted regression lines obtained by least-squares and a robust estimation method. It can be observed that both lines are very similar and “close” to the true model given by <span class="math inline">\(y_i = 5 + 0.5 i\)</span>. Indeed, although the robust estimator pays a small price in terms of efficiency compared to the the least-squares estimator, the two methods generally deliver very “similar” results when the model assumption holds. On the other hand, the robust estimators provide (in general) far more reliable results when outliers are present in a data-set. To illustrate this behavior we modify the last observation by setting <span class="math inline">\(\varepsilon_{20} = -10\)</span> (which is “extreme” under the assumption that <span class="math inline">\(\varepsilon_i \overset{iid}{\sim} \mathcal{N}(0,1)\)</span>). The modified observations are presented in the right panel of Figure <a href="appendixb.html#fig:slmrobex">B.1</a> together with the fitted regression lines. In this case, the least-squares is strongly influenced by the outlier we introduced while the robust estimator remains stable and “close” to the true model.
 </div>
 
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="co"># Load robust library</span></a>
-<a class="sourceLine" id="cb103-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;robustbase&quot;</span>)</a>
-<a class="sourceLine" id="cb103-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb103-4" data-line-number="4"><span class="co"># Set seed for reproducibility</span></a>
-<a class="sourceLine" id="cb103-5" data-line-number="5"><span class="kw">set.seed</span>(<span class="dv">867</span>)</a>
-<a class="sourceLine" id="cb103-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb103-7" data-line-number="7"><span class="co"># Sample size</span></a>
-<a class="sourceLine" id="cb103-8" data-line-number="8">n =<span class="st"> </span><span class="dv">20</span>      </a>
-<a class="sourceLine" id="cb103-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb103-10" data-line-number="10"><span class="co"># Model&#39;s parameters</span></a>
-<a class="sourceLine" id="cb103-11" data-line-number="11">alpha =<span class="st"> </span><span class="dv">5</span>    <span class="co"># Intercept </span></a>
-<a class="sourceLine" id="cb103-12" data-line-number="12">beta =<span class="st"> </span><span class="fl">0.5</span>   <span class="co"># Slope </span></a>
-<a class="sourceLine" id="cb103-13" data-line-number="13">sig2 =<span class="st"> </span><span class="dv">1</span>     <span class="co"># Residual variance</span></a>
-<a class="sourceLine" id="cb103-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb103-15" data-line-number="15"><span class="co"># Construct response variable y</span></a>
-<a class="sourceLine" id="cb103-16" data-line-number="16">x =<span class="st"> </span><span class="dv">1</span><span class="op">:</span>n </a>
-<a class="sourceLine" id="cb103-17" data-line-number="17">y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))</a>
-<a class="sourceLine" id="cb103-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb103-19" data-line-number="19"><span class="co"># Construct &quot;perturbed&quot; verison of y</span></a>
-<a class="sourceLine" id="cb103-20" data-line-number="20">y.perturbed =<span class="st"> </span>y</a>
-<a class="sourceLine" id="cb103-21" data-line-number="21">y.perturbed[<span class="dv">20</span>] =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x[<span class="dv">20</span>] <span class="op">-</span><span class="st"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb103-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb103-23" data-line-number="23"><span class="co"># Compute LS estimates</span></a>
-<a class="sourceLine" id="cb103-24" data-line-number="24">LS.y =<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb103-25" data-line-number="25">LS.y.fit =<span class="st"> </span><span class="kw">coef</span>(LS.y)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(LS.y)[<span class="dv">2</span>]<span class="op">*</span>x</a>
-<a class="sourceLine" id="cb103-26" data-line-number="26">LS.y.pert =<span class="st"> </span><span class="kw">lm</span>(y.perturbed <span class="op">~</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb103-27" data-line-number="27">LS.y.pert.fit =<span class="st"> </span><span class="kw">coef</span>(LS.y.pert)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(LS.y.pert)[<span class="dv">2</span>]<span class="op">*</span>x</a>
-<a class="sourceLine" id="cb103-28" data-line-number="28"></a>
-<a class="sourceLine" id="cb103-29" data-line-number="29"><span class="co"># Compute robust estimates</span></a>
-<a class="sourceLine" id="cb103-30" data-line-number="30">RR.y =<span class="st"> </span><span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb103-31" data-line-number="31">RR.y.fit =<span class="st"> </span><span class="kw">coef</span>(RR.y)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(RR.y)[<span class="dv">2</span>]<span class="op">*</span>x</a>
-<a class="sourceLine" id="cb103-32" data-line-number="32">RR.y.pert =<span class="st"> </span><span class="kw">lmrob</span>(y.perturbed <span class="op">~</span><span class="st"> </span>x)</a>
-<a class="sourceLine" id="cb103-33" data-line-number="33">RR.y.pert.fit =<span class="st"> </span><span class="kw">coef</span>(RR.y.pert)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(RR.y.pert)[<span class="dv">2</span>]<span class="op">*</span>x</a>
-<a class="sourceLine" id="cb103-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb103-35" data-line-number="35"><span class="co"># Define colors</span></a>
-<a class="sourceLine" id="cb103-36" data-line-number="36">gg_color_hue &lt;-<span class="st"> </span><span class="cf">function</span>(n, <span class="dt">alpha =</span> <span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb103-37" data-line-number="37">  hues =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">15</span>, <span class="dv">375</span>, <span class="dt">length =</span> n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb103-38" data-line-number="38">  <span class="kw">hcl</span>(<span class="dt">h =</span> hues, <span class="dt">l =</span> <span class="dv">65</span>, <span class="dt">c =</span> <span class="dv">100</span>, <span class="dt">alpha =</span> alpha)[<span class="dv">1</span><span class="op">:</span>n]</a>
-<a class="sourceLine" id="cb103-39" data-line-number="39">}</a>
-<a class="sourceLine" id="cb103-40" data-line-number="40">couleurs =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb103-41" data-line-number="41"></a>
-<a class="sourceLine" id="cb103-42" data-line-number="42"><span class="co"># Compare results based on y and y.perturbed</span></a>
-<a class="sourceLine" id="cb103-43" data-line-number="43"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb103-44" data-line-number="44"><span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="kw">cbind</span>(y,y.perturbed)), <span class="dt">xlim =</span> <span class="kw">range</span>(x),</a>
-<a class="sourceLine" id="cb103-45" data-line-number="45">     <span class="dt">main =</span> <span class="st">&quot;Uncontaminated setting&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;y&quot;</span>)</a>
-<a class="sourceLine" id="cb103-46" data-line-number="46"><span class="kw">grid</span>()</a>
-<a class="sourceLine" id="cb103-47" data-line-number="47"><span class="kw">points</span>(x,y, <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> couleurs[<span class="dv">4</span>])</a>
-<a class="sourceLine" id="cb103-48" data-line-number="48"><span class="kw">lines</span>(x, alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x, <span class="dt">col =</span> couleurs[<span class="dv">3</span>], <span class="dt">lty =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb103-49" data-line-number="49"><span class="kw">lines</span>(x, LS.y.fit, <span class="dt">col =</span> couleurs[<span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb103-50" data-line-number="50"><span class="kw">lines</span>(x, RR.y.fit, <span class="dt">col =</span> couleurs[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb103-51" data-line-number="51"></a>
-<a class="sourceLine" id="cb103-52" data-line-number="52"><span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;Estimated model (least-squares)&quot;</span>,</a>
-<a class="sourceLine" id="cb103-53" data-line-number="53">                   <span class="st">&quot;Estimated model (robust)&quot;</span>, <span class="st">&quot;True model&quot;</span>), </a>
-<a class="sourceLine" id="cb103-54" data-line-number="54">       <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">col =</span> couleurs[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>)],</a>
-<a class="sourceLine" id="cb103-55" data-line-number="55">       <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))</a>
-<a class="sourceLine" id="cb103-56" data-line-number="56"></a>
-<a class="sourceLine" id="cb103-57" data-line-number="57"><span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="kw">cbind</span>(y,y.perturbed)), <span class="dt">xlim =</span> <span class="kw">range</span>(x),</a>
-<a class="sourceLine" id="cb103-58" data-line-number="58">     <span class="dt">main =</span> <span class="st">&quot;Contaminated setting&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;y&quot;</span>)</a>
-<a class="sourceLine" id="cb103-59" data-line-number="59"><span class="kw">grid</span>()</a>
-<a class="sourceLine" id="cb103-60" data-line-number="60"><span class="kw">points</span>(x[<span class="dv">1</span><span class="op">:</span><span class="dv">19</span>],y.perturbed[<span class="dv">1</span><span class="op">:</span><span class="dv">19</span>], <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> couleurs[<span class="dv">4</span>])</a>
-<a class="sourceLine" id="cb103-61" data-line-number="61"><span class="kw">points</span>(x[<span class="dv">20</span>], y.perturbed[<span class="dv">20</span>], <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">col =</span> couleurs[<span class="dv">6</span>])</a>
-<a class="sourceLine" id="cb103-62" data-line-number="62"><span class="kw">lines</span>(x, alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x, <span class="dt">col =</span> couleurs[<span class="dv">3</span>], <span class="dt">lty =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb103-63" data-line-number="63"><span class="kw">lines</span>(x, LS.y.pert.fit, <span class="dt">col =</span> couleurs[<span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb103-64" data-line-number="64"><span class="kw">lines</span>(x, RR.y.pert.fit, <span class="dt">col =</span> couleurs[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb103-65" data-line-number="65"></a>
-<a class="sourceLine" id="cb103-66" data-line-number="66"><span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Uncontamined observations&quot;</span>, <span class="st">&quot;Contamined observation&quot;</span>,</a>
-<a class="sourceLine" id="cb103-67" data-line-number="67">                   <span class="st">&quot;Estimated model (least-squares)&quot;</span>, <span class="st">&quot;Estimated model (robust)&quot;</span>,</a>
-<a class="sourceLine" id="cb103-68" data-line-number="68">                   <span class="st">&quot;True model&quot;</span>), <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">col =</span> couleurs[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>)],</a>
-<a class="sourceLine" id="cb103-69" data-line-number="69">       <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="dv">15</span>,<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load robust library</span>
+<span class="kw">library</span>(<span class="st">&quot;robustbase&quot;</span>)
+
+<span class="co"># Set seed for reproducibility</span>
+<span class="kw">set.seed</span>(<span class="dv">867</span>)
+
+<span class="co"># Sample size</span>
+n =<span class="st"> </span><span class="dv">20</span>      
+
+<span class="co"># Model&#39;s parameters</span>
+alpha =<span class="st"> </span><span class="dv">5</span>    <span class="co"># Intercept </span>
+beta =<span class="st"> </span><span class="fl">0.5</span>   <span class="co"># Slope </span>
+sig2 =<span class="st"> </span><span class="dv">1</span>     <span class="co"># Residual variance</span>
+
+<span class="co"># Construct response variable y</span>
+x =<span class="st"> </span><span class="dv">1</span><span class="op">:</span>n 
+y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))
+
+<span class="co"># Construct &quot;perturbed&quot; verison of y</span>
+y.perturbed =<span class="st"> </span>y
+y.perturbed[<span class="dv">20</span>] =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x[<span class="dv">20</span>] <span class="op">-</span><span class="st"> </span><span class="dv">10</span>
+
+<span class="co"># Compute LS estimates</span>
+LS.y =<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)
+LS.y.fit =<span class="st"> </span><span class="kw">coef</span>(LS.y)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(LS.y)[<span class="dv">2</span>]<span class="op">*</span>x
+LS.y.pert =<span class="st"> </span><span class="kw">lm</span>(y.perturbed <span class="op">~</span><span class="st"> </span>x)
+LS.y.pert.fit =<span class="st"> </span><span class="kw">coef</span>(LS.y.pert)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(LS.y.pert)[<span class="dv">2</span>]<span class="op">*</span>x
+
+<span class="co"># Compute robust estimates</span>
+RR.y =<span class="st"> </span><span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)
+RR.y.fit =<span class="st"> </span><span class="kw">coef</span>(RR.y)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(RR.y)[<span class="dv">2</span>]<span class="op">*</span>x
+RR.y.pert =<span class="st"> </span><span class="kw">lmrob</span>(y.perturbed <span class="op">~</span><span class="st"> </span>x)
+RR.y.pert.fit =<span class="st"> </span><span class="kw">coef</span>(RR.y.pert)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">coef</span>(RR.y.pert)[<span class="dv">2</span>]<span class="op">*</span>x
+
+<span class="co"># Define colors</span>
+gg_color_hue &lt;-<span class="st"> </span><span class="cf">function</span>(n, <span class="dt">alpha =</span> <span class="dv">1</span>) {
+  hues =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">15</span>, <span class="dv">375</span>, <span class="dt">length =</span> n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)
+  <span class="kw">hcl</span>(<span class="dt">h =</span> hues, <span class="dt">l =</span> <span class="dv">65</span>, <span class="dt">c =</span> <span class="dv">100</span>, <span class="dt">alpha =</span> alpha)[<span class="dv">1</span><span class="op">:</span>n]
+}
+couleurs =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>)
+
+<span class="co"># Compare results based on y and y.perturbed</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="kw">cbind</span>(y,y.perturbed)), <span class="dt">xlim =</span> <span class="kw">range</span>(x),
+     <span class="dt">main =</span> <span class="st">&quot;Uncontaminated setting&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;y&quot;</span>)
+<span class="kw">grid</span>()
+<span class="kw">points</span>(x,y, <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> couleurs[<span class="dv">4</span>])
+<span class="kw">lines</span>(x, alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x, <span class="dt">col =</span> couleurs[<span class="dv">3</span>], <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">lines</span>(x, LS.y.fit, <span class="dt">col =</span> couleurs[<span class="dv">5</span>])
+<span class="kw">lines</span>(x, RR.y.fit, <span class="dt">col =</span> couleurs[<span class="dv">1</span>])
+
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;Estimated model (least-squares)&quot;</span>,
+                   <span class="st">&quot;Estimated model (robust)&quot;</span>, <span class="st">&quot;True model&quot;</span>), 
+       <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">col =</span> couleurs[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>)],
+       <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))
+
+<span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="kw">cbind</span>(y,y.perturbed)), <span class="dt">xlim =</span> <span class="kw">range</span>(x),
+     <span class="dt">main =</span> <span class="st">&quot;Contaminated setting&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;y&quot;</span>)
+<span class="kw">grid</span>()
+<span class="kw">points</span>(x[<span class="dv">1</span><span class="op">:</span><span class="dv">19</span>],y.perturbed[<span class="dv">1</span><span class="op">:</span><span class="dv">19</span>], <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> couleurs[<span class="dv">4</span>])
+<span class="kw">points</span>(x[<span class="dv">20</span>], y.perturbed[<span class="dv">20</span>], <span class="dt">pch =</span> <span class="dv">15</span>, <span class="dt">col =</span> couleurs[<span class="dv">6</span>])
+<span class="kw">lines</span>(x, alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x, <span class="dt">col =</span> couleurs[<span class="dv">3</span>], <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">lines</span>(x, LS.y.pert.fit, <span class="dt">col =</span> couleurs[<span class="dv">5</span>])
+<span class="kw">lines</span>(x, RR.y.pert.fit, <span class="dt">col =</span> couleurs[<span class="dv">1</span>])
+
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Uncontamined observations&quot;</span>, <span class="st">&quot;Contamined observation&quot;</span>,
+                   <span class="st">&quot;Estimated model (least-squares)&quot;</span>, <span class="st">&quot;Estimated model (robust)&quot;</span>,
+                   <span class="st">&quot;True model&quot;</span>), <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">col =</span> couleurs[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>)],
+       <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="dv">15</span>,<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))</code></pre></div>
 <div class="figure"><span id="fig:slmrobex"></span>
 <img src="ts_files/figure-html/slmrobex-1.png" alt="Simulation Study Comparing Robust and Classical Regression Methodologies" width="1248" />
 <p class="caption">
@@ -464,130 +351,102 @@ Figure B.1: Simulation Study Comparing Robust and Classical Regression Methodolo
 </div>
 
 <div class="example">
-<span id="exm:bslmrob" class="example"><strong>Example B.2  (Robust v. Classical Simulation Study.)  </strong></span>The next example presents a simulation study where the robust and classical
-techniques will be compared in order to show that the previous example was not
-due to a “lucky” sample favorable to the robust approach. To do so, the
-simulation study will generate 100 realizations from the model in the previous
-example and use the same robust and classical estimators to retrieve the
-parameters for each of the 100 iterations.
+<span id="exm:bslmrob" class="example"><strong>Example B.2  (Robust v. Classical Simulation Study.)  </strong></span>The next example presents a simulation study where the robust and classical techniques will be compared in order to show that the previous example was not due to a “lucky” sample favorable to the robust approach. To do so, the simulation study will generate 100 realizations from the model in the previous example and use the same robust and classical estimators to retrieve the parameters for each of the 100 iterations.
 </div>
 
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="co"># Number of bootstrap replications</span></a>
-<a class="sourceLine" id="cb104-2" data-line-number="2">B =<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb104-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb104-4" data-line-number="4"><span class="co"># Initialisation</span></a>
-<a class="sourceLine" id="cb104-5" data-line-number="5">coef.LS.cont =<span class="st"> </span>coef.rob.cont =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb104-6" data-line-number="6">coef.LS.uncont =<span class="st"> </span>coef.rob.uncont =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb104-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb104-8" data-line-number="8"><span class="co"># Start Monte-carlo</span></a>
-<a class="sourceLine" id="cb104-9" data-line-number="9"><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>){</a>
-<a class="sourceLine" id="cb104-10" data-line-number="10">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {</a>
-<a class="sourceLine" id="cb104-11" data-line-number="11">   <span class="co"># Control seed</span></a>
-<a class="sourceLine" id="cb104-12" data-line-number="12">    <span class="kw">set.seed</span>(<span class="dv">2</span><span class="op">*</span>j<span class="op">*</span>B <span class="op">+</span><span class="st"> </span>i)</a>
-<a class="sourceLine" id="cb104-13" data-line-number="13">    </a>
-<a class="sourceLine" id="cb104-14" data-line-number="14">    <span class="co"># Uncontaminated case</span></a>
-<a class="sourceLine" id="cb104-15" data-line-number="15">    <span class="cf">if</span> (j <span class="op">==</span><span class="st"> </span><span class="dv">1</span>){</a>
-<a class="sourceLine" id="cb104-16" data-line-number="16">      y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))</a>
-<a class="sourceLine" id="cb104-17" data-line-number="17">      coef.LS.uncont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
-<a class="sourceLine" id="cb104-18" data-line-number="18">      coef.rob.uncont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
-<a class="sourceLine" id="cb104-19" data-line-number="19">    }</a>
-<a class="sourceLine" id="cb104-20" data-line-number="20">    </a>
-<a class="sourceLine" id="cb104-21" data-line-number="21">    <span class="co"># Contaminated case</span></a>
-<a class="sourceLine" id="cb104-22" data-line-number="22">    <span class="cf">if</span> (j <span class="op">==</span><span class="st"> </span><span class="dv">2</span>){</a>
-<a class="sourceLine" id="cb104-23" data-line-number="23">      y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))</a>
-<a class="sourceLine" id="cb104-24" data-line-number="24">      y[<span class="dv">20</span>] =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x[<span class="dv">20</span>] <span class="op">-</span><span class="st"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb104-25" data-line-number="25">      coef.LS.cont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
-<a class="sourceLine" id="cb104-26" data-line-number="26">      coef.rob.cont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)</a>
-<a class="sourceLine" id="cb104-27" data-line-number="27">    }</a>
-<a class="sourceLine" id="cb104-28" data-line-number="28">  }</a>
-<a class="sourceLine" id="cb104-29" data-line-number="29">}</a>
-<a class="sourceLine" id="cb104-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb104-31" data-line-number="31"><span class="co"># Make graph</span></a>
-<a class="sourceLine" id="cb104-32" data-line-number="32">colors =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb104-33" data-line-number="33">names =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;LS - uncont&quot;</span>,<span class="st">&quot;Rob - uncont&quot;</span>,<span class="st">&quot;LS - cont&quot;</span>,<span class="st">&quot;Rob - cont&quot;</span>)</a>
-<a class="sourceLine" id="cb104-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb104-35" data-line-number="35"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb104-36" data-line-number="36"><span class="kw">boxplot</span>(coef.LS.uncont[,<span class="dv">1</span>],coef.rob.uncont[,<span class="dv">1</span>],coef.LS.cont[,<span class="dv">1</span>],</a>
-<a class="sourceLine" id="cb104-37" data-line-number="37">        coef.rob.cont[,<span class="dv">1</span>], <span class="dt">main =</span> <span class="kw">expression</span>(alpha), </a>
-<a class="sourceLine" id="cb104-38" data-line-number="38">        <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>)], </a>
-<a class="sourceLine" id="cb104-39" data-line-number="39">        <span class="dt">cex.main =</span> <span class="fl">1.5</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>)</a>
-<a class="sourceLine" id="cb104-40" data-line-number="40"><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb104-41" data-line-number="41"><span class="kw">text</span>(<span class="dt">x =</span> <span class="kw">seq_along</span>(names), <span class="dt">y =</span> <span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>] <span class="op">-</span><span class="st"> </span><span class="fl">0.15</span>, <span class="dt">srt =</span> <span class="dv">45</span>, <span class="dt">adj =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb104-42" data-line-number="42">     <span class="dt">labels =</span> names, <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb104-43" data-line-number="43"></a>
-<a class="sourceLine" id="cb104-44" data-line-number="44"><span class="kw">abline</span>(<span class="dt">h =</span> alpha, <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb104-45" data-line-number="45"></a>
-<a class="sourceLine" id="cb104-46" data-line-number="46"><span class="kw">boxplot</span>(coef.LS.uncont[,<span class="dv">2</span>],coef.rob.uncont[,<span class="dv">2</span>],coef.LS.cont[,<span class="dv">2</span>],</a>
-<a class="sourceLine" id="cb104-47" data-line-number="47">        coef.rob.cont[,<span class="dv">2</span>], <span class="dt">main =</span> <span class="kw">expression</span>(beta), </a>
-<a class="sourceLine" id="cb104-48" data-line-number="48">        <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>)], </a>
-<a class="sourceLine" id="cb104-49" data-line-number="49">        <span class="dt">cex.main =</span> <span class="fl">1.5</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>)</a>
-<a class="sourceLine" id="cb104-50" data-line-number="50"><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb104-51" data-line-number="51"><span class="kw">text</span>(<span class="dt">x =</span> <span class="kw">seq_along</span>(names), <span class="dt">y =</span> <span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>] <span class="op">-</span><span class="st"> </span><span class="fl">0.015</span>, <span class="dt">srt =</span> <span class="dv">45</span>, <span class="dt">adj =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb104-52" data-line-number="52">     <span class="dt">labels =</span> names, <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb104-53" data-line-number="53"><span class="kw">abline</span>(<span class="dt">h =</span> beta, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Number of bootstrap replications</span>
+B =<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">3</span>
+
+<span class="co"># Initialisation</span>
+coef.LS.cont =<span class="st"> </span>coef.rob.cont =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="dv">2</span>)
+coef.LS.uncont =<span class="st"> </span>coef.rob.uncont =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,B,<span class="dv">2</span>)
+
+<span class="co"># Start Monte-carlo</span>
+<span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>){
+  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(B)) {
+   <span class="co"># Control seed</span>
+    <span class="kw">set.seed</span>(<span class="dv">2</span><span class="op">*</span>j<span class="op">*</span>B <span class="op">+</span><span class="st"> </span>i)
+    
+    <span class="co"># Uncontaminated case</span>
+    <span class="cf">if</span> (j <span class="op">==</span><span class="st"> </span><span class="dv">1</span>){
+      y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))
+      coef.LS.uncont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)
+      coef.rob.uncont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)
+    }
+    
+    <span class="co"># Contaminated case</span>
+    <span class="cf">if</span> (j <span class="op">==</span><span class="st"> </span><span class="dv">2</span>){
+      y =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n,<span class="dv">0</span>,<span class="kw">sqrt</span>(sig2))
+      y[<span class="dv">20</span>] =<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>x[<span class="dv">20</span>] <span class="op">-</span><span class="st"> </span><span class="dv">10</span>
+      coef.LS.cont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)
+      coef.rob.cont[i,] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">lmrob</span>(y <span class="op">~</span><span class="st"> </span>x)<span class="op">$</span>coef)
+    }
+  }
+}
+
+<span class="co"># Make graph</span>
+colors =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)
+names =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;LS - uncont&quot;</span>,<span class="st">&quot;Rob - uncont&quot;</span>,<span class="st">&quot;LS - cont&quot;</span>,<span class="st">&quot;Rob - cont&quot;</span>)
+
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">boxplot</span>(coef.LS.uncont[,<span class="dv">1</span>],coef.rob.uncont[,<span class="dv">1</span>],coef.LS.cont[,<span class="dv">1</span>],
+        coef.rob.cont[,<span class="dv">1</span>], <span class="dt">main =</span> <span class="kw">expression</span>(alpha), 
+        <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>)], 
+        <span class="dt">cex.main =</span> <span class="fl">1.5</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>)
+<span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="ot">FALSE</span>)
+<span class="kw">text</span>(<span class="dt">x =</span> <span class="kw">seq_along</span>(names), <span class="dt">y =</span> <span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>] <span class="op">-</span><span class="st"> </span><span class="fl">0.15</span>, <span class="dt">srt =</span> <span class="dv">45</span>, <span class="dt">adj =</span> <span class="dv">1</span>,
+     <span class="dt">labels =</span> names, <span class="dt">xpd =</span> <span class="ot">TRUE</span>)
+
+<span class="kw">abline</span>(<span class="dt">h =</span> alpha, <span class="dt">lwd =</span> <span class="dv">2</span>)
+
+<span class="kw">boxplot</span>(coef.LS.uncont[,<span class="dv">2</span>],coef.rob.uncont[,<span class="dv">2</span>],coef.LS.cont[,<span class="dv">2</span>],
+        coef.rob.cont[,<span class="dv">2</span>], <span class="dt">main =</span> <span class="kw">expression</span>(beta), 
+        <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>)], 
+        <span class="dt">cex.main =</span> <span class="fl">1.5</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>)
+<span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="ot">FALSE</span>)
+<span class="kw">text</span>(<span class="dt">x =</span> <span class="kw">seq_along</span>(names), <span class="dt">y =</span> <span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>] <span class="op">-</span><span class="st"> </span><span class="fl">0.015</span>, <span class="dt">srt =</span> <span class="dv">45</span>, <span class="dt">adj =</span> <span class="dv">1</span>,
+     <span class="dt">labels =</span> names, <span class="dt">xpd =</span> <span class="ot">TRUE</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> beta, <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
 <p><img src="ts_files/figure-html/lmbsrob-1.png" width="672" /></p>
-<p>It can be seen that, as underlined earlier, that the estimations resulting from
-the two methods appear to be quite similar, with the robust estimator performing
-slightly less efficiently than the classical estimator. However, under the
-contaminated setting it is evident how the robust estimation procedure is not
-affected much by the outliers in the simulated data while the classical
-techniques appear to be highly biased. Therefore, if there appear to be outliers
-in the data, a robust estimation procedure may considered preferable. In fact,
-the results of the two estimations could be compared to understand if there
-appears to be some deviation from the model assumptions.</p>
+<p>It can be seen that, as underlined earlier, that the estimations resulting from the two methods appear to be quite similar, with the robust estimator performing slightly less efficiently than the classical estimator. However, under the contaminated setting it is evident how the robust estimation procedure is not affected much by the outliers in the simulated data while the classical techniques appear to be highly biased. Therefore, if there appear to be outliers in the data, a robust estimation procedure may considered preferable. In fact, the results of the two estimations could be compared to understand if there appears to be some deviation from the model assumptions.</p>
 
 <div class="example">
-<span id="exm:dsbook" class="example"><strong>Example B.3  </strong></span>A practical example which underlines the usefulness of robust estimation
-procedures is given by the dataset that contains the properties of 47 stars
-from the Hertzsprung-Russell diagram of the star cluster CYG OB1 in the
-direction of Cygnus. From the plot it can be observed that there appears to be
-a cluster of four stars on the upper left hand-side of the plot. The rest of
-the data however appears to have a reasonably good linear behavior.
+<span id="exm:dsbook" class="example"><strong>Example B.3  </strong></span>A practical example which underlines the usefulness of robust estimation procedures is given by the dataset that contains the properties of 47 stars from the Hertzsprung-Russell diagram of the star cluster CYG OB1 in the direction of Cygnus. From the plot it can be observed that there appears to be a cluster of four stars on the upper left hand-side of the plot. The rest of the data however appears to have a reasonably good linear behavior.
 </div>
 
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" data-line-number="1">colors =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb105-2" data-line-number="2"><span class="kw">data</span>(starsCYG, <span class="dt">package =</span> <span class="st">&quot;robustbase&quot;</span>)</a>
-<a class="sourceLine" id="cb105-3" data-line-number="3"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb105-4" data-line-number="4"><span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">xlim =</span> <span class="kw">range</span>(starsCYG<span class="op">$</span>log.Te) <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>,<span class="fl">0.1</span>),</a>
-<a class="sourceLine" id="cb105-5" data-line-number="5">     <span class="dt">ylim =</span> <span class="kw">range</span>(starsCYG<span class="op">$</span>log.light),</a>
-<a class="sourceLine" id="cb105-6" data-line-number="6">     <span class="dt">xlab =</span> <span class="st">&quot;Temperature at the surface of the star (log)&quot;</span>,</a>
-<a class="sourceLine" id="cb105-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">&quot;Light intensity (log)&quot;</span>)</a>
-<a class="sourceLine" id="cb105-8" data-line-number="8"><span class="kw">grid</span>()  </a>
-<a class="sourceLine" id="cb105-9" data-line-number="9"><span class="kw">points</span>(starsCYG, <span class="dt">col =</span> colors[<span class="dv">4</span>], <span class="dt">pch =</span> <span class="dv">16</span>)</a>
-<a class="sourceLine" id="cb105-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb105-11" data-line-number="11">LS =<span class="st"> </span><span class="kw">lm</span>(starsCYG<span class="op">$</span>log.light <span class="op">~</span><span class="st"> </span>starsCYG<span class="op">$</span>log.Te)</a>
-<a class="sourceLine" id="cb105-12" data-line-number="12">rob =<span class="st"> </span><span class="kw">lmrob</span>(starsCYG<span class="op">$</span>log.light <span class="op">~</span><span class="st"> </span>starsCYG<span class="op">$</span>log.Te)</a>
-<a class="sourceLine" id="cb105-13" data-line-number="13">x =<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="kw">min</span>(starsCYG<span class="op">$</span>log.Te)<span class="op">-</span><span class="fl">0.3</span>, </a>
-<a class="sourceLine" id="cb105-14" data-line-number="14">        <span class="dt">to =</span> <span class="kw">max</span>(starsCYG<span class="op">$</span>log.Te)<span class="op">+</span><span class="fl">0.3</span>, <span class="dt">length.out =</span> <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb105-15" data-line-number="15">fit.LS =<span class="st"> </span><span class="kw">coef</span>(LS)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>x<span class="op">*</span><span class="kw">coef</span>(LS)[<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb105-16" data-line-number="16">fit.rob =<span class="st"> </span><span class="kw">coef</span>(rob)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>x<span class="op">*</span><span class="kw">coef</span>(rob)[<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb105-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb105-18" data-line-number="18"><span class="kw">lines</span>(x, fit.LS, <span class="dt">col =</span> colors[<span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb105-19" data-line-number="19"><span class="kw">lines</span>(x, fit.rob, <span class="dt">col =</span> colors[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb105-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb105-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb105-22" data-line-number="22"><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;Estimated model (least-squares)&quot;</span>,</a>
-<a class="sourceLine" id="cb105-23" data-line-number="23">                    <span class="st">&quot;Estimated model (robust)&quot;</span>), <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>), </a>
-<a class="sourceLine" id="cb105-24" data-line-number="24">       <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">1</span>)], <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>), </a>
-<a class="sourceLine" id="cb105-25" data-line-number="25">       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colors =<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">6</span>)
+<span class="kw">data</span>(starsCYG, <span class="dt">package =</span> <span class="st">&quot;robustbase&quot;</span>)
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))
+<span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">xlim =</span> <span class="kw">range</span>(starsCYG<span class="op">$</span>log.Te) <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>,<span class="fl">0.1</span>),
+     <span class="dt">ylim =</span> <span class="kw">range</span>(starsCYG<span class="op">$</span>log.light),
+     <span class="dt">xlab =</span> <span class="st">&quot;Temperature at the surface of the star (log)&quot;</span>,
+     <span class="dt">ylab =</span> <span class="st">&quot;Light intensity (log)&quot;</span>)
+<span class="kw">grid</span>()  
+<span class="kw">points</span>(starsCYG, <span class="dt">col =</span> colors[<span class="dv">4</span>], <span class="dt">pch =</span> <span class="dv">16</span>)
+
+LS =<span class="st"> </span><span class="kw">lm</span>(starsCYG<span class="op">$</span>log.light <span class="op">~</span><span class="st"> </span>starsCYG<span class="op">$</span>log.Te)
+rob =<span class="st"> </span><span class="kw">lmrob</span>(starsCYG<span class="op">$</span>log.light <span class="op">~</span><span class="st"> </span>starsCYG<span class="op">$</span>log.Te)
+x =<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="kw">min</span>(starsCYG<span class="op">$</span>log.Te)<span class="op">-</span><span class="fl">0.3</span>, 
+        <span class="dt">to =</span> <span class="kw">max</span>(starsCYG<span class="op">$</span>log.Te)<span class="op">+</span><span class="fl">0.3</span>, <span class="dt">length.out =</span> <span class="dv">4</span>)
+fit.LS =<span class="st"> </span><span class="kw">coef</span>(LS)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>x<span class="op">*</span><span class="kw">coef</span>(LS)[<span class="dv">2</span>]
+fit.rob =<span class="st"> </span><span class="kw">coef</span>(rob)[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>x<span class="op">*</span><span class="kw">coef</span>(rob)[<span class="dv">2</span>]
+
+<span class="kw">lines</span>(x, fit.LS, <span class="dt">col =</span> colors[<span class="dv">5</span>])
+<span class="kw">lines</span>(x, fit.rob, <span class="dt">col =</span> colors[<span class="dv">1</span>])
+
+
+<span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;Estimated model (least-squares)&quot;</span>,
+                    <span class="st">&quot;Estimated model (robust)&quot;</span>), <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>), 
+       <span class="dt">col =</span> colors[<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">1</span>)], <span class="dt">lty =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>), 
+       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">16</span>,<span class="ot">NA</span>,<span class="ot">NA</span>))</code></pre></div>
 <div class="figure"><span id="fig:robstarcluster"></span>
 <img src="ts_files/figure-html/robstarcluster-1.png" alt="Comparison of Estimation Methodologies on 47 observations from the Hertzsprung-Russell diagram of the star cluster CYG OB1 in the direction of Cygnus." width="672" />
 <p class="caption">
 Figure B.2: Comparison of Estimation Methodologies on 47 observations from the Hertzsprung-Russell diagram of the star cluster CYG OB1 in the direction of Cygnus.
 </p>
 </div>
-<p>From Figure <a href="appendixb.html#fig:robstarcluster">B.2</a> it can be seen that classical linear
-regression is considerably affected by the cloud of apparent outliers on the
-left hand side of the plot. As a result, the regression line has a negative
-slope when the majority of the data appears to have a clear positive linear
-trend. The latter is however the case when using a robust approach which
-indeed detects a positive linear trend. Having said this, there are in fact
-two distinct populations in the data consisting in “giants” (upper left corner)
-and “main sequencers” (right handside). Thus, when observing data in general it
-is always necessary to understand if we are dealing with real
-outliers (unexplained outlying data) or simply with data that can be explained
-by other factors (e.g. a different population as in this example).</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw">summary</span>(LS)</a></code></pre></div>
+<p>From Figure <a href="appendixb.html#fig:robstarcluster">B.2</a> it can be seen that classical linear regression is considerably affected by the cloud of apparent outliers on the left hand side of the plot. As a result, the regression line has a negative slope when the majority of the data appears to have a clear positive linear trend. The latter is however the case when using a robust approach which indeed detects a positive linear trend. Having said this, there are in fact two distinct populations in the data consisting in “giants” (upper left corner) and “main sequencers” (right handside). Thus, when observing data in general it is always necessary to understand if we are dealing with real outliers (unexplained outlying data) or simply with data that can be explained by other factors (e.g. a different population as in this example).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(LS)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = starsCYG$log.light ~ starsCYG$log.Te)
@@ -606,7 +465,7 @@ by other factors (e.g. a different population as in this example).</p>
 ## Residual standard error: 0.5646 on 45 degrees of freedom
 ## Multiple R-squared:  0.04427,    Adjusted R-squared:  0.02304 
 ## F-statistic: 2.085 on 1 and 45 DF,  p-value: 0.1557</code></pre>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1"><span class="kw">summary</span>(rob)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(rob)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lmrob(formula = starsCYG$log.light ~ starsCYG$log.Te)
@@ -662,7 +521,7 @@ by other factors (e.g. a different population as in this example).</p>
 <p>Huber, P.J., and E.M. Ronchetti. 2009. <em>Robust Statistics</em>. John Wiley &amp; Sons Inc.</p>
 </div>
 <div id="ref-anscombe1960rejection">
-<p>Anscombe, F.J., and I. Guttman. 1960. “Rejection of Outliers.” <em>Technometrics</em> 2 (2). The American Society for Quality Control; The American Statistical Association:123–47.</p>
+<p>Anscombe, F.J., and I. Guttman. 1960. “Rejection of Outliers.” <em>Technometrics</em> 2 (2). The American Society for Quality Control; The American Statistical Association: 123–47.</p>
 </div>
 <div id="ref-hampel1987robust">
 <p>Hampel, F.R., E.M. Ronchetti, P.J. Rousseeuw, and W.A. Stahel. 1987. <em>Robust Statistics: the Approach Based on Influence Functions</em>. Wiley New York.</p>
@@ -671,20 +530,19 @@ by other factors (e.g. a different population as in this example).</p>
 <p>Hampel, F.R. 1968. “Contributions to the Theory of Robust Estimation.” PhD thesis, University of California, Berkeley.</p>
 </div>
 <div id="ref-huber1973robust">
-<p>Huber, P.J. 1973. “Robust Regression: Asymptotics, Conjectures and Monte Carlo.” <em>The Annals of Statistics</em> 1 (5). Institute of Mathematical Statistics:799–821.</p>
+<p>Huber, P.J. 1973. “Robust Regression: Asymptotics, Conjectures and Monte Carlo.” <em>The Annals of Statistics</em> 1 (5). Institute of Mathematical Statistics: 799–821.</p>
 </div>
 <div id="ref-hampel1973robust">
-<p>Hampel, F.R. 1968. “Contributions to the Theory of Robust Estimation.” PhD thesis, University of California, Berkeley.</p> 1973. “Robust Estimation: A Condensed Partial Survey.” <em>Probability Theory and Related Fields</em> 27 (2). Springer:87–104.</p>
+<p>Hampel, F.R. 1968. “Contributions to the Theory of Robust Estimation.” PhD thesis, University of California, Berkeley.</p> 1973. “Robust Estimation: A Condensed Partial Survey.” <em>Probability Theory and Related Fields</em> 27 (2). Springer: 87–104.</p>
 </div>
 <div id="ref-krasker1980estimation">
-<p>Krasker, W.S. 1980. “Estimation in Linear Regression Models with Disparate Data Points.” <em>Econometrica</em> 48 (6). The Econometric Society:1333–46.</p>
+<p>Krasker, W.S. 1980. “Estimation in Linear Regression Models with Disparate Data Points.” <em>Econometrica</em> 48 (6). The Econometric Society: 1333–46.</p>
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol start="1">
-<li id="fn1"><p><span class="math inline">\(M\)</span>-estimators are obtained as the
-minima of sums of functions of the data.<a href="appendixb.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p><span class="math inline">\(M\)</span>-estimators are obtained as the minima of sums of functions of the data.<a href="appendixb.html#fnref1">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -739,7 +597,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

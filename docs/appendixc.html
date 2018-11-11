@@ -49,69 +49,41 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -137,21 +109,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i><b>1.4</b> License</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
-<li class="chapter" data-level="2.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-wold-decomposition"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
-<li class="chapter" data-level="2.1.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The Deterministic Component (Signal)</a></li>
-<li class="chapter" data-level="2.1.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The Random Component (Noise)</a></li>
+<li class="chapter" data-level="2" data-path="introtimeseries.html"><a href="introtimeseries.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="introtimeseries.html"><a href="introtimeseries.html#the-wold-decomposition"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="introtimeseries.html"><a href="introtimeseries.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The Deterministic Component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introtimeseries.html"><a href="introtimeseries.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The Random Component (Noise)</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#eda"><i class="fa fa-check"></i><b>2.2</b> Exploratory Data Analysis for Time Series</a></li>
-<li class="chapter" data-level="2.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#dependence-in-time-series"><i class="fa fa-check"></i><b>2.3</b> Dependence in Time Series</a></li>
-<li class="chapter" data-level="2.4" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#basicmodels"><i class="fa fa-check"></i><b>2.4</b> Basic Time Series Models</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#wn"><i class="fa fa-check"></i><b>2.4.1</b> White Noise</a></li>
-<li class="chapter" data-level="2.4.2" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#rw"><i class="fa fa-check"></i><b>2.4.2</b> Random Walk</a></li>
-<li class="chapter" data-level="2.4.3" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ar1"><i class="fa fa-check"></i><b>2.4.3</b> First-Order Autoregressive Model</a></li>
-<li class="chapter" data-level="2.4.4" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#ma1"><i class="fa fa-check"></i><b>2.4.4</b> Moving Average Process of Order 1</a></li>
-<li class="chapter" data-level="2.4.5" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#drift"><i class="fa fa-check"></i><b>2.4.5</b> Linear Drift</a></li>
+<li class="chapter" data-level="2.2" data-path="introtimeseries.html"><a href="introtimeseries.html#eda"><i class="fa fa-check"></i><b>2.2</b> Exploratory Data Analysis for Time Series</a></li>
+<li class="chapter" data-level="2.3" data-path="introtimeseries.html"><a href="introtimeseries.html#dependence-in-time-series"><i class="fa fa-check"></i><b>2.3</b> Dependence in Time Series</a></li>
+<li class="chapter" data-level="2.4" data-path="introtimeseries.html"><a href="introtimeseries.html#basicmodels"><i class="fa fa-check"></i><b>2.4</b> Basic Time Series Models</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="introtimeseries.html"><a href="introtimeseries.html#wn"><i class="fa fa-check"></i><b>2.4.1</b> White Noise</a></li>
+<li class="chapter" data-level="2.4.2" data-path="introtimeseries.html"><a href="introtimeseries.html#rw"><i class="fa fa-check"></i><b>2.4.2</b> Random Walk</a></li>
+<li class="chapter" data-level="2.4.3" data-path="introtimeseries.html"><a href="introtimeseries.html#ar1"><i class="fa fa-check"></i><b>2.4.3</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.4.4" data-path="introtimeseries.html"><a href="introtimeseries.html#ma1"><i class="fa fa-check"></i><b>2.4.4</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.4.5" data-path="introtimeseries.html"><a href="introtimeseries.html#drift"><i class="fa fa-check"></i><b>2.4.5</b> Linear Drift</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="basic-elements-of-time-series.html"><a href="basic-elements-of-time-series.html#lts"><i class="fa fa-check"></i><b>2.5</b> Composite Stochastic Processes</a></li>
+<li class="chapter" data-level="2.5" data-path="introtimeseries.html"><a href="introtimeseries.html#lts"><i class="fa fa-check"></i><b>2.5</b> Composite Stochastic Processes</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="fundtimeseries.html"><a href="fundtimeseries.html"><i class="fa fa-check"></i><b>3</b> Fundamental Properties of Time Series</a><ul>
 <li class="chapter" data-level="3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#the-autocorrelation-and-autocovariance-functions"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
@@ -169,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html"><i class="fa fa-check"></i><b>4</b> The Family of Autoregressive Moving Average Models</a><ul>
 <li class="chapter" data-level="4.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#linear-processes"><i class="fa fa-check"></i><b>4.1</b> Linear Processes</a></li>
-<li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autoregressive-models---arp"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models - AR(p)</a><ul>
+<li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#ardefinition"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models - AR(p)</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#properties-of-arp-models"><i class="fa fa-check"></i><b>4.2.1</b> Properties of AR(p) models</a></li>
 <li class="chapter" data-level="4.2.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.2.2</b> Estimation of AR(p) models</a></li>
 <li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#forecasting-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Forecasting AR(p) Models</a></li>
@@ -180,7 +152,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) Models</a></li>
 <li class="chapter" data-level="4.5" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-selection"><i class="fa fa-check"></i><b>4.5</b> Model Selection</a></li>
-<li class="chapter" data-level="4.6" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#moving-average-models"><i class="fa fa-check"></i><b>4.6</b> Moving Average Models ⚠️</a></li>
+<li class="chapter" data-level="4.6" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#moving-average-models"><i class="fa fa-check"></i><b>4.6</b> Moving Average Models ⚠️</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autocovariance-of-ma-processes"><i class="fa fa-check"></i><b>4.6.1</b> Autocovariance of MA processes</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -220,10 +194,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="refs" class="references">
 <div>
-<p>Akaike, Hirotugu. 1974. “A New Look at the Statistical Model Identification.” <em>IEEE Transactions on Automatic Control</em> 19 (6). Ieee:716–23.</p>
+<p>Akaike, Hirotugu. 1974. “A New Look at the Statistical Model Identification.” <em>IEEE Transactions on Automatic Control</em> 19 (6). Ieee: 716–23.</p>
 </div>
 <div>
-<p>Anscombe, F.J., and I. Guttman. 1960. “Rejection of Outliers.” <em>Technometrics</em> 2 (2). The American Society for Quality Control; The American Statistical Association:123–47.</p>
+<p>Anscombe, F.J., and I. Guttman. 1960. “Rejection of Outliers.” <em>Technometrics</em> 2 (2). The American Society for Quality Control; The American Statistical Association: 123–47.</p>
 </div>
 <div>
 <p>Cochrane, John H. 2005. “Time Series for Macroeconomics and Finance.” <em>Manuscript, University of Chicago</em>.</p>
@@ -238,7 +212,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Hampel, F.R. 1968. “Contributions to the Theory of Robust Estimation.” PhD thesis, University of California, Berkeley.</p>
 </div>
 <div>
-<p>———. 1973. “Robust Estimation: A Condensed Partial Survey.” <em>Probability Theory and Related Fields</em> 27 (2). Springer:87–104.</p>
+<p>———. 1973. “Robust Estimation: A Condensed Partial Survey.” <em>Probability Theory and Related Fields</em> 27 (2). Springer: 87–104.</p>
 </div>
 <div>
 <p>Hampel, F.R., E.M. Ronchetti, P.J. Rousseeuw, and W.A. Stahel. 1987. <em>Robust Statistics: the Approach Based on Influence Functions</em>. Wiley New York.</p>
@@ -250,16 +224,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Hastie, Trevor, Jerome Friedman, and Robert Tibshirani. 2001. <em>The Elements of Statistical Learning</em>. Vol. 1. 10. Springer series in statistics New York, NY, USA:</p>
 </div>
 <div>
-<p>Huber, P.J. 1973. “Robust Regression: Asymptotics, Conjectures and Monte Carlo.” <em>The Annals of Statistics</em> 1 (5). Institute of Mathematical Statistics:799–821.</p>
+<p>Huber, P.J. 1973. “Robust Regression: Asymptotics, Conjectures and Monte Carlo.” <em>The Annals of Statistics</em> 1 (5). Institute of Mathematical Statistics: 799–821.</p>
 </div>
 <div>
 <p>Huber, P.J., and E.M. Ronchetti. 2009. <em>Robust Statistics</em>. John Wiley &amp; Sons Inc.</p>
 </div>
 <div>
-<p>Krasker, W.S. 1980. “Estimation in Linear Regression Models with Disparate Data Points.” <em>Econometrica</em> 48 (6). The Econometric Society:1333–46.</p>
+<p>Krasker, W.S. 1980. “Estimation in Linear Regression Models with Disparate Data Points.” <em>Econometrica</em> 48 (6). The Econometric Society: 1333–46.</p>
 </div>
 <div>
-<p>Mallows, Colin L. 1973. “Some Comments on c P.” <em>Technometrics</em> 15 (4). Taylor &amp; Francis Group:661–75.</p>
+<p>Mallows, Colin L. 1973. “Some Comments on c P.” <em>Technometrics</em> 15 (4). Taylor &amp; Francis Group: 661–75.</p>
 </div>
 <div>
 <p>McQuarrie, Allan DR, and Chih-Ling Tsai. 1998. <em>Regression and Time Series Model Selection</em>. World Scientific.</p>
@@ -268,7 +242,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Ronchetti, E.M. 2006. “The Historical Development of Robust Statistics.”</p>
 </div>
 <div>
-<p>Schwarz, Gideon, and others. 1978. “Estimating the Dimension of a Model.” <em>The Annals of Statistics</em> 6 (2). Institute of Mathematical Statistics:461–64.</p>
+<p>Schwarz, Gideon, and others. 1978. “Estimating the Dimension of a Model.” <em>The Annals of Statistics</em> 6 (2). Institute of Mathematical Statistics: 461–64.</p>
 </div>
 <div>
 <p>Shibata, Ritei. 1980. “Asymptotically Efficient Selection of the Order of the Model for Estimating Parameters of a Linear Process.” <em>The Annals of Statistics</em>. JSTOR, 147–64.</p>
@@ -278,7 +252,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-
 
 
 
@@ -337,7 +310,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');
