@@ -1814,7 +1814,7 @@ As anticipated, it can be seen how the BIC (green bars) often selects a small di
 
 Having studied th performance of these three criteria through the described simultation study, let us now consider an example we looked at when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.
 
-```{r, cache = TRUE, fig.asp = 0.45, fig.width = 9, fig.align='center', fig.cap="Empirical PACF of the yearly lynx trapping time series."}
+```{r, cache = TRUE, fig.asp = 0.45, fig.width = 9, fig.align='center', fig.cap="Empirical ACF and PACF of the yearly lynx trapping time series."}
 cor_lynx = corr_analysis(lynx_gts)
 ```
 

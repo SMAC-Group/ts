@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Applied Time Series Analysis with R</title>
+  <meta name="description" content="Applied Time Series Analysis with R">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Applied Time Series Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="SMAC-Group/ts" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Applied Time Series Analysis with R" />
+  
+  
+  
+
+<meta name="author" content="Stéphane Guerrier, Roberto Molinari, Haotian Xu and Yuming Zhang">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="prev" href="the-family-of-autoregressive-moving-average-models.html">
+<link rel="next" href="references.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Applied Time Series Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Foundation</b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i><b>1.1</b> Conventions</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#bibliographic-note"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i><b>1.4</b> License</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introtimeseries.html"><a href="introtimeseries.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="introtimeseries.html"><a href="introtimeseries.html#the-wold-decomposition"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="introtimeseries.html"><a href="introtimeseries.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The Deterministic Component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introtimeseries.html"><a href="introtimeseries.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The Random Component (Noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introtimeseries.html"><a href="introtimeseries.html#eda"><i class="fa fa-check"></i><b>2.2</b> Exploratory Data Analysis for Time Series</a></li>
+<li class="chapter" data-level="2.3" data-path="introtimeseries.html"><a href="introtimeseries.html#dependence-in-time-series"><i class="fa fa-check"></i><b>2.3</b> Dependence in Time Series</a></li>
+<li class="chapter" data-level="2.4" data-path="introtimeseries.html"><a href="introtimeseries.html#basicmodels"><i class="fa fa-check"></i><b>2.4</b> Basic Time Series Models</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="introtimeseries.html"><a href="introtimeseries.html#wn"><i class="fa fa-check"></i><b>2.4.1</b> White Noise</a></li>
+<li class="chapter" data-level="2.4.2" data-path="introtimeseries.html"><a href="introtimeseries.html#rw"><i class="fa fa-check"></i><b>2.4.2</b> Random Walk</a></li>
+<li class="chapter" data-level="2.4.3" data-path="introtimeseries.html"><a href="introtimeseries.html#ar1"><i class="fa fa-check"></i><b>2.4.3</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.4.4" data-path="introtimeseries.html"><a href="introtimeseries.html#ma1"><i class="fa fa-check"></i><b>2.4.4</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.4.5" data-path="introtimeseries.html"><a href="introtimeseries.html#drift"><i class="fa fa-check"></i><b>2.4.5</b> Linear Drift</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="introtimeseries.html"><a href="introtimeseries.html#lts"><i class="fa fa-check"></i><b>2.5</b> Composite Stochastic Processes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="fundtimeseries.html"><a href="fundtimeseries.html"><i class="fa fa-check"></i><b>3</b> Fundamental Properties of Time Series</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#the-autocorrelation-and-autocovariance-functions"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#a-fundamental-representation"><i class="fa fa-check"></i><b>3.1.1</b> A Fundamental Representation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#admissible-autocorrelation-functions"><i class="fa fa-check"></i><b>3.1.2</b> Admissible Autocorrelation Functions 😱</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#stationary"><i class="fa fa-check"></i><b>3.2</b> Stationarity</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#assessing-weak-stationarity-of-time-series-models"><i class="fa fa-check"></i><b>3.2.1</b> Assessing Weak Stationarity of Time Series Models</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="fundtimeseries.html"><a href="fundtimeseries.html#estimation-of-moments-stationary-processes"><i class="fa fa-check"></i><b>3.3</b> Estimation of Moments (Stationary Processes)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#estimation-of-the-mean-function"><i class="fa fa-check"></i><b>3.3.1</b> Estimation of the Mean Function</a></li>
+<li class="chapter" data-level="3.3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#sample-autocovariance-and-autocorrelation-functions"><i class="fa fa-check"></i><b>3.3.2</b> Sample Autocovariance and Autocorrelation Functions</a></li>
+<li class="chapter" data-level="3.3.3" data-path="fundtimeseries.html"><a href="fundtimeseries.html#robustness-issues"><i class="fa fa-check"></i><b>3.3.3</b> Robustness Issues</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html"><i class="fa fa-check"></i><b>4</b> The Family of Autoregressive Moving Average Models</a><ul>
+<li class="chapter" data-level="4.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#linear-processes"><i class="fa fa-check"></i><b>4.1</b> Linear Processes</a></li>
+<li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#ardefinition"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models - AR(p)</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#properties-of-arp-models"><i class="fa fa-check"></i><b>4.2.1</b> Properties of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.2.2</b> Estimation of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#forecasting-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Forecasting AR(p) Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#diagnostic-tools-for-time-series"><i class="fa fa-check"></i><b>4.3</b> Diagnostic Tools for Time Series</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#the-partial-autocorrelation-function-pacf"><i class="fa fa-check"></i><b>4.3.1</b> The Partial AutoCorrelation Function (PACF)</a></li>
+<li class="chapter" data-level="4.3.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#portmanteau-tests"><i class="fa fa-check"></i><b>4.3.2</b> Portmanteau Tests</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) Models</a></li>
+<li class="chapter" data-level="4.5" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-1"><i class="fa fa-check"></i><b>4.5</b> Model 1</a></li>
+<li class="chapter" data-level="4.6" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-2"><i class="fa fa-check"></i><b>4.6</b> Model 2</a></li>
+<li class="chapter" data-level="4.7" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-selection"><i class="fa fa-check"></i><b>4.7</b> Model Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="under-development.html"><a href="under-development.html"><i class="fa fa-check"></i><b>5</b> Under development</a><ul>
+<li class="chapter" data-level="5.1" data-path="under-development.html"><a href="under-development.html#moving-average-models"><i class="fa fa-check"></i><b>5.1</b> Moving Average Models ⚠️</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="under-development.html"><a href="under-development.html#autocovariance-of-ma-processes"><i class="fa fa-check"></i><b>5.1.1</b> Autocovariance of MA processes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="proofs.html"><a href="proofs.html"><i class="fa fa-check"></i><b>A</b> Proofs 😱</a><ul>
+<li class="chapter" data-level="A.1" data-path="proofs.html"><a href="proofs.html#appendixa"><i class="fa fa-check"></i><b>A.1</b> Proof of Theorem 3.1</a></li>
+<li class="chapter" data-level="A.2" data-path="proofs.html"><a href="proofs.html#appendixc"><i class="fa fa-check"></i><b>A.2</b> Proof of Theorem 4.1</a></li>
+<li class="chapter" data-level="A.3" data-path="proofs.html"><a href="proofs.html#appendixoptim"><i class="fa fa-check"></i><b>A.3</b> Proof of Theorem 4.2</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendixb.html"><a href="appendixb.html"><i class="fa fa-check"></i><b>B</b> Robust Regression Methods</a><ul>
+<li class="chapter" data-level="B.1" data-path="appendixb.html"><a href="appendixb.html#the-classical-least-squares-estimator"><i class="fa fa-check"></i><b>B.1</b> The Classical Least-Squares Estimator</a></li>
+<li class="chapter" data-level="B.2" data-path="appendixb.html"><a href="appendixb.html#robust-estimators-for-linear-regression-models"><i class="fa fa-check"></i><b>B.2</b> Robust Estimators for Linear Regression Models</a></li>
+<li class="chapter" data-level="B.3" data-path="appendixb.html"><a href="appendixb.html#applications-of-robust-estimation"><i class="fa fa-check"></i><b>B.3</b> Applications of Robust Estimation</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="proofs.html"><a href="proofs.html#appendixc"><i class="fa fa-check"></i><b>C</b> Proofs</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/SMAC-Group/ts" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Time Series Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="under-development" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Under development</h1>
+<div id="moving-average-models" class="section level2">
+<h2><span class="header-section-number">5.1</span> Moving Average Models ⚠️</h2>
+<p>The class of AR(<span class="math inline">\(p\)</span>) models is a very general class that allows to take into account different forms of linear dependence between past and future observations. However, there are some forms of linear dependence that can appear as “shocks” in the innovation noise of a time series. In this sense, we have already seen a model that describes a certain form of this dependence which is the MA(1) defined as</p>
+<p><span class="math display">\[X_t = \theta W_{t-1} + W_t\]</span>
+where <span class="math inline">\((W_t)\)</span> is a white noise process. As can be seen, the observed time series <span class="math inline">\((X_t)\)</span> is a linear combination of the innovation process. In this section we generalise this process to the class of MA(<span class="math inline">\(q\)</span>) processes that are defined as follows.</p>
+
+<div class="definition">
+<p><span id="def:maq" class="definition"><strong>Definition 5.1  (Moving Average of Order Q)  </strong></span>A Moving Average of Order <span class="math inline">\(q\)</span> or MA(<span class="math inline">\(q\)</span>) model is defined as follows:</p>
+<p><span class="math display">\[{X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t,\]</span></p>
+where <span class="math inline">\(\theta_q \neq 0\)</span>.
+</div>
+
+<p>If we make use of the backshift operator defined earlier in this chapter, we can rewrite this model as:</p>
+<p><span class="math display">\[\begin{aligned}
+  X_t &amp;= \theta_1 B W_t + ... + \theta_q  B^q W_t + W_t \\ 
+  &amp;= (\theta_1  B + ... + \theta_q  B^q + 1) W_t .\\
+\end{aligned} \]</span></p>
+<p>Based on this we can deliver the following definition.</p>
+
+<div class="definition">
+<span id="def:maqo" class="definition"><strong>Definition 5.2  (Moving Average Operator)  </strong></span>The moving average operator is defined as
+<span class="math display">\[\theta(B) \equiv 1 + \theta_1 B + ... + \theta_q B^q.\]</span>
+</div>
+
+<p>This allows us to write an MA(<span class="math inline">\(q\)</span>) process as</p>
+<p><span class="math display">\[X_t = \theta (B) W_t .\]</span>
+Following this definition, it is possible to see that an MA(<span class="math inline">\(q\)</span>) process is always stationary. Indeed, an MA(<span class="math inline">\(q\)</span>) respects the defintion of a linear process (see Definition <a href="#def:lp"><strong>??</strong></a>) where <span class="math inline">\(\psi_0 = 1\)</span>, <span class="math inline">\(\psi_j = \theta_j\)</span> for <span class="math inline">\(j = 1, ..., q\)</span>, and <span class="math inline">\(\psi_j = 0\)</span> for <span class="math inline">\(j &gt; q\)</span> and, based on this, we can show its stationarity.</p>
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-2" class="example"><strong>Example 5.1  (Stationarity of an MA(q) Process)  </strong></span>Based on the above definitions, we can rewrite an MA(q) process as <span class="math inline">\(X_t = \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}}\)</span>, where <span class="math inline">\(\theta_0 = 1\)</span> and assume the condition that <span class="math inline">\(\sum\limits_{j = 0}^q {\theta _j^2} &lt; \infty\)</span> (if <span class="math inline">\(\theta_j &lt; \infty\)</span> for all <span class="math inline">\(j\)</span> and <span class="math inline">\(q &lt; \infty\)</span>, this condition is verified). Using this expression we start verifying (weak) stationarity by checking the expectation of an MA(q) process which is given by</p>
+<p><span class="math display">\[\mathbb{E}\left[ X_t \right] = \mathbb{E}\left[ \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} \right] = \sum\limits_{i = 0}^q {{\theta _i}}  \mathbb{E}\left[ {W_{t - i}} \right] = 0,\]</span></p>
+<p>which confirms that the expectation is constant. We now have to verify the conditions on the autocovariance function which is derived as follows:</p>
+<span class="math display">\[\begin{align}
+\text{cov}\left( {{X_{t + h}},{X_t}} \right) &amp;= \text{cov} \left( {\sum\limits_{j = 0}^q {{\theta _j}{W_{t + h - j}}} ,\sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} } \right) \\
+&amp;= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i} \;\text{cov} \left( {{W_{t + h - j}},{W_{t - i}}} \right)} }  \\
+&amp;= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\; \underbrace {\text{cov} \left( {{W_{t + h - j}},{W_{t - i}}} \right)}_{ = 0 \, \text{for} \, i = j - h}} }  + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j} \;\underbrace{\text{cov} \left( {{W_t},{W_t}} \right)}_{= \sigma^2}} \\
+&amp;= {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}
+\end{align}\]</span>
+<p>As a result, we have:</p>
+<p><span class="math display">\[{1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}  \leqslant {\sigma ^2}\sum\limits_{j = 0}^q {\theta _j^2}  &lt; \infty. \]</span></p>
+<p>Given these results, we also have</p>
+<p><span class="math display">\[\text{var}(X_t) = {\sigma ^2}\sum\limits_{j = 0}^q {\theta _j^2},\]</span></p>
+which (under our assumption) is finite and does not depend on time. Moreover, the covariance only depends on the lag <span class="math inline">\(h\)</span> (not on the time <span class="math inline">\(t\)</span>) and, therefore, an MA(<span class="math inline">\(q\)</span>) process is weakly stationary.
+</div>
+
+<p><br></p>
+<p>Although an MA(<span class="math inline">\(q\)</span>) process is always weakly stationary, it is important to well define these models since they can be characterized by certain parametrizations that don’t allow them to be uniquely identified. Indeed, the latter issues can be referred to as identifiability in which different MA(<span class="math inline">\(q\)</span>) models (of the same order <span class="math inline">\(q\)</span>) can produce identical autocovariance functions.</p>
+
+<div class="example">
+<p><span id="exm:nonuniquema" class="example"><strong>Example 5.2  (Non-uniqueness of MA models)  </strong></span>For example, consider the following two MA(1) processes:</p>
+<p><span class="math display">\[
+\begin{aligned}
+X_t &amp;= \frac{1}{\theta}W_{t-1} + W_t,&amp;{}&amp; W_t \overset{iid}{\sim} \mathcal{N} (0, \sigma^2\theta^2), \\
+Y_t &amp;= \theta Z_{t-1} + Z_t,&amp;{}&amp; Z_t \overset{iid}{\sim} \mathcal{N} (0,\sigma^2).
+\end{aligned}
+\]</span></p>
+<p>By observation, one can note that the models share the same expectation:</p>
+<p><span class="math display">\[\mathbb{E}\left[ {{X_t}} \right] = \mathbb{E}\left[ {{Y_t}} \right] = 0.\]</span></p>
+<p>However, for the autocovariance, the process requires a bit more effort,</p>
+<span class="math display">\[\begin{align}
+\text{cov} \left( {{X_t},{X_{t + h}}} \right) &amp;= \text{cov} \left( {{W_t} + \frac{1}{\theta }{W_{t - 1}},{W_{t + h}} + \frac{1}{\theta }{W_{t + h - 1}}} \right)\\
+&amp;= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma^2}{\theta ^2}  + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta }\\
+&amp;= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\theta^2} + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\[12pt]
+\text{cov} \left( {{Y_t},{Y_{t + h}}} \right) &amp;= \text{cov} \left( {{Z_t} + \theta {Z_{t - 1}},{Z_{t + h}} + \theta {Z_{t + h - 1}}} \right)\\
+&amp;= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta\\
+&amp;= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\theta ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right).
+\end{align}\]</span>
+<p>From this we can see that <span class="math inline">\(\text{cov} \left( {{X_t},{X_{t + h}}} \right) = \text{cov} \left( {{Y_t},{Y_{t + h}}} \right)\)</span>, for all <span class="math inline">\(h \in \mathbb{Z}\)</span>. Using this result and since the innovations of the two processes are Gaussian we have:</p>
+<p><span class="math display">\[\mathbf{X}_T \sim \mathcal{N} \left(\mathbf{0}, \boldsymbol{\Sigma}\right), \;\;\; \text{and} \;\;\; \mathbf{Y}_T \sim \mathcal{N} \left(\mathbf{0}, \boldsymbol{\Sigma}\right)\]</span></p>
+<p>where <span class="math display">\[\mathbf{X}_T \equiv \left[ {\begin{array}{*{20}{c}}
+  {{X_1}} \\ 
+   \vdots  \\ 
+  {{X_T}} 
+\end{array}} \right],\mathbf{Y}_T \equiv \left[ {\begin{array}{*{20}{c}}
+  {{Y_1}} \\ 
+   \vdots  \\ 
+  {{Y_T}} 
+\end{array}} \right],\]</span></p>
+<p>and where</p>
+<p><span class="math display">\[\boldsymbol{\Sigma} \equiv {\sigma ^2}\left[ {\begin{array}{*{20}{c}}
+  {\left( {1 + {\theta ^2}} \right)}&amp;\theta &amp;0&amp; \cdots &amp;0 \\ 
+  \theta &amp;{\left( {1 + {\theta ^2}} \right)}&amp;\theta &amp;{}&amp; \vdots  \\ 
+  0&amp;\theta &amp;{\left( {1 + {\theta ^2}} \right)}&amp;{}&amp;{} \\ 
+   \vdots &amp;{}&amp;{}&amp; \ddots &amp;{} \\ 
+  0&amp; \cdots &amp;{}&amp;{}&amp;{\left( {1 + {\theta ^2}} \right)} 
+\end{array}} \right].\]</span></p>
+Therefore the two process are completely indistinguishable as they have the <strong>same distribution</strong> (as highlighted in Chapter <a href="introtimeseries.html#introtimeseries">2</a>). In Statistics, they are said to be <strong>non-identifiable</strong>.
+</div>
+
+<p><br></p>
+<p>Naturally, the identifiability issues discussed in Example <a href="under-development.html#exm:nonuniquema">5.2</a> is of considerable importance to tackle especially when attempting to estimate the parameters of an MA(<span class="math inline">\(q\)</span>) model. For the purpose of illustration, let us again consider the same setting with an MA(1) process in the example below.</p>
+
+<div class="example">
+<p><span id="exm:nonuniquema2" class="example"><strong>Example 5.3  (Non-injectivity of the Likelihood function for MA models)  </strong></span>Using the same setting as in Example <a href="under-development.html#exm:nonuniquema">5.2</a>, we will verify that likelihood is not injective (which is rather trivial). Indeed, <span class="math inline">\(\mathbf{X}_T\)</span> follows a multivariate normal distrbution with mean <span class="math inline">\(\mathbf{0}\)</span> and covariance matrix $ and therefore likelihood function for an MA(1) is the following:</p>
+<p><span class="math display">\[L\left( {\boldsymbol{\beta} |\mathbf{X}_T} \right) = {\left( {2\pi } \right)^{ - \frac{T}{2}}}{\left| \boldsymbol{\Sigma}(\boldsymbol{\beta})  \right|^{ - \frac{1}{2}}}\exp \left( { - \frac{1}{2}{\mathbf{X}_T^T}{\boldsymbol{\Sigma}(\boldsymbol{\beta})^{ - 1}}\mathbf{X}_T} \right),\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{\beta} \equiv [\theta \;\;\; \sigma^2]^T\)</span>. Then, it is easy to see that if we take</p>
+<p><span class="math display">\[{\boldsymbol{\beta}_1} = \left[ {\begin{array}{*{20}{c}}
+  \theta  \\ 
+  {{\sigma ^2}} 
+\end{array}} \right]\;\;\; \text{and}\;\;\;{\boldsymbol{\beta}_2} = \left[ {\begin{array}{*{20}{c}}
+  {\frac{1}{\theta }} \\ 
+  {{\sigma ^2}\theta } 
+\end{array}} \right],\]</span></p>
+<p>we will have</p>
+<p><span class="math display">\[L\left( {\boldsymbol{\beta}_1} |\mathbf{X}_T \right)= L\left( {\boldsymbol{\beta}_2} |\mathbf{X}_T \right),\]</span></p>
+since <span class="math inline">\(\boldsymbol{\Sigma}(\boldsymbol{\beta}_1)=\boldsymbol{\Sigma}(\boldsymbol{\beta}_2)\)</span>. This non-injectivity of the likelihood is problematic since the MLE is the value of <span class="math inline">\(\boldsymbol{\beta}\)</span> that maximzes the likelihood function. Therefore, in this case the solution will not be unique.
+</div>
+
+<p><br></p>
+<p>Given that the identifiability issuees illutrated in Examples <a href="under-development.html#exm:nonuniquema">5.2</a> and <a href="under-development.html#exm:nonuniquema2">5.3</a>, the accepted rule to choose which MA(<span class="math inline">\(q\)</span>) model to estimate (among the equivalent models) is to only consider the MA(<span class="math inline">\(q\)</span>) models that, when rewritten in an AR(<span class="math inline">\(p\)</span>) form, can be defined as being AR(<span class="math inline">\(\infty\)</span>) models. These models are called <strong>invertible</strong>. Let us consider a MA(1) model</p>
+<p><span class="math display">\[X_t = \theta W_{t-1} + W_t,\]</span>
+which can be rewritten as</p>
+<p><span class="math display">\[W_t = -\theta W_{t-1} + X_t.\]</span>
+Now, the MA(1) model has taken the form of an AR(1) model and, using the recursive approach that we used to study the AR(<span class="math inline">\(p\)</span>) models, we can show that we get to the form</p>
+<p><span class="math display">\[W_t = (-\theta)^t W_0 + \sum_{j = 0}^t (-\theta)^j X_{t-j}.\]</span>
+If we assume <span class="math inline">\(|\theta| &lt; 1\)</span>, then we finally get to the causal AR(1) representation</p>
+<p><span class="math display">\[W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}.\]</span></p>
+<p>Therefore, between two MA(1) models with two identical ACFs, we choose the invertible MA(1) which respects the condition <span class="math inline">\(|\theta| &lt; 1\)</span>. The same reasoning as for causal AR(<span class="math inline">\(p\)</span>) models is also applied for invertible MA(<span class="math inline">\(q\)</span>) models thereby restricting the possible values of the parameters of an MA(<span class="math inline">\(q\)</span>) model to the admissable region defined in the same way as for causal AR(<span class="math inline">\(p\)</span>) models. This reasoning also allows us to study MA(<span class="math inline">\(q\)</span>) models similarly to AR(<span class="math inline">\(p\)</span>) models. Indeed, we can write an MA(1) model as</p>
+<p><span class="math display">\[X_t = \theta(B)W_t,\]</span>
+where <span class="math inline">\(\theta(B)\)</span> is the moving average operator defined earlier. Based on this we can rewrite the model as</p>
+<p><span class="math display">\[\frac{1}{\theta(B)} X_t = W_t,\]</span>
+and, if <span class="math inline">\(|\theta| &lt; 1\)</span>, we can rexpress the inverse moving average operator <span class="math inline">\(\theta^{-1}(B)\)</span> as <span class="math inline">\(\sum_{j = 0}^{\infty} (-\theta)^j B^j\)</span> which provides us with the invertible representation of an MA(1) process seen earlier.</p>
+<div id="autocovariance-of-ma-processes" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Autocovariance of MA processes</h3>
+<p>In this section, we will briefly discuss the behaviour of the ACF and PACF of MA(<span class="math inline">\(q\)</span>). As an example let us consider the following four MA(<span class="math inline">\(q\)</span>) models:</p>
+<p><span class="math display">\[
+\begin{aligned}
+X_t &amp;= 0.9 W_{t-1} + W_t \\
+X_t &amp;= -0.9 W_{t-1} + W_t \\
+Y_t &amp;= 1.2W_{t-1} -0.3 W_{t-2}+ W_t \\
+Z_t &amp;= -1.5 W_{t-1} + 0.5 W_{t-2} - 0.2 W_{t-3} + W_t.
+\end{aligned}
+\]</span>
+The theoretical ACF plots of these three models are shown below.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="fl">0.9</span>))</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="fl">-0.9</span>))</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">-0.3</span>)))</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="fl">-0.2</span>)))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
+<img src="ts_files/figure-html/unnamed-chunk-4-1.png" alt="Theoretical ACF of four MA models with parameters." width="768" />
+<p class="caption">
+Figure 5.1: Theoretical ACF of four MA models with parameters.
+</p>
+</div>
+<p>As you can notice, the values of the ACF plots become zero as soon as the lag of the ACF goes beyond the order <span class="math inline">\(q\)</span> of the MA(<span class="math inline">\(q\)</span>) model. Hence, the ACF plot of an MA(<span class="math inline">\(q\)</span>) model plays the same role that the PACF plays for AR(<span class="math inline">\(p\)</span>) models: it helps determine the order <span class="math inline">\(q\)</span> of the MA(<span class="math inline">\(q\)</span>) process generated a given time series. Let us now consider the PACF plots of the same models defined above.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="fl">0.9</span>))</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="fl">-0.9</span>))</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">0.3</span>)))</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="fl">-0.2</span>)))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="ts_files/figure-html/unnamed-chunk-6-1.png" alt="Theoretical PACF of four MA models with parameters." width="768" />
+<p class="caption">
+Figure 5.2: Theoretical PACF of four MA models with parameters.
+</p>
+</div>
+<p>In this case, we can see that the PACF plots show a certain exponential (sinusoidal) decay that is usually observed in the ACF plots of AR(<span class="math inline">\(p\)</span>) models. Therefore, the roles of the ACF and PACF in identifying the kind of AR(<span class="math inline">\(p\)</span>) models underlying an observed time series is completely inversed when considering MA(<span class="math inline">\(q\)</span>) models. Indeed, the PACF plot of an MA(<span class="math inline">\(q\)</span>) model has an exponentially decay while the ACF cuts off after the lag has reached the order of the model (<span class="math inline">\(q\)</span> for MA(<span class="math inline">\(q\)</span>) models). Let us simulate <span class="math inline">\(T = 200\)</span> observations from <span class="math inline">\((X_t)\)</span> to obtain the following time series:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="kw">MA</span>(<span class="dt">theta =</span> <span class="fl">0.9</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>), <span class="dt">n =</span> <span class="dv">200</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">plot</span>(Xt)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
+<img src="ts_files/figure-html/unnamed-chunk-7-1.png" alt="Simulated MA(1) Process" width="672" />
+<p class="caption">
+Figure 5.3: Simulated MA(1) Process
+</p>
+</div>
+<p>Using this data, let us estimate the ACF and PACF of this time series.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">corr_analysis</span>(Xt)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-8"></span>
+<img src="ts_files/figure-html/unnamed-chunk-8-1.png" alt="Empirical ACF and PACF of the previously simulated MA(1)." width="864" />
+<p class="caption">
+Figure 5.4: Empirical ACF and PACF of the previously simulated MA(1).
+</p>
+</div>
+<pre><code>## $ACF
+## , , x
+## 
+##             ACF
+## 0   1.000000000
+## 1   0.472261150
+## 2  -0.018851788
+## 3  -0.033191035
+## 4  -0.120275338
+## 5  -0.085195707
+## 6   0.010283221
+## 7  -0.029794360
+## 8  -0.059643898
+## 9  -0.041696495
+## 10 -0.067652169
+## 11 -0.017665649
+## 12  0.047223407
+## 13 -0.006182177
+## 14  0.005662105
+## 15  0.017117486
+## 16 -0.022504798
+## 17 -0.017749964
+## 18 -0.031372198
+## 19 -0.053242790
+## 20 -0.067897555
+## 21 -0.040768266
+## 22 -0.068425874
+## 23 -0.115004927
+## 
+## attr(,&quot;n&quot;)
+## [1] 200
+## attr(,&quot;class&quot;)
+## [1] &quot;simtsACF&quot; &quot;array&quot;   
+## 
+## $PACF
+## , , x
+## 
+##             PACF
+## 0   0.4722611501
+## 1  -0.3113151952
+## 2   0.1788676108
+## 3  -0.2801773660
+## 4   0.1970491078
+## 5  -0.1366974352
+## 6   0.0391139097
+## 7  -0.0932530561
+## 8   0.0263694783
+## 9  -0.0987396689
+## 10  0.1062457630
+## 11 -0.0639802219
+## 12  0.0001480401
+## 13  0.0309131733
+## 14 -0.0490788004
+## 15  0.0330684200
+## 16 -0.0586922328
+## 17 -0.0059040552
+## 18 -0.0403650516
+## 19 -0.0585344478
+## 20  0.0354933614
+## 21 -0.1516389254
+## 22 -0.0021330270
+## 
+## attr(,&quot;n&quot;)
+## [1] 200
+## attr(,&quot;class&quot;)
+## [1] &quot;PACF&quot;  &quot;array&quot;</code></pre>
+<p>From these plots, using the PACF we could conclude that this function appears to decay as the lags increase (as the PACF of an MA(<span class="math inline">\(q\)</span>) model is expected to do) while using the ACF we could state that the correct order for the MA(<span class="math inline">\(q\)</span>) model is <span class="math inline">\(q = 1\)</span> since the ACF does not appear to be significant after lag 1. Let us now also consider the model selection criteria described in the previous section by applying the <code>select()</code> function to the simulated time series.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">lynx_select =<span class="st"> </span><span class="kw">select</span>(<span class="kw">MA</span>(<span class="dv">10</span>), Xt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-10"></span>
+<img src="ts_files/figure-html/unnamed-chunk-10-1.png" alt="Values of the three model selection criteria for all candidate models included in an MA(10) model for the previously simulated MA(1)." width="672" />
+<p class="caption">
+Figure 5.5: Values of the three model selection criteria for all candidate models included in an MA(10) model for the previously simulated MA(1).
+</p>
+</div>
+<p>Also in this case we see that the model selection criteria all tend to agree with each other on the fact that the best model to describe the observed time series is indeed an MA(1) model.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="the-family-of-autoregressive-moving-average-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/SMAC-Group/ts/edit/master/04-inter.Rmd",
+"text": "Edit"
+},
+"download": ["ts.pdf", "ts.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
