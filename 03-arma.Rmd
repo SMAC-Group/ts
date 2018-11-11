@@ -1868,5 +1868,282 @@ As we can see, an AR(11) model is selected which is equivalent to the model sele
 <!--
 As we can see, an AR(12) model is selected indicating that a more complicated model may be required for this time series data. However it can be seen how the value of the MAPE is extremely close to that of the previously selected AR(8) and lies abundantly within the confidence intervals of the MAPE for the AR(12). Therefore, in addition to the PACF and the model selection criteriea presented earlier, also this selection method would appear to indicate that the AR(8) model is a good candidate for this time series data. 
 -->
- 
 
+## Moving Average Models `r emo::ji("warning")`
+
+```{r, echo=FALSE}
+library(simts)
+```
+
+The class of AR($p$) models is a very general class that allows to take into account different forms of linear dependence between past and future observations. However, there are some forms of linear dependence that can appear as "shocks" in the innovation noise of a time series. In this sense, we have already seen a model that describes a certain form of this dependence which is the MA(1) defined as
+
+$$X_t = \theta W_{t-1} + W_t$$
+
+where $(W_t)$ is a white noise process. As can be seen, the observed time series $(X_t)$ is a linear combination of the innovation process. In this section we generalise this process to the class of MA($q$) processes that are defined as follows.
+
+```{definition, label="maq", name="Moving Average of Order Q"}
+A Moving Average of Order $q$ or MA($q$) model is defined as follows:
+
+$${X_t} = \theta_1 W_{t-1} + ... + \theta_q W_{t-q} + W_t,$$
+  
+where $\theta_q \neq 0$.
+```
+
+If we make use of the backshift operator defined earlier in this chapter, we can rewrite this model as:
+
+\[\begin{aligned}
+  X_t &= \theta_1 B W_t + ... + \theta_q  B^q W_t + W_t \\ 
+  &= (\theta_1  B + ... + \theta_q  B^q + 1) W_t .\\
+\end{aligned} \]
+
+Based on this we can deliver the following definition.
+
+```{definition, label="maqo", name="Moving Average Operator"}
+The moving average operator is defined as
+$$\theta(B) \equiv 1 + \theta_1 B + ... + \theta_q B^q.$$
+```
+
+This allows us to write an MA($q$) process as
+
+$$X_t = \theta (B) W_t .$$
+
+Following this definition, it is possible to see that an MA($q$) process is always stationary. Indeed, an MA($q$) respects the defintion of a linear process (see Definition \@ref(def:lp)) where $\psi_0 = 1$, $\psi_j = \theta_j$ for $j = 1, ..., q$, and $\psi_j = 0$ for $j > q$ and, based on this, we can show its stationarity.
+
+```{example, name="Stationarity of an MA(q) Process"}
+Based on the above definitions, we can rewrite an MA(q) process as $X_t = \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}}$, where $\theta_0 = 1$ and assume the condition that $\sum\limits_{j = 0}^q {\theta _j^2} < \infty$ (if $\theta_j < \infty$ for all $j$ and $q < \infty$, this condition is verified). Using this expression we start verifying (weak) stationarity by checking the expectation of an MA(q) process which is given by
+
+$$\mathbb{E}\left[ X_t \right] = \mathbb{E}\left[ \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} \right] = \sum\limits_{i = 0}^q {{\theta _i}}  \mathbb{E}\left[ {W_{t - i}} \right] = 0,$$
+  
+which confirms that the expectation is constant. We now have to verify the conditions on the autocovariance function which is derived as follows:
+
+\begin{align}
+\text{cov}\left( {{X_{t + h}},{X_t}} \right) &= \text{cov} \left( {\sum\limits_{j = 0}^q {{\theta _j}{W_{t + h - j}}} ,\sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} } \right) \\
+&= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i} \;\text{cov} \left( {{W_{t + h - j}},{W_{t - i}}} \right)} }  \\
+&= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\; \underbrace {\text{cov} \left( {{W_{t + h - j}},{W_{t - i}}} \right)}_{ = 0 \, \text{for} \, i = j - h}} }  + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j} \;\underbrace{\text{cov} \left( {{W_t},{W_t}} \right)}_{= \sigma^2}} \\
+&= {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}
+\end{align}
+
+As a result, we have:
+
+\[{1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}  \leqslant {\sigma ^2}\sum\limits_{j = 0}^q {\theta _j^2}  < \infty. \]
+
+Given these results, we also have
+
+\[\text{var}(X_t) = {\sigma ^2}\sum\limits_{j = 0}^q {\theta _j^2},\]
+
+which (under our assumption) is finite and does not depend on time. Moreover, the covariance only depends on the lag $h$ (not on the time $t$) and, therefore, an MA($q$) process is weakly stationary.
+```
+<br>
+
+Although an MA($q$) process is always weakly stationary, it is important to well define these models since they can be characterized by certain parametrizations that don't allow them to be uniquely identified. Indeed, the latter issues can be fall within the problem of model identifiability in which different MA($q$) models (of the same order $q$) can produce identical autocovariance functions. 
+
+```{example, name="Non-uniqueness of MA models", label = "nonuniquema"}
+For example, consider the following two MA(1) processes:
+
+$$
+\begin{aligned}
+X_t &= \frac{1}{\theta}W_{t-1} + W_t,&{}& W_t \overset{iid}{\sim} \mathcal{N} (0, \sigma^2\theta^2), \\
+Y_t &= \theta Z_{t-1} + Z_t,&{}& Z_t \overset{iid}{\sim} \mathcal{N} (0,\sigma^2).
+\end{aligned}
+$$
+
+By observation, one can note that the models share the same expectation:
+
+\[\mathbb{E}\left[ {{X_t}} \right] = \mathbb{E}\left[ {{Y_t}} \right] = 0.\]
+
+As for the autocovariance, this is derived in the following manner
+
+\begin{align}
+\text{cov} \left( {{X_t},{X_{t + h}}} \right) &= \text{cov} \left( {{W_t} + \frac{1}{\theta }{W_{t - 1}},{W_{t + h}} + \frac{1}{\theta }{W_{t + h - 1}}} \right)\\
+&= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma^2}{\theta ^2}  + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta }\\
+&= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\theta^2} + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\[12pt]
+\text{cov} \left( {{Y_t},{Y_{t + h}}} \right) &= \text{cov} \left( {{Z_t} + \theta {Z_{t - 1}},{Z_{t + h}} + \theta {Z_{t + h - 1}}} \right)\\
+&= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta\\
+&= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\theta ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right).
+\end{align}
+
+From this we can see that $\text{cov} \left( {{X_t},{X_{t + h}}} \right) = \text{cov} \left( {{Y_t},{Y_{t + h}}} \right)$, for all $h \in \mathbb{Z}$. Using this result and since the innovations of the two processes are Gaussian we have:
+  
+\[\mathbf{X}_T \sim \mathcal{N} \left(\mathbf{0}, \boldsymbol{\Sigma}\right), \;\;\; \text{and} \;\;\; \mathbf{Y}_T \sim \mathcal{N} \left(\mathbf{0}, \boldsymbol{\Sigma}\right)\]
+
+where \[\mathbf{X}_T \equiv \left[ {\begin{array}{*{20}{c}}
+  {{X_1}} \\ 
+   \vdots  \\ 
+  {{X_T}} 
+\end{array}} \right],\mathbf{Y}_T \equiv \left[ {\begin{array}{*{20}{c}}
+  {{Y_1}} \\ 
+   \vdots  \\ 
+  {{Y_T}} 
+\end{array}} \right],\]
+
+and where
+
+\[\boldsymbol{\Sigma} \equiv {\sigma ^2}\left[ {\begin{array}{*{20}{c}}
+  {\left( {1 + {\theta ^2}} \right)}&\theta &0& \cdots &0 \\ 
+  \theta &{\left( {1 + {\theta ^2}} \right)}&\theta &{}& \vdots  \\ 
+  0&\theta &{\left( {1 + {\theta ^2}} \right)}&{}&{} \\ 
+   \vdots &{}&{}& \ddots &{} \\ 
+  0& \cdots &{}&{}&{\left( {1 + {\theta ^2}} \right)} 
+\end{array}} \right].\]
+
+Therefore the two process are completely indistinguishable as they have the **same distribution** (as highlighted in Chapter \@ref(introtimeseries)). In Statistics, they are said to be **non-identifiable**. 
+```
+<br>
+
+Naturally, the identifiability issues discussed in Example \@ref(exm:nonuniquema) are of considerable importance to tackle especially when attempting to estimate the parameters of an MA($q$) model. For the purpose of illustration, let us again consider the same setting with an MA(1) process in the example below.
+
+```{example, name="Non-injectivity of the Likelihood function for MA models", label = "nonuniquema2"}
+Using the same setting as in Example \@ref(exm:nonuniquema), we will verify that likelihood is not injective (which is rather trivial). Indeed, $\mathbf{X}_T$ follows a multivariate normal distrbution with mean $\mathbf{0}$ and covariance matrix $\boldsymbol{\Sigma} and therefore likelihood function for an MA(1) is the following:
+  
+  \[L\left( {\boldsymbol{\beta} |\mathbf{X}_T} \right) = {\left( {2\pi } \right)^{ - \frac{T}{2}}}{\left| \boldsymbol{\Sigma}(\boldsymbol{\beta})  \right|^{ - \frac{1}{2}}}\exp \left( { - \frac{1}{2}{\mathbf{X}_T^T}{\boldsymbol{\Sigma}(\boldsymbol{\beta})^{ - 1}}\mathbf{X}_T} \right),\]
+
+where $\boldsymbol{\beta} \equiv [\theta \;\;\; \sigma^2]^T$. Then, it is easy to see that if we take
+
+\[{\boldsymbol{\beta}_1} = \left[ {\begin{array}{*{20}{c}}
+  \theta  \\ 
+  {{\sigma ^2}} 
+\end{array}} \right]\;\;\; \text{and}\;\;\;{\boldsymbol{\beta}_2} = \left[ {\begin{array}{*{20}{c}}
+  {\frac{1}{\theta }} \\ 
+  {{\sigma ^2}\theta } 
+\end{array}} \right],\]
+
+we will have
+
+\[L\left( {\boldsymbol{\beta}_1} |\mathbf{X}_T \right)= L\left( {\boldsymbol{\beta}_2} |\mathbf{X}_T \right),\]
+
+since $\boldsymbol{\Sigma}(\boldsymbol{\beta}_1)=\boldsymbol{\Sigma}(\boldsymbol{\beta}_2)$. This non-injectivity of the likelihood is problematic since the MLE is the value of $\boldsymbol{\beta}$ that maximzes the likelihood function. Therefore, in this case the solution will not be unique. 
+```
+<br>
+
+Given the identifiability issues illutrated in Examples \@ref(exm:nonuniquema) and \@ref(exm:nonuniquema2), the accepted rule to choose which MA($q$) model to estimate (among equivalent order models) is to only consider the MA($q$) models that, when rewritten in an AR($p$) form, can be defined as being AR($\infty$) models. These models are called **invertible**. Let us consider an MA(1) model
+
+$$X_t = \theta W_{t-1} + W_t,$$
+
+which can be rewritten as
+
+$$W_t = -\theta W_{t-1} + X_t.$$
+
+Now, the MA(1) model has taken the form of an AR(1) model and, using the recursive approach that we used to study the AR($p$) models, we can show that we get to the form
+
+$$W_t = (-\theta)^t W_0 + \sum_{j = 0}^t (-\theta)^j X_{t-j}.$$
+
+If we assume $|\theta| < 1$, then we finally get to the causal AR(1) representation
+
+$$W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}.$$
+
+Therefore, between two MA(1) models with two identical ACFs, we choose the invertible MA(1) which respects the condition $|\theta| < 1$. The same reasoning as for causal AR($p$) models is also applied for invertible MA($q$) models thereby restricting the possible values of the parameters of an MA($q$) model to the admissable region defined in the same way as for causal AR($p$) models. This reasoning also allows us to study MA($q$) models similarly to AR($p$) models. Indeed, we can write an MA(1) model as
+
+$$X_t = \theta(B)W_t,$$
+
+where $\theta(B)$ is the moving average operator defined earlier. Based on this we can rewrite the model as
+
+$$\frac{1}{\theta(B)} X_t = W_t,$$
+
+and, if $|\theta| < 1$, we can rexpress the inverse moving average operator $\theta^{-1}(B)$ as $\sum_{j = 0}^{\infty} (-\theta)^j B^j$ which provides us with the invertible representation of an MA(1) process seen earlier.
+
+
+### Autocovariance of MA processes
+
+In this section, we will briefly discuss the behaviour of the ACF and PACF of MA($q$). As an example let us consider the following four MA($q$) models:
+
+$$
+\begin{aligned}
+X_t &= 0.9 W_{t-1} + W_t \\
+X_t &= -0.9 W_{t-1} + W_t \\
+Y_t &= 1.2W_{t-1} -0.3 W_{t-2}+ W_t \\
+Z_t &= -1.5 W_{t-1} + 0.5 W_{t-2} - 0.2 W_{t-3} + W_t.
+\end{aligned}
+$$
+
+The theoretical ACF plots of these four models are shown below.
+
+```{r, eval = FALSE}
+par(mfrow = c(2,2))
+plot(theo_acf(ar = 0, ma = 0.9))
+plot(theo_acf(ar = 0, ma = -0.9))
+plot(theo_acf(ar = 0, ma = c(1.2, -0.3)))
+plot(theo_acf(ar = 0, ma = c(-1.5, 0.5, -0.2)))
+```
+
+```{r, fig.asp = 0.85, fig.width = 8, fig.align='center', fig.cap="Theoretical ACF of four MA models with parameters defined in the text.", echo = FALSE}
+par(mfrow = c(2,2))
+plot(theo_acf(ar = 0, ma = 0.9), main = expression("Theo. ACF - MA(1); "* theta *" = 0.9"))
+plot(theo_acf(ar = 0, ma = -0.9), main = expression("Theo. ACF - MA(1); "* theta *" = -0.9"))
+plot(theo_acf(ar = 0, ma = c(1.2, -0.3)), main = expression("Theo. ACF - MA(2); "* theta *" = [1.2, 0.3]"))
+plot(theo_acf(ar = 0, ma = c(-1.5, 0.5, -0.2)), main = expression("Theo. ACF - MA(3); "* theta *" = [-1.5, 0.5, -0.2]"))
+```
+
+As you can notice, the values of the ACF plots become zero as soon as the lag of the ACF goes beyond the order $q$ of the MA($q$) model. Hence, the ACF plot of an MA($q$) model plays the same role that the PACF plays for AR($p$) models: it helps determine the order $q$ of the MA($q$) process generating a given time series. Let us now consider the PACF plots of the same models defined above.
+
+```{r, eval=FALSE}
+par(mfrow = c(2,2))
+plot(theo_pacf(ar = 0, ma = 0.9))
+plot(theo_pacf(ar = 0, ma = -0.9))
+plot(theo_pacf(ar = 0, ma = c(1.2, 0.3)))
+plot(theo_pacf(ar = 0, ma = c(-1.5, 0.5, -0.2)))
+```
+
+```{r, fig.asp = 0.85, fig.width = 8, fig.align='center', fig.cap="Theoretical PACF of four MA models with parameters defined in the text.", echo = FALSE}
+par(mfrow = c(2,2))
+plot(theo_pacf(ar = 0, ma = 0.9), main = expression("Theo. PACF - MA(1); "* theta *" = 0.9"))
+plot(theo_pacf(ar = 0, ma = -0.9), main = expression("Theo. PACF - MA(1); "* theta *" = -0.9"))
+plot(theo_pacf(ar = 0, ma = c(1.2, 0.3)), main = expression("Theo. PACF - MA(2); "* theta *" = [1.2, 0.3]"))
+plot(theo_pacf(ar = 0, ma = c(-1.5, 0.5, -0.2)), main = expression("Theo. PACF - MA(3); "* theta *" = [-1.5, 0.5, -0.2]"))
+```
+
+In this case, we can see that the PACF plots show a certain exponential (sinusoidal) decay that is usually observed in the ACF plots of AR($p$) models. Therefore, the roles of the ACF and PACF in identifying the kind of AR($p$) models underlying an observed time series is completely inversed when considering MA($q$) models. Indeed, the PACF plot of an MA($q$) model has an exponential decay while the ACF cuts off after the lag has reached the order of the model ($q$ for MA($q$) models). 
+
+To understand how this information can be useful when studying time series, let us simulate $T = 200$ observations from $(X_t)$ to obtain the following time series:
+
+```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Simulated MA(1) Process"}
+set.seed(6)
+Xt = gen_gts(MA(theta = 0.9, sigma2 = 1), n = 200)
+plot(Xt)
+```
+
+Using this data, let us estimate the ACF and PACF of this time series.
+
+```{r, cache = TRUE, fig.asp = 0.45, fig.width = 9, fig.align='center', fig.cap="Empirical ACF and PACF of the previously simulated MA(1)."}
+corr_ma1 = corr_analysis(Xt)
+```
+
+From these plots, using the PACF we could conclude that this function appears to decay as the lags increase (as the PACF of an MA($q$) model is expected to do) while using the ACF we could state that the correct order for the MA($q$) model is $q = 1$ since the ACF does not appear to be significant after lag 1. Let us now also consider the model selection criteria described in the previous section by applying the `select()` function to the simulated time series.
+
+```{r, eval = FALSE}
+select_ma = select(MA(10), Xt, include.mean = FALSE)
+```
+
+```{r, eval = TRUE, cache = TRUE, echo = FALSE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Values of the three model selection criteria for all candidate models included in an MA(10) model for the previously simulated MA(1)."}
+select_ma = try(simts::select(MA(10), Xt, include.mean = FALSE)) 
+```
+
+Also in this case we see that the model selection criteria all tend to agree with each other on the fact that the best model to describe the observed time series is indeed an MA(1) model. For the purpose of illustration, let us again consider the Lynx data seen in the model selection section. From the ACF and PACF plot the choice of an AR($p$) model appears to be more reasonable compared to that of an MA($q$) model. Let us nevertheless understand how well an MA($q$) model can fit the observed time series and, for this reason, let us perform a model selection procedure to choose the order $q$ for the MA($q$) model within the set of possible models within an MA(16).
+
+```{r, eval = FALSE}
+select_lynx = select(MA(16), lynx_gts)
+```
+
+```{r eval = TRUE, cache = TRUE, echo = FALSE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Values of the three model selection criteria for all candidate models included in an MA(16) model for the yearly Lynx trappings."}
+select_lynx = try(simts::select(MA(16), lynx_gts)) 
+```
+
+In this case all criteria appear to agree on the value $q = 10$. Given that the best model for the class of AR($p$) models was an AR(11), let us compare these two models when estimating them on the lynx time series.
+
+```{r, eval = TRUE, cache = TRUE, echo = FALSE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Diagnostic plots for the residuals of a fitted AR(11) model on the yearly Lynx trappings."}
+lynx_ar = estimate(AR(11), lynx_gts)
+check(lynx_ar)
+```
+
+```{r, eval = TRUE, cache = TRUE, echo = FALSE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Diagnostic plots for the residuals of a fitted MA(10) model on the yearly Lynx trappings."}
+lynx_ma = estimate(MA(10), lynx_gts)
+check(lynx_ma)
+```
+
+From the diagnostic plots we can observe that both models appear to be doing a realtively good job (although the AR(11) appears to be better) so they could both be considered candidates to describe and forecast the values of the Lynx trappings. However, let us use a model selection criterion to compare them (e.g. AIC).
+
+```{r}
+AIC(lynx_ar)
+AIC(lynx_ma)
+```
+
+Therefore, based on the AIC, we would nevertheless choose to model this time series using an AR(11) model.

@@ -9,6 +9,7 @@ library(simts)
 The class of AR($p$) models is a very general class that allows to take into account different forms of linear dependence between past and future observations. However, there are some forms of linear dependence that can appear as "shocks" in the innovation noise of a time series. In this sense, we have already seen a model that describes a certain form of this dependence which is the MA(1) defined as
 
 $$X_t = \theta W_{t-1} + W_t$$
+
 where $(W_t)$ is a white noise process. As can be seen, the observed time series $(X_t)$ is a linear combination of the innovation process. In this section we generalise this process to the class of MA($q$) processes that are defined as follows.
 
 ```{definition, label="maq", name="Moving Average of Order Q"}
@@ -36,6 +37,7 @@ $$\theta(B) \equiv 1 + \theta_1 B + ... + \theta_q B^q.$$
 This allows us to write an MA($q$) process as
 
 $$X_t = \theta (B) W_t .$$
+
 Following this definition, it is possible to see that an MA($q$) process is always stationary. Indeed, an MA($q$) respects the defintion of a linear process (see Definition \@ref(def:lp)) where $\psi_0 = 1$, $\psi_j = \theta_j$ for $j = 1, ..., q$, and $\psi_j = 0$ for $j > q$ and, based on this, we can show its stationarity.
 
 ```{example, name="Stationarity of an MA(q) Process"}
@@ -64,7 +66,7 @@ which (under our assumption) is finite and does not depend on time. Moreover, th
 ```
 <br>
 
-Although an MA($q$) process is always weakly stationary, it is important to well define these models since they can be characterized by certain parametrizations that don't allow them to be uniquely identified. Indeed, the latter issues can be referred to as identifiability in which different MA($q$) models (of the same order $q$) can produce identical autocovariance functions. 
+Although an MA($q$) process is always weakly stationary, it is important to well define these models since they can be characterized by certain parametrizations that don't allow them to be uniquely identified. Indeed, the latter issues can be fall within the problem of model identifiability in which different MA($q$) models (of the same order $q$) can produce identical autocovariance functions. 
 
 ```{example, name="Non-uniqueness of MA models", label = "nonuniquema"}
 For example, consider the following two MA(1) processes:
@@ -80,7 +82,7 @@ By observation, one can note that the models share the same expectation:
 
 \[\mathbb{E}\left[ {{X_t}} \right] = \mathbb{E}\left[ {{Y_t}} \right] = 0.\]
 
-However, for the autocovariance, the process requires a bit more effort,
+As for the autocovariance, this is derived in the following manner
 
 \begin{align}
 \text{cov} \left( {{X_t},{X_{t + h}}} \right) &= \text{cov} \left( {{W_t} + \frac{1}{\theta }{W_{t - 1}},{W_{t + h}} + \frac{1}{\theta }{W_{t + h - 1}}} \right)\\
@@ -119,7 +121,7 @@ Therefore the two process are completely indistinguishable as they have the **sa
 ```
 <br>
 
-Naturally, the identifiability issues discussed in Example \@ref(exm:nonuniquema) is of considerable importance to tackle especially when attempting to estimate the parameters of an MA($q$) model. For the purpose of illustration, let us again consider the same setting with an MA(1) process in the example below.
+Naturally, the identifiability issues discussed in Example \@ref(exm:nonuniquema) are of considerable importance to tackle especially when attempting to estimate the parameters of an MA($q$) model. For the purpose of illustration, let us again consider the same setting with an MA(1) process in the example below.
 
 ```{example, name="Non-injectivity of the Likelihood function for MA models", label = "nonuniquema2"}
 Using the same setting as in Example \@ref(exm:nonuniquema), we will verify that likelihood is not injective (which is rather trivial). Indeed, $\mathbf{X}_T$ follows a multivariate normal distrbution with mean $\mathbf{0}$ and covariance matrix $\boldsymbol{\Sigma} and therefore likelihood function for an MA(1) is the following:
@@ -144,15 +146,18 @@ since $\boldsymbol{\Sigma}(\boldsymbol{\beta}_1)=\boldsymbol{\Sigma}(\boldsymbol
 ```
 <br>
 
-Given that the identifiability issuees illutrated in Examples \@ref(exm:nonuniquema) and \@ref(exm:nonuniquema2), the accepted rule to choose which MA($q$) model to estimate (among the equivalent models) is to only consider the MA($q$) models that, when rewritten in an AR($p$) form, can be defined as being AR($\infty$) models. These models are called **invertible**. Let us consider a MA(1) model
+Given the identifiability issues illutrated in Examples \@ref(exm:nonuniquema) and \@ref(exm:nonuniquema2), the accepted rule to choose which MA($q$) model to estimate (among equivalent order models) is to only consider the MA($q$) models that, when rewritten in an AR($p$) form, can be defined as being AR($\infty$) models. These models are called **invertible**. Let us consider an MA(1) model
 
 $$X_t = \theta W_{t-1} + W_t,$$
+
 which can be rewritten as
 
 $$W_t = -\theta W_{t-1} + X_t.$$
+
 Now, the MA(1) model has taken the form of an AR(1) model and, using the recursive approach that we used to study the AR($p$) models, we can show that we get to the form
 
 $$W_t = (-\theta)^t W_0 + \sum_{j = 0}^t (-\theta)^j X_{t-j}.$$
+
 If we assume $|\theta| < 1$, then we finally get to the causal AR(1) representation
 
 $$W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}.$$
@@ -160,10 +165,13 @@ $$W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}.$$
 Therefore, between two MA(1) models with two identical ACFs, we choose the invertible MA(1) which respects the condition $|\theta| < 1$. The same reasoning as for causal AR($p$) models is also applied for invertible MA($q$) models thereby restricting the possible values of the parameters of an MA($q$) model to the admissable region defined in the same way as for causal AR($p$) models. This reasoning also allows us to study MA($q$) models similarly to AR($p$) models. Indeed, we can write an MA(1) model as
 
 $$X_t = \theta(B)W_t,$$
+
 where $\theta(B)$ is the moving average operator defined earlier. Based on this we can rewrite the model as
 
 $$\frac{1}{\theta(B)} X_t = W_t,$$
+
 and, if $|\theta| < 1$, we can rexpress the inverse moving average operator $\theta^{-1}(B)$ as $\sum_{j = 0}^{\infty} (-\theta)^j B^j$ which provides us with the invertible representation of an MA(1) process seen earlier.
+
 
 ### Autocovariance of MA processes
 
@@ -177,7 +185,8 @@ Y_t &= 1.2W_{t-1} -0.3 W_{t-2}+ W_t \\
 Z_t &= -1.5 W_{t-1} + 0.5 W_{t-2} - 0.2 W_{t-3} + W_t.
 \end{aligned}
 $$
-The theoretical ACF plots of these three models are shown below.
+
+The theoretical ACF plots of these four models are shown below.
 
 ```{r, eval = FALSE}
 par(mfrow = c(2,2))
@@ -187,7 +196,7 @@ plot(theo_acf(ar = 0, ma = c(1.2, -0.3)))
 plot(theo_acf(ar = 0, ma = c(-1.5, 0.5, -0.2)))
 ```
 
-```{r, fig.asp = 0.85, fig.width = 8, fig.align='center', fig.cap="Theoretical ACF of four MA models with parameters.", echo = FALSE}
+```{r, fig.asp = 0.85, fig.width = 8, fig.align='center', fig.cap="Theoretical ACF of four MA models with parameters defined in the text.", echo = FALSE}
 par(mfrow = c(2,2))
 plot(theo_acf(ar = 0, ma = 0.9), main = expression("Theo. ACF - MA(1); "* theta *" = 0.9"))
 plot(theo_acf(ar = 0, ma = -0.9), main = expression("Theo. ACF - MA(1); "* theta *" = -0.9"))
@@ -195,7 +204,7 @@ plot(theo_acf(ar = 0, ma = c(1.2, -0.3)), main = expression("Theo. ACF - MA(2); 
 plot(theo_acf(ar = 0, ma = c(-1.5, 0.5, -0.2)), main = expression("Theo. ACF - MA(3); "* theta *" = [-1.5, 0.5, -0.2]"))
 ```
 
-As you can notice, the values of the ACF plots become zero as soon as the lag of the ACF goes beyond the order $q$ of the MA($q$) model. Hence, the ACF plot of an MA($q$) model plays the same role that the PACF plays for AR($p$) models: it helps determine the order $q$ of the MA($q$) process generated a given time series. Let us now consider the PACF plots of the same models defined above.
+As you can notice, the values of the ACF plots become zero as soon as the lag of the ACF goes beyond the order $q$ of the MA($q$) model. Hence, the ACF plot of an MA($q$) model plays the same role that the PACF plays for AR($p$) models: it helps determine the order $q$ of the MA($q$) process generating a given time series. Let us now consider the PACF plots of the same models defined above.
 
 ```{r, eval=FALSE}
 par(mfrow = c(2,2))
@@ -205,7 +214,7 @@ plot(theo_pacf(ar = 0, ma = c(1.2, 0.3)))
 plot(theo_pacf(ar = 0, ma = c(-1.5, 0.5, -0.2)))
 ```
 
-```{r, fig.asp = 0.85, fig.width = 8, fig.align='center', fig.cap="Theoretical PACF of four MA models with parameters.", echo = FALSE}
+```{r, fig.asp = 0.85, fig.width = 8, fig.align='center', fig.cap="Theoretical PACF of four MA models with parameters defined in the text.", echo = FALSE}
 par(mfrow = c(2,2))
 plot(theo_pacf(ar = 0, ma = 0.9), main = expression("Theo. PACF - MA(1); "* theta *" = 0.9"))
 plot(theo_pacf(ar = 0, ma = -0.9), main = expression("Theo. PACF - MA(1); "* theta *" = -0.9"))
@@ -213,7 +222,9 @@ plot(theo_pacf(ar = 0, ma = c(1.2, 0.3)), main = expression("Theo. PACF - MA(2);
 plot(theo_pacf(ar = 0, ma = c(-1.5, 0.5, -0.2)), main = expression("Theo. PACF - MA(3); "* theta *" = [-1.5, 0.5, -0.2]"))
 ```
 
-In this case, we can see that the PACF plots show a certain exponential (sinusoidal) decay that is usually observed in the ACF plots of AR($p$) models. Therefore, the roles of the ACF and PACF in identifying the kind of AR($p$) models underlying an observed time series is completely inversed when considering MA($q$) models. Indeed, the PACF plot of an MA($q$) model has an exponentially decay while the ACF cuts off after the lag has reached the order of the model ($q$ for MA($q$) models). Let us simulate $T = 200$ observations from $(X_t)$ to obtain the following time series:
+In this case, we can see that the PACF plots show a certain exponential (sinusoidal) decay that is usually observed in the ACF plots of AR($p$) models. Therefore, the roles of the ACF and PACF in identifying the kind of AR($p$) models underlying an observed time series is completely inversed when considering MA($q$) models. Indeed, the PACF plot of an MA($q$) model has an exponential decay while the ACF cuts off after the lag has reached the order of the model ($q$ for MA($q$) models). 
+
+To understand how this information can be useful when studying time series, let us simulate $T = 200$ observations from $(X_t)$ to obtain the following time series:
 
 ```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Simulated MA(1) Process"}
 set.seed(6)
