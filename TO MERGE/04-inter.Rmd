@@ -44,7 +44,7 @@ which confirms that the expectation is constant. We now have to verify the condi
 \begin{align}
 Cov \left( {{X_{t + h}},{X_t}} \right) &= Cov \left( {\sum\limits_{j = 0}^q {{\theta _j}{W_{t + h - j}}} ,\sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} } \right) \\
 &= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}Cov \left( {{W_{t + h - j}},{W_{t - i}}} \right)} }  \\
-&= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\underbrace {Cov \left( {{W_{t + h - j}},{W_{t - i}}} \right)}_{ = 0 \, \text{for} \, i = j - h}} }  + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}Cov \left( {{W_t},{W_t}} \right)} \\
+&= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\underbrace {Cov \left( {{W_{t + h - j}},{W_{t - i}}} \right)}_{ = 0 \, \text{for} \, i = j - h}} }  + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j} \underbrace{Cov \left( {{W_t},{W_t}} \right)}_{= \sigma^2}} \\
 &= {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}
 \end{align}
 
@@ -52,17 +52,10 @@ As a result, we have:
 
 \[{1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}  \leqslant {\sigma ^2}\sum\limits_{j = 0}^q {\theta _j^2}  < \infty \]
 
-Hence, the process is stationary.
+Given these results, we can see that the variance is given by ${\sigma ^2}\sum\limits_{j = 0}^q {\theta _j^2}$ which is finite and does not depend on time and the covariance only depends on the lag $h$ (not on the time $t$). Therefore, an MA(q) process is weakly stationary.
 ```
 
-As a consequence, MA($q$) processes are weakly stationary processes.
-
-Although an MA($q$) process is always weakly stationary, it is important to well define these models since they can be characterized by 
-However, the MA(q) processes may not be identifiable through their 
-autocovariance functions. By the latter we mean that different parameteres for a
-same order MA(q) model can deliver the exact same autocovariance function and it
-would therefore be impossible to retrieve the parameters of the model by only 
-looking at the autocovariance function.
+Although an MA($q$) process is always weakly stationary, it is important to well define these models since they can be characterized by certain parametrizations that don't allow them to be uniquely identify them. Indeed, the latter issues can be referred to as identifiability issues in which different MA($q$) models (of the same order $q$) can produce identical autocovariance functions. Due to this issue, it would be impossible
 
 
 
