@@ -1085,9 +1085,7 @@ plot(lynx_gts)
 We can see that there appears to be a seasonal trend within the data but let us ignore this for the moment and check the ACF and PACF plots below.
 
 ```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the lynx time series data."}
-par(mfrow = c(1, 2))
-plot(auto_corr(lynx_gts))
-plot(auto_corr(lynx_gts, pacf = TRUE))
+corr_analysis(lynx_gts)
 ```
 
 The seasonal behaviour also appears in the ACF plot but we see that it decreases in a sinusoidal fashion as the lag increases hinting that an AR(p) model could be a potential candidate for the time series. Looking at the PACF plot on the right we can see that a few partial autocorrelations appear to be significant up to lag $h=11$. Therefore an AR(11) model could be a possibly good candidate to explain (and predict) this time series.
@@ -1869,11 +1867,7 @@ As we can see, an AR(11) model is selected which is equivalent to the model sele
 As we can see, an AR(12) model is selected indicating that a more complicated model may be required for this time series data. However it can be seen how the value of the MAPE is extremely close to that of the previously selected AR(8) and lies abundantly within the confidence intervals of the MAPE for the AR(12). Therefore, in addition to the PACF and the model selection criteriea presented earlier, also this selection method would appear to indicate that the AR(8) model is a good candidate for this time series data. 
 -->
 
-## Moving Average Models `r emo::ji("warning")`
-
-```{r, echo=FALSE}
-library(simts)
-```
+## Moving Average Models
 
 The class of AR($p$) models is a very general class that allows to take into account different forms of linear dependence between past and future observations. However, there are some forms of linear dependence that can appear as "shocks" in the innovation noise of a time series. In this sense, we have already seen a model that describes a certain form of this dependence which is the MA(1) defined as
 
@@ -2056,7 +2050,7 @@ In this section, we will briefly discuss the behaviour of the ACF and PACF of MA
 
 $$
 \begin{aligned}
-X_t &= 0.9 W_{t-1} + W_t \\
+Q_t &= 0.9 W_{t-1} + W_t \\
 X_t &= -0.9 W_{t-1} + W_t \\
 Y_t &= 1.2W_{t-1} -0.3 W_{t-2}+ W_t \\
 Z_t &= -1.5 W_{t-1} + 0.5 W_{t-2} - 0.2 W_{t-3} + W_t.
@@ -2157,6 +2151,7 @@ From the diagnostic plots we can observe that both models appear to be doing a r
 AIC(lynx_ar)
 AIC(lynx_ma)
 ```
+
 
 Therefore, based on the AIC, we would nevertheless choose to model this time series using an AR(11) model. Supposing however that we had chosen the MA(10) model to describe and predict our time series: how would we deliver forecasts based on this model?
 
