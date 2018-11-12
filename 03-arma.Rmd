@@ -2015,34 +2015,42 @@ since $\boldsymbol{\Sigma}(\boldsymbol{\beta}_1)=\boldsymbol{\Sigma}(\boldsymbol
 ```
 <br>
 
-Given the identifiability issues illutrated in Examples \@ref(exm:nonuniquema) and \@ref(exm:nonuniquema2), the accepted rule to choose which MA($q$) model to estimate (among equivalent order models) is to only consider the MA($q$) models that, when rewritten in an AR($p$) form, can be defined as being AR($\infty$) models. These models are called **invertible**. Let us consider an MA(1) model
+Given the identifiability issues illustrated in Examples \@ref(exm:nonuniquema) and \@ref(exm:nonuniquema2), the accepted rule to choose which MA($q$) model to estimate (among equivalent order models) is to only consider the MA($q$) models that, when rewritten in an AR($p$) form, can be defined as being AR($\infty$) models. These models are called **invertible**. 
 
-$$X_t = \theta W_{t-1} + W_t,$$
+```{example, name="Invertibility of MA(1) models", label = "invertma1"}
+Let us consider an MA(1) model
+
+\[X_t = \theta W_{t-1} + W_t\],
 
 which can be rewritten as
 
-$$W_t = -\theta W_{t-1} + X_t.$$
+\[W_t = -\theta W_{t-1} + X_t\].
 
 Now, the MA(1) model has taken the form of an AR(1) model and, using the recursive approach that we used to study the AR($p$) models, we can show that we get to the form
 
-$$W_t = (-\theta)^t W_0 + \sum_{j = 0}^t (-\theta)^j X_{t-j}.$$
+\[W_t = (-\theta)^t W_0 + \sum_{j = 0}^t (-\theta)^j X_{t-j}\].
 
-If we assume $|\theta| < 1$, then we finally get to the causal AR(1) representation
+If we assume $|\theta| < 1$, then we finally get to the causal AR($p$) representation
 
-$$W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}.$$
+\[W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}\].
+```
 
-Therefore, between two MA(1) models with two identical ACFs, we choose the invertible MA(1) which respects the condition $|\theta| < 1$. The same reasoning as for causal AR($p$) models is also applied for invertible MA($q$) models thereby restricting the possible values of the parameters of an MA($q$) model to the admissable region defined in the same way as for causal AR($p$) models. This reasoning also allows us to study MA($q$) models similarly to AR($p$) models. Indeed, we can write an MA(1) model as
+Therefore, between two MA(1) models with two identical ACFs, we choose the invertible MA(1) which respects the condition $|\theta| < 1$. The same reasoning as for causal AR($p$) models is also applied for invertible MA($q$) models thereby restricting the possible values of the parameters of an MA($q$) model to the admissable region defined in the same way as for causal AR($p$) models. This reasoning also allows us to study MA($q$) models similarly to AR($p$) models as follows. 
 
-$$X_t = \theta(B)W_t,$$
+```{definition, name="Invertible MA models", label = "invertMA"}
+If an MA(q) model can be written as follows
 
-where $\theta(B)$ is the moving average operator defined earlier. Based on this we can rewrite the model as
+\[\theta^{-1}(B) X_t = W_t\]
 
-$$\frac{1}{\theta(B)} X_t = W_t,$$
+where $\theta(B)$ is the moving average operator such that 
 
-and, if $|\theta| < 1$, we can rexpress the inverse moving average operator $\theta^{-1}(B)$ as $\sum_{j = 0}^{\infty} (-\theta)^j B^j$ which provides us with the invertible representation of an MA(1) process seen earlier.
+\[\theta^{-1}(B) = \sum_{j = 0}^{\infty} (-\theta)^j B^j\], 
+
+then then the MA(q) model is invertible.
+```
 
 
-### Autocovariance of MA processes
+### The Autocovariance Function of MA processes
 
 In this section, we will briefly discuss the behaviour of the ACF and PACF of MA($q$). As an example let us consider the following four MA($q$) models:
 
@@ -2107,7 +2115,11 @@ Using this data, let us estimate the ACF and PACF of this time series.
 corr_ma1 = corr_analysis(Xt)
 ```
 
-From these plots, using the PACF we could conclude that this function appears to decay as the lags increase (as the PACF of an MA($q$) model is expected to do) while using the ACF we could state that the correct order for the MA($q$) model is $q = 1$ since the ACF does not appear to be significant after lag 1. Let us now also consider the model selection criteria described in the previous section by applying the `select()` function to the simulated time series.
+From these plots, using the PACF we could conclude that this function appears to decay as the lags increase (as the PACF of an MA($q$) model is expected to do) while using the ACF we could state that the correct order for the MA($q$) model is $q = 1$ since the ACF does not appear to be significant after lag 1. 
+
+### Selecting and Forecasting MA($q$) Models
+
+Let us now also consider the model selection criteria described in the previous section by applying the `select()` function to the previously simulated time series from an MA(1) model.
 
 ```{r, eval = FALSE}
 select_ma = select(MA(10), Xt, include.mean = FALSE)
@@ -2117,7 +2129,7 @@ select_ma = select(MA(10), Xt, include.mean = FALSE)
 select_ma = try(simts::select(MA(10), Xt, include.mean = FALSE)) 
 ```
 
-Also in this case we see that the model selection criteria all tend to agree with each other on the fact that the best model to describe the observed time series is indeed an MA(1) model. For the purpose of illustration, let us again consider the Lynx data seen in the model selection section. From the ACF and PACF plot the choice of an AR($p$) model appears to be more reasonable compared to that of an MA($q$) model. Let us nevertheless understand how well an MA($q$) model can fit the observed time series and, for this reason, let us perform a model selection procedure to choose the order $q$ for the MA($q$) model within the set of possible models within an MA(16).
+As for the conclusion based on the ACF, also in this case we see that the model selection criteria all tend to agree with each other on the fact that the best model to describe the observed time series is indeed an MA(1) model. For the purpose of illustration, let us again consider the Lynx data seen in the model selection section. From the ACF and PACF plot the choice of an AR($p$) model appears to be more reasonable compared to that of an MA($q$) model. Let us nevertheless understand how well an MA($q$) model can fit the observed time series and, for this reason, let us perform a model selection procedure to choose the order $q$ for the MA($q$) model within the set of possible models within an MA(16).
 
 ```{r, eval = FALSE}
 select_lynx = select(MA(16), lynx_gts)
@@ -2146,4 +2158,12 @@ AIC(lynx_ar)
 AIC(lynx_ma)
 ```
 
-Therefore, based on the AIC, we would nevertheless choose to model this time series using an AR(11) model.
+Therefore, based on the AIC, we would nevertheless choose to model this time series using an AR(11) model. Supposing however that we had chosen the MA(10) model to describe and predict our time series: how would we deliver forecasts based on this model?
+
+```{example, name="Forecasting MA models", label = "forecastMA"}
+Let us assume we want to deliver a one-step ahead forecast based on an MA(q) model. This is given by the conditional expectation
+
+\[X_{t+1}^t = E\left[X_{t+1} | X_t, ..., X_1, W_t ..., W_1\right] = \theta_1 W_t + ... + \theta_q W_{t-q+1}\].
+
+However, we do not observe the innovation process $(W_t)$ directly and therefore forecasting MA(q) models is more complicated than forecasting AR(p) models. For this reason there are different techniques such as the innovation algorithm or the Kalman filter that allow to deliver these forecasts. These techniques however are out of the scope of this book.
+```

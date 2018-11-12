@@ -153,7 +153,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) Models</a></li>
 <li class="chapter" data-level="4.5" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-selection"><i class="fa fa-check"></i><b>4.5</b> Model Selection</a></li>
 <li class="chapter" data-level="4.6" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#moving-average-models"><i class="fa fa-check"></i><b>4.6</b> Moving Average Models ⚠️</a><ul>
-<li class="chapter" data-level="4.6.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autocovariance-of-ma-processes"><i class="fa fa-check"></i><b>4.6.1</b> Autocovariance of MA processes</a></li>
+<li class="chapter" data-level="4.6.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#the-autocovariance-function-of-ma-processes"><i class="fa fa-check"></i><b>4.6.1</b> The Autocovariance Function of MA processes</a></li>
+<li class="chapter" data-level="4.6.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#selecting-and-forecasting-maq-models"><i class="fa fa-check"></i><b>4.6.2</b> Selecting and Forecasting MA(<span class="math inline">\(q\)</span>) Models</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -1516,21 +1517,31 @@ Therefore the two process are completely indistinguishable as they have the <str
 since <span class="math inline">\(\boldsymbol{\Sigma}(\boldsymbol{\beta}_1)=\boldsymbol{\Sigma}(\boldsymbol{\beta}_2)\)</span>. This non-injectivity of the likelihood is problematic since the MLE is the value of <span class="math inline">\(\boldsymbol{\beta}\)</span> that maximzes the likelihood function. Therefore, in this case the solution will not be unique.
 </div>
 <p> <br></p>
-<p>Given the identifiability issues illutrated in Examples <a href="the-family-of-autoregressive-moving-average-models.html#exm:nonuniquema">4.14</a> and <a href="the-family-of-autoregressive-moving-average-models.html#exm:nonuniquema2">4.15</a>, the accepted rule to choose which MA(<span class="math inline">\(q\)</span>) model to estimate (among equivalent order models) is to only consider the MA(<span class="math inline">\(q\)</span>) models that, when rewritten in an AR(<span class="math inline">\(p\)</span>) form, can be defined as being AR(<span class="math inline">\(\infty\)</span>) models. These models are called <strong>invertible</strong>. Let us consider an MA(1) model</p>
-<p><span class="math display">\[X_t = \theta W_{t-1} + W_t,\]</span></p>
+<p>Given the identifiability issues illustrated in Examples <a href="the-family-of-autoregressive-moving-average-models.html#exm:nonuniquema">4.14</a> and <a href="the-family-of-autoregressive-moving-average-models.html#exm:nonuniquema2">4.15</a>, the accepted rule to choose which MA(<span class="math inline">\(q\)</span>) model to estimate (among equivalent order models) is to only consider the MA(<span class="math inline">\(q\)</span>) models that, when rewritten in an AR(<span class="math inline">\(p\)</span>) form, can be defined as being AR(<span class="math inline">\(\infty\)</span>) models. These models are called <strong>invertible</strong>.</p>
+
+<div class="example">
+<p><span id="exm:invertma1" class="example"><strong>Example 4.16  (Invertibility of MA(1) models)  </strong></span>Let us consider an MA(1) model</p>
+<p><span class="math display">\[X_t = \theta W_{t-1} + W_t\]</span>,</p>
 <p>which can be rewritten as</p>
-<p><span class="math display">\[W_t = -\theta W_{t-1} + X_t.\]</span></p>
+<p><span class="math display">\[W_t = -\theta W_{t-1} + X_t\]</span>.</p>
 <p>Now, the MA(1) model has taken the form of an AR(1) model and, using the recursive approach that we used to study the AR(<span class="math inline">\(p\)</span>) models, we can show that we get to the form</p>
-<p><span class="math display">\[W_t = (-\theta)^t W_0 + \sum_{j = 0}^t (-\theta)^j X_{t-j}.\]</span></p>
-<p>If we assume <span class="math inline">\(|\theta| &lt; 1\)</span>, then we finally get to the causal AR(1) representation</p>
-<p><span class="math display">\[W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}.\]</span></p>
-<p>Therefore, between two MA(1) models with two identical ACFs, we choose the invertible MA(1) which respects the condition <span class="math inline">\(|\theta| &lt; 1\)</span>. The same reasoning as for causal AR(<span class="math inline">\(p\)</span>) models is also applied for invertible MA(<span class="math inline">\(q\)</span>) models thereby restricting the possible values of the parameters of an MA(<span class="math inline">\(q\)</span>) model to the admissable region defined in the same way as for causal AR(<span class="math inline">\(p\)</span>) models. This reasoning also allows us to study MA(<span class="math inline">\(q\)</span>) models similarly to AR(<span class="math inline">\(p\)</span>) models. Indeed, we can write an MA(1) model as</p>
-<p><span class="math display">\[X_t = \theta(B)W_t,\]</span></p>
-<p>where <span class="math inline">\(\theta(B)\)</span> is the moving average operator defined earlier. Based on this we can rewrite the model as</p>
-<p><span class="math display">\[\frac{1}{\theta(B)} X_t = W_t,\]</span></p>
-<p>and, if <span class="math inline">\(|\theta| &lt; 1\)</span>, we can rexpress the inverse moving average operator <span class="math inline">\(\theta^{-1}(B)\)</span> as <span class="math inline">\(\sum_{j = 0}^{\infty} (-\theta)^j B^j\)</span> which provides us with the invertible representation of an MA(1) process seen earlier.</p>
-<div id="autocovariance-of-ma-processes" class="section level3">
-<h3><span class="header-section-number">4.6.1</span> Autocovariance of MA processes</h3>
+<p><span class="math display">\[W_t = (-\theta)^t W_0 + \sum_{j = 0}^t (-\theta)^j X_{t-j}\]</span>.</p>
+<p>If we assume <span class="math inline">\(|\theta| &lt; 1\)</span>, then we finally get to the causal AR(<span class="math inline">\(p\)</span>) representation</p>
+<span class="math display">\[W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}\]</span>.
+</div>
+
+<p>Therefore, between two MA(1) models with two identical ACFs, we choose the invertible MA(1) which respects the condition <span class="math inline">\(|\theta| &lt; 1\)</span>. The same reasoning as for causal AR(<span class="math inline">\(p\)</span>) models is also applied for invertible MA(<span class="math inline">\(q\)</span>) models thereby restricting the possible values of the parameters of an MA(<span class="math inline">\(q\)</span>) model to the admissable region defined in the same way as for causal AR(<span class="math inline">\(p\)</span>) models. This reasoning also allows us to study MA(<span class="math inline">\(q\)</span>) models similarly to AR(<span class="math inline">\(p\)</span>) models as follows.</p>
+
+<div class="definition">
+<p><span id="def:invertMA" class="definition"><strong>Definition 4.8  (Invertible MA models)  </strong></span>If an MA(q) model can be written as follows</p>
+<p><span class="math display">\[\theta^{-1}(B) X_t = W_t\]</span></p>
+<p>where <span class="math inline">\(\theta(B)\)</span> is the moving average operator such that</p>
+<p><span class="math display">\[\theta^{-1}(B) = \sum_{j = 0}^{\infty} (-\theta)^j B^j\]</span>,</p>
+then then the MA(q) model is invertible.
+</div>
+
+<div id="the-autocovariance-function-of-ma-processes" class="section level3">
+<h3><span class="header-section-number">4.6.1</span> The Autocovariance Function of MA processes</h3>
 <p>In this section, we will briefly discuss the behaviour of the ACF and PACF of MA(<span class="math inline">\(q\)</span>). As an example let us consider the following four MA(<span class="math inline">\(q\)</span>) models:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1583,7 +1594,11 @@ Figure 4.33: Simulated MA(1) Process
 Figure 4.34: Empirical ACF and PACF of the previously simulated MA(1).
 </p>
 </div>
-<p>From these plots, using the PACF we could conclude that this function appears to decay as the lags increase (as the PACF of an MA(<span class="math inline">\(q\)</span>) model is expected to do) while using the ACF we could state that the correct order for the MA(<span class="math inline">\(q\)</span>) model is <span class="math inline">\(q = 1\)</span> since the ACF does not appear to be significant after lag 1. Let us now also consider the model selection criteria described in the previous section by applying the <code>select()</code> function to the simulated time series.</p>
+<p>From these plots, using the PACF we could conclude that this function appears to decay as the lags increase (as the PACF of an MA(<span class="math inline">\(q\)</span>) model is expected to do) while using the ACF we could state that the correct order for the MA(<span class="math inline">\(q\)</span>) model is <span class="math inline">\(q = 1\)</span> since the ACF does not appear to be significant after lag 1.</p>
+</div>
+<div id="selecting-and-forecasting-maq-models" class="section level3">
+<h3><span class="header-section-number">4.6.2</span> Selecting and Forecasting MA(<span class="math inline">\(q\)</span>) Models</h3>
+<p>Let us now also consider the model selection criteria described in the previous section by applying the <code>select()</code> function to the previously simulated time series from an MA(1) model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">select_ma =<span class="st"> </span><span class="kw">select</span>(<span class="kw">MA</span>(<span class="dv">10</span>), Xt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-71"></span>
 <img src="ts_files/figure-html/unnamed-chunk-71-1.png" alt="Values of the three model selection criteria for all candidate models included in an MA(10) model for the previously simulated MA(1)." width="672" />
@@ -1591,7 +1606,7 @@ Figure 4.34: Empirical ACF and PACF of the previously simulated MA(1).
 Figure 4.35: Values of the three model selection criteria for all candidate models included in an MA(10) model for the previously simulated MA(1).
 </p>
 </div>
-<p>Also in this case we see that the model selection criteria all tend to agree with each other on the fact that the best model to describe the observed time series is indeed an MA(1) model. For the purpose of illustration, let us again consider the Lynx data seen in the model selection section. From the ACF and PACF plot the choice of an AR(<span class="math inline">\(p\)</span>) model appears to be more reasonable compared to that of an MA(<span class="math inline">\(q\)</span>) model. Let us nevertheless understand how well an MA(<span class="math inline">\(q\)</span>) model can fit the observed time series and, for this reason, let us perform a model selection procedure to choose the order <span class="math inline">\(q\)</span> for the MA(<span class="math inline">\(q\)</span>) model within the set of possible models within an MA(16).</p>
+<p>As for the conclusion based on the ACF, also in this case we see that the model selection criteria all tend to agree with each other on the fact that the best model to describe the observed time series is indeed an MA(1) model. For the purpose of illustration, let us again consider the Lynx data seen in the model selection section. From the ACF and PACF plot the choice of an AR(<span class="math inline">\(p\)</span>) model appears to be more reasonable compared to that of an MA(<span class="math inline">\(q\)</span>) model. Let us nevertheless understand how well an MA(<span class="math inline">\(q\)</span>) model can fit the observed time series and, for this reason, let us perform a model selection procedure to choose the order <span class="math inline">\(q\)</span> for the MA(<span class="math inline">\(q\)</span>) model within the set of possible models within an MA(16).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">select_lynx =<span class="st"> </span><span class="kw">select</span>(<span class="kw">MA</span>(<span class="dv">16</span>), lynx_gts)</code></pre></div>
 <pre><code>## Warning in arima(xt, order = ., include.mean = include.mean): possible
 ## convergence problem: optim gave code = 1</code></pre>
@@ -1619,7 +1634,14 @@ Figure 4.38: Diagnostic plots for the residuals of a fitted MA(10) model on the 
 <pre><code>## [1] 166.1338</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AIC</span>(lynx_ma)</code></pre></div>
 <pre><code>## [1] 181.5452</code></pre>
-<p>Therefore, based on the AIC, we would nevertheless choose to model this time series using an AR(11) model.</p>
+<p>Therefore, based on the AIC, we would nevertheless choose to model this time series using an AR(11) model. Supposing however that we had chosen the MA(10) model to describe and predict our time series: how would we deliver forecasts based on this model?</p>
+
+<div class="example">
+<p><span id="exm:forecastMA" class="example"><strong>Example 4.17  (Forecasting MA models)  </strong></span>Let us assume we want to deliver a one-step ahead forecast based on an MA(q) model. This is given by the conditional expectation</p>
+<p><span class="math display">\[X_{t+1}^t = E\left[X_{t+1} | X_t, ..., X_1, W_t ..., W_1\right] = \theta_1 W_t + ... + \theta_q W_{t-q+1}\]</span>.</p>
+However, we do not observe the innovation process <span class="math inline">\((W_t)\)</span> directly and therefore forecasting MA(q) models is more complicated than forecasting AR(p) models. For this reason there are different techniques such as the innovation algorithm or the Kalman filter that allow to deliver these forecasts. These techniques however are out of the scope of this book.
+</div>
+
 
 </div>
 </div>
