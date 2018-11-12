@@ -1469,11 +1469,11 @@ Y_t &amp;= \theta Z_{t-1} + Z_t,&amp;{}&amp; Z_t \overset{iid}{\sim} \mathcal{N}
 <p>As for the autocovariance, this is derived in the following manner</p>
 <span class="math display">\[\begin{align}
 \text{cov} \left( {{X_t},{X_{t + h}}} \right) &amp;= \text{cov} \left( {{W_t} + \frac{1}{\theta }{W_{t - 1}},{W_{t + h}} + \frac{1}{\theta }{W_{t + h - 1}}} \right)\\
-&amp;= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma^2}{\theta ^2}  + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta }\\
-&amp;= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\theta^2} + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\[12pt]
+&amp;= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma^2}(1 + {\theta ^2})  + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta }\\
+&amp;= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}(1 + {\theta^2}) + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\[12pt]
 \text{cov} \left( {{Y_t},{Y_{t + h}}} \right) &amp;= \text{cov} \left( {{Z_t} + \theta {Z_{t - 1}},{Z_{t + h}} + \theta {Z_{t + h - 1}}} \right)\\
-&amp;= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta\\
-&amp;= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\theta ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right).
+&amp;= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma ^2}(1 + {\theta ^2}) + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta\\
+&amp;= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}(1 + {\theta ^2}) + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right).
 \end{align}\]</span>
 <p>From this we can see that <span class="math inline">\(\text{cov} \left( {{X_t},{X_{t + h}}} \right) = \text{cov} \left( {{Y_t},{Y_{t + h}}} \right)\)</span>, for all <span class="math inline">\(h \in \mathbb{Z}\)</span>. Using this result and since the innovations of the two processes are Gaussian we have:</p>
 <p><span class="math display">\[\mathbf{X}_T \sim \mathcal{N} \left(\mathbf{0}, \boldsymbol{\Sigma}\right), \;\;\; \text{and} \;\;\; \mathbf{Y}_T \sim \mathcal{N} \left(\mathbf{0}, \boldsymbol{\Sigma}\right)\]</span></p>
@@ -1500,7 +1500,7 @@ Therefore the two process are completely indistinguishable as they have the <str
 <p>Naturally, the identifiability issues discussed in Example <a href="the-family-of-autoregressive-moving-average-models.html#exm:nonuniquema">4.14</a> are of considerable importance to tackle especially when attempting to estimate the parameters of an MA(<span class="math inline">\(q\)</span>) model. For the purpose of illustration, let us again consider the same setting with an MA(1) process in the example below.</p>
 
 <div class="example">
-<p><span id="exm:nonuniquema2" class="example"><strong>Example 4.15  (Non-injectivity of the Likelihood function for MA models)  </strong></span>Using the same setting as in Example <a href="the-family-of-autoregressive-moving-average-models.html#exm:nonuniquema">4.14</a>, we will verify that likelihood is not injective (which is rather trivial). Indeed, <span class="math inline">\(\mathbf{X}_T\)</span> follows a multivariate normal distrbution with mean <span class="math inline">\(\mathbf{0}\)</span> and covariance matrix $ and therefore likelihood function for an MA(1) is the following:</p>
+<p><span id="exm:nonuniquema2" class="example"><strong>Example 4.15  (Non-injectivity of the Likelihood function for MA models)  </strong></span>Using the same setting as in Example <a href="the-family-of-autoregressive-moving-average-models.html#exm:nonuniquema">4.14</a>, we will verify that likelihood is not injective (which is rather trivial). Indeed, <span class="math inline">\(\mathbf{X}_T\)</span> follows a multivariate normal distrbution with mean <span class="math inline">\(\mathbf{0}\)</span> and covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span> and therefore likelihood function for an MA(1) is the following:</p>
 <p><span class="math display">\[L\left( {\boldsymbol{\beta} |\mathbf{X}_T} \right) = {\left( {2\pi } \right)^{ - \frac{T}{2}}}{\left| \boldsymbol{\Sigma}(\boldsymbol{\beta})  \right|^{ - \frac{1}{2}}}\exp \left( { - \frac{1}{2}{\mathbf{X}_T^T}{\boldsymbol{\Sigma}(\boldsymbol{\beta})^{ - 1}}\mathbf{X}_T} \right),\]</span></p>
 <p>where <span class="math inline">\(\boldsymbol{\beta} \equiv [\theta \;\;\; \sigma^2]^T\)</span>. Then, it is easy to see that if we take</p>
 <p><span class="math display">\[{\boldsymbol{\beta}_1} = \left[ {\begin{array}{*{20}{c}}

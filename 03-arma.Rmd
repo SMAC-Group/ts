@@ -1949,11 +1949,11 @@ As for the autocovariance, this is derived in the following manner
 
 \begin{align}
 \text{cov} \left( {{X_t},{X_{t + h}}} \right) &= \text{cov} \left( {{W_t} + \frac{1}{\theta }{W_{t - 1}},{W_{t + h}} + \frac{1}{\theta }{W_{t + h - 1}}} \right)\\
-&= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma^2}{\theta ^2}  + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta }\\
-&= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\theta^2} + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\[12pt]
+&= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma^2}(1 + {\theta ^2})  + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\frac{{{\sigma ^2}{\theta ^2}}}{\theta }\\
+&= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}(1 + {\theta^2}) + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right) \\[12pt]
 \text{cov} \left( {{Y_t},{Y_{t + h}}} \right) &= \text{cov} \left( {{Z_t} + \theta {Z_{t - 1}},{Z_{t + h}} + \theta {Z_{t + h - 1}}} \right)\\
-&= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma ^2}{\theta ^2} + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta\\
-&= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\theta ^2} + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right).
+&= {\boldsymbol{1}_{\left\{ {h = 0} \right\}}}{\sigma ^2}(1 + {\theta ^2}) + {\boldsymbol{1}_{\left\{ {\left| h \right| = 1} \right\}}}{\sigma ^2}\theta\\
+&= {\sigma ^2}\left( {{\boldsymbol{1}_{\left\{ {h = 0} \right\}}}(1 + {\theta ^2}) + {1_{\left\{ {\left| h \right| = 1} \right\}}}\theta } \right).
 \end{align}
 
 From this we can see that $\text{cov} \left( {{X_t},{X_{t + h}}} \right) = \text{cov} \left( {{Y_t},{Y_{t + h}}} \right)$, for all $h \in \mathbb{Z}$. Using this result and since the innovations of the two processes are Gaussian we have:
@@ -1987,7 +1987,7 @@ Therefore the two process are completely indistinguishable as they have the **sa
 Naturally, the identifiability issues discussed in Example \@ref(exm:nonuniquema) are of considerable importance to tackle especially when attempting to estimate the parameters of an MA($q$) model. For the purpose of illustration, let us again consider the same setting with an MA(1) process in the example below.
 
 ```{example, name="Non-injectivity of the Likelihood function for MA models", label = "nonuniquema2"}
-Using the same setting as in Example \@ref(exm:nonuniquema), we will verify that likelihood is not injective (which is rather trivial). Indeed, $\mathbf{X}_T$ follows a multivariate normal distrbution with mean $\mathbf{0}$ and covariance matrix $\boldsymbol{\Sigma} and therefore likelihood function for an MA(1) is the following:
+Using the same setting as in Example \@ref(exm:nonuniquema), we will verify that likelihood is not injective (which is rather trivial). Indeed, $\mathbf{X}_T$ follows a multivariate normal distrbution with mean $\mathbf{0}$ and covariance matrix $\boldsymbol{\Sigma}$ and therefore likelihood function for an MA(1) is the following:
   
   \[L\left( {\boldsymbol{\beta} |\mathbf{X}_T} \right) = {\left( {2\pi } \right)^{ - \frac{T}{2}}}{\left| \boldsymbol{\Sigma}(\boldsymbol{\beta})  \right|^{ - \frac{1}{2}}}\exp \left( { - \frac{1}{2}{\mathbf{X}_T^T}{\boldsymbol{\Sigma}(\boldsymbol{\beta})^{ - 1}}\mathbf{X}_T} \right),\]
 
