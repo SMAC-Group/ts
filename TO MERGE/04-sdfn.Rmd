@@ -176,4 +176,22 @@ corr_analysis(Xt)
 ```
 
 
+```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="TO DO", cache = TRUE}
+Xt = gts(as.numeric(dmseries("https://datamarket.com/data/set/235j/number-of-daily-births-in-quebec-jan-01-1977-to-dec-31-1990#!ds=235j&display=line")),
+    start = 1977, freq = 365, name_ts = "Number of Births",
+    data_name = "Number of Births in Quebec", name_time = "")
+plot(Xt)
+```
 
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the Births time series data."}
+corr_analysis(Xt, lag.max = 50)
+```
+
+```{r}
+mod = estimate(SARIMA(ar = 2, ma = 1, sar = 2, sma = 1, s = 7, si = 1), Xt, method = "mle")
+check(mod)
+```
+
+```{r}
+predict(mod, n.ahead = 30)
+```

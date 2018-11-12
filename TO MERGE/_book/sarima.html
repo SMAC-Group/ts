@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<link rel="prev" href="moving-average-models.html">
-<link rel="next" href="autoregressive-moving-average-models.html">
+<link rel="prev" href="arima.html">
+<link rel="next" href="sarima-models.html">
 <script src="assets/jquery-2.2.3/jquery.min.js"></script>
 <link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -221,16 +221,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="under-development" class="section level1">
-<h1><span class="header-section-number">Chapter 5</span> Under development</h1> 
+<div id="sarima" class="section level2">
+<h2><span class="header-section-number">5.3</span> SARIMA</h2>
+<div id="real-data-example" class="section level3">
+<h3><span class="header-section-number">5.3.1</span> Real data example</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.numeric</span>(<span class="kw">dmseries</span>(<span class="st">&quot;https://datamarket.com/data/set/22pw/monthly-lake-erie-levels-1921-1970#!ds=22pw&amp;display=line&quot;</span>)),</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">    <span class="dt">start =</span> <span class="dv">1921</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Water Levels&quot;</span>,</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">    <span class="dt">data_name =</span> <span class="st">&quot;Monthly Lake Erie Levels&quot;</span>, <span class="dt">name_time =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="kw">plot</span>(Xt)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-10"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-10-1.png" alt="TO DO" width="672" />
+<p class="caption">
+Figure 4.8: TO DO
+</p>
 </div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">corr_analysis</span>(Xt)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-11"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-11-1.png" alt="Empirical ACF (left) and PACF (right) of the Lake Erie time series data." width="768" />
+<p class="caption">
+Figure 4.9: Empirical ACF (left) and PACF (right) of the Lake Erie time series data.
+</p>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.numeric</span>(<span class="kw">dmseries</span>(<span class="st">&quot;https://datamarket.com/data/set/235j/number-of-daily-births-in-quebec-jan-01-1977-to-dec-31-1990#!ds=235j&amp;display=line&quot;</span>)),</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">    <span class="dt">start =</span> <span class="dv">1977</span>, <span class="dt">freq =</span> <span class="dv">365</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Number of Births&quot;</span>,</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">    <span class="dt">data_name =</span> <span class="st">&quot;Number of Births in Quebec&quot;</span>, <span class="dt">name_time =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="kw">plot</span>(Xt)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-12"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-12-1.png" alt="TO DO" width="672" />
+<p class="caption">
+Figure 4.10: TO DO
+</p>
+</div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">corr_analysis</span>(Xt, <span class="dt">lag.max =</span> <span class="dv">50</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-13"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" alt="Empirical ACF (left) and PACF (right) of the Births time series data." width="768" />
+<p class="caption">
+Figure 4.11: Empirical ACF (left) and PACF (right) of the Births time series data.
+</p>
+</div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">mod =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">SARIMA</span>(<span class="dt">ar =</span> <span class="dv">2</span>, <span class="dt">ma =</span> <span class="dv">1</span>, <span class="dt">sar =</span> <span class="dv">2</span>, <span class="dt">sma =</span> <span class="dv">1</span>, <span class="dt">s =</span> <span class="dv">7</span>, <span class="dt">si =</span> <span class="dv">1</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">check</span>(mod)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">predict</span>(mod, <span class="dt">n.ahead =</span> <span class="dv">30</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+
+</div>
+</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="moving-average-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="autoregressive-moving-average-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="arima.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sarima-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="assets/gitbook-2.6.7/js/app.min.js"></script>

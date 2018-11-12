@@ -2156,9 +2156,9 @@ AIC(lynx_ma)
 Therefore, based on the AIC, we would nevertheless choose to model this time series using an AR(11) model. Supposing however that we had chosen the MA(10) model to describe and predict our time series: how would we deliver forecasts based on this model?
 
 ```{example, name="Forecasting MA models", label = "forecastMA"}
-Let us assume we want to deliver a one-step ahead forecast based on an MA(q) model. This is given by the conditional expectation
+Let us assume we want to deliver a one-step ahead forecast based on an MA($q$) model. This is given by the conditional expectation
 
-\[X_{t+1}^t = E\left[X_{t+1} | X_t, ..., X_1, W_t ..., W_1\right] = \theta_1 W_t + ... + \theta_q W_{t-q+1}\].
+\[X_{t+1}^t = \mathbb{E}\left[X_{t+1} | X_t, ..., X_1, W_t ..., W_1\right] = \theta_1 W_t + ... + \theta_q W_{t-q+1}\].
 
-However, we do not observe the innovation process $(W_t)$ directly and therefore forecasting MA(q) models is more complicated than forecasting AR(p) models. For this reason there are different techniques such as the innovation algorithm or the Kalman filter that allow to deliver these forecasts. These techniques however are out of the scope of this book.
+However, we do not observe the innovation process $(W_t)$ directly and therefore forecasting MA($q$) models is more complicated than forecasting AR($p$) models. For this reason there are different techniques such as the innovation algorithm or the Kalman filter that allow to deliver these forecasts. These techniques however are out of the scope of this book.
 ```

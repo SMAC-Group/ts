@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Applied Time Series Analysis with R</title>
+  <meta name="description" content="Applied Time Series Analysis with R">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Applied Time Series Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="SMAC-Group/app_ts" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Applied Time Series Analysis with R" />
+  
+  
+  
+
+<meta name="author" content="Stéphane Guerrier, Roberto Molinari and Haotian Xu">
+
+
+<meta name="date" content="2018-11-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="prev" href="under-development.html">
+<link rel="next" href="arima.html">
+<script src="assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="about-this-book.html"><a href="about-this-book.html"><i class="fa fa-check"></i><b>1.1</b> About This Book</a></li>
+<li class="chapter" data-level="1.2" data-path="bibliographic-note.html"><a href="bibliographic-note.html"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
+<li class="chapter" data-level="1.3" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.4" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i><b>1.4</b> License</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="function-computes-direction-random-walk-moves.html"><a href="function-computes-direction-random-walk-moves.html"><i class="fa fa-check"></i><b>2</b> Function computes direction random walk moves</a><ul>
+<li class="chapter" data-level="2.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The deterministic component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="the-wold-decomposition.html"><a href="the-wold-decomposition.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The random component (Noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="basicmodels.html"><a href="basicmodels.html"><i class="fa fa-check"></i><b>2.2</b> Modelling Time Series</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="basicmodels.html"><a href="basicmodels.html#dependence-within-time-series"><i class="fa fa-check"></i><b>2.2.1</b> Dependence within Time Series</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basicmodels.html"><a href="basicmodels.html#basic-time-series-models"><i class="fa fa-check"></i><b>2.2.2</b> Basic Time Series Models</a></li>
+<li class="chapter" data-level="2.2.3" data-path="basicmodels.html"><a href="basicmodels.html#wn"><i class="fa fa-check"></i><b>2.2.3</b> White Noise</a></li>
+<li class="chapter" data-level="2.2.4" data-path="basicmodels.html"><a href="basicmodels.html#rw"><i class="fa fa-check"></i><b>2.2.4</b> Random Walk</a></li>
+<li class="chapter" data-level="2.2.5" data-path="basicmodels.html"><a href="basicmodels.html#ar1"><i class="fa fa-check"></i><b>2.2.5</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.2.6" data-path="basicmodels.html"><a href="basicmodels.html#ma1"><i class="fa fa-check"></i><b>2.2.6</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.2.7" data-path="basicmodels.html"><a href="basicmodels.html#drift"><i class="fa fa-check"></i><b>2.2.7</b> Linear Drift</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="lts.html"><a href="lts.html"><i class="fa fa-check"></i><b>2.3</b> Composite Stochastic Processes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="representations-of-time-series.html"><a href="representations-of-time-series.html"><i class="fa fa-check"></i><b>3</b> Representations of Time Series</a><ul>
+<li class="chapter" data-level="3.1" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html#a-fundamental-representation"><i class="fa fa-check"></i><b>3.1.1</b> A Fundamental Representation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-autocorrelation-and-autocovariance-functions.html"><a href="the-autocorrelation-and-autocovariance-functions.html#admissible-autocorrelation-functions"><i class="fa fa-check"></i><b>3.1.2</b> Admissible Autocorrelation Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html"><i class="fa fa-check"></i><b>3.2</b> Estimation of Moments</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#estimation-of-the-mean-function"><i class="fa fa-check"></i><b>3.2.1</b> Estimation of the Mean Function</a></li>
+<li class="chapter" data-level="3.2.2" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-autocovariance-and-autocorrelation-functions"><i class="fa fa-check"></i><b>3.2.2</b> Sample Autocovariance and Autocorrelation Functions</a></li>
+<li class="chapter" data-level="3.2.3" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#robustness-issues"><i class="fa fa-check"></i><b>3.2.3</b> Robustness Issues</a></li>
+<li class="chapter" data-level="3.2.4" data-path="estimation-of-moments.html"><a href="estimation-of-moments.html#sample-cross-covariance-and-cross-correlation-functions"><i class="fa fa-check"></i><b>3.2.4</b> Sample Cross-Covariance and Cross-Correlation Functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="compute-the-parameter-estimates-using-mle.html"><a href="compute-the-parameter-estimates-using-mle.html"><i class="fa fa-check"></i><b>4</b> Compute the parameter estimates using MLE</a><ul>
+<li class="chapter" data-level="4.1" data-path="rewrite-as-a-function-later.html"><a href="rewrite-as-a-function-later.html"><i class="fa fa-check"></i><b>4.1</b> Rewrite as a function later…</a></li>
+<li class="chapter" data-level="4.2" data-path="model-1.html"><a href="model-1.html"><i class="fa fa-check"></i><b>4.2</b> Model 1</a></li>
+<li class="chapter" data-level="4.3" data-path="model-2.html"><a href="model-2.html"><i class="fa fa-check"></i><b>4.3</b> Model 2</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="model-2.html"><a href="model-2.html#forecasting-arp-models"><i class="fa fa-check"></i><b>4.3.1</b> Forecasting AR(p) Models</a></li>
+<li class="chapter" data-level="4.3.2" data-path="model-2.html"><a href="model-2.html#model-diagnostics"><i class="fa fa-check"></i><b>4.3.2</b> Model Diagnostics</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="moving-average-models.html"><a href="moving-average-models.html"><i class="fa fa-check"></i><b>4.4</b> Moving Average Models</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="under-development.html"><a href="under-development.html"><i class="fa fa-check"></i><b>5</b> Under development</a><ul>
+<li class="chapter" data-level="5.1" data-path="autoregressive-moving-average-models.html"><a href="autoregressive-moving-average-models.html"><i class="fa fa-check"></i><b>5.1</b> Autoregressive Moving Average Models ⚠️</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="autoregressive-moving-average-models.html"><a href="autoregressive-moving-average-models.html#acfpacf"><i class="fa fa-check"></i><b>5.1.1</b> ACF/PACF</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="arima.html"><a href="arima.html"><i class="fa fa-check"></i><b>5.2</b> ARIMA</a></li>
+<li class="chapter" data-level="5.3" data-path="sarima.html"><a href="sarima.html"><i class="fa fa-check"></i><b>5.3</b> SARIMA</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="sarima.html"><a href="sarima.html#real-data-example"><i class="fa fa-check"></i><b>5.3.1</b> Real data example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="sarima-models.html"><a href="sarima-models.html"><i class="fa fa-check"></i><b>6</b> SARIMA Models</a></li>
+<li class="chapter" data-level="7" data-path="under-development-1.html"><a href="under-development-1.html"><i class="fa fa-check"></i><b>7</b> Under development</a><ul>
+<li class="chapter" data-level="7.1" data-path="moving-average-models-1.html"><a href="moving-average-models-1.html"><i class="fa fa-check"></i><b>7.1</b> Moving Average Models ⚠️</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="moving-average-models-1.html"><a href="moving-average-models-1.html#autocovariance-of-ma-processes"><i class="fa fa-check"></i><b>7.1.1</b> Autocovariance of MA processes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="number-of-simulated-processes.html"><a href="number-of-simulated-processes.html"><i class="fa fa-check"></i><b>8</b> Number of simulated processes</a><ul>
+<li class="chapter" data-level="8.1" data-path="estimation-of-moments-stationary-processes.html"><a href="estimation-of-moments-stationary-processes.html"><i class="fa fa-check"></i><b>8.1</b> Estimation of Moments (Stationary Processes)</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="estimation-of-moments-stationary-processes.html"><a href="estimation-of-moments-stationary-processes.html#estimation-of-the-mean-function-1"><i class="fa fa-check"></i><b>8.1.1</b> Estimation of the Mean Function</a></li>
+<li class="chapter" data-level="8.1.2" data-path="estimation-of-moments-stationary-processes.html"><a href="estimation-of-moments-stationary-processes.html#sample-autocovariance-and-autocorrelation-functions-1"><i class="fa fa-check"></i><b>8.1.2</b> Sample Autocovariance and Autocorrelation Functions</a></li>
+<li class="chapter" data-level="8.1.3" data-path="estimation-of-moments-stationary-processes.html"><a href="estimation-of-moments-stationary-processes.html#robustness-issues-1"><i class="fa fa-check"></i><b>8.1.3</b> Robustness Issues</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="joint-stationarity.html"><a href="joint-stationarity.html"><i class="fa fa-check"></i><b>8.2</b> Joint Stationarity</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="joint-stationarity.html"><a href="joint-stationarity.html#sample-cross-covariance-and-cross-correlation-functions-1"><i class="fa fa-check"></i><b>8.2.1</b> Sample Cross-Covariance and Cross-Correlation Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="portmanteau-test.html"><a href="portmanteau-test.html"><i class="fa fa-check"></i><b>8.3</b> Portmanteau test</a></li>
+<li class="chapter" data-level="8.4" data-path="proof.html"><a href="proof.html"><i class="fa fa-check"></i><b>8.4</b> Proof</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Time Series Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="autoregressive-moving-average-models" class="section level2">
+<h2><span class="header-section-number">5.1</span> Autoregressive Moving Average Models ⚠️</h2>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+
+<div class="definition">
+<span id="def:defARMA" class="definition"><strong>Definition 4.1  (ARMA models)  </strong></span>A process <span class="math inline">\((X_{t})\)</span> is an ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) process if <span class="math inline">\((X_t)\)</span> (or <span class="math inline">\((X_{t}-\mathbb{E}[X_{t}])\)</span>) satisfies the linear difference equation
+<span class="math display">\[X_{t} = \phi_{1}X_{t-1} + \cdots + \phi_{p}X_{t-p} + W_{t}+\theta_{1}W_{t-1}+ \cdots+\theta_{q}W_{t-q},\]</span>
+where <span class="math inline">\(W_{t}\sim \mathcal{N}(0,\sigma_{w}^2)\)</span>.
+An ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) can be written in concise form as:
+$( B )
+<span class="math display">\[X_t = \theta \left( B \right)W_t, \]</span>
+where <span class="math inline">\(\phi(z)\)</span> and <span class="math inline">\(\theta(z)\)</span> are AR and MA polynomials:
+<span class="math display">\[\phi(z)=1-\phi_{1}z-\cdots-\phi_{p}z^p \]</span>
+<span class="math display">\[\theta(z)=1+\theta_{1}z+\cdots+\theta_{q}z^q. \]</span>
+</div>
+
+<p><br></p>
+<p>With this in mind, several remarks can be made:</p>
+<ul>
+<li>Assume <span class="math inline">\(\mathbb{E}(X_{t})=\mu = 0\)</span>. Otherwise you must substitute <span class="math inline">\(X_{t} - \mu\)</span> for <span class="math inline">\(X_{t}\)</span>.</li>
+<li>If <span class="math inline">\(p=0\)</span>, then ARMA<span class="math inline">\((p=0,q)=\)</span> MA<span class="math inline">\((q)\)</span> process.</li>
+<li>If <span class="math inline">\(q=0\)</span>, then ARMA<span class="math inline">\((p,q=0)=\)</span> AR<span class="math inline">\((p)\)</span> process.</li>
+<li>We mainly work with ARMA models that are causal and invertible.
+<ul>
+<li>An ARMA model is causal and invertible if its AR part is causal and its MA part is invertible.</li>
+<li>AR<span class="math inline">\((p)\)</span> models are always <strong>invertible</strong> and MA<span class="math inline">\((q)\)</span> models are always <strong>causal</strong>.</li>
+</ul></li>
+<li>Forecasting with ARMA process relies on the same techniques used with MA process.</li>
+</ul>
+<p><br></p>
+<p>ARMA models can have redundante parameters. This is illustrated in the following examples:</p>
+
+<div class="example">
+<span id="exm:redunARMA" class="example"><strong>Example 4.1  (Parameter Redundancy of ARMA models)  </strong></span>Let us consider the process:
+<span class="math display">\[\begin{align*}
+            X_t &amp;= W_t \\
+            X_t - 0.9 X_{t-1} &amp;= W_t - 0.9 W_{t-1}\\
+            X_t &amp;= 0.9 X_{t-1} + W_t - 0.9 W_{t-1}.
+        \end{align*}\]</span>
+Therefore, <span class="math inline">\(X_t = W_t\)</span> can be written as <span class="math inline">\(X_t = 0.9 X_{t-1} + W_t - 0.9 W_{t-1}\)</span>, which looks a lot like an ARMA(1,1). To assess the parameter redundancy of this ARMA models, it is useful to express the models in operator form, in this case:
+<span class="math display">\[\begin{equation*}
+            X_t = 0.9 X_{t-1} + W_t - 0.9 W_t \Longleftrightarrow (1 - 0.9B) X_t = (1 - 0.9 B) W_t.
+        \end{equation*}\]</span>
+It clearly appears that <span class="math inline">\((1 - 0.9B)\)</span> can be simplified in the above equation yielding to our original model <span class="math inline">\(X_t = W_t\)</span>. In general, if a model has autoregressive and moving average operators that share a common root then the model has <strong>redundant parameters</strong>.
+</div>
+
+<p><br></p>
+
+<div class="example">
+<span id="exm:redunARMA2" class="example"><strong>Example 4.2  (Parameter Redundancy of ARMA models)  </strong></span> Consider the following example:
+<span class="math display">\[\begin{equation*}
+            X_t = 0.3 X_{t-1} + 0.1 X_{t-2} + W_t + W_{t-1} + 0.16 W_{t-2},
+        \end{equation*}\]</span>
+which is an ARMA(2,2). By rearranging the terms, we obtain
+<span class="math display">\[\begin{equation*}
+            \begin{aligned} 
+                X_t &amp;= 0.3 X_{t-1} + 0.1 X_{t-2} + W_t + W_{t-1} + 0.16 W_{t-2}\\
+                 X_t - 0.3 X_{t-1} - 0.1 X_{t-2} &amp;= W_t + W_{t-1} + 0.16 W_{t-2}\\
+                 (1 - 0.3 B - 0.1 B^2 ) X_t  &amp;= (1 + B + 0.16B^2) W_t\\
+                 (1 + 0.2B)(1 - 0.5 B) X_t  &amp;= (1 + 0.2B)(1 + 0.8 B) W_t\\
+                (1 - 0.5 B) X_t  &amp;= (1 + 0.8 B) W_t\\
+                 X_t  &amp;= 0.5 X_{t-1} + W_t - 0.8 W_{t-1}.
+            \end{aligned}
+        \end{equation*}\]</span>
+Therefore, our initial model is in fact an <strong>ARMA(1,1)</strong>. Note that this model is causal (as <span class="math inline">\(|\phi|&lt;1\)</span>) and invertible (as <span class="math inline">\(|\theta| &lt; 1\)</span>).
+</div>
+
+<div id="acfpacf" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> ACF/PACF</h3>
+<ul>
+<li>Derivation the ACF/PACF of ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) is generally difficult. : Given an ARMA(1,1), we have <span class="math inline">\(\rho(h) = \phi^{h-1} \rho(1)\)</span> where</li>
+</ul>
+<span class="math display">\[\begin{equation*}
+                \rho(1) = \frac{\left(1+\theta \phi \right)\left(\theta + \phi\right)}{1+2\phi\theta+\theta^2}.
+\end{equation*}\]</span>
+<ul>
+<li>It is difficult to identify ARMA process from their ACF/PACF. Indeed, we have:</li>
+</ul>
+<table style="width:86%;">
+<caption>(#acfpacf) Caption here</caption>
+<colgroup>
+<col width="19%" />
+<col width="22%" />
+<col width="22%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">AR(<span class="math inline">\(p\)</span>)</th>
+<th align="center">MA(<span class="math inline">\(q\)</span>)</th>
+<th align="right">ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ACF</td>
+<td align="center">Tails off</td>
+<td align="center">Cuts off after
+lag <span class="math inline">\(q\)</span></td>
+<td align="right">Tails off</td>
+</tr>
+<tr class="even">
+<td>PACF</td>
+<td align="center">Cuts off after
+lag <span class="math inline">\(p\)</span></td>
+<td align="center">Tails off</td>
+<td align="right">Tails off</td>
+</tr>
+</tbody>
+</table>
+<p>As an example let us consider the following two ARMA(<span class="math inline">\(q\)</span>) models:</p>
+<p><span class="math display">\[
+\begin{aligned}
+X_t &amp;= 0.3 X_{t-1} - 0.8 X_{t-2} +  0.7 W_{t-1} + W_t \\
+Y_t &amp;= 1.2 X_{t-1} - 0.25 X_{t-2} - 0.1 W_{t-1} - 0.75 W_{t-2} + W_t, \\
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(W_t \overset{iid}{\sim} \mathcal{N}(0, 1)\)</span></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="kw">ARMA</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.3</span>,<span class="op">-</span><span class="fl">0.8</span>), <span class="dt">ma =</span> <span class="fl">0.7</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">Yt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="kw">ARMA</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">-0.25</span>), </a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">             <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="fl">-0.75</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw">plot</span>(Xt, <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Simulated process: &quot;</span><span class="op">*</span><span class="st"> </span>X[t] <span class="op">*</span><span class="st">&quot; with &quot;</span><span class="op">*</span><span class="st"> </span>T <span class="op">*</span><span class="st">&quot; = 500&quot;</span>))</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="kw">plot</span>(Yt, <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Simulated process: &quot;</span><span class="op">*</span><span class="st"> </span>Y[t] <span class="op">*</span><span class="st">&quot; with &quot;</span><span class="op">*</span><span class="st"> </span>T <span class="op">*</span><span class="st">&quot; = 500&quot;</span>))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-2-1.png" alt="TO DO" width="768" />
+<p class="caption">
+Figure 4.1: TO DO
+</p>
+</div>
+<p>The theoretical ACF/PACF</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.3</span>,<span class="op">-</span><span class="fl">0.8</span>), <span class="dt">ma =</span> <span class="fl">0.7</span>), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. ACF - MA(1); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = 0.9&quot;</span>))</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.3</span>,<span class="op">-</span><span class="fl">0.8</span>), <span class="dt">ma =</span> <span class="fl">0.7</span>), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. PACF - MA(1); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = 0.9&quot;</span>))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-3"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-3-1.png" alt="TO DO" width="768" />
+<p class="caption">
+Figure 4.2: TO DO
+</p>
+</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">-0.25</span>), <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="fl">-0.75</span>)), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. ACF - MA(1); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = 0.9&quot;</span>))</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">-0.25</span>), <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="fl">-0.75</span>)), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. ACF - MA(1); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = -0.9&quot;</span>))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-4-1.png" alt="TO DO" width="768" />
+<p class="caption">
+Figure 4.3: TO DO
+</p>
+</div>
+<p>Remark on the identification of the order of an ARMA model:</p>
+<ul>
+<li>ACF and PACF of ARMA models are difficult to interpret.</li>
+<li>It is generally easier to consider a list of candidate models and selected the ``best’’ model in this list using a model selection criterion or an estimator of the prediction error (e.g. MAPE).</li>
+<li>Check diagnostic plot to assess if the model is reasonable for this time series.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.numeric</span>(<span class="kw">dmseries</span>(<span class="st">&quot;https://datamarket.com/data/set/22y1/annual-copper-prices-1800-1997#!ds=22y1&amp;display=line&quot;</span>)),</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">    <span class="dt">start =</span> <span class="dv">1921</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Copper prices (minus the long-term trend)&quot;</span>,</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">    <span class="dt">data_name =</span> <span class="st">&quot;Copper Price&quot;</span>, <span class="dt">name_time =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">plot</span>(Xt)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-5-1.png" alt="TO DO" width="672" />
+<p class="caption">
+Figure 4.4: TO DO
+</p>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">corr_analysis</span>(Xt)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" alt="Empirical ACF (left) and PACF (right) of the Copper time series data." width="768" />
+<p class="caption">
+Figure 4.5: Empirical ACF (left) and PACF (right) of the Copper time series data.
+</p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">select</span>(<span class="kw">ARMA</span>(<span class="dv">4</span>,<span class="dv">5</span>), Xt)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-7-1.png" alt="Empirical ACF (left) and PACF (right) of the Copper time series data." width="768" />
+<p class="caption">
+Figure 4.6: Empirical ACF (left) and PACF (right) of the Copper time series data.
+</p>
+</div>
+<pre><code>## 
+## Call:
+## arima(x = xt, order = c(3, 0, 5), include.mean = include.mean)
+## 
+## Coefficients:
+##           ar1     ar2     ar3     ma1     ma2      ma3      ma4      ma5
+##       -0.4939  0.3748  0.8625  1.4987  0.7951  -0.4955  -0.5172  -0.2575
+## s.e.   0.0531  0.0635  0.0519  0.1301  0.2081   0.1869   0.1638   0.0862
+##       intercept
+##          0.1406
+## s.e.     0.3949
+## 
+## sigma^2 estimated as 0.5441:  log likelihood = -223.08,  aic = 466.15</code></pre>
+<p>To decide:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">evaluate</span>(<span class="kw">list</span>(<span class="kw">AR</span>(<span class="dv">1</span>), <span class="kw">ARMA</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="kw">ARMA</span>(<span class="dv">3</span>, <span class="dv">5</span>)), Xt, <span class="dt">criterion =</span> <span class="st">&quot;MAPE&quot;</span>, <span class="dt">start =</span> <span class="fl">0.5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">model_copper =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">ARMA</span>(<span class="dv">3</span>,<span class="dv">2</span>), Xt)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">check</span>(model_copper)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-9"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" alt="Diagnostic plots for the residuals of a TO DO" width="672" />
+<p class="caption">
+Figure 4.7: Diagnostic plots for the residuals of a TO DO
+</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="under-development.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="arima.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-sdfn.Rmd",
+"text": "Edit"
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
