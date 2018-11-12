@@ -1913,7 +1913,7 @@ which confirms that the expectation is constant. We now have to verify the condi
 \begin{align}
 \text{cov}\left( {{X_{t + h}},{X_t}} \right) &= \text{cov} \left( {\sum\limits_{j = 0}^q {{\theta _j}{W_{t + h - j}}} ,\sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} } \right) \\
 &= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i} \;\text{cov} \left( {{W_{t + h - j}},{W_{t - i}}} \right)} }  \\
-&= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\; \underbrace {\text{cov} \left( {{W_{t + h - j}},{W_{t - i}}} \right)}_{ = 0 \, \text{for} \, i = j - h}} }  + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j} \;\underbrace{\text{cov} \left( {{W_t},{W_t}} \right)}_{= \sigma^2}} \\
+&= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\; \underbrace {\text{cov} \left( {{W_{t + h - j}},{W_{t - i}}} \right)}_{ = 0 \, \text{for} \, i \neq j - h}} }  + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j} \;\underbrace{\text{cov} \left( {{W_t},{W_t}} \right)}_{= \sigma^2}} \\
 &= {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}
 \end{align}
 
