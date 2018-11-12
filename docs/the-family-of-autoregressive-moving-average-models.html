@@ -1444,7 +1444,7 @@ where <span class="math inline">\(\theta_q \neq 0\)</span>.
 <span class="math display">\[\begin{align}
 \text{cov}\left( {{X_{t + h}},{X_t}} \right) &amp;= \text{cov} \left( {\sum\limits_{j = 0}^q {{\theta _j}{W_{t + h - j}}} ,\sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} } \right) \\
 &amp;= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i} \;\text{cov} \left( {{W_{t + h - j}},{W_{t - i}}} \right)} }  \\
-&amp;= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\; \underbrace {\text{cov} \left( {{W_{t + h - j}},{W_{t - i}}} \right)}_{ = 0 \, \text{for} \, i = j - h}} }  + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j} \;\underbrace{\text{cov} \left( {{W_t},{W_t}} \right)}_{= \sigma^2}} \\
+&amp;= \sum\limits_{j = 0}^q {\sum\limits_{i = 0}^q {{\theta _j}{\theta _i}\; \underbrace {\text{cov} \left( {{W_{t + h - j}},{W_{t - i}}} \right)}_{ = 0 \, \text{for} \, i \neq j - h}} }  + {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j} \;\underbrace{\text{cov} \left( {{W_t},{W_t}} \right)}_{= \sigma^2}} \\
 &amp;= {1_{\left\{ {\left| h \right| \leqslant q} \right\}}}{\sigma ^2}\sum\limits_{j = 0}^{q - \left| h \right|} {{\theta _{j + \left| h \right|}}{\theta _j}}
 \end{align}\]</span>
 <p>As a result, we have:</p>
@@ -1635,9 +1635,9 @@ Figure 4.38: Diagnostic plots for the residuals of a fitted MA(10) model on the 
 <p>Therefore, based on the AIC, we would nevertheless choose to model this time series using an AR(11) model. Supposing however that we had chosen the MA(10) model to describe and predict our time series: how would we deliver forecasts based on this model?</p>
 
 <div class="example">
-<p><span id="exm:forecastMA" class="example"><strong>Example 4.17  (Forecasting MA models)  </strong></span>Let us assume we want to deliver a one-step ahead forecast based on an MA(q) model. This is given by the conditional expectation</p>
-<p><span class="math display">\[X_{t+1}^t = E\left[X_{t+1} | X_t, ..., X_1, W_t ..., W_1\right] = \theta_1 W_t + ... + \theta_q W_{t-q+1}\]</span>.</p>
-However, we do not observe the innovation process <span class="math inline">\((W_t)\)</span> directly and therefore forecasting MA(q) models is more complicated than forecasting AR(p) models. For this reason there are different techniques such as the innovation algorithm or the Kalman filter that allow to deliver these forecasts. These techniques however are out of the scope of this book.
+<p><span id="exm:forecastMA" class="example"><strong>Example 4.17  (Forecasting MA models)  </strong></span>Let us assume we want to deliver a one-step ahead forecast based on an MA(<span class="math inline">\(q\)</span>) model. This is given by the conditional expectation</p>
+<p><span class="math display">\[X_{t+1}^t = \mathbb{E}\left[X_{t+1} | X_t, ..., X_1, W_t ..., W_1\right] = \theta_1 W_t + ... + \theta_q W_{t-q+1}\]</span>.</p>
+However, we do not observe the innovation process <span class="math inline">\((W_t)\)</span> directly and therefore forecasting MA(<span class="math inline">\(q\)</span>) models is more complicated than forecasting AR(<span class="math inline">\(p\)</span>) models. For this reason there are different techniques such as the innovation algorithm or the Kalman filter that allow to deliver these forecasts. These techniques however are out of the scope of this book.
 </div>
 
 
