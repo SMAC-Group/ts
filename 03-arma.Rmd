@@ -2020,19 +2020,19 @@ Given the identifiability issues illustrated in Examples \@ref(exm:nonuniquema) 
 ```{example, name="Invertibility of MA(1) models", label = "invertma1"}
 Let us consider an MA(1) model
 
-\[X_t = \theta W_{t-1} + W_t\],
+\[X_t = \theta W_{t-1} + W_t,\]
 
 which can be rewritten as
 
-\[W_t = -\theta W_{t-1} + X_t\].
+\[W_t = -\theta W_{t-1} + X_t.\]
 
 Now, the MA(1) model has taken the form of an AR(1) model and, using the recursive approach that we used to study the AR($p$) models, we can show that we get to the form
 
-\[W_t = (-\theta)^t W_0 + \sum_{j = 0}^t (-\theta)^j X_{t-j}\].
+\[W_t = (-\theta)^t W_0 + \sum_{j = 0}^t (-\theta)^j X_{t-j}.\]
 
 If we assume $|\theta| < 1$, then we finally get to the causal AR($p$) representation
 
-\[W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}\].
+\[W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}.\]
 ```
 
 Therefore, between two MA(1) models with two identical ACFs, we choose the invertible MA(1) which respects the condition $|\theta| < 1$. The same reasoning as for causal AR($p$) models is also applied for invertible MA($q$) models thereby restricting the possible values of the parameters of an MA($q$) model to the admissable region defined in the same way as for causal AR($p$) models. This reasoning also allows us to study MA($q$) models similarly to AR($p$) models as follows. 
@@ -2040,13 +2040,13 @@ Therefore, between two MA(1) models with two identical ACFs, we choose the inver
 ```{definition, name="Invertible MA models", label = "invertMA"}
 If an MA(q) model can be written as follows
 
-\[\theta^{-1}(B) X_t = W_t\]
+\[\theta^{-1}(B) X_t = W_t,\]
 
 where $\theta(B)$ is the moving average operator such that 
 
-\[\theta^{-1}(B) = \sum_{j = 0}^{\infty} (-\theta)^j B^j\], 
+\[\theta^{-1}(B) = \sum_{j = 0}^{\infty} (-\theta)^j B^j,\] 
 
-then then the MA(q) model is invertible.
+then the MA(q) model is invertible.
 ```
 
 

@@ -1521,23 +1521,23 @@ since <span class="math inline">\(\boldsymbol{\Sigma}(\boldsymbol{\beta}_1)=\bol
 
 <div class="example">
 <p><span id="exm:invertma1" class="example"><strong>Example 4.16  (Invertibility of MA(1) models)  </strong></span>Let us consider an MA(1) model</p>
-<p><span class="math display">\[X_t = \theta W_{t-1} + W_t\]</span>,</p>
+<p><span class="math display">\[X_t = \theta W_{t-1} + W_t,\]</span></p>
 <p>which can be rewritten as</p>
-<p><span class="math display">\[W_t = -\theta W_{t-1} + X_t\]</span>.</p>
+<p><span class="math display">\[W_t = -\theta W_{t-1} + X_t.\]</span></p>
 <p>Now, the MA(1) model has taken the form of an AR(1) model and, using the recursive approach that we used to study the AR(<span class="math inline">\(p\)</span>) models, we can show that we get to the form</p>
-<p><span class="math display">\[W_t = (-\theta)^t W_0 + \sum_{j = 0}^t (-\theta)^j X_{t-j}\]</span>.</p>
+<p><span class="math display">\[W_t = (-\theta)^t W_0 + \sum_{j = 0}^t (-\theta)^j X_{t-j}.\]</span></p>
 <p>If we assume <span class="math inline">\(|\theta| &lt; 1\)</span>, then we finally get to the causal AR(<span class="math inline">\(p\)</span>) representation</p>
-<span class="math display">\[W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}\]</span>.
+<span class="math display">\[W_t = \sum_{j = 0}^{\infty} (-\theta)^j X_{t-j}.\]</span>
 </div>
 
 <p>Therefore, between two MA(1) models with two identical ACFs, we choose the invertible MA(1) which respects the condition <span class="math inline">\(|\theta| &lt; 1\)</span>. The same reasoning as for causal AR(<span class="math inline">\(p\)</span>) models is also applied for invertible MA(<span class="math inline">\(q\)</span>) models thereby restricting the possible values of the parameters of an MA(<span class="math inline">\(q\)</span>) model to the admissable region defined in the same way as for causal AR(<span class="math inline">\(p\)</span>) models. This reasoning also allows us to study MA(<span class="math inline">\(q\)</span>) models similarly to AR(<span class="math inline">\(p\)</span>) models as follows.</p>
 
 <div class="definition">
 <p><span id="def:invertMA" class="definition"><strong>Definition 4.8  (Invertible MA models)  </strong></span>If an MA(q) model can be written as follows</p>
-<p><span class="math display">\[\theta^{-1}(B) X_t = W_t\]</span></p>
+<p><span class="math display">\[\theta^{-1}(B) X_t = W_t,\]</span></p>
 <p>where <span class="math inline">\(\theta(B)\)</span> is the moving average operator such that</p>
-<p><span class="math display">\[\theta^{-1}(B) = \sum_{j = 0}^{\infty} (-\theta)^j B^j\]</span>,</p>
-then then the MA(q) model is invertible.
+<p><span class="math display">\[\theta^{-1}(B) = \sum_{j = 0}^{\infty} (-\theta)^j B^j,\]</span></p>
+then the MA(q) model is invertible.
 </div>
 
 <div id="the-autocovariance-function-of-ma-processes" class="section level3">
