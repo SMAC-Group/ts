@@ -54,17 +54,16 @@ Based on the expression above, we can see that both sides of the ARMA equation s
 Hence, the specified ARMA(1,1) model is actually a white noise mode.  
 ```
 
-In general, if a model has autoregressive and moving average operators that share a common root then the model has **redundant parameters**.
+In general, if a model has autoregressive and moving average operators that share a common root, then the model has **redundant parameters** and can consistute an "over-parametrization" of the problem. Let us further explore this problem through another example.
 
 ```{example, name="Parameter Redundancy of ARMA models", label = "redunARMA2"}
-		Consider the following example:
+Consider the following model:
 		\begin{equation*}
 			X_t = 0.3 X_{t-1} + 0.1 X_{t-2} + W_t + W_{t-1} + 0.16 W_{t-2},
  		\end{equation*}
-		which is an ARMA(2,2). By rearranging the terms, we obtain
+which is an ARMA(2,2). By rearranging the terms, we can do the following calculations
 		\begin{equation*}
 			\begin{aligned} 
-				X_t &= 0.3 X_{t-1} + 0.1 X_{t-2} + W_t + W_{t-1} + 0.16 W_{t-2}\\
 				 X_t - 0.3 X_{t-1} - 0.1 X_{t-2} &= W_t + W_{t-1} + 0.16 W_{t-2}\\
 				 (1 - 0.3 B - 0.1 B^2 ) X_t  &= (1 + B + 0.16B^2) W_t\\
 				 (1 + 0.2B)(1 - 0.5 B) X_t  &= (1 + 0.2B)(1 + 0.8 B) W_t\\
@@ -72,8 +71,10 @@ In general, if a model has autoregressive and moving average operators that shar
 				 X_t  &= 0.5 X_{t-1} + W_t - 0.8 W_{t-1}.
 			\end{aligned}
 		\end{equation*}
-		Therefore, our initial model is in fact an **ARMA(1,1)**. Note that this model is causal (as $|\phi|<1$) and invertible (as $|\theta| < 1$).
+Therefore, the initial ARMA(2,2) model is in fact an **ARMA(1,1)** model. Note that the latter model is causal (as $|\phi|<1$) and invertible (as $|\theta| < 1$) and therefore respects the conditions we highlighted at the beginning of this section.
 ```
+
+
 
 ### ACF/PACF
 

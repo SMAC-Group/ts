@@ -156,6 +156,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.6.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#the-autocovariance-function-of-ma-processes"><i class="fa fa-check"></i><b>4.6.1</b> The Autocovariance Function of MA processes</a></li>
 <li class="chapter" data-level="4.6.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#selecting-and-forecasting-maq-models"><i class="fa fa-check"></i><b>4.6.2</b> Selecting and Forecasting MA(<span class="math inline">\(q\)</span>) Models</a></li>
 </ul></li>
+<li class="chapter" data-level="4.7" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autoregressive-moving-average-models"><i class="fa fa-check"></i><b>4.7</b> Autoregressive Moving Average Models ⚠️</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -605,8 +606,8 @@ res.Zt.MLE =<span class="st"> </span>res.Zt.YW =<span class="st"> </span>res.Zt.
 <li><strong>MLE</strong>: Maximum Likelihood Estimator</li>
 <li><strong>RGMWM</strong>: the robust version of the GMWM estimator</li>
 </ul>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-30"></span>
-<img src="ts_files/figure-html/unnamed-chunk-30-1.png" alt="Boxplots of the empirical distribution functions of the Yule-Walker (YW), MLE and GMWM estimators for the parameters of the AR(2) model when using the Xt process (first row of boxplots), Yt process (second row of boxplots) and Zt (third row of boxplots)." width="864" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
+<img src="ts_files/figure-html/unnamed-chunk-5-1.png" alt="Boxplots of the empirical distribution functions of the Yule-Walker (YW), MLE and GMWM estimators for the parameters of the AR(2) model when using the Xt process (first row of boxplots), Yt process (second row of boxplots) and Zt (third row of boxplots)." width="864" />
 <p class="caption">
 Figure 4.2: Boxplots of the empirical distribution functions of the Yule-Walker (YW), MLE and GMWM estimators for the parameters of the AR(2) model when using the Xt process (first row of boxplots), Yt process (second row of boxplots) and Zt (third row of boxplots).
 </p>
@@ -615,8 +616,8 @@ Figure 4.2: Boxplots of the empirical distribution functions of the Yule-Walker 
 <p>On the other hand, when checking the performance of the same methods when applied to the two contaminated processes <span class="math inline">\((Y_t)\)</span> and <span class="math inline">\((Z_t)\)</span> it can be seen that the standard estimators appear to be (highly) biased for most of the estimated parameters (with one exception) while the robust estimator remains close (on average) to the true parameter values that we are aiming to estimate. Therefore, when there’s a suspicion that there could be some (small) contamination in the observed time series, it may be more appropriate to use a robust estimator.</p>
 <p>To conclude this section on estimation, we now compare the above studied estimators in different applied settings where we can highlight how to assess which estimator is more appropriate according to the type of setting. For this purpose, let us start with an example we have already checked in the previous chapter when discussing standard and robust estimators of the ACF, more specifically the data on monthly precipitations. As mentioned before when discussing this example, the importance of modelling precipitation data lies in the fact that its usually used to successively model the entire water cycle. Common models for this purpose are either the white noise (WN) model or the AR(1) model. Let us compare the standard and robust ACF again to understand which of these two models seems more appropriate for the data at hand.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">compare_acf</span>(hydro)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-31"></span>
-<img src="ts_files/figure-html/unnamed-chunk-31-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the monthly precipitation data (hydro)" width="864" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="ts_files/figure-html/unnamed-chunk-6-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the monthly precipitation data (hydro)" width="864" />
 <p class="caption">
 Figure 4.3: Standard (left) and robust (left) estimates of the ACF function on the monthly precipitation data (hydro)
 </p>
@@ -642,15 +643,15 @@ fish =<span class="st"> </span><span class="kw">gts</span>(rec, <span class="dt"
 
 <span class="co"># Plot data</span>
 <span class="kw">plot</span>(fish)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-35"></span>
-<img src="ts_files/figure-html/unnamed-chunk-35-1.png" alt="Plot of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987" width="768" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-10"></span>
+<img src="ts_files/figure-html/unnamed-chunk-10-1.png" alt="Plot of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987" width="768" />
 <p class="caption">
 Figure 4.4: Plot of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987
 </p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">compare_acf</span>(fish)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-36"></span>
-<img src="ts_files/figure-html/unnamed-chunk-36-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the monthly fish recruitment data (rec)" width="864" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-11"></span>
+<img src="ts_files/figure-html/unnamed-chunk-11-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the monthly fish recruitment data (rec)" width="864" />
 <p class="caption">
 Figure 4.5: Standard (left) and robust (left) estimates of the ACF function on the monthly fish recruitment data (rec)
 </p>
@@ -661,16 +662,16 @@ diff_fish =<span class="st"> </span><span class="kw">gts</span>(<span class="kw"
 
 <span class="co"># Plot first differencing of the recruitment data</span>
 <span class="kw">plot</span>(diff_fish)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-38"></span>
-<img src="ts_files/figure-html/unnamed-chunk-38-1.png" alt="Plot of the first difference of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987" width="768" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-13"></span>
+<img src="ts_files/figure-html/unnamed-chunk-13-1.png" alt="Plot of the first difference of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987" width="768" />
 <p class="caption">
 Figure 4.6: Plot of the first difference of the time series on fish recruitment monthly data in the Pacific Ocean from 1950 to 1987
 </p>
 </div>
 <p>From the plot we can see that observations appear to be collected around a constant value and fewer appear to be further from this value (as would be the case for a normal distribution). However, various of these “more extreme” observations appear to be quite frequent suggesting that the underlying distribution may have a heavier tail compared to the normal distribution. Let us compare the standard and robust ACF estimates of this new time series.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">compare_acf</span>(diff_fish)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-39"></span>
-<img src="ts_files/figure-html/unnamed-chunk-39-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the first difference of the monthly fish recruitment data (rec)" width="864" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-14"></span>
+<img src="ts_files/figure-html/unnamed-chunk-14-1.png" alt="Standard (left) and robust (left) estimates of the ACF function on the first difference of the monthly fish recruitment data (rec)" width="864" />
 <p class="caption">
 Figure 4.7: Standard (left) and robust (left) estimates of the ACF function on the first difference of the monthly fish recruitment data (rec)
 </p>
@@ -924,8 +925,8 @@ model =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw
 <p>Therefore, the PACF is not defined at lag zero while it is the same as the ACF at the first lag since there are no intermediate observations. The defintion of this function is important for different reasons. Firstly, as mentioned earlier, we have an asymptotic distribution for the estimator of the PACF which allows us to deliver confidence intervals as for the ACF. Indeed, representing the empirical PACF along with its confidence intervals can provide a further tool to make sure that the residuals of a model fit can be considered as being white noise. The latter is a reasonable hypothesis if both the empirical ACF and PACF lie within the confidence intervals indicating that there is no significant correlation between lagged variables. Let us focus on the empirical PACF of the residuals we saw earlier in the diagnostic plot.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">residuals =<span class="st"> </span>model<span class="op">$</span>mod<span class="op">$</span>residuals
 <span class="kw">plot</span>(<span class="kw">auto_corr</span>(residuals, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-41"></span>
-<img src="ts_files/figure-html/unnamed-chunk-41-1.png" alt="Empirical PACF on the residuals of the AR(1) model fitted to the simulated time series generated from an AR(1) process." width="576" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-16"></span>
+<img src="ts_files/figure-html/unnamed-chunk-16-1.png" alt="Empirical PACF on the residuals of the AR(1) model fitted to the simulated time series generated from an AR(1) process." width="576" />
 <p class="caption">
 Figure 4.9: Empirical PACF on the residuals of the AR(1) model fitted to the simulated time series generated from an AR(1) process.
 </p>
@@ -935,8 +936,8 @@ Figure 4.9: Empirical PACF on the residuals of the AR(1) model fitted to the sim
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
 <span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="fl">0.95</span>, <span class="dt">ma =</span> <span class="ot">NULL</span>))
 <span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="fl">0.95</span>, <span class="dt">ma =</span> <span class="ot">NULL</span>))</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-42"></span>
-<img src="ts_files/figure-html/unnamed-chunk-42-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(1) model with parameter $\phi = 0.95$." width="768" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-17"></span>
+<img src="ts_files/figure-html/unnamed-chunk-17-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(1) model with parameter $\phi = 0.95$." width="768" />
 <p class="caption">
 Figure 4.10: Theoretical ACF (left) and PACF (right) of an AR(1) model with parameter <span class="math inline">\(\phi = 0.95\)</span>.
 </p>
@@ -949,8 +950,8 @@ Figure 4.10: Theoretical ACF (left) and PACF (right) of an AR(1) model with para
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
 <span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.125</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))
 <span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.125</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-43"></span>
-<img src="ts_files/figure-html/unnamed-chunk-43-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(3) model with parameters $\phi_1 = 0.95$, $\phi_2 = 0.25$ and $\phi_3 = 0.125$." width="768" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-18"></span>
+<img src="ts_files/figure-html/unnamed-chunk-18-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(3) model with parameters $\phi_1 = 0.95$, $\phi_2 = 0.25$ and $\phi_3 = 0.125$." width="768" />
 <p class="caption">
 Figure 4.11: Theoretical ACF (left) and PACF (right) of an AR(3) model with parameters <span class="math inline">\(\phi_1 = 0.95\)</span>, <span class="math inline">\(\phi_2 = 0.25\)</span> and <span class="math inline">\(\phi_3 = 0.125\)</span>.
 </p>
@@ -959,8 +960,8 @@ Figure 4.11: Theoretical ACF (left) and PACF (right) of an AR(3) model with para
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
 <span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="fl">0.6</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))
 <span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="fl">0.6</span>), <span class="dt">ma =</span> <span class="ot">NULL</span>))</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-44"></span>
-<img src="ts_files/figure-html/unnamed-chunk-44-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(4) model with parameters $\phi_1 = 0$, $\phi_2 = -0.1$, $\phi_3 = 0$ and $\phi_4 = 0$." width="768" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-19"></span>
+<img src="ts_files/figure-html/unnamed-chunk-19-1.png" alt="Theoretical ACF (left) and PACF (right) of an AR(4) model with parameters $\phi_1 = 0$, $\phi_2 = -0.1$, $\phi_3 = 0$ and $\phi_4 = 0$." width="768" />
 <p class="caption">
 Figure 4.12: Theoretical ACF (left) and PACF (right) of an AR(4) model with parameters <span class="math inline">\(\phi_1 = 0\)</span>, <span class="math inline">\(\phi_2 = -0.1\)</span>, <span class="math inline">\(\phi_3 = 0\)</span> and <span class="math inline">\(\phi_4 = 0\)</span>.
 </p>
@@ -969,16 +970,16 @@ Figure 4.12: Theoretical ACF (left) and PACF (right) of an AR(4) model with para
 <p>These examples therefore give us further insight as to how to interpret the empirical (or estimated) versions of these functions. For this reason, let us study the empirical ACF and PACF of some real time series, the first of which is the data representing the natural logarithm of the annual number of Lynx trappings in Canada between 1821 and 1934. The time series is represented below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lynx_gts =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">log</span>(lynx), <span class="dt">start =</span> <span class="dv">1821</span>, <span class="dt">data_name =</span> <span class="st">&quot;Lynx Trappings&quot;</span>, <span class="dt">unit_time =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Trappings&quot;</span>)
 <span class="kw">plot</span>(lynx_gts)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-46"></span>
-<img src="ts_files/figure-html/unnamed-chunk-46-1.png" alt="Time series of annual number of lynx data trappings in Canada between 1821 and 1934." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-21"></span>
+<img src="ts_files/figure-html/unnamed-chunk-21-1.png" alt="Time series of annual number of lynx data trappings in Canada between 1821 and 1934." width="672" />
 <p class="caption">
 Figure 4.13: Time series of annual number of lynx data trappings in Canada between 1821 and 1934.
 </p>
 </div>
 <p>We can see that there appears to be a seasonal trend within the data but let us ignore this for the moment and check the ACF and PACF plots below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corr_analysis</span>(lynx_gts)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-47"></span>
-<img src="ts_files/figure-html/unnamed-chunk-47-1.png" alt="Empirical ACF (left) and PACF (right) of the lynx time series data." width="768" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-22"></span>
+<img src="ts_files/figure-html/unnamed-chunk-22-1.png" alt="Empirical ACF (left) and PACF (right) of the lynx time series data." width="768" />
 <p class="caption">
 Figure 4.14: Empirical ACF (left) and PACF (right) of the lynx time series data.
 </p>
@@ -991,8 +992,8 @@ Figure 4.14: Empirical ACF (left) and PACF (right) of the lynx time series data.
 <p>One of the most popular Portmanteau tests is the Ljung-Box test whose statistic is defined as follows:</p>
 <p><span class="math display">\[Q_h = T(T+2) \sum_{j=1}^{h} \frac{\hat{\rho}_j^2}{T - j},\]</span> where <span class="math inline">\(h\)</span> represents the maximum lag of the set of lags for which we wish to test for serial autocorrelation (i.e. from lag 1 to lag <span class="math inline">\(h\)</span>). Under the null hypothesis <span class="math inline">\(Q_h \sim \chi_h^2\)</span> since asymptotically <span class="math inline">\(\hat{\rho}_j \sim \mathcal{N}\left(0, \frac{1}{T}\right)\)</span> under the null and therefore the statistic is proportional to the sum of squared standard normal variables. The last plot of Figure @ref(fig:diagnostic_plot) can therefore be better interpreted under this framework and is reproduced below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lb_test =<span class="st"> </span><span class="kw">diag_ljungbox</span>(<span class="kw">as.numeric</span>(residuals), <span class="dt">order =</span> <span class="dv">0</span>, <span class="dt">stop_lag =</span> <span class="dv">20</span>, <span class="dt">stdres =</span> <span class="ot">FALSE</span>, <span class="dt">plot =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-49"></span>
-<img src="ts_files/figure-html/unnamed-chunk-49-1.png" alt="Ljung-Box p-values for lags $h = 1,...,20$ on the residuals of the fitted AR(1) model." width="576" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-24"></span>
+<img src="ts_files/figure-html/unnamed-chunk-24-1.png" alt="Ljung-Box p-values for lags $h = 1,...,20$ on the residuals of the fitted AR(1) model." width="576" />
 <p class="caption">
 Figure 4.15: Ljung-Box p-values for lags <span class="math inline">\(h = 1,...,20\)</span> on the residuals of the fitted AR(1) model.
 </p>
@@ -1310,16 +1311,16 @@ C &amp;= \mathbb{E}\left[  \left\| \mathbf{Y} - \hat{\mathbf{Y}} \right\|_2^2 \r
 true_model =<span class="st"> </span><span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="op">-</span><span class="fl">0.9</span>, <span class="fl">0.3</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>)
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">model =</span> true_model)
 <span class="kw">plot</span>(<span class="kw">auto_corr</span>(Xt, <span class="dt">pacf =</span> <span class="ot">TRUE</span>))</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-50"></span>
-<img src="ts_files/figure-html/unnamed-chunk-50-1.png" alt="Estimated PACF of a time series from an AR(3) model with parameters $\phi_1 = 1.2$, $\phi_2 = -0.9$ and $\phi_3 = 0.3$." width="576" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-25"></span>
+<img src="ts_files/figure-html/unnamed-chunk-25-1.png" alt="Estimated PACF of a time series from an AR(3) model with parameters $\phi_1 = 1.2$, $\phi_2 = -0.9$ and $\phi_3 = 0.3$." width="576" />
 <p class="caption">
 Figure 4.23: Estimated PACF of a time series from an AR(3) model with parameters <span class="math inline">\(\phi_1 = 1.2\)</span>, <span class="math inline">\(\phi_2 = -0.9\)</span> and <span class="math inline">\(\phi_3 = 0.3\)</span>.
 </p>
 </div>
 <p>From the PACF plot one sees that the first three lags appear to be significant indicating that an AR(3) model would indeed appear to be a good candidate model for this observed time series. However, there is another value of the PACF that appears to be marginally significant at lag 10. Let us therefore suppose that we want to consider all possible AR(<span class="math inline">\(p\)</span>) models with <span class="math inline">\(p^* = 10\)</span>. The <code>select()</code> function from the <code>simts</code> package allows to evaluate and plot the value of the three criteria presented earlier in order to understand the value of <span class="math inline">\(p\)</span> that minimizes each of them.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">best_model =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">10</span>), Xt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>) </code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-52"></span>
-<img src="ts_files/figure-html/unnamed-chunk-52-1.png" alt="Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-27"></span>
+<img src="ts_files/figure-html/unnamed-chunk-27-1.png" alt="Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model." width="672" />
 <p class="caption">
 Figure 4.24: Plot of the AIC, BIC and HQ model selection criteria from all models included in an AR(10) model. The observed time series was simulated from an AR(3) model.
 </p>
@@ -1331,7 +1332,7 @@ Figure 4.24: Plot of the AIC, BIC and HQ model selection criteria from all model
 <p>It can be seen how these estimated parameters are close to the true parameter values of the AR(3) model which was used to simulate the observed time series. Therefore the model selection criteria presented above appear to be good criteria to select the true underlying model, but they all do so in different manners. To further investigate the properties of these criteria let us consider the following simulation study.</p>
 
 <div class="example">
-<span id="exm:unnamed-chunk-54" class="example"><strong>Example 4.12  (Simulation Study: Strong Signal vs Weak Signal)  </strong></span>In this simulation study, we consider the following four models:
+<span id="exm:unnamed-chunk-29" class="example"><strong>Example 4.12  (Simulation Study: Strong Signal vs Weak Signal)  </strong></span>In this simulation study, we consider the following four models:
 <span class="math display">\[\begin{align*}
   X_t &amp;= 0.9X_{t-1} + W_t,\\
   X_t &amp;= 0.6X_{t-1} + 0.3X_{t-2} + W_t,\\
@@ -1344,8 +1345,8 @@ Figure 4.24: Plot of the AIC, BIC and HQ model selection criteria from all model
 For the purpose of the simulation we consider a sample size <span class="math inline">\(T = 100\)</span> and <span class="math inline">\(B = 1000\)</span> bootstrap replications. The code used for the simulation study (being lengthy) is omitted for practical exposition purposes.
 </div>
 
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-55"></span>
-<img src="ts_files/figure-html/unnamed-chunk-55-1.png" alt="Barplots representing the frequency with which each considered model selection criterion (AIC, BIC, HQ) selects each of the possible candidate models within an AR(9) in each of the four simulation settings described in the text." width="960" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-30"></span>
+<img src="ts_files/figure-html/unnamed-chunk-30-1.png" alt="Barplots representing the frequency with which each considered model selection criterion (AIC, BIC, HQ) selects each of the possible candidate models within an AR(9) in each of the four simulation settings described in the text." width="960" />
 <p class="caption">
 Figure 4.25: Barplots representing the frequency with which each considered model selection criterion (AIC, BIC, HQ) selects each of the possible candidate models within an AR(9) in each of the four simulation settings described in the text.
 </p>
@@ -1353,16 +1354,16 @@ Figure 4.25: Barplots representing the frequency with which each considered mode
 <p>As anticipated, it can be seen how the BIC (green bars) often selects a small dimensional model for the first two settings, which corresponds to the truth. In these cases the AIC (red bars) performs less well compared to the other two criteria where the HQ (blue bars) appears to do better than the others for the “strong” signal AR(2). However, as the signal becomes weaker and the true model size increases (last two settings) the AIC does a better job than the BIC and the HQ since it selects higher dimensional models (which corresponds to the truth) with a higher frequency with respect to the HQ and even more so with respect to the BIC. Overall, it would appear that if a “strong” signal is present and the model dimension is low (finite), the BIC is the best choice. However, when the signal is “weaker” and the model dimension is larger (infinite), the AIC tends to select “better” models. Finally, the HQ criterion appears to be inbetween the AIC and BIC in terms of performance for the considered simulation setting.</p>
 <p>Having studied th performance of these three criteria through the described simultation study, let us now consider an example we looked at when explaining the usefulness of the PACF to determine the order of an AR(p) model. For this reason, let us again check the PACF of the Lynx trapping data set represented below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cor_lynx =<span class="st"> </span><span class="kw">corr_analysis</span>(lynx_gts)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-56"></span>
-<img src="ts_files/figure-html/unnamed-chunk-56-1.png" alt="Empirical ACF and PACF of the yearly lynx trapping time series." width="864" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-31"></span>
+<img src="ts_files/figure-html/unnamed-chunk-31-1.png" alt="Empirical ACF and PACF of the yearly lynx trapping time series." width="864" />
 <p class="caption">
 Figure 4.26: Empirical ACF and PACF of the yearly lynx trapping time series.
 </p>
 </div>
 <p>As we saw earlier, the PACF appears to be significant at lag <span class="math inline">\(h = 11\)</span> therefore leading to the conclusion that an AR(11) model could be good to describe/forecast the observed time series. However, let us check if we reach the same conclusion using the three model selection criteria described above. For this reason, let us use an AR(16) as the maximum order for the candidate AR(<span class="math inline">\(p\)</span>) models.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lynx_select =<span class="st"> </span><span class="kw">select</span>(<span class="kw">AR</span>(<span class="dv">16</span>), lynx_gts, <span class="dt">include.mean =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-58"></span>
-<img src="ts_files/figure-html/unnamed-chunk-58-1.png" alt="Values of the three model selection criteria described in the text for all candidate models included in an AR(16) model for the yearly lynx trapping time series." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-33"></span>
+<img src="ts_files/figure-html/unnamed-chunk-33-1.png" alt="Values of the three model selection criteria described in the text for all candidate models included in an AR(16) model for the yearly lynx trapping time series." width="672" />
 <p class="caption">
 Figure 4.27: Values of the three model selection criteria described in the text for all candidate models included in an AR(16) model for the yearly lynx trapping time series.
 </p>
@@ -1381,8 +1382,8 @@ Figure 4.27: Values of the three model selection criteria described in the text 
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">5</span>)
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="dv">0</span>, <span class="fl">0.8</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))
 <span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">8</span>), Xt)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-59"></span>
-<img src="ts_files/figure-html/unnamed-chunk-59-1.png" alt="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-34"></span>
+<img src="ts_files/figure-html/unnamed-chunk-34-1.png" alt="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)." width="672" />
 <p class="caption">
 Figure 4.28: Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3).
 </p>
@@ -1391,16 +1392,16 @@ Figure 4.28: Estimated MAPE for the candidate models included in an AR(8) model.
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">7</span>)
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">500</span>, <span class="kw">AR</span>(<span class="dt">phi =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="dv">0</span>, <span class="fl">0.8</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))
 <span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">8</span>), Xt)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-60"></span>
-<img src="ts_files/figure-html/unnamed-chunk-60-1.png" alt="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-35"></span>
+<img src="ts_files/figure-html/unnamed-chunk-35-1.png" alt="Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3)." width="672" />
 <p class="caption">
 Figure 4.29: Estimated MAPE for the candidate models included in an AR(8) model. The true underlying model is an AR(3).
 </p>
 </div>
 <p>In this case we see that the smallest value of the MAPE corresponds to the AR(3) which is also the smallest model below the upper confidence interval of the smallest value of the MAPE (hence the green and red dots correspond, leaving only the red dot). Having studied the MAPE in a couple of examples, let us again check the lynx trappings data seen earlier when using this approach. For this purpose we use the default number of observations for the training data (i.e. the first <span class="math inline">\(0.8 \cdot T\)</span> observations) to estimate the model and the last <span class="math inline">\(0.2 \cdot T\)</span> to test the estimated model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lynx_mape =<span class="st"> </span><span class="kw">MAPE</span>(<span class="kw">AR</span>(<span class="dv">16</span>), lynx_gts)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-61"></span>
-<img src="ts_files/figure-html/unnamed-chunk-61-1.png" alt="Estimated MAPE for the lynx dataset." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-36"></span>
+<img src="ts_files/figure-html/unnamed-chunk-36-1.png" alt="Estimated MAPE for the lynx dataset." width="672" />
 <p class="caption">
 Figure 4.30: Estimated MAPE for the lynx dataset.
 </p>
@@ -1438,7 +1439,7 @@ where <span class="math inline">\(\theta_q \neq 0\)</span>.
 <p>Following this definition, it is possible to see that an MA(<span class="math inline">\(q\)</span>) process is always stationary. Indeed, an MA(<span class="math inline">\(q\)</span>) respects the defintion of a linear process (see Definition <a href="the-family-of-autoregressive-moving-average-models.html#def:lp">4.1</a>) where <span class="math inline">\(\psi_0 = 1\)</span>, <span class="math inline">\(\psi_j = \theta_j\)</span> for <span class="math inline">\(j = 1, ..., q\)</span>, and <span class="math inline">\(\psi_j = 0\)</span> for <span class="math inline">\(j &gt; q\)</span> and, based on this, we can show its stationarity.</p>
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-62" class="example"><strong>Example 4.13  (Stationarity of an MA(q) Process)  </strong></span>Based on the above definitions, we can rewrite an MA(q) process as <span class="math inline">\(X_t = \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}}\)</span>, where <span class="math inline">\(\theta_0 = 1\)</span> and assume the condition that <span class="math inline">\(\sum\limits_{j = 0}^q {\theta _j^2} &lt; \infty\)</span> (if <span class="math inline">\(\theta_j &lt; \infty\)</span> for all <span class="math inline">\(j\)</span> and <span class="math inline">\(q &lt; \infty\)</span>, this condition is verified). Using this expression we start verifying (weak) stationarity by checking the expectation of an MA(q) process which is given by</p>
+<p><span id="exm:unnamed-chunk-37" class="example"><strong>Example 4.13  (Stationarity of an MA(q) Process)  </strong></span>Based on the above definitions, we can rewrite an MA(q) process as <span class="math inline">\(X_t = \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}}\)</span>, where <span class="math inline">\(\theta_0 = 1\)</span> and assume the condition that <span class="math inline">\(\sum\limits_{j = 0}^q {\theta _j^2} &lt; \infty\)</span> (if <span class="math inline">\(\theta_j &lt; \infty\)</span> for all <span class="math inline">\(j\)</span> and <span class="math inline">\(q &lt; \infty\)</span>, this condition is verified). Using this expression we start verifying (weak) stationarity by checking the expectation of an MA(q) process which is given by</p>
 <p><span class="math display">\[\mathbb{E}\left[ X_t \right] = \mathbb{E}\left[ \sum\limits_{i = 0}^q {{\theta _i}{W_{t - i}}} \right] = \sum\limits_{i = 0}^q {{\theta _i}}  \mathbb{E}\left[ {W_{t - i}} \right] = 0,\]</span></p>
 <p>which confirms that the expectation is constant. We now have to verify the conditions on the autocovariance function which is derived as follows:</p>
 <span class="math display">\[\begin{align}
@@ -1555,8 +1556,8 @@ Z_t &amp;= -1.5 W_{t-1} + 0.5 W_{t-2} - 0.2 W_{t-3} + W_t.
 <span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="op">-</span><span class="fl">0.9</span>))
 <span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="op">-</span><span class="fl">0.3</span>)))
 <span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.2</span>)))</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-64"></span>
-<img src="ts_files/figure-html/unnamed-chunk-64-1.png" alt="Theoretical ACF of four MA models with parameters defined in the text." width="768" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-39"></span>
+<img src="ts_files/figure-html/unnamed-chunk-39-1.png" alt="Theoretical ACF of four MA models with parameters defined in the text." width="768" />
 <p class="caption">
 Figure 4.31: Theoretical ACF of four MA models with parameters defined in the text.
 </p>
@@ -1567,8 +1568,8 @@ Figure 4.31: Theoretical ACF of four MA models with parameters defined in the te
 <span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="op">-</span><span class="fl">0.9</span>))
 <span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">0.3</span>)))
 <span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.2</span>)))</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-66"></span>
-<img src="ts_files/figure-html/unnamed-chunk-66-1.png" alt="Theoretical PACF of four MA models with parameters defined in the text." width="768" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-41"></span>
+<img src="ts_files/figure-html/unnamed-chunk-41-1.png" alt="Theoretical PACF of four MA models with parameters defined in the text." width="768" />
 <p class="caption">
 Figure 4.32: Theoretical PACF of four MA models with parameters defined in the text.
 </p>
@@ -1578,16 +1579,16 @@ Figure 4.32: Theoretical PACF of four MA models with parameters defined in the t
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">6</span>)
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="kw">MA</span>(<span class="dt">theta =</span> <span class="fl">0.9</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>), <span class="dt">n =</span> <span class="dv">200</span>)
 <span class="kw">plot</span>(Xt)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-67"></span>
-<img src="ts_files/figure-html/unnamed-chunk-67-1.png" alt="Simulated MA(1) Process" width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-42"></span>
+<img src="ts_files/figure-html/unnamed-chunk-42-1.png" alt="Simulated MA(1) Process" width="672" />
 <p class="caption">
 Figure 4.33: Simulated MA(1) Process
 </p>
 </div>
 <p>Using this data, let us estimate the ACF and PACF of this time series.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_ma1 =<span class="st"> </span><span class="kw">corr_analysis</span>(Xt)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-68"></span>
-<img src="ts_files/figure-html/unnamed-chunk-68-1.png" alt="Empirical ACF and PACF of the previously simulated MA(1)." width="864" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-43"></span>
+<img src="ts_files/figure-html/unnamed-chunk-43-1.png" alt="Empirical ACF and PACF of the previously simulated MA(1)." width="864" />
 <p class="caption">
 Figure 4.34: Empirical ACF and PACF of the previously simulated MA(1).
 </p>
@@ -1598,8 +1599,8 @@ Figure 4.34: Empirical ACF and PACF of the previously simulated MA(1).
 <h3><span class="header-section-number">4.6.2</span> Selecting and Forecasting MA(<span class="math inline">\(q\)</span>) Models</h3>
 <p>Let us now also consider the model selection criteria described in the previous section by applying the <code>select()</code> function to the previously simulated time series from an MA(1) model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">select_ma =<span class="st"> </span><span class="kw">select</span>(<span class="kw">MA</span>(<span class="dv">10</span>), Xt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-70"></span>
-<img src="ts_files/figure-html/unnamed-chunk-70-1.png" alt="Values of the three model selection criteria for all candidate models included in an MA(10) model for the previously simulated MA(1)." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-45"></span>
+<img src="ts_files/figure-html/unnamed-chunk-45-1.png" alt="Values of the three model selection criteria for all candidate models included in an MA(10) model for the previously simulated MA(1)." width="672" />
 <p class="caption">
 Figure 4.35: Values of the three model selection criteria for all candidate models included in an MA(10) model for the previously simulated MA(1).
 </p>
@@ -1608,21 +1609,21 @@ Figure 4.35: Values of the three model selection criteria for all candidate mode
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">select_lynx =<span class="st"> </span><span class="kw">select</span>(<span class="kw">MA</span>(<span class="dv">16</span>), lynx_gts)</code></pre></div>
 <pre><code>## Warning in arima(xt, order = ., include.mean = include.mean): possible
 ## convergence problem: optim gave code = 1</code></pre>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-72"></span>
-<img src="ts_files/figure-html/unnamed-chunk-72-1.png" alt="Values of the three model selection criteria for all candidate models included in an MA(16) model for the yearly Lynx trappings." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-47"></span>
+<img src="ts_files/figure-html/unnamed-chunk-47-1.png" alt="Values of the three model selection criteria for all candidate models included in an MA(16) model for the yearly Lynx trappings." width="672" />
 <p class="caption">
 Figure 4.36: Values of the three model selection criteria for all candidate models included in an MA(16) model for the yearly Lynx trappings.
 </p>
 </div>
 <p>In this case all criteria appear to agree on the value <span class="math inline">\(q = 10\)</span>. Given that the best model for the class of AR(<span class="math inline">\(p\)</span>) models was an AR(11), let us compare these two models when estimating them on the lynx time series.</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-73"></span>
-<img src="ts_files/figure-html/unnamed-chunk-73-1.png" alt="Diagnostic plots for the residuals of a fitted AR(11) model on the yearly Lynx trappings." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-48"></span>
+<img src="ts_files/figure-html/unnamed-chunk-48-1.png" alt="Diagnostic plots for the residuals of a fitted AR(11) model on the yearly Lynx trappings." width="672" />
 <p class="caption">
 Figure 4.37: Diagnostic plots for the residuals of a fitted AR(11) model on the yearly Lynx trappings.
 </p>
 </div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-74"></span>
-<img src="ts_files/figure-html/unnamed-chunk-74-1.png" alt="Diagnostic plots for the residuals of a fitted MA(10) model on the yearly Lynx trappings." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-49"></span>
+<img src="ts_files/figure-html/unnamed-chunk-49-1.png" alt="Diagnostic plots for the residuals of a fitted MA(10) model on the yearly Lynx trappings." width="672" />
 <p class="caption">
 Figure 4.38: Diagnostic plots for the residuals of a fitted MA(10) model on the yearly Lynx trappings.
 </p>
@@ -1640,8 +1641,68 @@ Figure 4.38: Diagnostic plots for the residuals of a fitted MA(10) model on the 
 However, we do not observe the innovation process <span class="math inline">\((W_t)\)</span> directly and therefore forecasting MA(<span class="math inline">\(q\)</span>) models is more complicated than forecasting AR(<span class="math inline">\(p\)</span>) models. For this reason there are different techniques such as the innovation algorithm or the Kalman filter that allow to deliver these forecasts. These techniques however are out of the scope of this book.
 </div>
 
-
 </div>
+</div>
+<div id="autoregressive-moving-average-models" class="section level2">
+<h2><span class="header-section-number">4.7</span> Autoregressive Moving Average Models ⚠️</h2>
+<p>The classes of time series models discussed this far (i.e. AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models) are both classes that address different forms of dependence between observations over time. The class of AR(<span class="math inline">\(p\)</span>) models describes the direct (and indirect) linear dependence between observations over time while MA(<span class="math inline">\(q\)</span>) models describe the dependence in the innovation processes rather than the observations themselves. Separately, these classes of models therefore allow to take into account two extremely common dependence settings within time series. In this section however we present a class of models that combines the features of these two classes and are called ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models. These are defined as follows.</p>
+
+<div class="definition">
+<span id="def:defARMA" class="definition"><strong>Definition 4.9  (ARMA models)  </strong></span>A process <span class="math inline">\((X_{t})\)</span> is an ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) process if <span class="math inline">\((X_t)\)</span> (or <span class="math inline">\((X_{t}-\mathbb{E}[X_{t}])\)</span>) satisfies the linear difference equation <span class="math display">\[X_{t} = \phi_{1}X_{t-1} + \cdots + \phi_{p}X_{t-p} + W_{t}+\theta_{1}W_{t-1}+ \cdots+\theta_{q}W_{t-q},\]</span> where <span class="math inline">\(W_{t}\sim \mathcal{N}(0,\sigma_{w}^2)\)</span>. An ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) can be written in concise form as: $( B ) <span class="math display">\[X_t = \theta \left( B \right)W_t, \]</span> where <span class="math inline">\(\phi(B)\)</span> and <span class="math inline">\(\theta(B)\)</span> are the AR and MA polynomials (operators): <span class="math display">\[\phi(B)=1-\phi_{1}B-\cdots-\phi_{p}B^p \]</span> <span class="math display">\[\theta(B)=1+\theta_{1}B+\cdots+\theta_{q}B^q. \]</span>
+</div>
+
+<p>Based on this definition, we can see how ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models allow to take into account the two forms of dependence of the previous classes of models and generalize them. Indeed, if we fix <span class="math inline">\(q = 0\)</span>, an ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) model simply becomes an AR(<span class="math inline">\(p\)</span>) model while, on the contrary, if we fix <span class="math inline">\(p = 0\)</span> these models become MA(<span class="math inline">\(q\)</span>) models. Hence, the class of ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models is an extremely flexible class which inherits the properties (and constraints) of the two classes of models discussed this far.</p>
+
+<div class="example">
+<span id="exm:unnamed-chunk-52" class="example"><strong>Example 4.18  (Causality and Invertibility of ARMA(p,q) models)  </strong></span>One of the main properties that ARMA models inherit from the classes of AR(p) and MA(q) models are the conditions required for these models to be stationary and for their parameters to be identifiable. Indeed, we saw that AR(p) models need to respect the condition of <em>causality</em> (since they are always invertible) while MA(q) models need to respect the condition of <em>invertibility</em> (since they are always causal).
+</div>
+
+<p>Given these conditions, we can now define the conditions for the ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models we are going to consider in this section.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-53" class="definition"><strong>Definition 4.10  (Causal and Invertible ARMA(p,q) models)  </strong></span>An ARMA model is causal and invertible if:</p>
+<ul>
+<li>the AR(<span class="math inline">\(p\)</span>) part is causal, and</li>
+<li>the MA(<span class="math inline">\(q\)</span>) part is invertible
+</div>
+</li>
+</ul>
+<p>If the above conditions are respected, then we are sure to be working with ARMA models that are stationary and whose parameters can be uniquely identified. This is a direct consequence of the separate properties and conditions for AR(<span class="math inline">\(p\)</span>) models, on one side, and MA(<span class="math inline">\(q\)</span>) models, on the other side. However, there are additional “constraints” that need to be considered given the wider class of dependence that ARMA models can take into account. Indeed, with the copresence of AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models can lead to the definition of ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models that can be re-expressed as another ARMA(<span class="math inline">\(p*\)</span>,<span class="math inline">\(q*\)</span>) model where <span class="math inline">\(p \leq p*\)</span> and/or <span class="math inline">\(q \leq q*\)</span>. Remember that the identifiability issue for MA(<span class="math inline">\(q\)</span>) models exists only for models with the same order <span class="math inline">\(q\)</span> so this is a different setting. This issue for ARMA models is called “parameter redundancy”.</p>
+
+<div class="example">
+<span id="exm:redunARMA" class="example"><strong>Example 4.19  (Parameter Redundancy of ARMA models)  </strong></span>Let us consider the ARMA(1,1) process:
+<span class="math display">\[\begin{align*}
+            X_t - 0.9 X_{t-1} &amp;= W_t - 0.9 W_{t-1}.
+        \end{align*}\]</span>
+Using the polynomial operators defined earlier, this model can be :
+<span class="math display">\[\begin{equation*}
+            X_t - 0.9 X_{t-1} = W_t - 0.9 W_t \Longleftrightarrow (1 - 0.9B) X_t = (1 - 0.9 B) W_t.
+        \end{equation*}\]</span>
+<p>Based on the expression above, we can see that both sides of the ARMA equation share a common term which is <span class="math inline">\((1 - 0.9B)\)</span> which therefore can be simplified thereby defining the mode <span class="math display">\[X_t = W_t.\]</span></p>
+Hence, the specified ARMA(1,1) model is actually a white noise mode.
+</div>
+
+<p>In general, if a model has autoregressive and moving average operators that share a common root, then the model has <strong>redundant parameters</strong> and can consistute an “over-parametrization” of the problem. Let us further explore this problem through another example.</p>
+
+<div class="example">
+<span id="exm:redunARMA2" class="example"><strong>Example 4.20  (Parameter Redundancy of ARMA models)  </strong></span>Consider the following model:
+<span class="math display">\[\begin{equation*}
+            X_t = 0.3 X_{t-1} + 0.1 X_{t-2} + W_t + W_{t-1} + 0.16 W_{t-2},
+        \end{equation*}\]</span>
+which is an ARMA(2,2). By rearranging the terms, we can do the following calculations
+<span class="math display">\[\begin{equation*}
+            \begin{aligned} 
+                 X_t - 0.3 X_{t-1} - 0.1 X_{t-2} &amp;= W_t + W_{t-1} + 0.16 W_{t-2}\\
+                 (1 - 0.3 B - 0.1 B^2 ) X_t  &amp;= (1 + B + 0.16B^2) W_t\\
+                 (1 + 0.2B)(1 - 0.5 B) X_t  &amp;= (1 + 0.2B)(1 + 0.8 B) W_t\\
+                (1 - 0.5 B) X_t  &amp;= (1 + 0.8 B) W_t\\
+                 X_t  &amp;= 0.5 X_{t-1} + W_t - 0.8 W_{t-1}.
+            \end{aligned}
+        \end{equation*}\]</span>
+Therefore, the initial ARMA(2,2) model is in fact an <strong>ARMA(1,1)</strong> model. Note that the latter model is causal (as <span class="math inline">\(|\phi|&lt;1\)</span>) and invertible (as <span class="math inline">\(|\theta| &lt; 1\)</span>) and therefore respects the conditions we highlighted at the beginning of this section.
+</div>
+
+
 </div>
 </div>
 <h3><span class="header-section-number">C</span> Proofs</h3>

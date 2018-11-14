@@ -2162,3 +2162,77 @@ Let us assume we want to deliver a one-step ahead forecast based on an MA($q$) m
 
 However, we do not observe the innovation process $(W_t)$ directly and therefore forecasting MA($q$) models is more complicated than forecasting AR($p$) models. For this reason there are different techniques such as the innovation algorithm or the Kalman filter that allow to deliver these forecasts. These techniques however are out of the scope of this book.
 ```
+
+
+## Autoregressive Moving Average Models `r emo::ji("warning")`
+
+```{r, echo = FALSE}
+library(simts)
+suppressPackageStartupMessages(library(rdatamarket))
+```
+
+The classes of time series models discussed this far (i.e. AR($p$) and MA($q$) models) are both classes that address different forms of dependence between observations over time. The class of AR($p$) models describes the direct (and indirect) linear dependence between observations over time while MA($q$) models describe the dependence in the innovation processes rather than the observations themselves. Separately, these classes of models therefore allow to take into account two extremely common dependence settings within time series. In this section however we present a class of models that combines the features of these two classes and are called ARMA($p$,$q$) models. These are defined as follows.
+
+```{definition, label="defARMA", name="ARMA models"}
+A process $(X_{t})$ is an ARMA($p$,$q$) process if $(X_t)$ (or $(X_{t}-\mathbb{E}[X_{t}])$) satisfies the linear difference equation
+		\[X_{t} = \phi_{1}X_{t-1} + \cdots + \phi_{p}X_{t-p} + W_{t}+\theta_{1}W_{t-1}+ \cdots+\theta_{q}W_{t-q},\]
+where $W_{t}\sim \mathcal{N}(0,\sigma_{w}^2)$. 
+An ARMA($p$,$q$) can be written in concise form as:
+				$\phi \left( B \right) 
+		\[X_t = \theta \left( B \right)W_t, \]
+where $\phi(B)$ and $\theta(B)$ are the AR and MA polynomials (operators):
+	\[\phi(B)=1-\phi_{1}B-\cdots-\phi_{p}B^p \]
+	\[\theta(B)=1+\theta_{1}B+\cdots+\theta_{q}B^q. \]
+```
+
+Based on this definition, we can see how ARMA($p$,$q$) models allow to take into account the two forms of dependence of the previous classes of models and generalize them. Indeed, if we fix $q = 0$, an ARMA($p$,$q$) model simply becomes an AR($p$) model while, on the contrary, if we fix $p = 0$ these models become MA($q$) models. Hence, the class of ARMA($p$,$q$) models is an extremely flexible class which inherits the properties (and constraints) of the two classes of models discussed this far.
+
+```{example, name="Causality and Invertibility of ARMA(p,q) models"}
+One of the main properties that ARMA models inherit from the classes of AR(p) and MA(q) models are the conditions required for these models to be stationary and for their parameters to be identifiable. Indeed, we saw that AR(p) models need to respect the condition of *causality* (since they are always invertible) while MA(q) models need to respect the condition of *invertibility* (since they are always causal).
+```
+
+Given these conditions, we can now define the conditions for the ARMA($p$,$q$) models we are going to consider in this section.
+
+```{definition, name="Causal and Invertible ARMA(p,q) models"}
+An ARMA model is causal and invertible if:
+  
+- the AR($p$) part is causal, and
+- the MA($q$) part is invertible
+```
+
+If the above conditions are respected, then we are sure to be working with ARMA models that are stationary and whose parameters can be uniquely identified. This is a direct consequence of the separate properties and conditions for AR($p$) models, on one side, and MA($q$) models, on the other side. However, there are additional "constraints" that need to be considered given the wider class of dependence that ARMA models can take into account. Indeed, with the copresence of AR($p$) and MA($q$) models can lead to the definition of ARMA($p$,$q$) models that can be re-expressed as another ARMA($p*$,$q*$) model where $p \leq p*$ and/or $q \leq q*$. Remember that the identifiability issue for MA($q$) models exists only for models with the same order $q$ so this is a different setting. This issue for ARMA models is called "parameter redundancy".
+
+```{example, name="Parameter Redundancy of ARMA models", label = "redunARMA"}
+Let us consider the ARMA(1,1) process:
+		\begin{align*}
+			X_t - 0.9 X_{t-1} &= W_t - 0.9 W_{t-1}.
+		\end{align*}
+Using the polynomial operators defined earlier, this model can be :
+		\begin{equation*}
+			X_t - 0.9 X_{t-1} = W_t - 0.9 W_t \Longleftrightarrow (1 - 0.9B) X_t = (1 - 0.9 B) W_t.
+		\end{equation*}
+Based on the expression above, we can see that both sides of the ARMA equation share a common term which is $(1 - 0.9B)$ which therefore can be simplified thereby defining the mode 
+\[X_t = W_t.\] 
+
+Hence, the specified ARMA(1,1) model is actually a white noise mode.  
+```
+
+In general, if a model has autoregressive and moving average operators that share a common root, then the model has **redundant parameters** and can consistute an "over-parametrization" of the problem. Let us further explore this problem through another example.
+
+```{example, name="Parameter Redundancy of ARMA models", label = "redunARMA2"}
+Consider the following model:
+		\begin{equation*}
+			X_t = 0.3 X_{t-1} + 0.1 X_{t-2} + W_t + W_{t-1} + 0.16 W_{t-2},
+ 		\end{equation*}
+which is an ARMA(2,2). By rearranging the terms, we can do the following calculations
+		\begin{equation*}
+			\begin{aligned} 
+				 X_t - 0.3 X_{t-1} - 0.1 X_{t-2} &= W_t + W_{t-1} + 0.16 W_{t-2}\\
+				 (1 - 0.3 B - 0.1 B^2 ) X_t  &= (1 + B + 0.16B^2) W_t\\
+				 (1 + 0.2B)(1 - 0.5 B) X_t  &= (1 + 0.2B)(1 + 0.8 B) W_t\\
+				(1 - 0.5 B) X_t  &= (1 + 0.8 B) W_t\\
+				 X_t  &= 0.5 X_{t-1} + W_t - 0.8 W_{t-1}.
+			\end{aligned}
+		\end{equation*}
+Therefore, the initial ARMA(2,2) model is in fact an **ARMA(1,1)** model. Note that the latter model is causal (as $|\phi|<1$) and invertible (as $|\theta| < 1$) and therefore respects the conditions we highlighted at the beginning of this section.
+```
