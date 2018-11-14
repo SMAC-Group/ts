@@ -1566,7 +1566,7 @@ Figure 4.31: Theoretical ACF of four MA models with parameters defined in the te
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
 <span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="fl">0.9</span>))
 <span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="op">-</span><span class="fl">0.9</span>))
-<span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">0.3</span>)))
+<span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="op">-</span><span class="fl">0.3</span>)))
 <span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="dv">0</span>, <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.2</span>)))</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-66"></span>
 <img src="ts_files/figure-html/unnamed-chunk-66-1.png" alt="Theoretical PACF of four MA models with parameters defined in the text." width="768" />
@@ -1607,8 +1607,6 @@ Figure 4.35: Values of the three model selection criteria for all candidate mode
 </div>
 <p>As for the conclusion based on the ACF, also in this case we see that the model selection criteria all tend to agree with each other on the fact that the best model to describe the observed time series is indeed an MA(1) model. For the purpose of illustration, let us again consider the Lynx data seen in the model selection section. From the ACF and PACF plot the choice of an AR(<span class="math inline">\(p\)</span>) model appears to be more reasonable compared to that of an MA(<span class="math inline">\(q\)</span>) model. Let us nevertheless understand how well an MA(<span class="math inline">\(q\)</span>) model can fit the observed time series and, for this reason, let us perform a model selection procedure to choose the order <span class="math inline">\(q\)</span> for the MA(<span class="math inline">\(q\)</span>) model within the set of possible models within an MA(16).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">select_lynx =<span class="st"> </span><span class="kw">select</span>(<span class="kw">MA</span>(<span class="dv">16</span>), lynx_gts)</code></pre></div>
-<pre><code>## Warning in arima(xt, order = ., include.mean = include.mean): possible
-## convergence problem: optim gave code = 1</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-72"></span>
 <img src="ts_files/figure-html/unnamed-chunk-72-1.png" alt="Values of the three model selection criteria for all candidate models included in an MA(16) model for the yearly Lynx trappings." width="672" />
 <p class="caption">
@@ -1637,7 +1635,7 @@ Figure 4.38: Diagnostic plots for the residuals of a fitted MA(10) model on the 
 
 <div class="example">
 <p><span id="exm:forecastMA" class="example"><strong>Example 4.17  (Forecasting MA models)  </strong></span>Let us assume we want to deliver a one-step ahead forecast based on an MA(<span class="math inline">\(q\)</span>) model. This is given by the conditional expectation</p>
-<p><span class="math display">\[X_{t+1}^t = \mathbb{E}\left[X_{t+1} | X_t, ..., X_1, W_t ..., W_1\right] = \theta_1 W_t + ... + \theta_q W_{t-q+1}\]</span>.</p>
+<p><span class="math display">\[X_{t+1}^t = \mathbb{E}\left[X_{t+1} | X_t, ..., X_1, W_t ..., W_1\right] = \theta_1 W_t + ... + \theta_q W_{t-q+1}.\]</span></p>
 However, we do not observe the innovation process <span class="math inline">\((W_t)\)</span> directly and therefore forecasting MA(<span class="math inline">\(q\)</span>) models is more complicated than forecasting AR(<span class="math inline">\(p\)</span>) models. For this reason there are different techniques such as the innovation algorithm or the Kalman filter that allow to deliver these forecasts. These techniques however are out of the scope of this book.
 </div>
 
@@ -1648,7 +1646,7 @@ However, we do not observe the innovation process <span class="math inline">\((W
 <p>The classes of time series models discussed this far (i.e. AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models) are both classes that address different forms of dependence between observations over time. The class of AR(<span class="math inline">\(p\)</span>) models describes the direct (and indirect) linear dependence between observations over time while MA(<span class="math inline">\(q\)</span>) models describe the dependence in the innovation processes rather than the observations themselves. Separately, these classes of models therefore allow to take into account two extremely common dependence settings within time series. In this section however we present a class of models that combines the features of these two classes and are called ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models. These are defined as follows.</p>
 
 <div class="definition">
-<span id="def:defARMA" class="definition"><strong>Definition 4.9  (ARMA models)  </strong></span>A process <span class="math inline">\((X_{t})\)</span> is an ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) process if <span class="math inline">\((X_t)\)</span> (or <span class="math inline">\((X_{t}-\mathbb{E}[X_{t}])\)</span>) satisfies the linear difference equation <span class="math display">\[X_{t} = \phi_{1}X_{t-1} + \cdots + \phi_{p}X_{t-p} + W_{t}+\theta_{1}W_{t-1}+ \cdots+\theta_{q}W_{t-q},\]</span> where <span class="math inline">\(W_{t}\sim \mathcal{N}(0,\sigma_{w}^2)\)</span>. An ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) can be written in concise form as: $( B ) <span class="math display">\[X_t = \theta \left( B \right)W_t, \]</span> where <span class="math inline">\(\phi(B)\)</span> and <span class="math inline">\(\theta(B)\)</span> are the AR and MA polynomials (operators): <span class="math display">\[\phi(B)=1-\phi_{1}B-\cdots-\phi_{p}B^p \]</span> <span class="math display">\[\theta(B)=1+\theta_{1}B+\cdots+\theta_{q}B^q. \]</span>
+<span id="def:defARMA" class="definition"><strong>Definition 4.9  (ARMA models)  </strong></span>A process <span class="math inline">\((X_{t})\)</span> is an ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) process if <span class="math inline">\((X_t)\)</span> (or <span class="math inline">\((X_{t}-\mathbb{E}[X_{t}])\)</span>) satisfies the linear difference equation <span class="math display">\[X_{t} = \phi_{1}X_{t-1} + \cdots + \phi_{p}X_{t-p} + W_{t}+\theta_{1}W_{t-1}+ \cdots+\theta_{q}W_{t-q},\]</span> where <span class="math inline">\(W_{t}\sim \mathcal{N}(0,\sigma_{w}^2)\)</span>. An ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) can be written in concise form as: <span class="math display">\[\phi \left( B \right) X_t = \theta \left( B \right)W_t, \]</span> where <span class="math inline">\(\phi(B)\)</span> and <span class="math inline">\(\theta(B)\)</span> are the AR and MA polynomials (operators): <span class="math display">\[\phi(B)=1-\phi_{1}B-\cdots-\phi_{p}B^p \]</span> <span class="math display">\[\theta(B)=1+\theta_{1}B+\cdots+\theta_{q}B^q. \]</span>
 </div>
 
 <p>Based on this definition, we can see how ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models allow to take into account the two forms of dependence of the previous classes of models and generalize them. Indeed, if we fix <span class="math inline">\(q = 0\)</span>, an ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) model simply becomes an AR(<span class="math inline">\(p\)</span>) model while, on the contrary, if we fix <span class="math inline">\(p = 0\)</span> these models become MA(<span class="math inline">\(q\)</span>) models. Hence, the class of ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models is an extremely flexible class which inherits the properties (and constraints) of the two classes of models discussed this far.</p>
@@ -1696,7 +1694,7 @@ which is an ARMA(2,2). By rearranging the terms, we can do the following calcula
                  (1 - 0.3 B - 0.1 B^2 ) X_t  &amp;= (1 + B + 0.16B^2) W_t\\
                  (1 + 0.2B)(1 - 0.5 B) X_t  &amp;= (1 + 0.2B)(1 + 0.8 B) W_t\\
                 (1 - 0.5 B) X_t  &amp;= (1 + 0.8 B) W_t\\
-                 X_t  &amp;= 0.5 X_{t-1} + W_t - 0.8 W_{t-1}.
+                 X_t  &amp;= 0.5 X_{t-1} + W_t + 0.8 W_{t-1}.
             \end{aligned}
         \end{equation*}\]</span>
 Therefore, the initial ARMA(2,2) model is in fact an <strong>ARMA(1,1)</strong> model. Note that the latter model is causal (as <span class="math inline">\(|\phi|&lt;1\)</span>) and invertible (as <span class="math inline">\(|\theta| &lt; 1\)</span>) and therefore respects the conditions we highlighted at the beginning of this section.
@@ -1720,7 +1718,7 @@ Therefore, the initial ARMA(2,2) model is in fact an <strong>ARMA(1,1)</strong> 
 <p>Aside from the actual derivation of the ACF (and PACF) of ARMA models, another aspect of these models that cannot be directly transferred from the AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models described earlier is the ease of interpretation of their ACF and PACF plots. Indeed, as we saw in the previous sections, the ACF and PACF plots of AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models are quite informative in terms of understanding which of the two classes of models an observed time series could have been generated from and, once this has been decided, which order (<span class="math inline">\(p\)</span> or <span class="math inline">\(q\)</span>) is the most appropriate. However, this is not the case anymore for ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models since they’re a result of the combination of the two previous classes and it’s (almost) impossible to distinguish which features of the ACF and PACF belong to which part of the ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) model.</p>
 <p>The table below summarizes the characteristics of the ACF and PACF plots for the three classes of models discussed this far.</p>
 <table style="width:86%;">
-<caption>(#acfpacf) Features of the ACF and PACF plots for AR(<span class="math inline">\(p\)</span>), MA(<span class="math inline">\(q\)</span>) and ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models.</caption>
+<caption>Features of the ACF and PACF plots for AR(<span class="math inline">\(p\)</span>), MA(<span class="math inline">\(q\)</span>) and ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models.</caption>
 <colgroup>
 <col width="19%" />
 <col width="22%" />
@@ -1750,6 +1748,7 @@ Therefore, the initial ARMA(2,2) model is in fact an <strong>ARMA(1,1)</strong> 
 </tr>
 </tbody>
 </table>
+<p><br/></p>
 <p>As highlighted in the table, the first two classes have distinctive features to them while the class of ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models have similar characteristics for both ACF and PACF plots. To better illustrate these concepts, let us consider the following two ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1810,12 +1809,6 @@ Figure 4.43: Empirical ACF (left) and PACF (right) of the annual copper prices.
 </p>
 </div>
 <p>The ACF plot could eventually suggest an AR(<span class="math inline">\(p\)</span>) model, however the PACF plot doesn’t appear to deliver an exact cut-off and both appear to tail-off with no obvious behaviour that would allow to assign them to an AR(<span class="math inline">\(p\)</span>) model or MA(<span class="math inline">\(q\)</span>) model. Let us therefore consider all possible models included in an ARMA(4,5) model (which therefore include all possible model in an AR(4) model and in an MA(5) model). The figure below shows the behaviour (and minima) of the three selection criteria discussed earlier in this chapter where each plot fixes the value of <span class="math inline">\(q\)</span> (for the MA(<span class="math inline">\(q\)</span>) part of the model) and explores the value of these criteria for different orders <span class="math inline">\(p\)</span> (for the AR(<span class="math inline">\(p\)</span>) part of the model).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(<span class="kw">ARMA</span>(<span class="dv">4</span>,<span class="dv">5</span>), Xt)</code></pre></div>
-<pre><code>## Warning in arima(xt, order = ., include.mean = include.mean): possible
-## convergence problem: optim gave code = 1
-
-## Warning in arima(xt, order = ., include.mean = include.mean): possible
-## convergence problem: optim gave code = 1</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-85"></span>
 <img src="ts_files/figure-html/unnamed-chunk-85-1.png" alt="Values of the three model selection criteria for all possible candidate models included in an ARMA(4,5) model." width="768" />
 <p class="caption">
@@ -1835,28 +1828,29 @@ Figure 4.44: Values of the three model selection criteria for all possible candi
 ## s.e.     0.3949
 ## 
 ## sigma^2 estimated as 0.5441:  log likelihood = -223.08,  aic = 466.15</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(<span class="kw">ARMA</span>(<span class="dv">4</span>,<span class="dv">5</span>), Xt)</code></pre></div>
 <p>From the selection procedure it would appear that the BIC criterion selects a simple AR(1) model for the annual copper time series while the AIC selects an ARMA(3,5) model. This reflects the properties of these two criteria since the BIC usually selects lower order models (e.g. it can under-fit the data) while the AIC usually does the opposite (e.g. it can over-fit the data). As expected, the HQ criterion lies somewhere inbetween the two previous criteria and selects an ARMA(3,2) model.</p>
 <p>In order to decide which of these models to use in order to describe or predict the time series, one could estimate the MAPE for these three selected models.</p>
 <pre><code>##                MAPE         SD
 ## AR(1)     0.3375733 0.06285691
-## ARMA(3,2) 0.3577872 0.04619443
-## ARMA(3,5) 0.4471867 0.05205741
+## ARMA(3,2) 0.3577874 0.04629457
+## ARMA(3,5) 0.4471867 0.05208026
 ## 
 ## MAPE suggests: AR(1)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">evaluate</span>(<span class="kw">list</span>(<span class="kw">AR</span>(<span class="dv">1</span>), <span class="kw">ARMA</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="kw">ARMA</span>(<span class="dv">3</span>, <span class="dv">5</span>)), Xt, <span class="dt">criterion =</span> <span class="st">&quot;MAPE&quot;</span>, <span class="dt">start =</span> <span class="fl">0.5</span>)</code></pre></div>
 <p>Based on the MAPE, we would probably choose the AR(1) model but, considering the standard deviations of the empirical MAPE, the ARMA(3,2) appears to be a close enough candidate model. To obtain further information to choose a final model, one could check the behaviour of the residuals from these two models.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_copper_ar1 =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), Xt)
 <span class="kw">check</span>(model_copper_ar1)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-88"></span>
-<img src="ts_files/figure-html/unnamed-chunk-88-1.png" alt="Diagnostic plots for the residuals of a fitted AR(1) to the annual copper prices." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-89"></span>
+<img src="ts_files/figure-html/unnamed-chunk-89-1.png" alt="Diagnostic plots for the residuals of a fitted AR(1) to the annual copper prices." width="672" />
 <p class="caption">
 Figure 4.45: Diagnostic plots for the residuals of a fitted AR(1) to the annual copper prices.
 </p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_copper_arma32 =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">ARMA</span>(<span class="dv">3</span>,<span class="dv">2</span>), Xt)
 <span class="kw">check</span>(model_copper_arma32)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-89"></span>
-<img src="ts_files/figure-html/unnamed-chunk-89-1.png" alt="Diagnostic plots for the residuals of a fitted ARMA(3,2) to the annual copper prices." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-90"></span>
+<img src="ts_files/figure-html/unnamed-chunk-90-1.png" alt="Diagnostic plots for the residuals of a fitted ARMA(3,2) to the annual copper prices." width="672" />
 <p class="caption">
 Figure 4.46: Diagnostic plots for the residuals of a fitted ARMA(3,2) to the annual copper prices.
 </p>

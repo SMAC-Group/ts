@@ -2067,7 +2067,7 @@ plot(theo_acf(ar = 0, ma = c(-1.5, 0.5, -0.2)))
 par(mfrow = c(2,2))
 plot(theo_acf(ar = 0, ma = 0.9), main = expression("Theo. ACF - MA(1); "* theta *" = 0.9"))
 plot(theo_acf(ar = 0, ma = -0.9), main = expression("Theo. ACF - MA(1); "* theta *" = -0.9"))
-plot(theo_acf(ar = 0, ma = c(1.2, -0.3)), main = expression("Theo. ACF - MA(2); "* theta *" = [1.2, 0.3]"))
+plot(theo_acf(ar = 0, ma = c(1.2, -0.3)), main = expression("Theo. ACF - MA(2); "* theta *" = [1.2, -0.3]"))
 plot(theo_acf(ar = 0, ma = c(-1.5, 0.5, -0.2)), main = expression("Theo. ACF - MA(3); "* theta *" = [-1.5, 0.5, -0.2]"))
 ```
 
@@ -2077,7 +2077,7 @@ As you can notice, the values of the ACF plots become zero as soon as the lag of
 par(mfrow = c(2,2))
 plot(theo_pacf(ar = 0, ma = 0.9))
 plot(theo_pacf(ar = 0, ma = -0.9))
-plot(theo_pacf(ar = 0, ma = c(1.2, 0.3)))
+plot(theo_pacf(ar = 0, ma = c(1.2, -0.3)))
 plot(theo_pacf(ar = 0, ma = c(-1.5, 0.5, -0.2)))
 ```
 
@@ -2085,7 +2085,7 @@ plot(theo_pacf(ar = 0, ma = c(-1.5, 0.5, -0.2)))
 par(mfrow = c(2,2))
 plot(theo_pacf(ar = 0, ma = 0.9), main = expression("Theo. PACF - MA(1); "* theta *" = 0.9"))
 plot(theo_pacf(ar = 0, ma = -0.9), main = expression("Theo. PACF - MA(1); "* theta *" = -0.9"))
-plot(theo_pacf(ar = 0, ma = c(1.2, 0.3)), main = expression("Theo. PACF - MA(2); "* theta *" = [1.2, 0.3]"))
+plot(theo_pacf(ar = 0, ma = c(1.2, -0.3)), main = expression("Theo. PACF - MA(2); "* theta *" = [1.2, -0.3]"))
 plot(theo_pacf(ar = 0, ma = c(-1.5, 0.5, -0.2)), main = expression("Theo. PACF - MA(3); "* theta *" = [-1.5, 0.5, -0.2]"))
 ```
 
@@ -2121,12 +2121,12 @@ select_ma = try(simts::select(MA(10), Xt, include.mean = FALSE))
 
 As for the conclusion based on the ACF, also in this case we see that the model selection criteria all tend to agree with each other on the fact that the best model to describe the observed time series is indeed an MA(1) model. For the purpose of illustration, let us again consider the Lynx data seen in the model selection section. From the ACF and PACF plot the choice of an AR($p$) model appears to be more reasonable compared to that of an MA($q$) model. Let us nevertheless understand how well an MA($q$) model can fit the observed time series and, for this reason, let us perform a model selection procedure to choose the order $q$ for the MA($q$) model within the set of possible models within an MA(16).
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Values of the three model selection criteria for all candidate models included in an MA(16) model for the yearly Lynx trappings."}
 select_lynx = select(MA(16), lynx_gts)
 ```
 
 ```{r eval = TRUE, cache = TRUE, echo = FALSE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Values of the three model selection criteria for all candidate models included in an MA(16) model for the yearly Lynx trappings."}
-select_lynx = try(simts::select(MA(16), lynx_gts)) 
+select_lynx = suppressWarnings(simts::select(MA(16), lynx_gts)) 
 ```
 
 In this case all criteria appear to agree on the value $q = 10$. Given that the best model for the class of AR($p$) models was an AR(11), let us compare these two models when estimating them on the lynx time series.
@@ -2154,7 +2154,7 @@ Therefore, based on the AIC, we would nevertheless choose to model this time ser
 ```{example, name="Forecasting MA models", label = "forecastMA"}
 Let us assume we want to deliver a one-step ahead forecast based on an MA($q$) model. This is given by the conditional expectation
 
-\[X_{t+1}^t = \mathbb{E}\left[X_{t+1} | X_t, ..., X_1, W_t ..., W_1\right] = \theta_1 W_t + ... + \theta_q W_{t-q+1}\].
+\[X_{t+1}^t = \mathbb{E}\left[X_{t+1} | X_t, ..., X_1, W_t ..., W_1\right] = \theta_1 W_t + ... + \theta_q W_{t-q+1}.\]
 
 However, we do not observe the innovation process $(W_t)$ directly and therefore forecasting MA($q$) models is more complicated than forecasting AR($p$) models. For this reason there are different techniques such as the innovation algorithm or the Kalman filter that allow to deliver these forecasts. These techniques however are out of the scope of this book.
 ```
@@ -2174,8 +2174,7 @@ A process $(X_{t})$ is an ARMA($p$,$q$) process if $(X_t)$ (or $(X_{t}-\mathbb{E
 		\[X_{t} = \phi_{1}X_{t-1} + \cdots + \phi_{p}X_{t-p} + W_{t}+\theta_{1}W_{t-1}+ \cdots+\theta_{q}W_{t-q},\]
 where $W_{t}\sim \mathcal{N}(0,\sigma_{w}^2)$. 
 An ARMA($p$,$q$) can be written in concise form as:
-				$\phi \left( B \right) 
-		\[X_t = \theta \left( B \right)W_t, \]
+		\[\phi \left( B \right) X_t = \theta \left( B \right)W_t, \]
 where $\phi(B)$ and $\theta(B)$ are the AR and MA polynomials (operators):
 	\[\phi(B)=1-\phi_{1}B-\cdots-\phi_{p}B^p \]
 	\[\theta(B)=1+\theta_{1}B+\cdots+\theta_{q}B^q. \]
@@ -2227,7 +2226,7 @@ which is an ARMA(2,2). By rearranging the terms, we can do the following calcula
 				 (1 - 0.3 B - 0.1 B^2 ) X_t  &= (1 + B + 0.16B^2) W_t\\
 				 (1 + 0.2B)(1 - 0.5 B) X_t  &= (1 + 0.2B)(1 + 0.8 B) W_t\\
 				(1 - 0.5 B) X_t  &= (1 + 0.8 B) W_t\\
-				 X_t  &= 0.5 X_{t-1} + W_t - 0.8 W_{t-1}.
+				 X_t  &= 0.5 X_{t-1} + W_t + 0.8 W_{t-1}.
 			\end{aligned}
 		\end{equation*}
 Therefore, the initial ARMA(2,2) model is in fact an **ARMA(1,1)** model. Note that the latter model is causal (as $|\phi|<1$) and invertible (as $|\theta| < 1$) and therefore respects the conditions we highlighted at the beginning of this section.
@@ -2257,7 +2256,7 @@ Aside from the actual derivation of the ACF (and PACF) of ARMA models, another a
 
 The table below summarizes the characteristics of the ACF and PACF plots for the three classes of models discussed this far.
 
-Table: (\#acfpacf) Features of the ACF and PACF plots for AR($p$), MA($q$) and ARMA($p$,$q$) models.
+Table: Features of the ACF and PACF plots for AR($p$), MA($q$) and ARMA($p$,$q$) models.
 
 -------------------------------------------------------------
                   AR($p$)         MA($q$)       ARMA($p$,$q$)
@@ -2268,7 +2267,7 @@ Table: (\#acfpacf) Features of the ACF and PACF plots for AR($p$), MA($q$) and A
    PACF       Cuts off after    Tails off         Tails off
                  lag $p$
 -------------------------------------------------------------
-
+<br/>
 
 As highlighted in the table, the first two classes have distinctive features to them while the class of ARMA($p$,$q$) models have similar characteristics for both ACF and PACF plots. To better illustrate these concepts, let us consider the following two ARMA($p$,$q$) models:
 
@@ -2323,7 +2322,11 @@ corr_analysis(Xt)
 
 The ACF plot could eventually suggest an AR($p$) model, however the PACF plot doesn't appear to deliver an exact cut-off and both appear to tail-off with no obvious behaviour that would allow to assign them to an AR($p$) model or MA($q$) model. Let us therefore consider all possible models included in an ARMA(4,5) model (which therefore include all possible model in an AR(4) model and in an MA(5) model). The figure below shows the behaviour (and minima) of the three selection criteria discussed earlier in this chapter where each plot fixes the value of $q$ (for the MA($q$) part of the model) and explores the value of these criteria for different orders $p$ (for the AR($p$) part of the model).
 
-```{r, fig.asp = 1.45, fig.width = 8, fig.align='center', fig.cap="Values of the three model selection criteria for all possible candidate models included in an ARMA(4,5) model."}
+```{r, echo = FALSE, cache = TRUE, fig.asp = 1.45, fig.width = 8, fig.align='center', fig.cap="Values of the three model selection criteria for all possible candidate models included in an ARMA(4,5) model."}
+suppressWarnings(simts::select(ARMA(4,5), Xt))
+```
+
+```{r, eval = FALSE, fig.asp = 1.45, fig.width = 8, fig.align='center', fig.cap="Values of the three model selection criteria for all possible candidate models included in an ARMA(4,5) model."}
 select(ARMA(4,5), Xt)
 ```
 
@@ -2331,7 +2334,7 @@ From the selection procedure it would appear that the BIC criterion selects a si
 
 In order to decide which of these models to use in order to describe or predict the time series, one could estimate the MAPE for these three selected models.
 
-```{r, eval = TRUE, echo=FALSE, cache=TRUE}
+```{r, eval = TRUE, echo=FALSE}
 suppressWarnings(evaluate(list(AR(1), ARMA(3,2), ARMA(3, 5)), Xt, criterion = "MAPE", start = 0.5))
 ```
 
