@@ -2036,11 +2036,7 @@ If an MA(q) model can be written as follows
 
 \[\theta^{-1}(B) X_t = W_t,\]
 
-where $\theta(B)$ is the moving average operator such that 
-
-\[\theta^{-1}(B) = \sum_{j = 0}^{\infty} (-\theta)^j B^j,\] 
-
-then the MA(q) model is invertible.
+where $\theta(B)$ is the moving average operator then the MA(q) model is invertible.
 ```
 
 

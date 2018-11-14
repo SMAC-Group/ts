@@ -1536,9 +1536,7 @@ since <span class="math inline">\(\boldsymbol{\Sigma}(\boldsymbol{\beta}_1)=\bol
 <div class="definition">
 <p><span id="def:invertMA" class="definition"><strong>Definition 4.8  (Invertible MA models)  </strong></span>If an MA(q) model can be written as follows</p>
 <p><span class="math display">\[\theta^{-1}(B) X_t = W_t,\]</span></p>
-<p>where <span class="math inline">\(\theta(B)\)</span> is the moving average operator such that</p>
-<p><span class="math display">\[\theta^{-1}(B) = \sum_{j = 0}^{\infty} (-\theta)^j B^j,\]</span></p>
-then the MA(q) model is invertible.
+where <span class="math inline">\(\theta(B)\)</span> is the moving average operator then the MA(q) model is invertible.
 </div>
 
 <div id="the-autocovariance-function-of-ma-processes" class="section level3">
@@ -1813,12 +1811,30 @@ Figure 4.43: Empirical ACF (left) and PACF (right) of the annual copper prices.
 </div>
 <p>The ACF plot could eventually suggest an AR(<span class="math inline">\(p\)</span>) model, however the PACF plot doesn’t appear to deliver an exact cut-off and both appear to tail-off with no obvious behaviour that would allow to assign them to an AR(<span class="math inline">\(p\)</span>) model or MA(<span class="math inline">\(q\)</span>) model. Let us therefore consider all possible models included in an ARMA(4,5) model (which therefore include all possible model in an AR(4) model and in an MA(5) model). The figure below shows the behaviour (and minima) of the three selection criteria discussed earlier in this chapter where each plot fixes the value of <span class="math inline">\(q\)</span> (for the MA(<span class="math inline">\(q\)</span>) part of the model) and explores the value of these criteria for different orders <span class="math inline">\(p\)</span> (for the AR(<span class="math inline">\(p\)</span>) part of the model).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(<span class="kw">ARMA</span>(<span class="dv">4</span>,<span class="dv">5</span>), Xt)</code></pre></div>
+<pre><code>## Warning in arima(xt, order = ., include.mean = include.mean): possible
+## convergence problem: optim gave code = 1
+
+## Warning in arima(xt, order = ., include.mean = include.mean): possible
+## convergence problem: optim gave code = 1</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-85"></span>
 <img src="ts_files/figure-html/unnamed-chunk-85-1.png" alt="Values of the three model selection criteria for all possible candidate models included in an ARMA(4,5) model." width="768" />
 <p class="caption">
 Figure 4.44: Values of the three model selection criteria for all possible candidate models included in an ARMA(4,5) model.
 </p>
 </div>
+<pre><code>## 
+## Call:
+## arima(x = xt, order = c(3, 0, 5), include.mean = include.mean)
+## 
+## Coefficients:
+##           ar1     ar2     ar3     ma1     ma2      ma3      ma4      ma5
+##       -0.4939  0.3748  0.8625  1.4987  0.7951  -0.4955  -0.5172  -0.2575
+## s.e.   0.0531  0.0635  0.0519  0.1301  0.2081   0.1869   0.1638   0.0862
+##       intercept
+##          0.1406
+## s.e.     0.3949
+## 
+## sigma^2 estimated as 0.5441:  log likelihood = -223.08,  aic = 466.15</code></pre>
 <p>From the selection procedure it would appear that the BIC criterion selects a simple AR(1) model for the annual copper time series while the AIC selects an ARMA(3,5) model. This reflects the properties of these two criteria since the BIC usually selects lower order models (e.g. it can under-fit the data) while the AIC usually does the opposite (e.g. it can over-fit the data). As expected, the HQ criterion lies somewhere inbetween the two previous criteria and selects an ARMA(3,2) model.</p>
 <p>In order to decide which of these models to use in order to describe or predict the time series, one could estimate the MAPE for these three selected models.</p>
 <pre><code>##                MAPE         SD
