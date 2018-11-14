@@ -74,19 +74,31 @@ which is an ARMA(2,2). By rearranging the terms, we can do the following calcula
 Therefore, the initial ARMA(2,2) model is in fact an **ARMA(1,1)** model. Note that the latter model is causal (as $|\phi|<1$) and invertible (as $|\theta| < 1$) and therefore respects the conditions we highlighted at the beginning of this section.
 ```
 
+As a result of this, it is important to define (and estimate) ARMA models that are not an over-parametrization of a more "simple" ARMA model.
 
+### Autocovariance of ARMA Models
 
-### ACF/PACF
+Since ARMA($p$,$q$) models are a class of models that inherits much of the properties of AR($p$) and MA($q$) models, as for their properties in terms of stationarity and identifiability, they also inherit much of the characteristics of the previously defined models in terms of their autocovariance (autocorrelation) functions. However, while the analytical derivation of the autocovariance functions for AR($p$) and MA($q$) models was a relatively feasible task, this is less the case for ARMA models.
 
-- Derivation the ACF/PACF of ARMA($p$,$q$) is generally difficult. \textbf{Example}: Given an ARMA(1,1), we have $\rho(h) = \phi^{h-1} \rho(1)$ where
-			
+```{example, name = "Autocorrelation of an ARMA(1,1)"}
+For an ARMA(1,1) we have 
+
+\[\rho(h) = \phi^{h-1} \rho(1)\]
+
+where
+
 \begin{equation*}
 				\rho(1) = \frac{\left(1+\theta \phi \right)\left(\theta + \phi\right)}{1+2\phi\theta+\theta^2}.
 \end{equation*}
-			
-- It is difficult to identify ARMA process from their ACF/PACF. Indeed, we have:
+```
+	
+From the above example we can observe how for the lowest order ARMA model the autocorrelation function assumes a much more complex structure compared to those presented in the previous sections for AR($p$) and MA($q$) models. This is even more the case for higher order ARMA models and, for this reason, aside from brute-force calculation of the ACF for specific ARMA models, different software make these computations based on user-provided parameter values.
 
-Table: (\#acfpacf) Caption here
+Aside from the actual derivation of the ACF (and PACF) of ARMA models, another aspect of these models that cannot be directly transferred from the AR($p$) and MA($q$) models described earlier is the ease of interpretation of their ACF and PACF plots. Indeed, as we saw in the previous sections, the ACF and PACF plots of AR($p$) and MA($q$) models are quite informative in terms of understanding which of the two classes of models an observed time series could have been generated from and, once this has been decided, which order ($p$ or $q$) is the most appropriate. However, this is not the case anymore for ARMA($p$,$q$) models since they're a result of the combination of the two previous classes and it's (almost) impossible to distinguish which features of the ACF and PACF belong to which part of the ARMA($p$,$q$) model.
+
+The table below summarizes the characteristics of the ACF and PACF plots for the three classes of models discussed this far.
+
+Table: (\#acfpacf) Features of the ACF and PACF plots for AR($p$), MA($q$) and ARMA($p$,$q$) models.
 
 -------------------------------------------------------------
                   AR($p$)         MA($q$)       ARMA($p$,$q$)
@@ -99,7 +111,7 @@ Table: (\#acfpacf) Caption here
 -------------------------------------------------------------
 
 
-As an example let us consider the following two ARMA($q$) models:
+As highlighted in the table, the first two classes have distinctive features to them while the class of ARMA($p$,$q$) models have similar characteristics for both ACF and PACF plots. To better illustrate these concepts, let us consider the following two ARMA($p$,$q$) models:
 
 $$
 \begin{aligned}
@@ -108,9 +120,9 @@ Y_t &= 1.2 X_{t-1} - 0.25 X_{t-2} - 0.1 W_{t-1} - 0.75 W_{t-2} + W_t, \\
 \end{aligned}
 $$
 
-where $W_t \overset{iid}{\sim} \mathcal{N}(0, 1)$
+where $W_t \overset{iid}{\sim} \mathcal{N}(0, 1)$. The first model is an ARMA(2,1) model while the second is an ARMA(2,2) model and, as can be seen, the parameters between these two models are quite different. The figures below show a realization from each of these two models for time series of length $T=500$.
 
-```{r, cache = FALSE, fig.cap="TO DO", fig.asp = 1, fig.width = 8, fig.align='center'}
+```{r, cache = FALSE, fig.cap="Plots of simulated time series from an ARMA(2,1) model (top plot) and from an ARMA(2,2) model (bottom plot)", fig.asp = 1, fig.width = 8, fig.align='center'}
 Xt = gen_gts(n = 500, ARMA(ar = c(0.3,-0.8), ma = 0.7, sigma2 = 1))
 Yt = gen_gts(n = 500, ARMA(ar = c(1.2, -0.25), 
              ma = c(-0.1, -0.75), sigma2 = 1))
@@ -119,52 +131,68 @@ plot(Xt, main = expression("Simulated process: "* X[t] *" with "* T *" = 500"))
 plot(Yt, main = expression("Simulated process: "* Y[t] *" with "* T *" = 500"))
 ```
 
-The theoretical ACF/PACF
+As for the previous classes of models, a direct plot of the time series doesn't necessarily allow to acquire much information on the possible models underlying the data. Let us consequently consider the theoretical ACF and PACF plots of these two models to understand if we can obtain more information.
 
-```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="TO DO"}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Theoretical ACF (left plot) and PACF (right plot) for the ARMA(2,1) model defined in the text."}
 par(mfrow = c(1,2))
-plot(theo_acf(ar = c(0.3,-0.8), ma = 0.7), main = expression("Theo. ACF - MA(1); "* theta *" = 0.9"))
-plot(theo_pacf(ar = c(0.3,-0.8), ma = 0.7), main = expression("Theo. PACF - MA(1); "* theta *" = 0.9"))
+plot(theo_acf(ar = c(0.3,-0.8), ma = 0.7), main = expression("Theo. ACF - MA(1); "* theta *" = 0.7"))
+plot(theo_pacf(ar = c(0.3,-0.8), ma = 0.7), main = expression("Theo. PACF - MA(1); "* theta *" = 0.7"))
 ```
 
-```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="TO DO"}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Theoretical ACF (left plot) and PACF (right plot) for the ARMA(2,2) model defined in the text."}
 par(mfrow = c(1,2))
-plot(theo_acf(ar = c(1.2, -0.25), ma = c(-0.1, -0.75)), main = expression("Theo. ACF - MA(1); "* theta *" = 0.9"))
-plot(theo_pacf(ar = c(1.2, -0.25), ma = c(-0.1, -0.75)), main = expression("Theo. ACF - MA(1); "* theta *" = -0.9"))
+plot(theo_acf(ar = c(1.2, -0.25), ma = c(-0.1, -0.75)), main = expression("Theo. ACF - MA(2); "* theta *" = -0.75"))
+plot(theo_pacf(ar = c(1.2, -0.25), ma = c(-0.1, -0.75)), main = expression("Theo. PACF - MA(2); "* theta *" = -0.75"))
 ```
 
-Remark on the identification of the order of an ARMA model:
+As can be seen from the ACF and PACF plots of these two models, it would be complicated to determine what type of model and what order would be more appropriate. For this reason, for ARMA($p$,$q$) models the ACF and PACF plots can only help to understand if the autocovariance has a reasonable behaviour (e.g. tails off as the lags increase) or, for example, if there appears to be some deterministic trends and/or seasonalities are left in the data. Therefore, a more reasonable (and simple) approach to understand if an ARMA($p$,$q$) is appropriate is via a model selection criterion or an estimator of the out-of-sample predicition error (e.g. MAPE). Once this is done, the selected model(s) can fit to the observed time series and a residual analysis can be performed in order to understand if the chosen model(s) appear to do a reasonable job.
 
-- ACF and PACF of ARMA models are difficult to interpret.
-- It is generally easier to consider a list of candidate models and selected the ``best'' model in this list using a model selection criterion or an estimator of the prediction error (e.g. MAPE).
-- Check diagnostic plot to assess if the model is reasonable for this time series.
+Let us illustrate the above procedure through another applied example. The time series shown in the figure below represents the annual copper prices from 1800 to 1997 (with the long-term trend removed) which can be downloaded in R via the `rdatamarket` library.
 
-
-```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="TO DO", cache = TRUE}
+```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Annual Prices of Copper from 1880-1997 with long-term trend removed.", cache = TRUE}
 Xt = gts(as.numeric(dmseries("https://datamarket.com/data/set/22y1/annual-copper-prices-1800-1997#!ds=22y1&display=line")),
     start = 1921, freq = 12, name_ts = "Copper prices (minus the long-term trend)",
     data_name = "Copper Price", name_time = "")
 plot(Xt)
 ```
 
-```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the Copper time series data."}
+It would appear that the process could be considered as being stationary and, given this, let us analyse the estimated ACF and PACF plots for the considered time series.
+
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the annual copper prices."}
 corr_analysis(Xt)
 ```
 
-```{r, fig.asp = 1.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the Copper time series data."}
+The ACF plot could eventually suggest an AR($p$) model, however the PACF plot doesn't appear to deliver an exact cut-off and both appear to tail-off with no obvious behaviour that would allow to assign them to an AR($p$) model or MA($q$) model. Let us therefore consider all possible models included in an ARMA(4,5) model (which therefore include all possible model in an AR(4) model and in an MA(5) model). The figure below shows the behaviour (and minima) of the three selection criteria discussed earlier in this chapter where each plot fixes the value of $q$ (for the MA($q$) part of the model) and explores the value of these criteria for different orders $p$ (for the AR($p$) part of the model).
+
+```{r, fig.asp = 1.45, fig.width = 8, fig.align='center', fig.cap="Values of the three model selection criteria for all possible candidate models included in an ARMA(4,5) model."}
 select(ARMA(4,5), Xt)
 ```
 
-To decide:
+From the selection procedure it would appear that the BIC criterion selects a simple AR(1) model for the annual copper time series while the AIC selects an ARMA(3,5) model. This reflects the properties of these two criteria since the BIC usually selects lower order models (e.g. it can under-fit the data) while the AIC usually does the opposite (e.g. it can over-fit the data). As expected, the HQ criterion lies somewhere inbetween the two previous criteria and selects an ARMA(3,2) model.
 
-```{r, eval = FALSE}
+In order to decide which of these models to use in order to describe or predict the time series, one could estimate the MAPE for these three selected models.
+
+```{r, eval = TRUE, echo=FALSE, cache=TRUE}
+suppressWarnings(evaluate(list(AR(1), ARMA(3,2), ARMA(3, 5)), Xt, criterion = "MAPE", start = 0.5))
+```
+
+```{r, eval = FALSE, cache=TRUE}
 evaluate(list(AR(1), ARMA(3,2), ARMA(3, 5)), Xt, criterion = "MAPE", start = 0.5)
 ```
 
-```{r, eval = TRUE, cache = TRUE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Diagnostic plots for the residuals of a TO DO"}
-model_copper = estimate(ARMA(3,2), Xt)
-check(model_copper)
+Based on the MAPE, we would probably choose the AR(1) model but, considering the standard deviations of the empirical MAPE, the ARMA(3,2) appears to be a close enough candidate model. To obtain further information to choose a final model, one could check the behaviour of the residuals from these two models.
+
+```{r, eval = TRUE, cache = TRUE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Diagnostic plots for the residuals of a fitted AR(1) to the annual copper prices."}
+model_copper_ar1 = estimate(AR(1), Xt)
+check(model_copper_ar1)
 ```
+
+```{r, eval = TRUE, cache = TRUE, fig.asp = 0.73, fig.width = 7, fig.align='center', fig.cap="Diagnostic plots for the residuals of a fitted ARMA(3,2) to the annual copper prices."}
+model_copper_arma32 = estimate(ARMA(3,2), Xt)
+check(model_copper_arma32)
+```
+
+From the two diagnostic plots we can see that the residuals from the AR(1) appear to preserve a certain degree of dependence (aside from large deviations from the normality assumption which, nevertheless, is not necessarily required). On the other hand, the residuals from the ARMA(3,2) have an overall better behaviour and, if one were to choose a unique model for this data, the ARMA(3,2) model would appear to be a good candidate.
 
 ## ARIMA
 

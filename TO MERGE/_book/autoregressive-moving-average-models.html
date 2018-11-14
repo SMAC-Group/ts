@@ -25,7 +25,7 @@
 <meta name="author" content="Stéphane Guerrier, Roberto Molinari and Haotian Xu">
 
 
-<meta name="date" content="2018-11-12">
+<meta name="date" content="2018-11-13">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -50,69 +50,41 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -176,7 +148,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="under-development.html"><a href="under-development.html"><i class="fa fa-check"></i><b>5</b> Under development</a><ul>
 <li class="chapter" data-level="5.1" data-path="autoregressive-moving-average-models.html"><a href="autoregressive-moving-average-models.html"><i class="fa fa-check"></i><b>5.1</b> Autoregressive Moving Average Models ⚠️</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="autoregressive-moving-average-models.html"><a href="autoregressive-moving-average-models.html#acfpacf"><i class="fa fa-check"></i><b>5.1.1</b> ACF/PACF</a></li>
+<li class="chapter" data-level="5.1.1" data-path="autoregressive-moving-average-models.html"><a href="autoregressive-moving-average-models.html#autocovariance-of-arma-models"><i class="fa fa-check"></i><b>5.1.1</b> Autocovariance of ARMA Models</a></li>
 </ul></li>
 <li class="chapter" data-level="5.2" data-path="arima.html"><a href="arima.html"><i class="fa fa-check"></i><b>5.2</b> ARIMA</a></li>
 <li class="chapter" data-level="5.3" data-path="sarima.html"><a href="sarima.html"><i class="fa fa-check"></i><b>5.3</b> SARIMA</a><ul>
@@ -223,66 +195,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="autoregressive-moving-average-models" class="section level2">
 <h2><span class="header-section-number">5.1</span> Autoregressive Moving Average Models ⚠️</h2>
-<pre><code>## Loading required package: zoo</code></pre>
-<pre><code>## 
-## Attaching package: &#39;zoo&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     as.Date, as.Date.numeric</code></pre>
+<p>The classes of time series models discussed this far (i.e. AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models) are both classes that address different forms of dependence between observations over time. The class of AR(<span class="math inline">\(p\)</span>) models describes the direct (and indirect) linear dependence between observations over time while MA(<span class="math inline">\(q\)</span>) models describe the dependence in the innovation processes rather than the observations themselves. Separately, these classes of models therefore allow to take into account two extremely common dependence settings within time series. In this section however we present a class of models that combines the features of these two classes and are called ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models. These are defined as follows.</p>
 
 <div class="definition">
-<span id="def:defARMA" class="definition"><strong>Definition 4.1  (ARMA models)  </strong></span>A process <span class="math inline">\((X_{t})\)</span> is an ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) process if <span class="math inline">\((X_t)\)</span> (or <span class="math inline">\((X_{t}-\mathbb{E}[X_{t}])\)</span>) satisfies the linear difference equation
-<span class="math display">\[X_{t} = \phi_{1}X_{t-1} + \cdots + \phi_{p}X_{t-p} + W_{t}+\theta_{1}W_{t-1}+ \cdots+\theta_{q}W_{t-q},\]</span>
-where <span class="math inline">\(W_{t}\sim \mathcal{N}(0,\sigma_{w}^2)\)</span>.
-An ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) can be written in concise form as:
-$( B )
-<span class="math display">\[X_t = \theta \left( B \right)W_t, \]</span>
-where <span class="math inline">\(\phi(z)\)</span> and <span class="math inline">\(\theta(z)\)</span> are AR and MA polynomials:
-<span class="math display">\[\phi(z)=1-\phi_{1}z-\cdots-\phi_{p}z^p \]</span>
-<span class="math display">\[\theta(z)=1+\theta_{1}z+\cdots+\theta_{q}z^q. \]</span>
+<span id="def:defARMA" class="definition"><strong>Definition 4.1  (ARMA models)  </strong></span>A process <span class="math inline">\((X_{t})\)</span> is an ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) process if <span class="math inline">\((X_t)\)</span> (or <span class="math inline">\((X_{t}-\mathbb{E}[X_{t}])\)</span>) satisfies the linear difference equation <span class="math display">\[X_{t} = \phi_{1}X_{t-1} + \cdots + \phi_{p}X_{t-p} + W_{t}+\theta_{1}W_{t-1}+ \cdots+\theta_{q}W_{t-q},\]</span> where <span class="math inline">\(W_{t}\sim \mathcal{N}(0,\sigma_{w}^2)\)</span>. An ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) can be written in concise form as: $( B ) <span class="math display">\[X_t = \theta \left( B \right)W_t, \]</span> where <span class="math inline">\(\phi(B)\)</span> and <span class="math inline">\(\theta(B)\)</span> are the AR and MA polynomials (operators): <span class="math display">\[\phi(B)=1-\phi_{1}B-\cdots-\phi_{p}B^p \]</span> <span class="math display">\[\theta(B)=1+\theta_{1}B+\cdots+\theta_{q}B^q. \]</span>
+</div>
+<p> <br></p>
+<p>Based on this definition, we can see how ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models allow to take into account the two forms of dependence of the previous classes of models and generalize them. Indeed, if we fix <span class="math inline">\(q = 0\)</span>, an ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) model simply becomes an AR(<span class="math inline">\(p\)</span>) model while, on the contrary, if we fix <span class="math inline">\(p = 0\)</span> these models become MA(<span class="math inline">\(q\)</span>) models. Hence, the class of ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models is an extremely flexible class which inherits the properties (and constraints) of the two classes of models discussed this far.</p>
+
+<div class="example">
+<span id="exm:unnamed-chunk-2" class="example"><strong>Example 4.1  (Causality and Invertibility of ARMA(p,q) models)  </strong></span>One of the main properties that ARMA models inherit from the classes of AR(p) and MA(q) models are the conditions required for these models to be stationary and for their parameters to be identifiable. Indeed, we saw that AR(p) models need to respect the condition of <em>causality</em> (since they are always invertible) while MA(q) models need to respect the condition of <em>invertibility</em> (since they are always causal).
 </div>
 
-<p><br></p>
-<p>With this in mind, several remarks can be made:</p>
+<p>Given these conditions, we can now define the conditions for the ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models we are going to consider in this section.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-3" class="definition"><strong>Definition 4.2  (Causal and Invertible ARMA(p,q) models)  </strong></span>An ARMA model is causal and invertible if:</p>
 <ul>
-<li>Assume <span class="math inline">\(\mathbb{E}(X_{t})=\mu = 0\)</span>. Otherwise you must substitute <span class="math inline">\(X_{t} - \mu\)</span> for <span class="math inline">\(X_{t}\)</span>.</li>
-<li>If <span class="math inline">\(p=0\)</span>, then ARMA<span class="math inline">\((p=0,q)=\)</span> MA<span class="math inline">\((q)\)</span> process.</li>
-<li>If <span class="math inline">\(q=0\)</span>, then ARMA<span class="math inline">\((p,q=0)=\)</span> AR<span class="math inline">\((p)\)</span> process.</li>
-<li>We mainly work with ARMA models that are causal and invertible.
-<ul>
-<li>An ARMA model is causal and invertible if its AR part is causal and its MA part is invertible.</li>
-<li>AR<span class="math inline">\((p)\)</span> models are always <strong>invertible</strong> and MA<span class="math inline">\((q)\)</span> models are always <strong>causal</strong>.</li>
-</ul></li>
-<li>Forecasting with ARMA process relies on the same techniques used with MA process.</li>
+<li>the AR(<span class="math inline">\(p\)</span>) part is causal, and</li>
+<li>the MA(<span class="math inline">\(q\)</span>) part is invertible
+</div>
+</li>
 </ul>
-<p><br></p>
-<p>ARMA models can have redundante parameters. This is illustrated in the following examples:</p>
+<p>If the above conditions are respected, then we are sure to be working with ARMA models that are stationary and whose parameters can be uniquely identified. This is a direct consequence of the separate properties and conditions for AR(<span class="math inline">\(p\)</span>) models, on one side, and MA(<span class="math inline">\(q\)</span>) models, on the other side. However, there are additional “constraints” that need to be considered given the wider class of dependence that ARMA models can take into account. Indeed, with the copresence of AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models can lead to the definition of ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models that can be re-expressed as another ARMA(<span class="math inline">\(p*\)</span>,<span class="math inline">\(q*\)</span>) model where <span class="math inline">\(p \leq p*\)</span> and/or <span class="math inline">\(q \leq q*\)</span>. Remember that the identifiability issue for MA(<span class="math inline">\(q\)</span>) models exists only for models with the same order <span class="math inline">\(q\)</span> so this is a different setting. This issue for ARMA models is called “parameter redundancy”.</p>
 
 <div class="example">
-<span id="exm:redunARMA" class="example"><strong>Example 4.1  (Parameter Redundancy of ARMA models)  </strong></span>Let us consider the process:
+<span id="exm:redunARMA" class="example"><strong>Example 4.2  (Parameter Redundancy of ARMA models)  </strong></span>Let us consider the ARMA(1,1) process:
 <span class="math display">\[\begin{align*}
-            X_t &amp;= W_t \\
-            X_t - 0.9 X_{t-1} &amp;= W_t - 0.9 W_{t-1}\\
-            X_t &amp;= 0.9 X_{t-1} + W_t - 0.9 W_{t-1}.
+            X_t - 0.9 X_{t-1} &amp;= W_t - 0.9 W_{t-1}.
         \end{align*}\]</span>
-Therefore, <span class="math inline">\(X_t = W_t\)</span> can be written as <span class="math inline">\(X_t = 0.9 X_{t-1} + W_t - 0.9 W_{t-1}\)</span>, which looks a lot like an ARMA(1,1). To assess the parameter redundancy of this ARMA models, it is useful to express the models in operator form, in this case:
+Using the polynomial operators defined earlier, this model can be :
 <span class="math display">\[\begin{equation*}
-            X_t = 0.9 X_{t-1} + W_t - 0.9 W_t \Longleftrightarrow (1 - 0.9B) X_t = (1 - 0.9 B) W_t.
+            X_t - 0.9 X_{t-1} = W_t - 0.9 W_t \Longleftrightarrow (1 - 0.9B) X_t = (1 - 0.9 B) W_t.
         \end{equation*}\]</span>
-It clearly appears that <span class="math inline">\((1 - 0.9B)\)</span> can be simplified in the above equation yielding to our original model <span class="math inline">\(X_t = W_t\)</span>. In general, if a model has autoregressive and moving average operators that share a common root then the model has <strong>redundant parameters</strong>.
+<p>Based on the expression above, we can see that both sides of the ARMA equation share a common term which is <span class="math inline">\((1 - 0.9B)\)</span> which therefore can be simplified thereby defining the mode <span class="math display">\[X_t = W_t.\]</span></p>
+Hence, the specified ARMA(1,1) model is actually a white noise mode.
 </div>
 
-<p><br></p>
+<p>In general, if a model has autoregressive and moving average operators that share a common root, then the model has <strong>redundant parameters</strong> and can consistute an “over-parametrization” of the problem. Let us further explore this problem through another example.</p>
 
 <div class="example">
-<span id="exm:redunARMA2" class="example"><strong>Example 4.2  (Parameter Redundancy of ARMA models)  </strong></span> Consider the following example:
+<span id="exm:redunARMA2" class="example"><strong>Example 4.3  (Parameter Redundancy of ARMA models)  </strong></span>Consider the following model:
 <span class="math display">\[\begin{equation*}
             X_t = 0.3 X_{t-1} + 0.1 X_{t-2} + W_t + W_{t-1} + 0.16 W_{t-2},
         \end{equation*}\]</span>
-which is an ARMA(2,2). By rearranging the terms, we obtain
+which is an ARMA(2,2). By rearranging the terms, we can do the following calculations
 <span class="math display">\[\begin{equation*}
             \begin{aligned} 
-                X_t &amp;= 0.3 X_{t-1} + 0.1 X_{t-2} + W_t + W_{t-1} + 0.16 W_{t-2}\\
                  X_t - 0.3 X_{t-1} - 0.1 X_{t-2} &amp;= W_t + W_{t-1} + 0.16 W_{t-2}\\
                  (1 - 0.3 B - 0.1 B^2 ) X_t  &amp;= (1 + B + 0.16B^2) W_t\\
                  (1 + 0.2B)(1 - 0.5 B) X_t  &amp;= (1 + 0.2B)(1 + 0.8 B) W_t\\
@@ -290,22 +249,28 @@ which is an ARMA(2,2). By rearranging the terms, we obtain
                  X_t  &amp;= 0.5 X_{t-1} + W_t - 0.8 W_{t-1}.
             \end{aligned}
         \end{equation*}\]</span>
-Therefore, our initial model is in fact an <strong>ARMA(1,1)</strong>. Note that this model is causal (as <span class="math inline">\(|\phi|&lt;1\)</span>) and invertible (as <span class="math inline">\(|\theta| &lt; 1\)</span>).
+Therefore, the initial ARMA(2,2) model is in fact an <strong>ARMA(1,1)</strong> model. Note that the latter model is causal (as <span class="math inline">\(|\phi|&lt;1\)</span>) and invertible (as <span class="math inline">\(|\theta| &lt; 1\)</span>) and therefore respects the conditions we highlighted at the beginning of this section.
 </div>
 
-<div id="acfpacf" class="section level3">
-<h3><span class="header-section-number">5.1.1</span> ACF/PACF</h3>
-<ul>
-<li>Derivation the ACF/PACF of ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) is generally difficult. : Given an ARMA(1,1), we have <span class="math inline">\(\rho(h) = \phi^{h-1} \rho(1)\)</span> where</li>
-</ul>
+<p>As a result of this, it is important to define (and estimate) ARMA models that are not an over-parametrization of a more “simple” ARMA model.</p>
+<div id="autocovariance-of-arma-models" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Autocovariance of ARMA Models</h3>
+<p>Since ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models are a class of models that inherits much of the properties of AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models, as for their properties in terms of stationarity and identifiability, they also inherit much of the characteristics of the previously defined models in terms of their autocovariance (autocorrelation) functions. However, while the analytical derivation of the autocovariance functions for AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models was a relatively feasible task, this is less the case for ARMA models.</p>
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-4" class="example"><strong>Example 4.4  (Autocorrelation of an ARMA(1,1))  </strong></span>For an ARMA(1,1) we have</p>
+<p><span class="math display">\[\rho(h) = \phi^{h-1} \rho(1)\]</span></p>
+<p>where</p>
 <span class="math display">\[\begin{equation*}
                 \rho(1) = \frac{\left(1+\theta \phi \right)\left(\theta + \phi\right)}{1+2\phi\theta+\theta^2}.
 \end{equation*}\]</span>
-<ul>
-<li>It is difficult to identify ARMA process from their ACF/PACF. Indeed, we have:</li>
-</ul>
+</div>
+
+<p>From the above example we can observe how for the lowest order ARMA model the autocorrelation function assumes a much more complex structure compared to those presented in the previous sections for AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models. This is even more the case for higher order ARMA models and, for this reason, aside from brute-force calculation of the ACF for specific ARMA models, different software make these computations based on user-provided parameter values.</p>
+<p>Aside from the actual derivation of the ACF (and PACF) of ARMA models, another aspect of these models that cannot be directly transferred from the AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models described earlier is the ease of interpretation of their ACF and PACF plots. Indeed, as we saw in the previous sections, the ACF and PACF plots of AR(<span class="math inline">\(p\)</span>) and MA(<span class="math inline">\(q\)</span>) models are quite informative in terms of understanding which of the two classes of models an observed time series could have been generated from and, once this has been decided, which order (<span class="math inline">\(p\)</span> or <span class="math inline">\(q\)</span>) is the most appropriate. However, this is not the case anymore for ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models since they’re a result of the combination of the two previous classes and it’s (almost) impossible to distinguish which features of the ACF and PACF belong to which part of the ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) model.</p>
+<p>The table below summarizes the characteristics of the ACF and PACF plots for the three classes of models discussed this far.</p>
 <table style="width:86%;">
-<caption>(#acfpacf) Caption here</caption>
+<caption>(#acfpacf) Features of the ACF and PACF plots for AR(<span class="math inline">\(p\)</span>), MA(<span class="math inline">\(q\)</span>) and ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models.</caption>
 <colgroup>
 <col width="19%" />
 <col width="22%" />
@@ -324,111 +289,111 @@ Therefore, our initial model is in fact an <strong>ARMA(1,1)</strong>. Note that
 <tr class="odd">
 <td>ACF</td>
 <td align="center">Tails off</td>
-<td align="center">Cuts off after
-lag <span class="math inline">\(q\)</span></td>
+<td align="center">Cuts off after lag <span class="math inline">\(q\)</span></td>
 <td align="right">Tails off</td>
 </tr>
 <tr class="even">
 <td>PACF</td>
-<td align="center">Cuts off after
-lag <span class="math inline">\(p\)</span></td>
+<td align="center">Cuts off after lag <span class="math inline">\(p\)</span></td>
 <td align="center">Tails off</td>
 <td align="right">Tails off</td>
 </tr>
 </tbody>
 </table>
-<p>As an example let us consider the following two ARMA(<span class="math inline">\(q\)</span>) models:</p>
+<p>As highlighted in the table, the first two classes have distinctive features to them while the class of ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models have similar characteristics for both ACF and PACF plots. To better illustrate these concepts, let us consider the following two ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models:</p>
 <p><span class="math display">\[
 \begin{aligned}
 X_t &amp;= 0.3 X_{t-1} - 0.8 X_{t-2} +  0.7 W_{t-1} + W_t \\
 Y_t &amp;= 1.2 X_{t-1} - 0.25 X_{t-2} - 0.1 W_{t-1} - 0.75 W_{t-2} + W_t, \\
 \end{aligned}
 \]</span></p>
-<p>where <span class="math inline">\(W_t \overset{iid}{\sim} \mathcal{N}(0, 1)\)</span></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="kw">ARMA</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.3</span>,<span class="op">-</span><span class="fl">0.8</span>), <span class="dt">ma =</span> <span class="fl">0.7</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">Yt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="kw">ARMA</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">-0.25</span>), </a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">             <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="fl">-0.75</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw">plot</span>(Xt, <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Simulated process: &quot;</span><span class="op">*</span><span class="st"> </span>X[t] <span class="op">*</span><span class="st">&quot; with &quot;</span><span class="op">*</span><span class="st"> </span>T <span class="op">*</span><span class="st">&quot; = 500&quot;</span>))</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="kw">plot</span>(Yt, <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Simulated process: &quot;</span><span class="op">*</span><span class="st"> </span>Y[t] <span class="op">*</span><span class="st">&quot; with &quot;</span><span class="op">*</span><span class="st"> </span>T <span class="op">*</span><span class="st">&quot; = 500&quot;</span>))</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-2-1.png" alt="TO DO" width="768" />
-<p class="caption">
-Figure 4.1: TO DO
-</p>
-</div>
-<p>The theoretical ACF/PACF</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.3</span>,<span class="op">-</span><span class="fl">0.8</span>), <span class="dt">ma =</span> <span class="fl">0.7</span>), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. ACF - MA(1); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = 0.9&quot;</span>))</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.3</span>,<span class="op">-</span><span class="fl">0.8</span>), <span class="dt">ma =</span> <span class="fl">0.7</span>), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. PACF - MA(1); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = 0.9&quot;</span>))</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-3"></span>
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-3-1.png" alt="TO DO" width="768" />
-<p class="caption">
-Figure 4.2: TO DO
-</p>
-</div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">-0.25</span>), <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="fl">-0.75</span>)), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. ACF - MA(1); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = 0.9&quot;</span>))</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="fl">-0.25</span>), <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="fl">-0.75</span>)), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. ACF - MA(1); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = -0.9&quot;</span>))</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-4-1.png" alt="TO DO" width="768" />
-<p class="caption">
-Figure 4.3: TO DO
-</p>
-</div>
-<p>Remark on the identification of the order of an ARMA model:</p>
-<ul>
-<li>ACF and PACF of ARMA models are difficult to interpret.</li>
-<li>It is generally easier to consider a list of candidate models and selected the ``best’’ model in this list using a model selection criterion or an estimator of the prediction error (e.g. MAPE).</li>
-<li>Check diagnostic plot to assess if the model is reasonable for this time series.</li>
-</ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.numeric</span>(<span class="kw">dmseries</span>(<span class="st">&quot;https://datamarket.com/data/set/22y1/annual-copper-prices-1800-1997#!ds=22y1&amp;display=line&quot;</span>)),</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">    <span class="dt">start =</span> <span class="dv">1921</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Copper prices (minus the long-term trend)&quot;</span>,</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">    <span class="dt">data_name =</span> <span class="st">&quot;Copper Price&quot;</span>, <span class="dt">name_time =</span> <span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">plot</span>(Xt)</a></code></pre></div>
+<p>where <span class="math inline">\(W_t \overset{iid}{\sim} \mathcal{N}(0, 1)\)</span>. The first model is an ARMA(2,1) model while the second is an ARMA(2,2) model and, as can be seen, the parameters between these two models are quite different. The figures below show a realization from each of these two models for time series of length <span class="math inline">\(T=500\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="kw">ARMA</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.3</span>,<span class="op">-</span><span class="fl">0.8</span>), <span class="dt">ma =</span> <span class="fl">0.7</span>, <span class="dt">sigma2 =</span> <span class="dv">1</span>))
+Yt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="kw">ARMA</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="op">-</span><span class="fl">0.25</span>), 
+             <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="op">-</span><span class="fl">0.75</span>), <span class="dt">sigma2 =</span> <span class="dv">1</span>))
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))
+<span class="kw">plot</span>(Xt, <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Simulated process: &quot;</span><span class="op">*</span><span class="st"> </span>X[t] <span class="op">*</span><span class="st">&quot; with &quot;</span><span class="op">*</span><span class="st"> </span>T <span class="op">*</span><span class="st">&quot; = 500&quot;</span>))
+<span class="kw">plot</span>(Yt, <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Simulated process: &quot;</span><span class="op">*</span><span class="st"> </span>Y[t] <span class="op">*</span><span class="st">&quot; with &quot;</span><span class="op">*</span><span class="st"> </span>T <span class="op">*</span><span class="st">&quot; = 500&quot;</span>))</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-5-1.png" alt="TO DO" width="672" />
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-5-1.png" alt="Plots of simulated time series from an ARMA(2,1) model (top plot) and from an ARMA(2,2) model (bottom plot)" width="768" />
+<p class="caption">
+Figure 4.1: Plots of simulated time series from an ARMA(2,1) model (top plot) and from an ARMA(2,2) model (bottom plot)
+</p>
+</div>
+<p>As for the previous classes of models, a direct plot of the time series doesn’t necessarily allow to acquire much information on the possible models underlying the data. Let us consequently consider the theoretical ACF and PACF plots of these two models to understand if we can obtain more information.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.3</span>,<span class="op">-</span><span class="fl">0.8</span>), <span class="dt">ma =</span> <span class="fl">0.7</span>), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. ACF - MA(1); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = 0.7&quot;</span>))
+<span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">0.3</span>,<span class="op">-</span><span class="fl">0.8</span>), <span class="dt">ma =</span> <span class="fl">0.7</span>), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. PACF - MA(1); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = 0.7&quot;</span>))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" alt="Theoretical ACF (left plot) and PACF (right plot) for the ARMA(2,1) model defined in the text." width="768" />
+<p class="caption">
+Figure 4.2: Theoretical ACF (left plot) and PACF (right plot) for the ARMA(2,1) model defined in the text.
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">plot</span>(<span class="kw">theo_acf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="op">-</span><span class="fl">0.25</span>), <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="op">-</span><span class="fl">0.75</span>)), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. ACF - MA(2); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = -0.75&quot;</span>))
+<span class="kw">plot</span>(<span class="kw">theo_pacf</span>(<span class="dt">ar =</span> <span class="kw">c</span>(<span class="fl">1.2</span>, <span class="op">-</span><span class="fl">0.25</span>), <span class="dt">ma =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="op">-</span><span class="fl">0.75</span>)), <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Theo. PACF - MA(2); &quot;</span><span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st">&quot; = -0.75&quot;</span>))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-7-1.png" alt="Theoretical ACF (left plot) and PACF (right plot) for the ARMA(2,2) model defined in the text." width="768" />
+<p class="caption">
+Figure 4.3: Theoretical ACF (left plot) and PACF (right plot) for the ARMA(2,2) model defined in the text.
+</p>
+</div>
+<p>As can be seen from the ACF and PACF plots of these two models, it would be complicated to determine what type of model and what order would be more appropriate. For this reason, for ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models the ACF and PACF plots can only help to understand if the autocovariance has a reasonable behaviour (e.g. tails off as the lags increase) or, for example, if there appears to be some deterministic trends and/or seasonalities are left in the data. Therefore, a more reasonable (and simple) approach to understand if an ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) is appropriate is via a model selection criterion or an estimator of the out-of-sample predicition error (e.g. MAPE). Once this is done, the selected model(s) can fit to the observed time series and a residual analysis can be performed in order to understand if the chosen model(s) appear to do a reasonable job.</p>
+<p>Let us illustrate the above procedure through another applied example. The time series shown in the figure below represents the annual copper prices from 1800 to 1997 (with the long-term trend removed) which can be downloaded in R via the <code>rdatamarket</code> library.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.numeric</span>(<span class="kw">dmseries</span>(<span class="st">&quot;https://datamarket.com/data/set/22y1/annual-copper-prices-1800-1997#!ds=22y1&amp;display=line&quot;</span>)),
+    <span class="dt">start =</span> <span class="dv">1921</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Copper prices (minus the long-term trend)&quot;</span>,
+    <span class="dt">data_name =</span> <span class="st">&quot;Copper Price&quot;</span>, <span class="dt">name_time =</span> <span class="st">&quot;&quot;</span>)
+<span class="kw">plot</span>(Xt)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-8"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-8-1.png" alt="TO DO" width="672" />
 <p class="caption">
 Figure 4.4: TO DO
 </p>
 </div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">corr_analysis</span>(Xt)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" alt="Empirical ACF (left) and PACF (right) of the Copper time series data." width="768" />
+<p>It would appear that the process could be considered as being stationary and, given this, let us analyse the estimated ACF and PACF plots for the considered time series.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corr_analysis</span>(Xt)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-9"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" alt="Empirical ACF (left) and PACF (right) of the annual copper prices." width="768" />
 <p class="caption">
-Figure 4.5: Empirical ACF (left) and PACF (right) of the Copper time series data.
+Figure 4.5: Empirical ACF (left) and PACF (right) of the annual copper prices.
 </p>
 </div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">select</span>(<span class="kw">ARMA</span>(<span class="dv">4</span>,<span class="dv">5</span>), Xt)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-7-1.png" alt="Empirical ACF (left) and PACF (right) of the Copper time series data." width="768" />
+<p>The ACF plot could eventually suggest an AR(<span class="math inline">\(p\)</span>) model, however the PACF plot doesn’t appear to deliver an exact cut-off and both appear to tail-off with no obvious behaviour that would allow to assign them to an AR(<span class="math inline">\(p\)</span>) model or MA(<span class="math inline">\(q\)</span>) model. Let us therefore consider all possible models included in an ARMA(4,5) model (which therefore include all possible model in an AR(4) model and in an MA(5) model). The figure below shows the behaviour (and minima) of the three selection criteria discussed earlier in this chapter where each plot fixes the value of <span class="math inline">\(q\)</span> (for the MA(<span class="math inline">\(q\)</span>) part of the model) and explores the value of these criteria for different orders <span class="math inline">\(p\)</span> (for the AR(<span class="math inline">\(p\)</span>) part of the model).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(<span class="kw">ARMA</span>(<span class="dv">4</span>,<span class="dv">5</span>), Xt)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-10"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-10-1.png" alt="Empirical ACF (left) and PACF (right) of the Copper time series data." width="768" />
 <p class="caption">
 Figure 4.6: Empirical ACF (left) and PACF (right) of the Copper time series data.
 </p>
 </div>
-<pre><code>## 
-## Call:
-## arima(x = xt, order = c(3, 0, 5), include.mean = include.mean)
+<p>From the selection procedure it would appear that the BIC criterion selects a simple AR(1) model for the annual copper time series while the AIC selects an ARMA(3,5) model. This reflects the properties of these two criteria since the BIC usually selects lower order models (e.g. it can under-fit the data) while the AIC usually does the opposite (e.g. it can over-fit the data). As expected, the HQ criterion lies somewhere inbetween the two previous criteria and selects an ARMA(3,2) model.</p>
+<p>In order to decide which of these models to use in order to describe or predict the time series, one could estimate the MAPE for these three selected models.</p>
+<pre><code>##                MAPE         SD
+## AR(1)     0.3375733 0.06285691
+## ARMA(3,2) 0.3577872 0.04619443
+## ARMA(3,5) 0.4471867 0.05205741
 ## 
-## Coefficients:
-##           ar1     ar2     ar3     ma1     ma2      ma3      ma4      ma5
-##       -0.4939  0.3748  0.8625  1.4987  0.7951  -0.4955  -0.5172  -0.2575
-## s.e.   0.0531  0.0635  0.0519  0.1301  0.2081   0.1869   0.1638   0.0862
-##       intercept
-##          0.1406
-## s.e.     0.3949
-## 
-## sigma^2 estimated as 0.5441:  log likelihood = -223.08,  aic = 466.15</code></pre>
-<p>To decide:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">evaluate</span>(<span class="kw">list</span>(<span class="kw">AR</span>(<span class="dv">1</span>), <span class="kw">ARMA</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="kw">ARMA</span>(<span class="dv">3</span>, <span class="dv">5</span>)), Xt, <span class="dt">criterion =</span> <span class="st">&quot;MAPE&quot;</span>, <span class="dt">start =</span> <span class="fl">0.5</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">model_copper =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">ARMA</span>(<span class="dv">3</span>,<span class="dv">2</span>), Xt)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">check</span>(model_copper)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-9"></span>
-<img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" alt="Diagnostic plots for the residuals of a TO DO" width="672" />
+## MAPE suggests: AR(1)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">evaluate</span>(<span class="kw">list</span>(<span class="kw">AR</span>(<span class="dv">1</span>), <span class="kw">ARMA</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="kw">ARMA</span>(<span class="dv">3</span>, <span class="dv">5</span>)), Xt, <span class="dt">criterion =</span> <span class="st">&quot;MAPE&quot;</span>, <span class="dt">start =</span> <span class="fl">0.5</span>)</code></pre></div>
+<p>Based on the MAPE, we would probably choose the AR(1) model but, considering the standard deviations of the empirical MAPE, the ARMA(3,2) appears to be close enough candidate model. To obtain further information to choose a final model, one could check the behaviour of the residuals from these two models.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_copper_ar1 =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">AR</span>(<span class="dv">1</span>), Xt)
+<span class="kw">check</span>(model_copper_ar1)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-13"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" alt="Diagnostic plots for the residuals of a fitted AR(1) to the annual copper prices." width="672" />
 <p class="caption">
-Figure 4.7: Diagnostic plots for the residuals of a TO DO
+Figure 4.7: Diagnostic plots for the residuals of a fitted AR(1) to the annual copper prices.
 </p>
 </div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_copper_arma32 =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">ARMA</span>(<span class="dv">3</span>,<span class="dv">2</span>), Xt)
+<span class="kw">check</span>(model_copper_arma32)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-14"></span>
+<img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" alt="Diagnostic plots for the residuals of a fitted AR(1) to the annual copper prices." width="672" />
+<p class="caption">
+Figure 4.8: Diagnostic plots for the residuals of a fitted AR(1) to the annual copper prices.
+</p>
+</div>
+<p>From the two diagnostic plots we can see that the residuals from the AR(1) appear to preserve a certain degree of dependence (aside from large deviations from the normality assumption which, nevertheless, is not necessarily required). On the other hand, the residuals from the ARMA(3,2) have an overall better behaviour and, if one were to choose a unique model for this data, the ARMA(3,2) model would appear to be a good candidate.</p>
 </div>
 </div>
             </section>
@@ -486,7 +451,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');
