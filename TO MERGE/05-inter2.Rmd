@@ -1,8 +1,13 @@
+```{r, echo = FALSE}
+library(simts)
+library(rdatamarket)
+```
+
 # ARIMA Models
 
 As we saw in the introduction to this book (and in various sections throughout it), a time series can be made of two components: a deterministic (non-stationary) component and a stochastic component. The latter component has been the main focus of this book where different classes of time series models have been studied assuming that this stochastic component respects certain properties (i.e. stationarity). For the former component (i.e. the deterministic component) we assume that we are able to explain non-stationary behaviours such as trends and seasonality via regression-type methods which include time-related covariates. 
 
-However, there are non-stationary behaviours that can be addressed without the need for estimation procedures to make a time series stationary. Indeed, we have already seen a technique that can be used for this purpose when defining the backshift operator $B$. The latter consists in $d$-order differencing defined as:
+However, there are non-stationary behaviours that can be addressed without the need for estimation procedures to make a time series stationary. In fact, estimating parameters to remove deterministic components in the data adds uncertainty when modelling the time-dependent stochastic component since the residuals from the previous fitting are only an approximation of the stochastic component and may be a biased representation of the time series if the model used to fit the deterministic component is misspecified. Considering the possible drawbacks when using regression techniques to explain the deterministic components, we have already seen a technique that can be used to remove non-stationary components without the need for regression and this was based on the use of the backshift operator $B$. The latter consists in a $d$-order differencing defined as:
 
 $$\delta^d X_t = (1 - B)^d X_t.$$
 We have already seen some examples where a first-order difference of a non-stationary time series can make the time series stationary. Indeed, a time series with a linear drift and/or a random walk can be made stationary by taking a first difference. 
@@ -92,150 +97,172 @@ Xt = gts(as.numeric(dmseries("https://datamarket.com/data/set/22r0/sales-of-sham
 plot(Xt)
 ```
 
-<!-- # SARIMA Models -->
+The plot of the time series shows a clear updward trend in the time series which could eventually be fitted by a (linear) regression. However, as discussed earlier, the use of estimation may not deliver "accurate" residuals that well represent the stochastic time series we want to model. Therefore, let us check if a first-order difference is capable of making the time series stationary.
 
-<!-- An introductory seasonal ARIMA model would be a seasonal AR(1) model. -->
+```{r}
+d_Xt = gts(diff(Xt))
 
-<!-- ```{definition, name = "Seasonal Autoregressive Model of Order 1"} -->
-<!-- A sesaonal autoregressive model of order 1 is defined to be: -->
+par(mfrow = c(2,1))
+plot(d_Xt)
+corr_analysis(d_Xt)
+```
 
-<!-- $$X_t = \Phi_1 X_{t-12} + W_{t}$$ -->
+We can see how the first-differncing of the time series has allowed to make it apparently stationary so an ARIMA($p$,$d$,$q$) model with $d=1$ could be a good class of models to explain and predict the time series. The ACF and PACF plots would suggest a low order model since both the ACF and PACF become less significant starting from the first lags. For this reason, let us consider all candidate models included in an ARIMA(2,1,2) and evaluate them based on the model selection criteria.
 
-<!-- The model would have the following properties: -->
+```{r, eval=FALSE}
+select(ARIMA(2, 1, 2), Xt)
+```
 
-<!-- 1. $$\mathbb{E}[{X_t}] = 0$$ -->
-<!-- 2. $$\gamma(0) = \text{var}{X_t} = \frac{\sigma^2}{1-\Phi^2_1}$$ -->
-<!-- 3. $$\rho(h) = \begin{cases} -->
-<!-- 1, &\text{ if } h = 0\\ -->
-<!-- \Phi^{\left|h\right|}, &\text{ if } h = \pm 12k, k = 1, 2, \cdots\\ -->
-<!-- 0, &\text{ Otherwise } -->
-<!-- \end{cases}$$ -->
+```{r, echo=FALSE}
+suppressWarnings(simts::select(ARIMA(2, 1, 2), Xt))
+```
 
-<!-- These properties are similar to that of an AR(1). -->
-<!-- ``` -->
+In this case, the most appropriate model would appear to be an ARIMA(0,1,2), meaning that an MA(2) model fitted to the first-difference of the original time series is the "best" to model the observed sales of shampoo.
+
+# SARIMA Models
+
+An introductory seasonal ARIMA model would be a seasonal AR(1) model.
+
+```{definition, name = "Seasonal Autoregressive Model of Order 1"}
+A sesaonal autoregressive model of order 1 is defined to be:
+
+$$X_t = \Phi_1 X_{t-12} + W_{t}$$
+
+The model would have the following properties:
+
+1. $$\mathbb{E}[{X_t}] = 0$$
+2. $$\gamma(0) = \text{var}{X_t} = \frac{\sigma^2}{1-\Phi^2_1}$$
+3. $$\rho(h) = \begin{cases}
+1, &\text{ if } h = 0\\
+\Phi^{\left|h\right|}, &\text{ if } h = \pm 12k, k = 1, 2, \cdots\\
+0, &\text{ Otherwise }
+\end{cases}$$
+
+These properties are similar to that of an AR(1).
+```
 
 
-<!-- ```{definition, name = "Seasonal Moving Average of Order 1"} -->
-<!-- A sesaonal moving average model of order 1 is defined to be: -->
+```{definition, name = "Seasonal Moving Average of Order 1"}
+A sesaonal moving average model of order 1 is defined to be:
 
-<!-- $$X_t = W_t + \theta W_{t-12} \Leftrightarrow X_t = (1 - \theta B^{12}) W_t$$ -->
+$$X_t = W_t + \theta W_{t-12} \Leftrightarrow X_t = (1 - \theta B^{12}) W_t$$
 
-<!-- $$\gamma(h) = \begin{cases} -->
-<!-- \left({1+\theta^2}\right)\sigma^2, &\text{ if } h = 0 \\ -->
-<!-- \theta \sigma^2, &\text{ if } h = \pm 12k, k = 1, 2, \cdots \\ -->
-<!-- 0, &\text{ Otherwise } \\ -->
-<!-- \end{cases}$$ -->
+$$\gamma(h) = \begin{cases}
+\left({1+\theta^2}\right)\sigma^2, &\text{ if } h = 0 \\
+\theta \sigma^2, &\text{ if } h = \pm 12k, k = 1, 2, \cdots \\
+0, &\text{ Otherwise } \\
+\end{cases}$$
 
-<!-- ``` -->
+```
 
-<!-- ```{definition, name = "Seasonal Autoregressive Operator"} -->
-<!-- Similarly, to the regular autoregressive operator, there exists a seasonal -->
-<!-- variant known as: -->
+```{definition, name = "Seasonal Autoregressive Operator"}
+Similarly, to the regular autoregressive operator, there exists a seasonal
+variant known as:
 
-<!-- $$\Phi_p(B^S) = 1 - \Phi_1 B^S - \Phi_2B^{2S} - \cdots - \Phi_PB^{PS}$$ -->
-<!-- ``` -->
+$$\Phi_p(B^S) = 1 - \Phi_1 B^S - \Phi_2B^{2S} - \cdots - \Phi_PB^{PS}$$
+```
 
-<!-- ```{definition, name = "Seasonal Moving Average Operator"} -->
-<!-- The seasonal moving average operator is defined to be: -->
+```{definition, name = "Seasonal Moving Average Operator"}
+The seasonal moving average operator is defined to be:
 
-<!-- $$\Theta_p(B^S) = 1 + \Theta_1 B^S + \Theta_2B^{2S} + \cdots + \Theta_PB^{PS}$$ -->
-<!-- ``` -->
+$$\Theta_p(B^S) = 1 + \Theta_1 B^S + \Theta_2B^{2S} + \cdots + \Theta_PB^{PS}$$
+```
 
-<!-- ```{example, name = "Mixed Seasonal Model"} -->
-<!-- Consider the following time series model that contains both a seasonality term and -->
-<!-- a traditional time series component: -->
+```{example, name = "Mixed Seasonal Model"}
+Consider the following time series model that contains both a seasonality term and
+a traditional time series component:
 
-<!-- $$X_t = \Phi X_{t-12} + W_t + \theta W_{t-1} \, \left| \Theta \right| < 1, \left| \theta \right| < 1$$ -->
+$$X_t = \Phi X_{t-12} + W_t + \theta W_{t-1} \, \left| \Theta \right| < 1, \left| \theta \right| < 1$$
 
-<!-- The properties of this model can be derived as follows: -->
+The properties of this model can be derived as follows:
 
-<!-- \begin{align} -->
-<!-- \text{var} \left( {{X_t}} \right) &= {\Phi ^2}\text{var} \left( {{X_{t - 12}}} \right) + {\sigma ^2} + {\theta ^2}{\sigma ^2} \notag \\ -->
-<!-- \Rightarrow \gamma \left( 0 \right) &= \frac{{{\sigma ^2}\left( {1 + {\theta ^2}} \right)}}{{1 - {\Phi ^2}}} \\ -->
-<!--   \gamma \left( 1 \right) &= \text{cov}\left( {{X_t},{X_{t - 1}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 1}}} \right) \notag \\ -->
-<!--    &= \Phi \text{cov}\left( {{X_{t - 12}},{X_{t - 1}}} \right) + \underbrace {\text{cov}\left( {{W_t},{X_{t - 1}}} \right)}_{ = 0} + \theta \text{cov}\left( {{W_{t - 1}},{X_{t - 1}}} \right) \notag  \\ -->
-<!--    &= \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} \\ -->
-<!--   \gamma \left( h \right) &= \text{cov}\left( {{X_t},{X_{t - h}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - h}}} \right) \notag \\ -->
-<!--   &\overbrace{=^{h \ge 2}}\Phi \text{cov}\left( {{X_{t - 12}},{X_{t - h}}} \right) \notag \\ -->
-<!--    &= \Phi \gamma \left( {h - 12} \right) \\ -->
-<!-- \end{align} -->
+\begin{align}
+\text{var} \left( {{X_t}} \right) &= {\Phi ^2}\text{var} \left( {{X_{t - 12}}} \right) + {\sigma ^2} + {\theta ^2}{\sigma ^2} \notag \\
+\Rightarrow \gamma \left( 0 \right) &= \frac{{{\sigma ^2}\left( {1 + {\theta ^2}} \right)}}{{1 - {\Phi ^2}}} \\
+  \gamma \left( 1 \right) &= \text{cov}\left( {{X_t},{X_{t - 1}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 1}}} \right) \notag \\
+   &= \Phi \text{cov}\left( {{X_{t - 12}},{X_{t - 1}}} \right) + \underbrace {\text{cov}\left( {{W_t},{X_{t - 1}}} \right)}_{ = 0} + \theta \text{cov}\left( {{W_{t - 1}},{X_{t - 1}}} \right) \notag  \\
+   &= \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} \\
+  \gamma \left( h \right) &= \text{cov}\left( {{X_t},{X_{t - h}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - h}}} \right) \notag \\
+  &\overbrace{=^{h \ge 2}}\Phi \text{cov}\left( {{X_{t - 12}},{X_{t - h}}} \right) \notag \\
+   &= \Phi \gamma \left( {h - 12} \right) \\
+\end{align}
 
-<!-- If the autocovariance is defined within the appropriate seasonal lag, then we -->
-<!-- have a realized value other than zero -->
-<!-- \begin{equation} -->
-<!--  \gamma \left( 1 \right) = \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} = {\Phi ^2}\gamma \left( 1 \right) + \theta {\sigma ^2} = \frac{{\theta {\sigma ^2}}}{{1 - {\Phi ^2}}} -->
-<!-- \end{equation} -->
+If the autocovariance is defined within the appropriate seasonal lag, then we
+have a realized value other than zero
+\begin{equation}
+ \gamma \left( 1 \right) = \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} = {\Phi ^2}\gamma \left( 1 \right) + \theta {\sigma ^2} = \frac{{\theta {\sigma ^2}}}{{1 - {\Phi ^2}}}
+\end{equation}
 
-<!-- When this is not the case, the autocovariance will be zero: -->
-<!-- \begin{align} -->
-<!--   \gamma \left( 2 \right) &= \text{cov} \left( {{X_t},{X_{t - 2}}} \right) = \operatorname{cov} \left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 2}}} \right) \notag \\ -->
-<!--    &= \Phi \text{cov} \left( {{X_{t - 12}},{X_{t - 2}}} \right) = \Phi \gamma \left( {10} \right) = {\Phi ^2}\gamma \left( 2 \right) = 0  -->
-<!-- \end{align} -->
+When this is not the case, the autocovariance will be zero:
+\begin{align}
+  \gamma \left( 2 \right) &= \text{cov} \left( {{X_t},{X_{t - 2}}} \right) = \operatorname{cov} \left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 2}}} \right) \notag \\
+   &= \Phi \text{cov} \left( {{X_{t - 12}},{X_{t - 2}}} \right) = \Phi \gamma \left( {10} \right) = {\Phi ^2}\gamma \left( 2 \right) = 0
+\end{align}
 
-<!-- In this example, this would hold for: -->
+In this example, this would hold for:
 
-<!-- \begin{equation} -->
-<!-- \gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0 -->
-<!-- \end{equation} -->
+\begin{equation}
+\gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0
+\end{equation}
 
-<!-- Therefore, the autocovariance can be denoted as: -->
-<!-- \begin{align*} -->
-<!-- \gamma \left( {12h} \right) &= {\Phi ^h}\gamma \left( 0 \right), &h = 0, 1, 2, \ldots \\ -->
-<!-- \gamma \left( {12h + 1} \right) &= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right), &h = 0, 1, 2, \ldots \\ -->
-<!-- \gamma \left( {h} \right) &= 0,  &\text{Otherwise}  -->
-<!-- \end{align*} -->
+Therefore, the autocovariance can be denoted as:
+\begin{align*}
+\gamma \left( {12h} \right) &= {\Phi ^h}\gamma \left( 0 \right), &h = 0, 1, 2, \ldots \\
+\gamma \left( {12h + 1} \right) &= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right), &h = 0, 1, 2, \ldots \\
+\gamma \left( {h} \right) &= 0,  &\text{Otherwise}
+\end{align*}
 
-<!-- As a result, the autocorrelation is given as: -->
+As a result, the autocorrelation is given as:
 
-<!-- \begin{align*} -->
-<!--   \rho \left( {12h} \right) &= {\Phi ^h}, & h = 0, 1, 2, \ldots  \\ -->
-<!--   \rho \left( {12h - 1} \right) &= \rho \left( {12h + 1} \right) = \frac{\theta }{{1 + {\theta ^2}}}{\Phi ^h}, & h = 0, 1, 2, \ldots \\ -->
-<!--   \rho \left( h \right) &= 0, & \text{Otherwise}  \\  -->
-<!-- \end{align*} -->
-<!-- ``` -->
+\begin{align*}
+  \rho \left( {12h} \right) &= {\Phi ^h}, & h = 0, 1, 2, \ldots  \\
+  \rho \left( {12h - 1} \right) &= \rho \left( {12h + 1} \right) = \frac{\theta }{{1 + {\theta ^2}}}{\Phi ^h}, & h = 0, 1, 2, \ldots \\
+  \rho \left( h \right) &= 0, & \text{Otherwise}  \\
+\end{align*}
+```
 
-<!-- The correlation structure can be viewed quite straightforwardly. -->
-<!-- ```{r mixed_sarima, cache = TRUE} -->
-<!-- library(simts) -->
-<!-- model = SARIMA(ar=0, i=0,ma=-0.8, sar=0.95, si = 0 , sma = 0, s = 12) -->
-<!-- xt = gen_gts(100000, model) -->
-<!-- plot(ACF(xt, lagmax = 40)) -->
-<!-- ``` -->
+The correlation structure can be viewed quite straightforwardly.
+```{r mixed_sarima, cache = TRUE}
+library(simts)
+model = SARIMA(ar=0, i=0,ma=-0.8, sar=0.95, si = 0 , sma = 0, s = 12)
+xt = gen_gts(100000, model)
+plot(ACF(xt, lagmax = 40))
+```
 
-<!-- ```{definition, name = "Seasonal ARMA Model Form"} -->
-<!-- The form of Seasonal Autoregressive Moving Average models is often written as $ARMA(p, q)\times(P, Q)_{S}$: -->
+```{definition, name = "Seasonal ARMA Model Form"}
+The form of Seasonal Autoregressive Moving Average models is often written as $ARMA(p, q)\times(P, Q)_{S}$:
 
-<!-- $$\Phi_p \left({B^S}\right) \phi\left(B\right) X_t = \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t$$ -->
-<!-- ``` -->
+$$\Phi_p \left({B^S}\right) \phi\left(B\right) X_t = \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t$$
+```
 
-<!-- ```{example, name = "Classifying a Seasonal ARMA"} -->
-<!-- Returning to our previous example, we can see that the time series follows an $ARMA(0,1)\times(1,0)_{12}$ process. -->
+```{example, name = "Classifying a Seasonal ARMA"}
+Returning to our previous example, we can see that the time series follows an $ARMA(0,1)\times(1,0)_{12}$ process.
 
-<!-- \begin{align*} -->
-<!--   {X_t} &= \Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}} \hfill \\ -->
-<!--   \underbrace {\left( {{X_t} - \Phi {B^{12}}} \right)}_{{\Phi _1}\left( {{B^{12}}} \right)}\underbrace 1_{\phi \left( B \right)}{X_t} &= \underbrace 1_{{\theta _Q}\left( B \right)}\underbrace {\left( {1 - \theta B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\  -->
-<!-- \end{align*} -->
-<!-- ``` -->
+\begin{align*}
+  {X_t} &= \Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}} \hfill \\
+  \underbrace {\left( {{X_t} - \Phi {B^{12}}} \right)}_{{\Phi _1}\left( {{B^{12}}} \right)}\underbrace 1_{\phi \left( B \right)}{X_t} &= \underbrace 1_{{\theta _Q}\left( B \right)}\underbrace {\left( {1 - \theta B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\
+\end{align*}
+```
 
-<!-- ```{definition, name = "Seasonal ARIMA Model Form"} -->
-<!-- The form of a Seasonal Autoregressive Integrated Moving Average models is denoted as $ARIMA(p, d, q)\times(P, D, Q)_S$: -->
+```{definition, name = "Seasonal ARIMA Model Form"}
+The form of a Seasonal Autoregressive Integrated Moving Average models is denoted as $ARIMA(p, d, q)\times(P, D, Q)_S$:
 
-<!-- $$\Phi_p \left({B^S}\right) \phi\left(B\right) \nabla^D_S \nabla^d X_t = \delta + \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t$$ -->
+$$\Phi_p \left({B^S}\right) \phi\left(B\right) \nabla^D_S \nabla^d X_t = \delta + \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t$$
 
-<!-- where $\nabla^d = \left({1-B}\right)^d$ and $\nabla^D_S = \left({1-B^S}\right)^D$. -->
-<!-- ``` -->
+where $\nabla^d = \left({1-B}\right)^d$ and $\nabla^D_S = \left({1-B^S}\right)^D$.
+```
 
-<!-- ```{example, name = "Classifying a SARIMA"} -->
-<!-- Consider the following time series: -->
-<!-- \begin{align} -->
-<!--   {X_t} &= {X_{t - 1}} + {X_{t - 12}} - {X_{t - 13}} + {W_t} + \phi {W_{t - 1}} + \theta {W_{t - 12}} + \theta \phi {W_{t - 13}} \hfill \\ -->
-<!--   {X_t} - {X_{t - 1}} - {X_{t - 12}} + {X_{t - 13}} &= {W_t} + \phi {W_{t - 1}} + \theta {W_{t - 12}} + \theta \phi {W_{t - 13}} \hfill \\ -->
-<!--   \left( {1 - B - {B^{12}} + {B^{13}}} \right){X_t} &= \left( {1 + \phi B + \theta {B^{12}} + \phi \theta {B^{13}}} \right){W_t} \hfill \\ -->
-<!--   \underbrace {\left( {1 - {B^{12}}} \right)}_{{\nabla _{12}}}\underbrace {\left( {1 - B} \right)}_\nabla {X_t} &= \underbrace {\left( {1 + \theta {B^{12}}} \right)}_{{\theta _Q}\left( {{B^S}} \right)}\underbrace {\left( {1 + \phi B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\  -->
-<!-- \end{align} -->
+```{example, name = "Classifying a SARIMA"}
+Consider the following time series:
+\begin{align}
+  {X_t} &= {X_{t - 1}} + {X_{t - 12}} - {X_{t - 13}} + {W_t} + \phi {W_{t - 1}} + \theta {W_{t - 12}} + \theta \phi {W_{t - 13}} \hfill \\
+  {X_t} - {X_{t - 1}} - {X_{t - 12}} + {X_{t - 13}} &= {W_t} + \phi {W_{t - 1}} + \theta {W_{t - 12}} + \theta \phi {W_{t - 13}} \hfill \\
+  \left( {1 - B - {B^{12}} + {B^{13}}} \right){X_t} &= \left( {1 + \phi B + \theta {B^{12}} + \phi \theta {B^{13}}} \right){W_t} \hfill \\
+  \underbrace {\left( {1 - {B^{12}}} \right)}_{{\nabla _{12}}}\underbrace {\left( {1 - B} \right)}_\nabla {X_t} &= \underbrace {\left( {1 + \theta {B^{12}}} \right)}_{{\theta _Q}\left( {{B^S}} \right)}\underbrace {\left( {1 + \phi B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\
+\end{align}
 
-<!-- The end result indicates that the SARIMA is given by: $ARIMA(0,1,1)\times(0,1,1)_{12}$. -->
-<!-- ``` -->
+The end result indicates that the SARIMA is given by: $ARIMA(0,1,1)\times(0,1,1)_{12}$.
+```
 
-<!-- In practice, identifying the parametrization of a SARIMA model is problematic. -->
-<!-- There is no easy way to find $p, d, q, P, D, Q, S$. -->
+In practice, identifying the parametrization of a SARIMA model is problematic.
+There is no easy way to find $p, d, q, P, D, Q, S$.
