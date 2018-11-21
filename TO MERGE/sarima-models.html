@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="arima-models.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>1</b> ARIMA Models</a></li>
+<li class="chapter" data-level="2" data-path="sarima-models.html"><a href="sarima-models.html"><i class="fa fa-check"></i><b>2</b> SARIMA Models</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sarima-models" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> SARIMA Models</h1>
+<p>As seen in the previous section, ARMA models can be adapted in order to tackle different forms of non-stationary time series through the use of differencing, thereby delivering the class of ARIMA models. However, aside from non-stationarity, within different applied examples seen this far you may have noticed that many ACF (and PACF) plots denoted some forms of seasonality. Indeed, despite removing possible deterministic seasonal effects via regression techniques, it is often the case that some stochastic seasonal components appear in the (residual) time series. For this reason, the class of AR(I)MA models can be extended in order to take this seasonality into account thereby delivering the class of SARIMA models.</p>
+<p>To introduce the more general class of SARIMA models, let us first consider the standard AR(1) model</p>
+<p><span class="math display">\[X_t = \phi X_{t-1} + W_t,\]</span> which explains the behaviour in time via the previous observation. Based on this model, for all time points the dependence on the past is explained by the previous observation at time <span class="math inline">\(t-1\)</span>. However, in the case of seasonal effects, this dependence on the past may be explained (also) by other lags <span class="math inline">\(t-s\)</span>, where <span class="math inline">\(s &gt; 1\)</span>. For example, the following model</p>
+<p><span class="math display">\[X_t = \phi X_{t-12} + W_t,\]</span> is a first-order seasonal AR model with <span class="math inline">\(s = 12\)</span> which is equivalent to an AR(12) model with <span class="math inline">\(\phi_i = 0\)</span> for <span class="math inline">\(i = 1,...,11,\)</span> and <span class="math inline">\(\phi_{12} \neq 0\)</span>. However, using an AR(12) model would be theoretically incorrect for this case (since there is no direct dependence on intermediate observations) and would be statistically inefficient to estimate and, consequently, the definition of a seasonal component is more appropriate. In fact, the definition of <span class="math inline">\(s = 12\)</span> for the above example is typically the case of time series for economic or ecological phenomena where there can be a dependence between the same months.</p>
+<p>Having justified the need for the extension to SARIMA models, let us more formally define this class of models starting from the example provided above.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-14" class="definition"><strong>Definition 2.1  (Seasonal Autoregressive Model of Order 1)  </strong></span>A sesaonal autoregressive model of order 1 is defined as follows:</p>
+<p><span class="math display">\[X_t = \Phi X_{t-s} + W_{t} \Leftrightarrow (1 - \Phi B^{s}) X_t = W_t\]</span></p>
+<p>The model would have the following properties:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math display">\[\mathbb{E}[{X_t}] = 0\]</span></li>
+<li><span class="math display">\[\gamma(0) = \text{Var}\left[X_t\right] = \frac{\sigma^2}{1-\Phi^2}\]</span></li>
+<li><span class="math display">\[\rho(h) = \begin{cases}
+1 &amp;\text{ if } h = 0\\
+\Phi^{\left|h\right|} &amp;\text{ if } h = \pm \, s \cdot k, \, k = 1, 2, \cdots\\
+0 &amp;\text{ otherwise. }
+\end{cases}\]</span></li>
+</ol>
+As can be seen, these properties differ from those of a standard AR(1) model only with respect to the dependence lag <span class="math inline">\(s\)</span> (where intermediate observations between <span class="math inline">\(t\)</span> and <span class="math inline">\(t-s\)</span> have no impact on <span class="math inline">\(X_t\)</span>).
+</div>
+
+<p>One aspect to underline at this point is the different notation used to explain seasonal dependence. Indeed, for standard AR(<span class="math inline">\(p\)</span>) models the notation for autoregressive parameters in this book is <span class="math inline">\(\phi_i\)</span> while for the seasonal dependence we have <span class="math inline">\(\Phi_i\)</span>. This is because a model can contain both standard AR(<span class="math inline">\(p\)</span>) components (i.e. direct dependence on observations between <span class="math inline">\(t\)</span> and <span class="math inline">\(t-p\)</span>) as well as seasonal components where direct dependence can occur with observations at lags <span class="math inline">\(s &gt; p\)</span> (with no direct dependence on observations between <span class="math inline">\(t-p\)</span> and <span class="math inline">\(t-s\)</span>).</p>
+<p>Keeping in mind the need for this additional notation, we can now define the first-order seasonal moving average process.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-15" class="definition"><strong>Definition 2.2  (Seasonal Moving Average of Order 1)  </strong></span>A seasonal moving average model of order 1 is defined as follows:</p>
+<p><span class="math display">\[X_t = W_t + \Theta W_{t-s} \Leftrightarrow X_t = (1 - \Theta B^{s}) W_t\]</span></p>
+<p><span class="math display">\[\gamma(h) = \begin{cases}
+\left({1+\Theta^2}\right)\sigma^2 &amp;\text{ if } h = 0 \\
+\Theta \sigma^2 &amp;\text{ if } h = \pm \, s \cdot k, \, k = 1, 2, \cdots \\
+0 &amp;\text{ otherwise .} \\
+\end{cases}\]</span></p>
+</div>
+
+<p>Therefore, a seasonal moving average is also defined in the same manner as a standard moving average model where the direct dependence is not strictly on the immediately adjacent past observations. Following the same logic, we can therefore define the seasonal equivalent of the autoregressive and moving average operators.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-16" class="definition"><strong>Definition 2.3  (Seasonal Autoregressive Operator)  </strong></span>Similarly, to the regular autoregressive operator, the seasonal autoregressive operator is defined as:</p>
+<span class="math display">\[\Phi_P(B^S) = 1 - \Phi_1 B^S - \Phi_2B^{2S} - \cdots - \Phi_PB^{PS}\]</span>
+</div>
+
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-17" class="definition"><strong>Definition 2.4  (Seasonal Moving Average Operator)  </strong></span>The seasonal moving average operator is defined as:</p>
+<span class="math display">\[\Theta_Q(B^S) = 1 + \Theta_1 B^S + \Theta_2B^{2S} + \cdots + \Theta_QB^{QS}\]</span>
+</div>
+
+<p>In these cases, <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span> play the same role as the <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> orders for ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models thereby determining how far into the past the direct seasonal dependence is present. Given this notation, we can define a pure seasonal ARMA model.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-18" class="definition"><strong>Definition 2.5  (Seasonal ARMA Model)  </strong></span>A seasonal ARMA model is defined as:</p>
+<span class="math display">\[\Phi_P(B^S) X_t = \Theta_Q(B^S) W_t\]</span>
+</div>
+
+<p>The above model therefore considers all direct seasonal dependencies without any components of standard ARMA models which can nevertheless be included to deliver a general SARMA model. Below is an example of such a model.</p>
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-19" class="example"><strong>Example 2.1  (Mixed Seasonal Model)  </strong></span>Consider the following time series model that contains both a seasonality term and a traditional time series component:</p>
+<p><span class="math display">\[X_t = \Phi X_{t-12}  + \theta W_{t-1} + W_t, \,\,\, \left| \Phi \right| &lt; 1, \,\, \left| \theta \right| &lt; 1\]</span></p>
+<p>The properties of this model can be derived as follows:</p>
+<span class="math display">\[\begin{align}
+\text{var} \left( {{X_t}} \right) &amp;= {\Phi ^2}\text{var} \left( {{X_{t - 12}}} \right) + {\sigma ^2} + {\theta ^2}{\sigma ^2} \notag \\
+\Rightarrow \gamma \left( 0 \right) &amp;= \frac{{{\sigma ^2}\left( {1 + {\theta ^2}} \right)}}{{1 - {\Phi ^2}}} \\
+  \gamma \left( 1 \right) &amp;= \text{cov}\left( {{X_t},{X_{t - 1}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 1}}} \right) \notag \\
+   &amp;= \Phi \text{cov}\left( {{X_{t - 12}},{X_{t - 1}}} \right) + \underbrace {\text{cov}\left( {{W_t},{X_{t - 1}}} \right)}_{ = 0} + \theta \text{cov}\left( {{W_{t - 1}},{X_{t - 1}}} \right) \notag  \\
+   &amp;= \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} \\
+  \gamma \left( h \right) &amp;= \text{cov}\left( {{X_t},{X_{t - h}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - h}}} \right) \notag \\
+  &amp;\overbrace{=^{h \ge 2}}\Phi \text{cov}\left( {{X_{t - 12}},{X_{t - h}}} \right) \notag \\
+   &amp;= \Phi \gamma \left( {h - 12} \right) \\
+\end{align}\]</span>
+If the autocovariance is defined within the appropriate seasonal lag, then we have a realized value other than zero
+<span class="math display">\[\begin{equation}
+ \gamma \left( 1 \right) = \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} = {\Phi ^2}\gamma \left( 1 \right) + \theta {\sigma ^2} = \frac{{\theta {\sigma ^2}}}{{1 - {\Phi ^2}}}
+\end{equation}\]</span>
+When this is not the case, the autocovariance will be zero:
+<span class="math display">\[\begin{align}
+  \gamma \left( 2 \right) &amp;= \text{cov} \left( {{X_t},{X_{t - 2}}} \right) = \operatorname{cov} \left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 2}}} \right) \notag \\
+   &amp;= \Phi \text{cov} \left( {{X_{t - 12}},{X_{t - 2}}} \right) = \Phi \gamma \left( {10} \right) = {\Phi ^2}\gamma \left( 2 \right) = 0
+\end{align}\]</span>
+<p>In this example, this would hold for:</p>
+<span class="math display">\[\begin{equation}
+\gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0
+\end{equation}\]</span>
+Therefore, the autocovariance can be denoted as:
+<span class="math display">\[\begin{align*}
+\gamma \left( {12h} \right) &amp;= {\Phi ^h}\gamma \left( 0 \right), &amp;h = 0, 1, 2, \ldots \\
+\gamma \left( {12h + 1} \right) &amp;= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right), &amp;h = 0, 1, 2, \ldots \\
+\gamma \left( {h} \right) &amp;= 0,  &amp;\text{Otherwise}
+\end{align*}\]</span>
+<p>As a result, the autocorrelation is given as:</p>
+<span class="math display">\[\begin{align*}
+  \rho \left( {12h} \right) &amp;= {\Phi ^h}, &amp; h = 0, 1, 2, \ldots  \\
+  \rho \left( {12h - 1} \right) &amp;= \rho \left( {12h + 1} \right) = \frac{\theta }{{1 + {\theta ^2}}}{\Phi ^h}, &amp; h = 0, 1, 2, \ldots \\
+  \rho \left( h \right) &amp;= 0, &amp; \text{Otherwise}  \\
+\end{align*}\]</span>
+</div>
+
+<p>The correlation structure can be viewed quite straightforwardly.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(simts)
+model =<span class="st"> </span><span class="kw">SARIMA</span>(<span class="dt">ar=</span><span class="dv">0</span>, <span class="dt">i=</span><span class="dv">0</span>,<span class="dt">ma=</span><span class="op">-</span><span class="fl">0.8</span>, <span class="dt">sar=</span><span class="fl">0.95</span>, <span class="dt">si =</span> <span class="dv">0</span> , <span class="dt">sma =</span> <span class="dv">0</span>, <span class="dt">s =</span> <span class="dv">12</span>)
+xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">100000</span>, model)
+<span class="kw">plot</span>(<span class="kw">auto_corr</span>(xt, <span class="dt">lag.max =</span> <span class="dv">40</span>))</code></pre></div>
+<p><img src="05-inter2_files/figure-html/mixed_sarima-1.png" width="672" /></p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-20" class="definition"><strong>Definition 2.6  (Seasonal ARMA Model Form)  </strong></span>The form of Seasonal Autoregressive Moving Average models is often written as <span class="math inline">\(ARMA(p, q)\times(P, Q)_{S}\)</span>:</p>
+<span class="math display">\[\Phi_p \left({B^S}\right) \phi\left(B\right) X_t = \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t\]</span>
+</div>
+
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-21" class="example"><strong>Example 2.2  (Classifying a Seasonal ARMA)  </strong></span>Returning to our previous example, we can see that the time series follows an <span class="math inline">\(ARMA(0,1)\times(1,0)_{12}\)</span> process.</p>
+<span class="math display">\[\begin{align*}
+  {X_t} &amp;= \Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}} \hfill \\
+  \underbrace {\left( {{X_t} - \Phi {B^{12}}} \right)}_{{\Phi _1}\left( {{B^{12}}} \right)}\underbrace 1_{\phi \left( B \right)}{X_t} &amp;= \underbrace 1_{{\theta _Q}\left( B \right)}\underbrace {\left( {1 - \theta B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\
+\end{align*}\]</span>
+</div>
+
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-22" class="definition"><strong>Definition 2.7  (Seasonal ARIMA Model Form)  </strong></span>The form of a Seasonal Autoregressive Integrated Moving Average models is denoted as <span class="math inline">\(ARIMA(p, d, q)\times(P, D, Q)_S\)</span>:</p>
+<p><span class="math display">\[\Phi_p \left({B^S}\right) \phi\left(B\right) \nabla^D_S \nabla^d X_t = \delta + \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t\]</span></p>
+where <span class="math inline">\(\nabla^d = \left({1-B}\right)^d\)</span> and <span class="math inline">\(\nabla^D_S = \left({1-B^S}\right)^D\)</span>.
+</div>
+
+
+<div class="example">
+<span id="exm:unnamed-chunk-23" class="example"><strong>Example 2.3  (Classifying a SARIMA)  </strong></span>Consider the following time series:
+<span class="math display">\[\begin{align}
+  {X_t} &amp;= {X_{t - 1}} + {X_{t - 12}} - {X_{t - 13}} + {W_t} + \phi {W_{t - 1}} + \theta {W_{t - 12}} + \theta \phi {W_{t - 13}} \hfill \\
+  {X_t} - {X_{t - 1}} - {X_{t - 12}} + {X_{t - 13}} &amp;= {W_t} + \phi {W_{t - 1}} + \theta {W_{t - 12}} + \theta \phi {W_{t - 13}} \hfill \\
+  \left( {1 - B - {B^{12}} + {B^{13}}} \right){X_t} &amp;= \left( {1 + \phi B + \theta {B^{12}} + \phi \theta {B^{13}}} \right){W_t} \hfill \\
+  \underbrace {\left( {1 - {B^{12}}} \right)}_{{\nabla _{12}}}\underbrace {\left( {1 - B} \right)}_\nabla {X_t} &amp;= \underbrace {\left( {1 + \theta {B^{12}}} \right)}_{{\theta _Q}\left( {{B^S}} \right)}\underbrace {\left( {1 + \phi B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\
+\end{align}\]</span>
+The end result indicates that the SARIMA is given by: <span class="math inline">\(ARIMA(0,1,1)\times(0,1,1)_{12}\)</span>.
+</div>
+
+<p>In practice, identifying the parametrization of a SARIMA model is problematic. There is no easy way to find <span class="math inline">\(p, d, q, P, D, Q, S\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.numeric</span>(<span class="kw">dmseries</span>(<span class="st">&quot;https://datamarket.com/data/set/22pw/monthly-lake-erie-levels-1921-1970#!ds=22pw&amp;display=line&quot;</span>)),
+    <span class="dt">start =</span> <span class="dv">1921</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Water Levels&quot;</span>,
+    <span class="dt">data_name =</span> <span class="st">&quot;Monthly Lake Erie Levels&quot;</span>, <span class="dt">name_time =</span> <span class="st">&quot;&quot;</span>)
+<span class="kw">plot</span>(Xt)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-24"></span>
+<img src="05-inter2_files/figure-html/unnamed-chunk-24-1.png" alt="TO DO" width="672" />
+<p class="caption">
+Figure 2.1: TO DO
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corr_analysis</span>(Xt)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-25"></span>
+<img src="05-inter2_files/figure-html/unnamed-chunk-25-1.png" alt="Empirical ACF (left) and PACF (right) of the Lake Erie time series data." width="768" />
+<p class="caption">
+Figure 2.2: Empirical ACF (left) and PACF (right) of the Lake Erie time series data.
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.numeric</span>(<span class="kw">dmseries</span>(<span class="st">&quot;https://datamarket.com/data/set/235j/number-of-daily-births-in-quebec-jan-01-1977-to-dec-31-1990#!ds=235j&amp;display=line&quot;</span>)),
+    <span class="dt">start =</span> <span class="dv">1977</span>, <span class="dt">freq =</span> <span class="dv">365</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Number of Births&quot;</span>,
+    <span class="dt">data_name =</span> <span class="st">&quot;Number of Births in Quebec&quot;</span>, <span class="dt">name_time =</span> <span class="st">&quot;&quot;</span>)
+<span class="kw">plot</span>(Xt)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-26"></span>
+<img src="05-inter2_files/figure-html/unnamed-chunk-26-1.png" alt="TO DO" width="672" />
+<p class="caption">
+Figure 2.3: TO DO
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corr_analysis</span>(Xt, <span class="dt">lag.max =</span> <span class="dv">50</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-27"></span>
+<img src="05-inter2_files/figure-html/unnamed-chunk-27-1.png" alt="Empirical ACF (left) and PACF (right) of the Births time series data." width="768" />
+<p class="caption">
+Figure 2.4: Empirical ACF (left) and PACF (right) of the Births time series data.
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">SARIMA</span>(<span class="dt">ar =</span> <span class="dv">2</span>, <span class="dt">ma =</span> <span class="dv">1</span>, <span class="dt">sar =</span> <span class="dv">2</span>, <span class="dt">sma =</span> <span class="dv">1</span>, <span class="dt">s =</span> <span class="dv">7</span>, <span class="dt">si =</span> <span class="dv">1</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>)
+<span class="kw">check</span>(mod)</code></pre></div>
+<p><img src="05-inter2_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(mod, <span class="dt">n.ahead =</span> <span class="dv">30</span>)</code></pre></div>
+<p><img src="05-inter2_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="arima-models.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/%s",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"search": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
