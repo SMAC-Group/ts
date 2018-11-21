@@ -119,7 +119,7 @@ suppressWarnings(simts::select(ARIMA(2, 1, 2), Xt))
 
 In this case, the most appropriate model would appear to be an ARIMA(0,1,2), meaning that an MA(2) model fitted to the first-difference of the original time series is the "best" to model the observed sales of shampoo.
 
-# SARIMA Models
+# SARIMA Models `r emo::ji("warning")`
 
 As seen in the previous section, ARMA models can be adapted in order to tackle different forms of non-stationary time series through the use of differencing, thereby delivering the class of ARIMA models. However, aside from non-stationarity, within different applied examples seen this far you may have noticed that many ACF (and PACF) plots denoted some forms of seasonality. Indeed, despite removing possible deterministic seasonal effects via regression techniques, it is often the case that some stochastic seasonal components appear in the (residual) time series. For this reason, the class of AR(I)MA models can be extended in order to take this seasonality into account thereby delivering the class of SARIMA models.
 
@@ -184,80 +184,101 @@ $$\Theta_Q(B^S) = 1 + \Theta_1 B^S + \Theta_2B^{2S} + \cdots + \Theta_QB^{QS}$$
 
 In these cases, $P$ and $Q$ play the same role as the $p$ and $q$ orders for ARMA($p$,$q$) models thereby determining how far into the past the direct seasonal dependence is present. Given this notation, we can define a pure seasonal ARMA model.
 
-```{definition, name = "Seasonal ARMA Model"}
-A seasonal ARMA model is defined as:
+```{definition, name = "Pure Seasonal ARMA Model"}
+A pure Seasonal ARMA model is defined as:
   
 \[\Phi_P(B^S) X_t = \Theta_Q(B^S) W_t\]
 ```
 
-The above model therefore considers all direct seasonal dependencies without any components of standard ARMA models which can nevertheless be included to deliver a general SARMA model. Below is an example of such a model.
+The above model therefore considers all direct seasonal dependencies without any components of standard ARMA models which can nevertheless be included to deliver a general SARMA model. Indeed, the more general SARMA model is defined as follows.
 
-```{example, name = "Mixed Seasonal Model"}
-Consider the following time series model that contains both a seasonality term and
-a traditional time series component:
-
-$$X_t = \Phi X_{t-12}  + \theta W_{t-1} + W_t, \,\,\, \left| \Phi \right| < 1, \,\, \left| \theta \right| < 1$$
-
-The properties of this model can be derived as follows:
-
-\begin{align}
-\text{var} \left( {{X_t}} \right) &= {\Phi ^2}\text{var} \left( {{X_{t - 12}}} \right) + {\sigma ^2} + {\theta ^2}{\sigma ^2} \notag \\
-\Rightarrow \gamma \left( 0 \right) &= \frac{{{\sigma ^2}\left( {1 + {\theta ^2}} \right)}}{{1 - {\Phi ^2}}} \\
-  \gamma \left( 1 \right) &= \text{cov}\left( {{X_t},{X_{t - 1}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 1}}} \right) \notag \\
-   &= \Phi \text{cov}\left( {{X_{t - 12}},{X_{t - 1}}} \right) + \underbrace {\text{cov}\left( {{W_t},{X_{t - 1}}} \right)}_{ = 0} + \theta \text{cov}\left( {{W_{t - 1}},{X_{t - 1}}} \right) \notag  \\
-   &= \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} \\
-  \gamma \left( h \right) &= \text{cov}\left( {{X_t},{X_{t - h}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - h}}} \right) \notag \\
-  &\overbrace{=^{h \ge 2}}\Phi \text{cov}\left( {{X_{t - 12}},{X_{t - h}}} \right) \notag \\
-   &= \Phi \gamma \left( {h - 12} \right) \\
-\end{align}
-
-If the autocovariance is defined within the appropriate seasonal lag, then we
-have a realized value other than zero
-\begin{equation}
- \gamma \left( 1 \right) = \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} = {\Phi ^2}\gamma \left( 1 \right) + \theta {\sigma ^2} = \frac{{\theta {\sigma ^2}}}{{1 - {\Phi ^2}}}
-\end{equation}
-
-When this is not the case, the autocovariance will be zero:
-\begin{align}
-  \gamma \left( 2 \right) &= \text{cov} \left( {{X_t},{X_{t - 2}}} \right) = \operatorname{cov} \left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 2}}} \right) \notag \\
-   &= \Phi \text{cov} \left( {{X_{t - 12}},{X_{t - 2}}} \right) = \Phi \gamma \left( {10} \right) = {\Phi ^2}\gamma \left( 2 \right) = 0
-\end{align}
-
-In this example, this would hold for:
-
-\begin{equation}
-\gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0
-\end{equation}
-
-Therefore, the autocovariance can be denoted as:
-\begin{align*}
-\gamma \left( {12h} \right) &= {\Phi ^h}\gamma \left( 0 \right), &h = 0, 1, 2, \ldots \\
-\gamma \left( {12h + 1} \right) &= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right), &h = 0, 1, 2, \ldots \\
-\gamma \left( {h} \right) &= 0,  &\text{Otherwise}
-\end{align*}
-
-As a result, the autocorrelation is given as:
-
-\begin{align*}
-  \rho \left( {12h} \right) &= {\Phi ^h}, & h = 0, 1, 2, \ldots  \\
-  \rho \left( {12h - 1} \right) &= \rho \left( {12h + 1} \right) = \frac{\theta }{{1 + {\theta ^2}}}{\Phi ^h}, & h = 0, 1, 2, \ldots \\
-  \rho \left( h \right) &= 0, & \text{Otherwise}  \\
-\end{align*}
-```
-
-The correlation structure can be viewed quite straightforwardly.
-```{r mixed_sarima, cache = TRUE}
-library(simts)
-model = SARIMA(ar=0, i=0,ma=-0.8, sar=0.95, si = 0 , sma = 0, s = 12)
-xt = gen_gts(100000, model)
-plot(auto_corr(xt, lag.max = 40))
-```
-
-```{definition, name = "Seasonal ARMA Model Form"}
-The form of Seasonal Autoregressive Moving Average models is often written as $ARMA(p, q)\times(P, Q)_{S}$:
+```{definition, name = "Seasonal ARMA Model"}
+Seasonal Autoregressive Moving Average models are often referred to with the notation $ARMA(p, q)\times(P, Q)_{S}$ which indicates the following model:
 
 $$\Phi_p \left({B^S}\right) \phi\left(B\right) X_t = \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t$$
 ```
+
+As you can notice, the standard autoregressive and moving average operators have now been added to the previous definition of pure seasonal ARMA models. Hence, as mentioned above, these models allow for different forms of direct dependence between observations and innovation (white) noise. Let us consider an example to understand the structure and properties of these models.
+
+```{example, name = "Mixed Seasonal Model"}
+Consider the following time series model that contains both a seasonal term and
+a standard ARMA component:
+
+$$X_t = \Phi X_{t-12}  + \theta W_{t-1} + W_t, \,\,\, \left| \Phi \right| < 1, \,\, \left| \theta \right| < 1,$$
+
+where $W_t \sim WN(0, \sigma^2)$. Based on the previously defined notation, we can refer to this model as an $ARMA(0,1)\times(1, 0)_{12}$ model. The properties of this model can be derived as follows:
+
+$$\text{Var}\left( {{X_t}} \right) = {\Phi ^2} \text{Var} \left( {{X_{t - 12}}} \right) + {\sigma ^2} + {\theta ^2}{\sigma ^2} $$
+  
+Based on the parameter definitions, we know that this process is stationary (causal and invertible) and therefore $\text{Var} \left( {{X_t}} \right) = \text{Var} \left( {{X_{t - 12}}} \right) = \gamma \left( 0 \right)$. Using this information we can derive the following:
+  
+\begin{align}
+\gamma \left( 0 \right) &= \frac{{{\sigma ^2}\left( {1 + {\theta ^2}} \right)}}{{1 - {\Phi ^2}}} \\[0.5cm]
+  \gamma \left( 1 \right) &= \text{cov}\left( {{X_t},{X_{t - 1}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 1}}} \right) \notag \\[0.2cm]
+   &= \Phi \text{cov}\left( {{X_{t - 12}},{X_{t - 1}}} \right) + \underbrace {\text{cov}\left( {{W_t},{X_{t - 1}}} \right)}_{ = 0} + \theta \text{cov}\left( {{W_{t - 1}},{X_{t - 1}}} \right) \notag  \\
+   &= \Phi \gamma \left( {11} \right) + \theta {\sigma ^2}
+\end{align}
+
+Then, for $h > 1$ we have
+
+\begin{align}
+  \gamma \left( h \right) &= \text{cov}\left( {{X_t},{X_{t - h}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - h}}} \right) \notag \\[0.2cm]
+  &= \Phi \text{cov}\left( {{X_{t - 12}},{X_{t - h}}} \right) \notag \\[0.2cm]
+   &= \Phi \gamma \left( {h - 12} \right) \\
+\end{align}
+
+Based on the above properties, we can show that the autocovariance will not be equal to zero for lags $h$ that lie within the seasonal dependence structure. More specifically, let us use the last general definition of the autocovariance and, based on the symmetry of the autocovariance (i.e. $\gamma (h) = \gamma(-h)$), derive the explicit form for the autocovariance at lag $h = 1$:
+\begin{equation}
+ \gamma \left( 1 \right) = \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} = {\Phi ^2}\gamma \left( 1 \right) + \theta {\sigma ^2}
+\end{equation}
+
+Based on the above equality we have:
+
+$$\gamma \left( 1 \right) = \frac{{\theta {\sigma ^2}}}{{1 - {\Phi ^2}}}.$$
+  
+When the lag does not lie within the seasonal dependence structure the autocovariance will be zero. Consider, for example, the autocovariance at lag $h=2$:
+\begin{align}
+  \gamma \left( 2 \right) &= \text{cov} \left( {{X_t},{X_{t - 2}}} \right) = \operatorname{cov} \left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 2}}} \right) \notag \\[0.2cm]
+   &= \Phi \text{cov} \left( {{X_{t - 12}},{X_{t - 2}}} \right) = \Phi \gamma \left( {10} \right) = {\Phi ^2}\gamma \left( 2 \right).
+\end{align}
+
+Again, based on the above equality it can easily be seen that
+
+$$\gamma \left( 2 \right) \left(1 -  {\Phi ^2}\right) = 0 \,\, \Rightarrow \,\, \gamma \left( 2 \right) = 0$$.
+
+In this example, the same would hold for:
+
+\begin{equation}
+\gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0,
+\end{equation}
+
+for all $h > 1$. Following these results, the general autocovariance of this model can be summarized as follows:
+\begin{align*}
+\gamma \left( {12h} \right) &= {\Phi ^h}\gamma \left( 0 \right) &h = 0, 1, 2, \ldots \\
+\gamma \left( {12h + 1} \right) &= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right) &h = 0, 1, 2, \ldots \\
+\gamma \left( {h} \right) &= 0  &\text{otherwise}
+\end{align*}
+
+The autocorrelation function is easily derived from the above autocovariance structure and is given by:
+
+\begin{align*}
+  \rho \left( {12h} \right) &= {\Phi ^h} & h = 0, 1, 2, \ldots  \\
+  \rho \left( {12h - 1} \right) &= \rho \left( {12h + 1} \right) = \frac{\theta }{{1 + {\theta ^2}}}{\Phi ^h} & h = 0, 1, 2, \ldots \\
+  \rho \left( h \right) &= 0 & \text{otherwise}  \\
+\end{align*}
+```
+
+Given these derivations, let us verify what the estimated ACF of the above model looks like and, for this reason, we simulate a time series of length $T = 10^4$ from an $ARMA(0,1)\times(1, 0)_{12}$ model with $\theta = -0.8$ and $\Phi = 0.95$.
+
+```{r mixed_sarima, cache = TRUE}
+model = SARIMA(ar=0, i=0,ma=-0.8, sar=0.95, si = 0 , sma = 0, s = 12)
+Xt = gen_gts(10e4, model)
+plot(auto_corr(Xt, lag.max = 40))
+```
+
+From the plot we can see how the autocorrelation is highly significant at each lag $12 \cdot h$ ($h=0,1,2,...$) as well as all adjacent lags $12 \cdot h \pm 1$. This corresponds to what is expected from the autocorrelation structure of the model whose autocovariance structure we derived above.
+
+Having provided a brief overview of how to derive and study the autocovariance (and autocorrelation) structure of these models, let us now verify how we can classify a time series model as a Seasonal ARMA. To better explain this, consider the following example.
 
 ```{example, name = "Classifying a Seasonal ARMA"}
 Returning to our previous example, we can see that the time series follows an $ARMA(0,1)\times(1,0)_{12}$ process.
@@ -299,7 +320,7 @@ Xt = gts(as.numeric(dmseries("https://datamarket.com/data/set/22pw/monthly-lake-
 plot(Xt)
 ```
 
-```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the Lake Erie time series data."}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the Lake Erie time series data.", cache = TRUE}
 corr_analysis(Xt)
 ```
 
@@ -311,15 +332,15 @@ Xt = gts(as.numeric(dmseries("https://datamarket.com/data/set/235j/number-of-dai
 plot(Xt)
 ```
 
-```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the Births time series data."}
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the Births time series data.", cache = TRUE}
 corr_analysis(Xt, lag.max = 50)
 ```
 
-```{r}
+```{r, cache = TRUE}
 mod = estimate(SARIMA(ar = 2, ma = 1, sar = 2, sma = 1, s = 7, si = 1), Xt, method = "mle")
 check(mod)
 ```
 
-```{r}
+```{r, cache = TRUE}
 predict(mod, n.ahead = 30)
 ```

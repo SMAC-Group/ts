@@ -102,7 +102,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>1</b> ARIMA Models</a></li>
-<li class="chapter" data-level="2" data-path="sarima-models.html"><a href="sarima-models.html"><i class="fa fa-check"></i><b>2</b> SARIMA Models</a></li>
+<li class="chapter" data-level="2" data-path="sarima-models.html"><a href="sarima-models.html"><i class="fa fa-check"></i><b>2</b> SARIMA Models ⚠️</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -124,7 +124,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="sarima-models" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> SARIMA Models</h1>
+<h1><span class="header-section-number">Chapter 2</span> SARIMA Models ⚠️</h1>
 <p>As seen in the previous section, ARMA models can be adapted in order to tackle different forms of non-stationary time series through the use of differencing, thereby delivering the class of ARIMA models. However, aside from non-stationarity, within different applied examples seen this far you may have noticed that many ACF (and PACF) plots denoted some forms of seasonality. Indeed, despite removing possible deterministic seasonal effects via regression techniques, it is often the case that some stochastic seasonal components appear in the (residual) time series. For this reason, the class of AR(I)MA models can be extended in order to take this seasonality into account thereby delivering the class of SARIMA models.</p>
 <p>To introduce the more general class of SARIMA models, let us first consider the standard AR(1) model</p>
 <p><span class="math display">\[X_t = \phi X_{t-1} + W_t,\]</span> which explains the behaviour in time via the previous observation. Based on this model, for all time points the dependence on the past is explained by the previous observation at time <span class="math inline">\(t-1\)</span>. However, in the case of seasonal effects, this dependence on the past may be explained (also) by other lags <span class="math inline">\(t-s\)</span>, where <span class="math inline">\(s &gt; 1\)</span>. For example, the following model</p>
@@ -176,65 +176,75 @@ As can be seen, these properties differ from those of a standard AR(1) model onl
 <p>In these cases, <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span> play the same role as the <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> orders for ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models thereby determining how far into the past the direct seasonal dependence is present. Given this notation, we can define a pure seasonal ARMA model.</p>
 
 <div class="definition">
-<p><span id="def:unnamed-chunk-18" class="definition"><strong>Definition 2.5  (Seasonal ARMA Model)  </strong></span>A seasonal ARMA model is defined as:</p>
+<p><span id="def:unnamed-chunk-18" class="definition"><strong>Definition 2.5  (Pure Seasonal ARMA Model)  </strong></span>A pure Seasonal ARMA model is defined as:</p>
 <span class="math display">\[\Phi_P(B^S) X_t = \Theta_Q(B^S) W_t\]</span>
 </div>
 
-<p>The above model therefore considers all direct seasonal dependencies without any components of standard ARMA models which can nevertheless be included to deliver a general SARMA model. Below is an example of such a model.</p>
-
-<div class="example">
-<p><span id="exm:unnamed-chunk-19" class="example"><strong>Example 2.1  (Mixed Seasonal Model)  </strong></span>Consider the following time series model that contains both a seasonality term and a traditional time series component:</p>
-<p><span class="math display">\[X_t = \Phi X_{t-12}  + \theta W_{t-1} + W_t, \,\,\, \left| \Phi \right| &lt; 1, \,\, \left| \theta \right| &lt; 1\]</span></p>
-<p>The properties of this model can be derived as follows:</p>
-<span class="math display">\[\begin{align}
-\text{var} \left( {{X_t}} \right) &amp;= {\Phi ^2}\text{var} \left( {{X_{t - 12}}} \right) + {\sigma ^2} + {\theta ^2}{\sigma ^2} \notag \\
-\Rightarrow \gamma \left( 0 \right) &amp;= \frac{{{\sigma ^2}\left( {1 + {\theta ^2}} \right)}}{{1 - {\Phi ^2}}} \\
-  \gamma \left( 1 \right) &amp;= \text{cov}\left( {{X_t},{X_{t - 1}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 1}}} \right) \notag \\
-   &amp;= \Phi \text{cov}\left( {{X_{t - 12}},{X_{t - 1}}} \right) + \underbrace {\text{cov}\left( {{W_t},{X_{t - 1}}} \right)}_{ = 0} + \theta \text{cov}\left( {{W_{t - 1}},{X_{t - 1}}} \right) \notag  \\
-   &amp;= \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} \\
-  \gamma \left( h \right) &amp;= \text{cov}\left( {{X_t},{X_{t - h}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - h}}} \right) \notag \\
-  &amp;\overbrace{=^{h \ge 2}}\Phi \text{cov}\left( {{X_{t - 12}},{X_{t - h}}} \right) \notag \\
-   &amp;= \Phi \gamma \left( {h - 12} \right) \\
-\end{align}\]</span>
-If the autocovariance is defined within the appropriate seasonal lag, then we have a realized value other than zero
-<span class="math display">\[\begin{equation}
- \gamma \left( 1 \right) = \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} = {\Phi ^2}\gamma \left( 1 \right) + \theta {\sigma ^2} = \frac{{\theta {\sigma ^2}}}{{1 - {\Phi ^2}}}
-\end{equation}\]</span>
-When this is not the case, the autocovariance will be zero:
-<span class="math display">\[\begin{align}
-  \gamma \left( 2 \right) &amp;= \text{cov} \left( {{X_t},{X_{t - 2}}} \right) = \operatorname{cov} \left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 2}}} \right) \notag \\
-   &amp;= \Phi \text{cov} \left( {{X_{t - 12}},{X_{t - 2}}} \right) = \Phi \gamma \left( {10} \right) = {\Phi ^2}\gamma \left( 2 \right) = 0
-\end{align}\]</span>
-<p>In this example, this would hold for:</p>
-<span class="math display">\[\begin{equation}
-\gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0
-\end{equation}\]</span>
-Therefore, the autocovariance can be denoted as:
-<span class="math display">\[\begin{align*}
-\gamma \left( {12h} \right) &amp;= {\Phi ^h}\gamma \left( 0 \right), &amp;h = 0, 1, 2, \ldots \\
-\gamma \left( {12h + 1} \right) &amp;= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right), &amp;h = 0, 1, 2, \ldots \\
-\gamma \left( {h} \right) &amp;= 0,  &amp;\text{Otherwise}
-\end{align*}\]</span>
-<p>As a result, the autocorrelation is given as:</p>
-<span class="math display">\[\begin{align*}
-  \rho \left( {12h} \right) &amp;= {\Phi ^h}, &amp; h = 0, 1, 2, \ldots  \\
-  \rho \left( {12h - 1} \right) &amp;= \rho \left( {12h + 1} \right) = \frac{\theta }{{1 + {\theta ^2}}}{\Phi ^h}, &amp; h = 0, 1, 2, \ldots \\
-  \rho \left( h \right) &amp;= 0, &amp; \text{Otherwise}  \\
-\end{align*}\]</span>
-</div>
-
-<p>The correlation structure can be viewed quite straightforwardly.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(simts)
-model =<span class="st"> </span><span class="kw">SARIMA</span>(<span class="dt">ar=</span><span class="dv">0</span>, <span class="dt">i=</span><span class="dv">0</span>,<span class="dt">ma=</span><span class="op">-</span><span class="fl">0.8</span>, <span class="dt">sar=</span><span class="fl">0.95</span>, <span class="dt">si =</span> <span class="dv">0</span> , <span class="dt">sma =</span> <span class="dv">0</span>, <span class="dt">s =</span> <span class="dv">12</span>)
-xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="dv">100000</span>, model)
-<span class="kw">plot</span>(<span class="kw">auto_corr</span>(xt, <span class="dt">lag.max =</span> <span class="dv">40</span>))</code></pre></div>
-<p><img src="05-inter2_files/figure-html/mixed_sarima-1.png" width="672" /></p>
+<p>The above model therefore considers all direct seasonal dependencies without any components of standard ARMA models which can nevertheless be included to deliver a general SARMA model. Indeed, the more general SARMA model is defined as follows.</p>
 
 <div class="definition">
-<p><span id="def:unnamed-chunk-20" class="definition"><strong>Definition 2.6  (Seasonal ARMA Model Form)  </strong></span>The form of Seasonal Autoregressive Moving Average models is often written as <span class="math inline">\(ARMA(p, q)\times(P, Q)_{S}\)</span>:</p>
+<p><span id="def:unnamed-chunk-19" class="definition"><strong>Definition 2.6  (Seasonal ARMA Model)  </strong></span>Seasonal Autoregressive Moving Average models are often referred to with the notation <span class="math inline">\(ARMA(p, q)\times(P, Q)_{S}\)</span> which indicates the following model:</p>
 <span class="math display">\[\Phi_p \left({B^S}\right) \phi\left(B\right) X_t = \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t\]</span>
 </div>
 
+<p>As you can notice, the standard autoregressive and moving average operators have now been added to the previous definition of pure seasonal ARMA models. Hence, as mentioned above, these models allow for different forms of direct dependence between observations and innovation (white) noise. Let us consider an example to understand the structure and properties of these models.</p>
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-20" class="example"><strong>Example 2.1  (Mixed Seasonal Model)  </strong></span>Consider the following time series model that contains both a seasonal term and a standard ARMA component:</p>
+<p><span class="math display">\[X_t = \Phi X_{t-12}  + \theta W_{t-1} + W_t, \,\,\, \left| \Phi \right| &lt; 1, \,\, \left| \theta \right| &lt; 1,\]</span></p>
+<p>where <span class="math inline">\(W_t \sim WN(0, \sigma^2)\)</span>. Based on the previously defined notation, we can refer to this model as an <span class="math inline">\(ARMA(0,1)\times(1, 0)_{12}\)</span> model. The properties of this model can be derived as follows:</p>
+<p><span class="math display">\[\text{Var}\left( {{X_t}} \right) = {\Phi ^2} \text{Var} \left( {{X_{t - 12}}} \right) + {\sigma ^2} + {\theta ^2}{\sigma ^2} \]</span></p>
+<p>Based on the parameter definitions, we know that this process is stationary (causal and invertible) and therefore <span class="math inline">\(\text{Var} \left( {{X_t}} \right) = \text{Var} \left( {{X_{t - 12}}} \right) = \gamma \left( 0 \right)\)</span>. Using this information we can derive the following:</p>
+<span class="math display">\[\begin{align}
+\gamma \left( 0 \right) &amp;= \frac{{{\sigma ^2}\left( {1 + {\theta ^2}} \right)}}{{1 - {\Phi ^2}}} \\[0.5cm]
+  \gamma \left( 1 \right) &amp;= \text{cov}\left( {{X_t},{X_{t - 1}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 1}}} \right) \notag \\[0.2cm]
+   &amp;= \Phi \text{cov}\left( {{X_{t - 12}},{X_{t - 1}}} \right) + \underbrace {\text{cov}\left( {{W_t},{X_{t - 1}}} \right)}_{ = 0} + \theta \text{cov}\left( {{W_{t - 1}},{X_{t - 1}}} \right) \notag  \\
+   &amp;= \Phi \gamma \left( {11} \right) + \theta {\sigma ^2}
+\end{align}\]</span>
+<p>Then, for <span class="math inline">\(h &gt; 1\)</span> we have</p>
+<span class="math display">\[\begin{align}
+  \gamma \left( h \right) &amp;= \text{cov}\left( {{X_t},{X_{t - h}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - h}}} \right) \notag \\[0.2cm]
+  &amp;= \Phi \text{cov}\left( {{X_{t - 12}},{X_{t - h}}} \right) \notag \\[0.2cm]
+   &amp;= \Phi \gamma \left( {h - 12} \right) \\
+\end{align}\]</span>
+Based on the above properties, we can show that the autocovariance will not be equal to zero for lags <span class="math inline">\(h\)</span> that lie within the seasonal dependence structure. More specifically, let us use the last general definition of the autocovariance and, based on the symmetry of the autocovariance (i.e. <span class="math inline">\(\gamma (h) = \gamma(-h)\)</span>), derive the explicit form for the autocovariance at lag <span class="math inline">\(h = 1\)</span>:
+<span class="math display">\[\begin{equation}
+ \gamma \left( 1 \right) = \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} = {\Phi ^2}\gamma \left( 1 \right) + \theta {\sigma ^2}
+\end{equation}\]</span>
+<p>Based on the above equality we have:</p>
+<p><span class="math display">\[\gamma \left( 1 \right) = \frac{{\theta {\sigma ^2}}}{{1 - {\Phi ^2}}}.\]</span></p>
+When the lag does not lie within the seasonal dependence structure the autocovariance will be zero. Consider, for example, the autocovariance at lag <span class="math inline">\(h=2\)</span>:
+<span class="math display">\[\begin{align}
+  \gamma \left( 2 \right) &amp;= \text{cov} \left( {{X_t},{X_{t - 2}}} \right) = \operatorname{cov} \left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 2}}} \right) \notag \\[0.2cm]
+   &amp;= \Phi \text{cov} \left( {{X_{t - 12}},{X_{t - 2}}} \right) = \Phi \gamma \left( {10} \right) = {\Phi ^2}\gamma \left( 2 \right).
+\end{align}\]</span>
+<p>Again, based on the above equality it can easily be seen that</p>
+<p><span class="math display">\[\gamma \left( 2 \right) \left(1 -  {\Phi ^2}\right) = 0 \,\, \Rightarrow \,\, \gamma \left( 2 \right) = 0\]</span>.</p>
+<p>In this example, the same would hold for:</p>
+<span class="math display">\[\begin{equation}
+\gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0,
+\end{equation}\]</span>
+for all <span class="math inline">\(h &gt; 1\)</span>. Following these results, the general autocovariance of this model can be summarized as follows:
+<span class="math display">\[\begin{align*}
+\gamma \left( {12h} \right) &amp;= {\Phi ^h}\gamma \left( 0 \right) &amp;h = 0, 1, 2, \ldots \\
+\gamma \left( {12h + 1} \right) &amp;= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right) &amp;h = 0, 1, 2, \ldots \\
+\gamma \left( {h} \right) &amp;= 0  &amp;\text{otherwise}
+\end{align*}\]</span>
+<p>The autocorrelation function is easily derived from the above autocovariance structure and is given by:</p>
+<span class="math display">\[\begin{align*}
+  \rho \left( {12h} \right) &amp;= {\Phi ^h} &amp; h = 0, 1, 2, \ldots  \\
+  \rho \left( {12h - 1} \right) &amp;= \rho \left( {12h + 1} \right) = \frac{\theta }{{1 + {\theta ^2}}}{\Phi ^h} &amp; h = 0, 1, 2, \ldots \\
+  \rho \left( h \right) &amp;= 0 &amp; \text{otherwise}  \\
+\end{align*}\]</span>
+</div>
+
+<p>Given these derivations, let us verify what the estimated ACF of the above model looks like and, for this reason, we simulate a time series of length <span class="math inline">\(T = 10^4\)</span> from an <span class="math inline">\(ARMA(0,1)\times(1, 0)_{12}\)</span> model with <span class="math inline">\(\theta = -0.8\)</span> and <span class="math inline">\(\Phi = 0.95\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model =<span class="st"> </span><span class="kw">SARIMA</span>(<span class="dt">ar=</span><span class="dv">0</span>, <span class="dt">i=</span><span class="dv">0</span>,<span class="dt">ma=</span><span class="op">-</span><span class="fl">0.8</span>, <span class="dt">sar=</span><span class="fl">0.95</span>, <span class="dt">si =</span> <span class="dv">0</span> , <span class="dt">sma =</span> <span class="dv">0</span>, <span class="dt">s =</span> <span class="dv">12</span>)
+Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="fl">10e4</span>, model)
+<span class="kw">plot</span>(<span class="kw">auto_corr</span>(Xt, <span class="dt">lag.max =</span> <span class="dv">40</span>))</code></pre></div>
+<p><img src="05-inter2_files/figure-html/mixed_sarima-1.png" width="672" /></p>
+<p>From the plot we can see how the autocorrelation is highly significant at each lag <span class="math inline">\(12 \cdot h\)</span> (<span class="math inline">\(h=0,1,2,...\)</span>) as well as all adjacent lags <span class="math inline">\(12 \cdot h \pm 1\)</span>. This corresponds to what is expected from the autocorrelation structure of the model whose autocovariance structure we derived above.</p>
+<p>Having provided a brief overview of how to derive and study the autocovariance (and autocorrelation) structure of these models, let us now verify how we can classify a time series model as a Seasonal ARMA. To better explain this, consider the following example.</p>
 
 <div class="example">
 <p><span id="exm:unnamed-chunk-21" class="example"><strong>Example 2.2  (Classifying a Seasonal ARMA)  </strong></span>Returning to our previous example, we can see that the time series follows an <span class="math inline">\(ARMA(0,1)\times(1,0)_{12}\)</span> process.</p>
