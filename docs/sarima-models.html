@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Applied Time Series Analysis with R</title>
+  <meta name="description" content="Applied Time Series Analysis with R">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Applied Time Series Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="SMAC-Group/ts" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Applied Time Series Analysis with R" />
+  
+  
+  
+
+<meta name="author" content="Stéphane Guerrier, Roberto Molinari, Haotian Xu and Yuming Zhang">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="prev" href="arima-models.html">
+<link rel="next" href="references.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Applied Time Series Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Foundation</b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i><b>1.1</b> Conventions</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#bibliographic-note"><i class="fa fa-check"></i><b>1.2</b> Bibliographic Note</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i><b>1.4</b> License</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introtimeseries.html"><a href="introtimeseries.html"><i class="fa fa-check"></i><b>2</b> Basic Elements of Time Series</a><ul>
+<li class="chapter" data-level="2.1" data-path="introtimeseries.html"><a href="introtimeseries.html#the-wold-decomposition"><i class="fa fa-check"></i><b>2.1</b> The Wold Decomposition</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="introtimeseries.html"><a href="introtimeseries.html#the-deterministic-component-signal"><i class="fa fa-check"></i><b>2.1.1</b> The Deterministic Component (Signal)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introtimeseries.html"><a href="introtimeseries.html#the-random-component-noise"><i class="fa fa-check"></i><b>2.1.2</b> The Random Component (Noise)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introtimeseries.html"><a href="introtimeseries.html#eda"><i class="fa fa-check"></i><b>2.2</b> Exploratory Data Analysis for Time Series</a></li>
+<li class="chapter" data-level="2.3" data-path="introtimeseries.html"><a href="introtimeseries.html#dependence-in-time-series"><i class="fa fa-check"></i><b>2.3</b> Dependence in Time Series</a></li>
+<li class="chapter" data-level="2.4" data-path="introtimeseries.html"><a href="introtimeseries.html#basicmodels"><i class="fa fa-check"></i><b>2.4</b> Basic Time Series Models</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="introtimeseries.html"><a href="introtimeseries.html#wn"><i class="fa fa-check"></i><b>2.4.1</b> White Noise</a></li>
+<li class="chapter" data-level="2.4.2" data-path="introtimeseries.html"><a href="introtimeseries.html#rw"><i class="fa fa-check"></i><b>2.4.2</b> Random Walk</a></li>
+<li class="chapter" data-level="2.4.3" data-path="introtimeseries.html"><a href="introtimeseries.html#ar1"><i class="fa fa-check"></i><b>2.4.3</b> First-Order Autoregressive Model</a></li>
+<li class="chapter" data-level="2.4.4" data-path="introtimeseries.html"><a href="introtimeseries.html#ma1"><i class="fa fa-check"></i><b>2.4.4</b> Moving Average Process of Order 1</a></li>
+<li class="chapter" data-level="2.4.5" data-path="introtimeseries.html"><a href="introtimeseries.html#drift"><i class="fa fa-check"></i><b>2.4.5</b> Linear Drift</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="introtimeseries.html"><a href="introtimeseries.html#lts"><i class="fa fa-check"></i><b>2.5</b> Composite Stochastic Processes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="fundtimeseries.html"><a href="fundtimeseries.html"><i class="fa fa-check"></i><b>3</b> Fundamental Properties of Time Series</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#the-autocorrelation-and-autocovariance-functions"><i class="fa fa-check"></i><b>3.1</b> The Autocorrelation and Autocovariance Functions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#a-fundamental-representation"><i class="fa fa-check"></i><b>3.1.1</b> A Fundamental Representation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#admissible-autocorrelation-functions"><i class="fa fa-check"></i><b>3.1.2</b> Admissible Autocorrelation Functions 😱</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#stationary"><i class="fa fa-check"></i><b>3.2</b> Stationarity</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#assessing-weak-stationarity-of-time-series-models"><i class="fa fa-check"></i><b>3.2.1</b> Assessing Weak Stationarity of Time Series Models</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="fundtimeseries.html"><a href="fundtimeseries.html#estimation-of-moments-stationary-processes"><i class="fa fa-check"></i><b>3.3</b> Estimation of Moments (Stationary Processes)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="fundtimeseries.html"><a href="fundtimeseries.html#estimation-of-the-mean-function"><i class="fa fa-check"></i><b>3.3.1</b> Estimation of the Mean Function</a></li>
+<li class="chapter" data-level="3.3.2" data-path="fundtimeseries.html"><a href="fundtimeseries.html#sample-autocovariance-and-autocorrelation-functions"><i class="fa fa-check"></i><b>3.3.2</b> Sample Autocovariance and Autocorrelation Functions</a></li>
+<li class="chapter" data-level="3.3.3" data-path="fundtimeseries.html"><a href="fundtimeseries.html#robustness-issues"><i class="fa fa-check"></i><b>3.3.3</b> Robustness Issues</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html"><i class="fa fa-check"></i><b>4</b> The Family of Autoregressive Moving Average Models</a><ul>
+<li class="chapter" data-level="4.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#linear-processes"><i class="fa fa-check"></i><b>4.1</b> Linear Processes</a></li>
+<li class="chapter" data-level="4.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#ardefinition"><i class="fa fa-check"></i><b>4.2</b> Autoregressive Models - AR(p)</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#properties-of-arp-models"><i class="fa fa-check"></i><b>4.2.1</b> Properties of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#estimation-of-arp-models"><i class="fa fa-check"></i><b>4.2.2</b> Estimation of AR(p) models</a></li>
+<li class="chapter" data-level="4.2.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#forecasting-arp-models"><i class="fa fa-check"></i><b>4.2.3</b> Forecasting AR(p) Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#diagnostic-tools-for-time-series"><i class="fa fa-check"></i><b>4.3</b> Diagnostic Tools for Time Series</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#the-partial-autocorrelation-function-pacf"><i class="fa fa-check"></i><b>4.3.1</b> The Partial AutoCorrelation Function (PACF)</a></li>
+<li class="chapter" data-level="4.3.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#portmanteau-tests"><i class="fa fa-check"></i><b>4.3.2</b> Portmanteau Tests</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#inference-for-arp-models"><i class="fa fa-check"></i><b>4.4</b> Inference for AR(p) Models</a></li>
+<li class="chapter" data-level="4.5" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#model-selection"><i class="fa fa-check"></i><b>4.5</b> Model Selection</a></li>
+<li class="chapter" data-level="4.6" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#moving-average-models"><i class="fa fa-check"></i><b>4.6</b> Moving Average Models</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#the-autocovariance-function-of-ma-processes"><i class="fa fa-check"></i><b>4.6.1</b> The Autocovariance Function of MA processes</a></li>
+<li class="chapter" data-level="4.6.2" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#selecting-and-forecasting-maq-models"><i class="fa fa-check"></i><b>4.6.2</b> Selecting and Forecasting MA(<span class="math inline">\(q\)</span>) Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autoregressive-moving-average-models"><i class="fa fa-check"></i><b>4.7</b> Autoregressive Moving Average Models ⚠️</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="the-family-of-autoregressive-moving-average-models.html"><a href="the-family-of-autoregressive-moving-average-models.html#autocovariance-of-arma-models"><i class="fa fa-check"></i><b>4.7.1</b> Autocovariance of ARMA Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>5</b> ARIMA Models ⚠️</a></li>
+<li class="chapter" data-level="6" data-path="sarima-models.html"><a href="sarima-models.html"><i class="fa fa-check"></i><b>6</b> SARIMA Models ⚠️</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="proofs.html"><a href="proofs.html"><i class="fa fa-check"></i><b>A</b> Proofs 😱</a><ul>
+<li class="chapter" data-level="A.1" data-path="proofs.html"><a href="proofs.html#appendixa"><i class="fa fa-check"></i><b>A.1</b> Proof of Theorem 3.1</a></li>
+<li class="chapter" data-level="A.2" data-path="proofs.html"><a href="proofs.html#appendixc"><i class="fa fa-check"></i><b>A.2</b> Proof of Theorem 4.1</a></li>
+<li class="chapter" data-level="A.3" data-path="proofs.html"><a href="proofs.html#appendixoptim"><i class="fa fa-check"></i><b>A.3</b> Proof of Theorem 4.2</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendixb.html"><a href="appendixb.html"><i class="fa fa-check"></i><b>B</b> Robust Regression Methods</a><ul>
+<li class="chapter" data-level="B.1" data-path="appendixb.html"><a href="appendixb.html#the-classical-least-squares-estimator"><i class="fa fa-check"></i><b>B.1</b> The Classical Least-Squares Estimator</a></li>
+<li class="chapter" data-level="B.2" data-path="appendixb.html"><a href="appendixb.html#robust-estimators-for-linear-regression-models"><i class="fa fa-check"></i><b>B.2</b> Robust Estimators for Linear Regression Models</a></li>
+<li class="chapter" data-level="B.3" data-path="appendixb.html"><a href="appendixb.html#applications-of-robust-estimation"><i class="fa fa-check"></i><b>B.3</b> Applications of Robust Estimation</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="proofs.html"><a href="proofs.html#appendixc"><i class="fa fa-check"></i><b>C</b> Proofs</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/SMAC-Group/ts" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Time Series Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sarima-models" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> SARIMA Models ⚠️</h1>
+<p>As seen in the previous section, ARMA models can be adapted in order to tackle different forms of non-stationary time series through the use of differencing, thereby delivering the class of ARIMA models. However, aside from non-stationarity, within different applied examples seen this far you may have noticed that many ACF (and PACF) plots denoted some forms of seasonality. Indeed, despite removing possible deterministic seasonal effects via regression techniques, it is often the case that some stochastic seasonal components appear in the (residual) time series. For this reason, the class of AR(I)MA models can be extended in order to take this seasonality into account thereby delivering the class of SARIMA models.</p>
+<p>To introduce the more general class of SARIMA models, let us first consider the standard AR(1) model</p>
+<p><span class="math display">\[X_t = \phi X_{t-1} + W_t,\]</span> which explains the behaviour in time via the previous observation. Based on this model, for all time points the dependence on the past is explained by the previous observation at time <span class="math inline">\(t-1\)</span>. However, in the case of seasonal effects, this dependence on the past may be explained (also) by other lags <span class="math inline">\(t-s\)</span>, where <span class="math inline">\(s &gt; 1\)</span>. For example, the following model</p>
+<p><span class="math display">\[X_t = \phi X_{t-12} + W_t,\]</span> is a first-order seasonal AR model with <span class="math inline">\(s = 12\)</span> which is equivalent to an AR(12) model with <span class="math inline">\(\phi_i = 0\)</span> for <span class="math inline">\(i = 1,...,11,\)</span> and <span class="math inline">\(\phi_{12} \neq 0\)</span>. However, using an AR(12) model would be theoretically incorrect for this case (since there is no direct dependence on intermediate observations) and would be statistically inefficient to estimate and, consequently, the definition of a seasonal component is more appropriate. In fact, the definition of <span class="math inline">\(s = 12\)</span> for the above example is typically the case of time series for economic or ecological phenomena where there can be a dependence between the same months.</p>
+<p>Having justified the need for the extension to SARIMA models, let us more formally define this class of models starting from the example provided above.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-125" class="definition"><strong>Definition 6.1  (Seasonal Autoregressive Model of Order 1)  </strong></span>A sesaonal autoregressive model of order 1 is defined as follows:</p>
+<p><span class="math display">\[X_t = \Phi X_{t-s} + W_{t} \Leftrightarrow (1 - \Phi B^{s}) X_t = W_t\]</span></p>
+<p>The model would have the following properties:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math display">\[\mathbb{E}[{X_t}] = 0\]</span></li>
+<li><span class="math display">\[\gamma(0) = \text{Var}\left[X_t\right] = \frac{\sigma^2}{1-\Phi^2}\]</span></li>
+<li><span class="math display">\[\rho(h) = \begin{cases}
+1 &amp;\text{ if } h = 0\\
+\Phi^{\left|h\right|} &amp;\text{ if } h = \pm \, s \cdot k, \, k = 1, 2, \cdots\\
+0 &amp;\text{ otherwise. }
+\end{cases}\]</span></li>
+</ol>
+As can be seen, these properties differ from those of a standard AR(1) model only with respect to the dependence lag <span class="math inline">\(s\)</span> (where intermediate observations between <span class="math inline">\(t\)</span> and <span class="math inline">\(t-s\)</span> have no impact on <span class="math inline">\(X_t\)</span>).
+</div>
+
+<p>One aspect to underline at this point is the different notation used to explain seasonal dependence. Indeed, for standard AR(<span class="math inline">\(p\)</span>) models the notation for autoregressive parameters in this book is <span class="math inline">\(\phi_i\)</span> while for the seasonal dependence we have <span class="math inline">\(\Phi_i\)</span>. This is because a model can contain both standard AR(<span class="math inline">\(p\)</span>) components (i.e. direct dependence on observations between <span class="math inline">\(t\)</span> and <span class="math inline">\(t-p\)</span>) as well as seasonal components where direct dependence can occur with observations at lags <span class="math inline">\(s &gt; p\)</span> (with no direct dependence on observations between <span class="math inline">\(t-p\)</span> and <span class="math inline">\(t-s\)</span>).</p>
+<p>Keeping in mind the need for this additional notation, we can now define the first-order seasonal moving average process.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-126" class="definition"><strong>Definition 6.2  (Seasonal Moving Average of Order 1)  </strong></span>A seasonal moving average model of order 1 is defined as follows:</p>
+<p><span class="math display">\[X_t = W_t + \Theta W_{t-s} \Leftrightarrow X_t = (1 - \Theta B^{s}) W_t\]</span></p>
+<p><span class="math display">\[\gamma(h) = \begin{cases}
+\left({1+\Theta^2}\right)\sigma^2 &amp;\text{ if } h = 0 \\
+\Theta \sigma^2 &amp;\text{ if } h = \pm \, s \cdot k, \, k = 1, 2, \cdots \\
+0 &amp;\text{ otherwise .} \\
+\end{cases}\]</span></p>
+</div>
+
+<p>Therefore, a seasonal moving average is also defined in the same manner as a standard moving average model where the direct dependence is not strictly on the immediately adjacent past observations. Following the same logic, we can therefore define the seasonal equivalent of the autoregressive and moving average operators.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-127" class="definition"><strong>Definition 6.3  (Seasonal Autoregressive Operator)  </strong></span>Similarly, to the regular autoregressive operator, the seasonal autoregressive operator is defined as:</p>
+<span class="math display">\[\Phi_P(B^S) = 1 - \Phi_1 B^S - \Phi_2B^{2S} - \cdots - \Phi_PB^{PS}\]</span>
+</div>
+
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-128" class="definition"><strong>Definition 6.4  (Seasonal Moving Average Operator)  </strong></span>The seasonal moving average operator is defined as:</p>
+<span class="math display">\[\Theta_Q(B^S) = 1 + \Theta_1 B^S + \Theta_2B^{2S} + \cdots + \Theta_QB^{QS}\]</span>
+</div>
+
+<p>In these cases, <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span> play the same role as the <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> orders for ARMA(<span class="math inline">\(p\)</span>,<span class="math inline">\(q\)</span>) models thereby determining how far into the past the direct seasonal dependence is present. Given this notation, we can define a pure seasonal ARMA model.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-129" class="definition"><strong>Definition 6.5  (Pure Seasonal ARMA Model)  </strong></span>A pure Seasonal ARMA model is defined as:</p>
+<span class="math display">\[\Phi_P(B^S) X_t = \Theta_Q(B^S) W_t\]</span>
+</div>
+
+<p>The above model therefore considers all direct seasonal dependencies without any components of standard ARMA models which can nevertheless be included to deliver a general SARMA model. Indeed, the more general SARMA model is defined as follows.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-130" class="definition"><strong>Definition 6.6  (Seasonal ARMA Model)  </strong></span>Seasonal Autoregressive Moving Average models are often referred to with the notation <span class="math inline">\(ARMA(p, q)\times(P, Q)_{S}\)</span> which indicates the following model:</p>
+<span class="math display">\[\Phi_p \left({B^S}\right) \phi\left(B\right) X_t = \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t\]</span>
+</div>
+
+<p>As you can notice, the standard autoregressive and moving average operators have now been added to the previous definition of pure seasonal ARMA models. Hence, as mentioned above, these models allow for different forms of direct dependence between observations and innovation (white) noise. Let us consider an example to understand the structure and properties of these models.</p>
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-131" class="example"><strong>Example 6.1  (Mixed Seasonal Model)  </strong></span>Consider the following time series model that contains both a seasonal term and a standard ARMA component:</p>
+<p><span class="math display">\[X_t = \Phi X_{t-12}  + \theta W_{t-1} + W_t, \,\,\, \left| \Phi \right| &lt; 1, \,\, \left| \theta \right| &lt; 1,\]</span></p>
+<p>where <span class="math inline">\(W_t \sim WN(0, \sigma^2)\)</span>. Based on the previously defined notation, we can refer to this model as an <span class="math inline">\(ARMA(0,1)\times(1, 0)_{12}\)</span> model. The properties of this model can be derived as follows:</p>
+<p><span class="math display">\[\text{Var}\left( {{X_t}} \right) = {\Phi ^2} \text{Var} \left( {{X_{t - 12}}} \right) + {\sigma ^2} + {\theta ^2}{\sigma ^2} \]</span></p>
+<p>Based on the parameter definitions, we know that this process is stationary (causal and invertible) and therefore <span class="math inline">\(\text{Var} \left( {{X_t}} \right) = \text{Var} \left( {{X_{t - 12}}} \right) = \gamma \left( 0 \right)\)</span>. Using this information we can derive the following:</p>
+<span class="math display">\[\begin{align}
+\gamma \left( 0 \right) &amp;= \frac{{{\sigma ^2}\left( {1 + {\theta ^2}} \right)}}{{1 - {\Phi ^2}}} \\[0.5cm]
+  \gamma \left( 1 \right) &amp;= \text{cov}\left( {{X_t},{X_{t - 1}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 1}}} \right) \notag \\[0.2cm]
+   &amp;= \Phi \text{cov}\left( {{X_{t - 12}},{X_{t - 1}}} \right) + \underbrace {\text{cov}\left( {{W_t},{X_{t - 1}}} \right)}_{ = 0} + \theta \text{cov}\left( {{W_{t - 1}},{X_{t - 1}}} \right) \notag  \\
+   &amp;= \Phi \gamma \left( {11} \right) + \theta {\sigma ^2}
+\end{align}\]</span>
+<p>Then, for <span class="math inline">\(h &gt; 1\)</span> we have</p>
+<span class="math display">\[\begin{align}
+  \gamma \left( h \right) &amp;= \text{cov}\left( {{X_t},{X_{t - h}}} \right) = \text{cov}\left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - h}}} \right) \notag \\[0.2cm]
+  &amp;= \Phi \text{cov}\left( {{X_{t - 12}},{X_{t - h}}} \right) \notag \\[0.2cm]
+   &amp;= \Phi \gamma \left( {h - 12} \right) \\
+\end{align}\]</span>
+Based on the above properties, we can show that the autocovariance will not be equal to zero for lags <span class="math inline">\(h\)</span> that lie within the seasonal dependence structure. More specifically, let us use the last general definition of the autocovariance and, based on the symmetry of the autocovariance (i.e. <span class="math inline">\(\gamma (h) = \gamma(-h)\)</span>), derive the explicit form for the autocovariance at lag <span class="math inline">\(h = 1\)</span>:
+<span class="math display">\[\begin{equation}
+ \gamma \left( 1 \right) = \Phi \gamma \left( {11} \right) + \theta {\sigma ^2} = {\Phi ^2}\gamma \left( 1 \right) + \theta {\sigma ^2}
+\end{equation}\]</span>
+<p>Based on the above equality we have:</p>
+<p><span class="math display">\[\gamma \left( 1 \right) = \frac{{\theta {\sigma ^2}}}{{1 - {\Phi ^2}}}.\]</span></p>
+When the lag does not lie within the seasonal dependence structure the autocovariance will be zero. Consider, for example, the autocovariance at lag <span class="math inline">\(h=2\)</span>:
+<span class="math display">\[\begin{align}
+  \gamma \left( 2 \right) &amp;= \text{cov} \left( {{X_t},{X_{t - 2}}} \right) = \operatorname{cov} \left( {\Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}},{X_{t - 2}}} \right) \notag \\[0.2cm]
+   &amp;= \Phi \text{cov} \left( {{X_{t - 12}},{X_{t - 2}}} \right) = \Phi \gamma \left( {10} \right) = {\Phi ^2}\gamma \left( 2 \right).
+\end{align}\]</span>
+<p>Again, based on the above equality it can easily be seen that</p>
+<p><span class="math display">\[\gamma \left( 2 \right) \left(1 -  {\Phi ^2}\right) = 0 \,\, \Rightarrow \,\, \gamma \left( 2 \right) = 0\]</span>.</p>
+<p>In this example, the same would hold for:</p>
+<span class="math display">\[\begin{equation}
+\gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0.
+\end{equation}\]</span>
+Following these results, the general autocovariance of this model can be summarized as follows:
+<span class="math display">\[\begin{align*}
+\gamma \left( {12h} \right) &amp;= {\Phi ^h}\gamma \left( 0 \right) &amp;h = 0, 1, 2, \ldots \\[0.2cm]
+\gamma \left( {12h + 1} \right) &amp;= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right) &amp;h = 0, 1, 2, \ldots \\[0.2cm]
+\gamma \left( {h} \right) &amp;= 0  &amp;\text{otherwise}
+\end{align*}\]</span>
+<p>The autocorrelation function is easily derived from the above autocovariance structure and is given by:</p>
+<span class="math display">\[\begin{align*}
+  \rho \left( {12h} \right) &amp;= {\Phi ^h} &amp; h = 0, 1, 2, \ldots  \\
+  \rho \left( {12h - 1} \right) &amp;= \rho \left( {12h + 1} \right) = \frac{\theta }{{1 + {\theta ^2}}}{\Phi ^h} &amp; h = 0, 1, 2, \ldots \\
+  \rho \left( h \right) &amp;= 0 &amp; \text{otherwise}  \\
+\end{align*}\]</span>
+</div>
+
+<p>Given these derivations, let us verify what the estimated ACF of the above model looks like and, for this reason, we simulate a time series of length <span class="math inline">\(T = 10^4\)</span> from an <span class="math inline">\(ARMA(0,1)\times(1, 0)_{12}\)</span> model with <span class="math inline">\(\theta = -0.8\)</span> and <span class="math inline">\(\Phi = 0.95\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model =<span class="st"> </span><span class="kw">SARIMA</span>(<span class="dt">ar=</span><span class="dv">0</span>, <span class="dt">i=</span><span class="dv">0</span>,<span class="dt">ma=</span><span class="op">-</span><span class="fl">0.8</span>, <span class="dt">sar=</span><span class="fl">0.95</span>, <span class="dt">si =</span> <span class="dv">0</span> , <span class="dt">sma =</span> <span class="dv">0</span>, <span class="dt">s =</span> <span class="dv">12</span>)
+Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="fl">10e4</span>, model)
+<span class="kw">plot</span>(<span class="kw">auto_corr</span>(Xt, <span class="dt">lag.max =</span> <span class="dv">40</span>))</code></pre></div>
+<p><img src="ts_files/figure-html/mixed_sarima-1.png" width="672" /></p>
+<p>From the plot we can see how the autocorrelation is highly significant at each lag <span class="math inline">\(12 h\)</span> as well as all adjacent lags <span class="math inline">\(12 h \pm 1\)</span>. This corresponds to what is expected from the autocorrelation structure of the model whose autocovariance structure we derived above.</p>
+<p>Having provided a brief overview of how to derive and study the autocovariance (and autocorrelation) structure of these models, let us now verify how we can classify a time series model as a Seasonal ARMA. To better explain this, let us again consider the model whose autocovariance we have just studied.</p>
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-132" class="example"><strong>Example 6.2  (Classifying a Seasonal ARMA)  </strong></span>Returning to our previous example, we can see that the time series follows an <span class="math inline">\(ARMA(0,1)\times(1,0)_{12}\)</span> process by rearranging the terms as follows.</p>
+<span class="math display">\[\begin{align*}
+  {X_t} &amp;= \Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}} \hfill \\[0.2cm]
+{X_t} - \Phi {X_{t - 12}} &amp;= {W_t} + \theta {W_{t - 1}} \hfill \\[0.2cm]
+  \underbrace {\left( {1 - \Phi {B^{12}}} \right)}_{{\Phi _1}\left( {{B^{12}}} \right)}\underbrace 1_{\phi \left( B \right)}{X_t} &amp;= \underbrace 1_{{\Theta _Q}\left( B \right)}\underbrace {\left( {1 - \theta B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\
+\end{align*}\]</span>
+</div>
+
+<p>For this model we can see how the autoregressive operator (<span class="math inline">\(\phi(B)\)</span>) and the seasonal moving average operator (<span class="math inline">\(\Theta_Q(B)\)</span>) are included but, for this model, are simply equal to one. With the information provided, we can now finally define the most general class of models presented in this chapter.</p>
+
+<div class="definition">
+<p><span id="def:unnamed-chunk-133" class="definition"><strong>Definition 6.7  (Seasonal ARIMA Model)  </strong></span>The Seasonal Autoregressive Integrated Moving Average model is denoted as <span class="math inline">\(ARIMA(p, d, q)\times(P, D, Q)_S\)</span> and defined as:</p>
+<p><span class="math display">\[\Phi_P \left({B^S}\right) \phi\left(B\right) \, \delta^D_S \, \delta^d X_t = \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t\]</span></p>
+where <span class="math inline">\(\delta^d = \left({1-B}\right)^d\)</span> and <span class="math inline">\(\delta^D_S = \left({1-B^S}\right)^D\)</span>.
+</div>
+
+<p>You can notice that the definition of this model is quite complex but delivers an extremely flexible class of models that allows to describe (and predict) a wide range of time series with different forms of non-stationarity and seasonality. Indeed, aside from the previous forms of non-stationarity addressed by ARIMA models (<span class="math inline">\(\delta^d\)</span>), these models also allow to address the same forms of non-stationarity within the seasons (<span class="math inline">\(\delta^D_S\)</span>) in addition to the different dependence structures made available by SARMA models. However, the increased complexity of these models comes at a certain cost. For example, classifying a time series model as a SARIMA model becomes a slightly more lengthy procedure.</p>
+
+<div class="example">
+<p><span id="exm:unnamed-chunk-134" class="example"><strong>Example 6.3  (Classifying a SARIMA)  </strong></span>Consider the following time series:</p>
+<p><span class="math display">\[{X_t} = {X_{t - 1}} + {X_{t - 12}} - {X_{t - 13}} + {W_t} + \theta {W_{t - 1}} + \Theta {W_{t - 12}} + \Theta \theta {W_{t - 13}}.\]</span></p>
+<p>We can rearrange the terms of this model in order to classify it as a SARIMA model as follows:</p>
+<span class="math display">\[\begin{align}
+  {X_t} - {X_{t - 1}} - {X_{t - 12}} + {X_{t - 13}} &amp;= {W_t} + \theta {W_{t - 1}} + \Theta {W_{t - 12}} + \Theta \theta {W_{t - 13}} \hfill \\[0.2cm]
+  \left( {1 - B - {B^{12}} + {B^{13}}} \right){X_t} &amp;= \left( {1 + \theta B + \Theta {B^{12}} + \theta \Theta {B^{13}}} \right){W_t}
+\end{align}\]</span>
+<p>At this point the trick is to try and detect if the polynomials of the backshift operator <span class="math inline">\(B\)</span> can be factorized into simple differencing polynomials and/or seasonal and standard ARMA polynomials. In this case, it is possible to show this as follows:</p>
+<p><span class="math display">\[\underbrace {\left( {1 - {B^{12}}} \right)}_{{\delta_{12}^1}}\underbrace {\left( {1 - B} \right)}_{\delta^1} {X_t} = \underbrace {\left( {1 + \Theta {B^{12}}} \right)}_{{\Theta _Q}\left( {{B^S}} \right)}\underbrace {\left( {1 + \theta B} \right)}_{\theta \left( B \right)}{W_t}, \]</span></p>
+Indeed, the polynomials for the observations <span class="math inline">\(X_t\)</span> do not depend on any parameters and are therefore simply differencing polynomials while those for the innovation noise both depend on parameters and therefore constitute the seasonal and standard moving average polynomials. Based on this final form, we can conclude that the initial time series model can be classified as a SARIMA model which can be denoted as <span class="math inline">\(ARIMA(0,1,1)\times(0,1,1)_{12}\)</span>.
+</div>
+
+<p>Another additional problem due to the complexity of these models is identifying the order of the different terms <span class="math inline">\(p, d, q, P, D, Q, s\)</span>. In fact, as we saw in the previous sections, this is already not straightforward for standard ARMA models and becomes even more challenging for SARIMA models. The first approach is to understand if the time series is stationary and, if not, try and visually assess whether a standard and/or seasonal differencing allows to make the time series stationary (thereby defining <span class="math inline">\(d\)</span> and/or <span class="math inline">\(D\)</span>). Once this is done, one can use the ACF and PACF plots to check the behaviour of the autocovariance and eventually detect forms of stochastic seasonality with peaks at regular lagged intervals (thereby defining <span class="math inline">\(s\)</span>). Finally, the definition of the terms <span class="math inline">\(p, q, P, Q\)</span> is usually done via prior knowledge of the phenomenon underlying the time series data or via model selection criteria for which one determines a (large) model within which to select among all possible candidates included within this model.</p>
+<p>The procedure to modelling data always has a subjective input and two (or more) different models can be equally effective in describing and/or predicting a given time series. Therefore, as for all applied examples in this book, we will now provide insight to one among many possible ways to fit a model to a given time series. For this reason, let us consider the monthly water levels of Lake Erie from 1921 to 1970.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.numeric</span>(<span class="kw">dmseries</span>(<span class="st">&quot;https://datamarket.com/data/set/22pw/monthly-lake-erie-levels-1921-1970#!ds=22pw&amp;display=line&quot;</span>)),
+    <span class="dt">start =</span> <span class="dv">1921</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Water Levels&quot;</span>,
+    <span class="dt">data_name =</span> <span class="st">&quot;Monthly Lake Erie Levels&quot;</span>, <span class="dt">name_time =</span> <span class="st">&quot;&quot;</span>)
+<span class="kw">plot</span>(Xt)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-135"></span>
+<img src="ts_files/figure-html/unnamed-chunk-135-1.png" alt="Monthly Water Levels of Lake Erie between 1921 and 1970" width="672" />
+<p class="caption">
+Figure 6.1: Monthly Water Levels of Lake Erie between 1921 and 1970
+</p>
+</div>
+<p>We can see how the time series appears to fluctuate hinting that it may not be stationary. Moreover, knowing that the time series represents a natural phenomenon observed over months, it could be reasonable to think that the weather (and consequent water cycle) has an impact on the water levels thereby entailing some form of seasonality. Indeed, when looking at ACF and PACF plots of this data, it can be seen how there is a sinusoidal wave with peaks at lags 12 and 24 (and possibly further) indicating that there appears to be high correlation between the same months.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corr_analysis</span>(Xt)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-136"></span>
+<img src="ts_files/figure-html/unnamed-chunk-136-1.png" alt="Empirical ACF (left) and PACF (right) of the Lake Erie time series data." width="768" />
+<p class="caption">
+Figure 6.2: Empirical ACF (left) and PACF (right) of the Lake Erie time series data.
+</p>
+</div>
+<p>Considering the possible non-stationarity in the data, would differencing the time series make it stationary? And if so, which kind of differencing? Let us consider the first-order difference as well as a seasonal difference with <span class="math inline">\(s = 12\)</span> (since that what appears in the ACF plot).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d_Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">diff</span>(Xt))
+d_s =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">diff</span>(Xt, <span class="dt">lag =</span> <span class="dv">12</span>))
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))
+<span class="kw">plot</span>(d_Xt)
+<span class="kw">plot</span>(d_s)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-137"></span>
+<img src="ts_files/figure-html/unnamed-chunk-137-1.png" alt="First difference (top) and difference at lag 12 (bottom) of the Lake Erie time series data." width="768" />
+<p class="caption">
+Figure 6.3: First difference (top) and difference at lag 12 (bottom) of the Lake Erie time series data.
+</p>
+</div>
+<p>We can see how both differencing approaches appear to make the resulting time series (reasonably) stationary. If we take a look at the ACF and PACF plots of the seasonal differencing, we can see how the ACF does not show clear seasonality anymore while some residual seasonality can be observed in the PACF plot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corr_analysis</span>(d_s)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-138"></span>
+<img src="ts_files/figure-html/unnamed-chunk-138-1.png" alt="Empirical ACF (left) and PACF (right) of the seasonal difference ($s = 12$) of the Lake Erie time series data." width="768" />
+<p class="caption">
+Figure 6.4: Empirical ACF (left) and PACF (right) of the seasonal difference (<span class="math inline">\(s = 12\)</span>) of the Lake Erie time series data.
+</p>
+</div>
+<p>Since both differencings appear to do a good job in making the time series stationary, let us consider a SARIMA model with <span class="math inline">\(d=1\)</span>, <span class="math inline">\(D=1\)</span> and <span class="math inline">\(s = 12\)</span>. Moreover, considering the structure of the ACF we could envisage using an AR(<span class="math inline">\(p\)</span>) component in additional to some seaonsal components to address the residual seasonality in the PACF. Hence, let us estimate a SARIMA model defined as <span class="math inline">\(ARIMA(2,1,0)\times(1,1,1)_{12}\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">SARIMA</span>(<span class="dt">ar =</span> <span class="dv">2</span>, <span class="dt">i =</span> <span class="dv">1</span>, <span class="dt">sar =</span> <span class="dv">1</span>, <span class="dt">sma =</span> <span class="dv">1</span>, <span class="dt">s =</span> <span class="dv">12</span>, <span class="dt">si =</span> <span class="dv">1</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>)
+<span class="kw">check</span>(mod)</code></pre></div>
+<p><img src="ts_files/figure-html/unnamed-chunk-139-1.png" width="672" /></p>
+<p>Based on the diagnostic plots, we can see that this model does a reasonably good job and could therefore be considered as a candidate model for explaining/predicting this time series. Supposing we were hydrologists who intend to plan the management of water resources over the next two years: we may therefore be interested in understanding/predicting the future behaviour of the lake’s water levels over the next 24 months. As for ARMA models, we can also predict using SARIMA models and, for this particular data and model, we obtain the following forecast.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(mod, <span class="dt">n.ahead =</span> <span class="dv">24</span>)</code></pre></div>
+<p><img src="ts_files/figure-html/unnamed-chunk-140-1.png" width="672" /></p>
+<p>As you can see, the forecasted values (and confidence intervals) appear to reasonably follow the pattern of the observed time series confirming that the fitted model could be a possible candidate to consider for the considered time series data.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="arima-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/SMAC-Group/ts/edit/master/03-arma.Rmd",
+"text": "Edit"
+},
+"download": ["ts.pdf", "ts.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

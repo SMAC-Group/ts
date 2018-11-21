@@ -101,7 +101,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>1</b> ARIMA Models</a></li>
+<li class="chapter" data-level="1" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>1</b> ARIMA Models ⚠️</a></li>
 <li class="chapter" data-level="2" data-path="sarima-models.html"><a href="sarima-models.html"><i class="fa fa-check"></i><b>2</b> SARIMA Models ⚠️</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -222,12 +222,12 @@ When the lag does not lie within the seasonal dependence structure the autocovar
 <p><span class="math display">\[\gamma \left( 2 \right) \left(1 -  {\Phi ^2}\right) = 0 \,\, \Rightarrow \,\, \gamma \left( 2 \right) = 0\]</span>.</p>
 <p>In this example, the same would hold for:</p>
 <span class="math display">\[\begin{equation}
-\gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0,
+\gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0.
 \end{equation}\]</span>
-for all <span class="math inline">\(h &gt; 1\)</span>. Following these results, the general autocovariance of this model can be summarized as follows:
+Following these results, the general autocovariance of this model can be summarized as follows:
 <span class="math display">\[\begin{align*}
-\gamma \left( {12h} \right) &amp;= {\Phi ^h}\gamma \left( 0 \right) &amp;h = 0, 1, 2, \ldots \\
-\gamma \left( {12h + 1} \right) &amp;= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right) &amp;h = 0, 1, 2, \ldots \\
+\gamma \left( {12h} \right) &amp;= {\Phi ^h}\gamma \left( 0 \right) &amp;h = 0, 1, 2, \ldots \\[0.2cm]
+\gamma \left( {12h + 1} \right) &amp;= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right) &amp;h = 0, 1, 2, \ldots \\[0.2cm]
 \gamma \left( {h} \right) &amp;= 0  &amp;\text{otherwise}
 \end{align*}\]</span>
 <p>The autocorrelation function is easily derived from the above autocovariance structure and is given by:</p>
@@ -243,47 +243,54 @@ for all <span class="math inline">\(h &gt; 1\)</span>. Following these results, 
 Xt =<span class="st"> </span><span class="kw">gen_gts</span>(<span class="fl">10e4</span>, model)
 <span class="kw">plot</span>(<span class="kw">auto_corr</span>(Xt, <span class="dt">lag.max =</span> <span class="dv">40</span>))</code></pre></div>
 <p><img src="05-inter2_files/figure-html/mixed_sarima-1.png" width="672" /></p>
-<p>From the plot we can see how the autocorrelation is highly significant at each lag <span class="math inline">\(12 \cdot h\)</span> (<span class="math inline">\(h=0,1,2,...\)</span>) as well as all adjacent lags <span class="math inline">\(12 \cdot h \pm 1\)</span>. This corresponds to what is expected from the autocorrelation structure of the model whose autocovariance structure we derived above.</p>
-<p>Having provided a brief overview of how to derive and study the autocovariance (and autocorrelation) structure of these models, let us now verify how we can classify a time series model as a Seasonal ARMA. To better explain this, consider the following example.</p>
+<p>From the plot we can see how the autocorrelation is highly significant at each lag <span class="math inline">\(12 h\)</span> as well as all adjacent lags <span class="math inline">\(12 h \pm 1\)</span>. This corresponds to what is expected from the autocorrelation structure of the model whose autocovariance structure we derived above.</p>
+<p>Having provided a brief overview of how to derive and study the autocovariance (and autocorrelation) structure of these models, let us now verify how we can classify a time series model as a Seasonal ARMA. To better explain this, let us again consider the model whose autocovariance we have just studied.</p>
 
 <div class="example">
-<p><span id="exm:unnamed-chunk-21" class="example"><strong>Example 2.2  (Classifying a Seasonal ARMA)  </strong></span>Returning to our previous example, we can see that the time series follows an <span class="math inline">\(ARMA(0,1)\times(1,0)_{12}\)</span> process.</p>
+<p><span id="exm:unnamed-chunk-21" class="example"><strong>Example 2.2  (Classifying a Seasonal ARMA)  </strong></span>Returning to our previous example, we can see that the time series follows an <span class="math inline">\(ARMA(0,1)\times(1,0)_{12}\)</span> process by rearranging the terms as follows.</p>
 <span class="math display">\[\begin{align*}
-  {X_t} &amp;= \Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}} \hfill \\
-  \underbrace {\left( {{X_t} - \Phi {B^{12}}} \right)}_{{\Phi _1}\left( {{B^{12}}} \right)}\underbrace 1_{\phi \left( B \right)}{X_t} &amp;= \underbrace 1_{{\theta _Q}\left( B \right)}\underbrace {\left( {1 - \theta B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\
+  {X_t} &amp;= \Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}} \hfill \\[0.2cm]
+{X_t} - \Phi {X_{t - 12}} &amp;= {W_t} + \theta {W_{t - 1}} \hfill \\[0.2cm]
+  \underbrace {\left( {1 - \Phi {B^{12}}} \right)}_{{\Phi _1}\left( {{B^{12}}} \right)}\underbrace 1_{\phi \left( B \right)}{X_t} &amp;= \underbrace 1_{{\Theta _Q}\left( B \right)}\underbrace {\left( {1 - \theta B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\
 \end{align*}\]</span>
 </div>
 
+<p>For this model we can see how the autoregressive operator (<span class="math inline">\(\phi(B)\)</span>) and the seasonal moving average operator (<span class="math inline">\(\Theta_Q(B)\)</span>) are included but, for this model, are simply equal to one. With the information provided, we can now finally define the most general class of models presented in this chapter.</p>
 
 <div class="definition">
-<p><span id="def:unnamed-chunk-22" class="definition"><strong>Definition 2.7  (Seasonal ARIMA Model Form)  </strong></span>The form of a Seasonal Autoregressive Integrated Moving Average models is denoted as <span class="math inline">\(ARIMA(p, d, q)\times(P, D, Q)_S\)</span>:</p>
-<p><span class="math display">\[\Phi_p \left({B^S}\right) \phi\left(B\right) \nabla^D_S \nabla^d X_t = \delta + \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t\]</span></p>
-where <span class="math inline">\(\nabla^d = \left({1-B}\right)^d\)</span> and <span class="math inline">\(\nabla^D_S = \left({1-B^S}\right)^D\)</span>.
+<p><span id="def:unnamed-chunk-22" class="definition"><strong>Definition 2.7  (Seasonal ARIMA Model)  </strong></span>The Seasonal Autoregressive Integrated Moving Average model is denoted as <span class="math inline">\(ARIMA(p, d, q)\times(P, D, Q)_S\)</span> and defined as:</p>
+<p><span class="math display">\[\Phi_P \left({B^S}\right) \phi\left(B\right) \, \delta^D_S \, \delta^d X_t = \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t\]</span></p>
+where <span class="math inline">\(\delta^d = \left({1-B}\right)^d\)</span> and <span class="math inline">\(\delta^D_S = \left({1-B^S}\right)^D\)</span>.
 </div>
 
+<p>You can notice that the definition of this model is quite complex but delivers an extremely flexible class of models that allows to describe (and predict) a wide range of time series with different forms of non-stationarity and seasonality. Indeed, aside from the previous forms of non-stationarity addressed by ARIMA models (<span class="math inline">\(\delta^d\)</span>), these models also allow to address the same forms of non-stationarity within the seasons (<span class="math inline">\(\delta^D_S\)</span>) in addition to the different dependence structures made available by SARMA models. However, the increased complexity of these models comes at a certain cost. For example, classifying a time series model as a SARIMA model becomes a slightly more lengthy procedure.</p>
 
 <div class="example">
-<span id="exm:unnamed-chunk-23" class="example"><strong>Example 2.3  (Classifying a SARIMA)  </strong></span>Consider the following time series:
+<p><span id="exm:unnamed-chunk-23" class="example"><strong>Example 2.3  (Classifying a SARIMA)  </strong></span>Consider the following time series:</p>
+<p><span class="math display">\[{X_t} = {X_{t - 1}} + {X_{t - 12}} - {X_{t - 13}} + {W_t} + \theta {W_{t - 1}} + \Theta {W_{t - 12}} + \Theta \theta {W_{t - 13}}.\]</span></p>
+<p>We can rearrange the terms of this model in order to classify it as a SARIMA model as follows:</p>
 <span class="math display">\[\begin{align}
-  {X_t} &amp;= {X_{t - 1}} + {X_{t - 12}} - {X_{t - 13}} + {W_t} + \phi {W_{t - 1}} + \theta {W_{t - 12}} + \theta \phi {W_{t - 13}} \hfill \\
-  {X_t} - {X_{t - 1}} - {X_{t - 12}} + {X_{t - 13}} &amp;= {W_t} + \phi {W_{t - 1}} + \theta {W_{t - 12}} + \theta \phi {W_{t - 13}} \hfill \\
-  \left( {1 - B - {B^{12}} + {B^{13}}} \right){X_t} &amp;= \left( {1 + \phi B + \theta {B^{12}} + \phi \theta {B^{13}}} \right){W_t} \hfill \\
-  \underbrace {\left( {1 - {B^{12}}} \right)}_{{\nabla _{12}}}\underbrace {\left( {1 - B} \right)}_\nabla {X_t} &amp;= \underbrace {\left( {1 + \theta {B^{12}}} \right)}_{{\theta _Q}\left( {{B^S}} \right)}\underbrace {\left( {1 + \phi B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\
+  {X_t} - {X_{t - 1}} - {X_{t - 12}} + {X_{t - 13}} &amp;= {W_t} + \theta {W_{t - 1}} + \Theta {W_{t - 12}} + \Theta \theta {W_{t - 13}} \hfill \\[0.2cm]
+  \left( {1 - B - {B^{12}} + {B^{13}}} \right){X_t} &amp;= \left( {1 + \theta B + \Theta {B^{12}} + \theta \Theta {B^{13}}} \right){W_t}
 \end{align}\]</span>
-The end result indicates that the SARIMA is given by: <span class="math inline">\(ARIMA(0,1,1)\times(0,1,1)_{12}\)</span>.
+<p>At this point the trick is to try and detect if the polynomials of the backshift operator <span class="math inline">\(B\)</span> can be factorized into simple differencing polynomials and/or seasonal and standard ARMA polynomials. In this case, it is possible to show this as follows:</p>
+<p><span class="math display">\[\underbrace {\left( {1 - {B^{12}}} \right)}_{{\delta_{12}^1}}\underbrace {\left( {1 - B} \right)}_{\delta^1} {X_t} = \underbrace {\left( {1 + \Theta {B^{12}}} \right)}_{{\Theta _Q}\left( {{B^S}} \right)}\underbrace {\left( {1 + \theta B} \right)}_{\theta \left( B \right)}{W_t}, \]</span></p>
+Indeed, the polynomials for the observations <span class="math inline">\(X_t\)</span> do not depend on any parameters and are therefore simply differencing polynomials while those for the innovation noise both depend on parameters and therefore constitute the seasonal and standard moving average polynomials. Based on this final form, we can conclude that the initial time series model can be classified as a SARIMA model which can be denoted as <span class="math inline">\(ARIMA(0,1,1)\times(0,1,1)_{12}\)</span>.
 </div>
 
-<p>In practice, identifying the parametrization of a SARIMA model is problematic. There is no easy way to find <span class="math inline">\(p, d, q, P, D, Q, S\)</span>.</p>
+<p>Another additional problem due to the complexity of these models is identifying the order of the different terms <span class="math inline">\(p, d, q, P, D, Q, s\)</span>. In fact, as we saw in the previous sections, this is already not straightforward for standard ARMA models and becomes even more challenging for SARIMA models. The first approach is to understand if the time series is stationary and, if not, try and visually assess whether a standard and/or seasonal differencing allows to make the time series stationary (thereby defining <span class="math inline">\(d\)</span> and/or <span class="math inline">\(D\)</span>). Once this is done, one can use the ACF and PACF plots to check the behaviour of the autocovariance and eventually detect forms of stochastic seasonality with peaks at regular lagged intervals (thereby defining <span class="math inline">\(s\)</span>). Finally, the definition of the terms <span class="math inline">\(p, q, P, Q\)</span> is usually done via prior knowledge of the phenomenon underlying the time series data or via model selection criteria for which one determines a (large) model within which to select among all possible candidates included within this model.</p>
+<p>The procedure to modelling data always has a subjective input and two (or more) different models can be equally effective in describing and/or predicting a given time series. Therefore, as for all applied examples in this book, we will now provide insight to one among many possible ways to fit a model to a given time series. For this reason, let us consider the monthly water levels of Lake Erie from 1921 to 1970.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.numeric</span>(<span class="kw">dmseries</span>(<span class="st">&quot;https://datamarket.com/data/set/22pw/monthly-lake-erie-levels-1921-1970#!ds=22pw&amp;display=line&quot;</span>)),
     <span class="dt">start =</span> <span class="dv">1921</span>, <span class="dt">freq =</span> <span class="dv">12</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Water Levels&quot;</span>,
     <span class="dt">data_name =</span> <span class="st">&quot;Monthly Lake Erie Levels&quot;</span>, <span class="dt">name_time =</span> <span class="st">&quot;&quot;</span>)
 <span class="kw">plot</span>(Xt)</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-24"></span>
-<img src="05-inter2_files/figure-html/unnamed-chunk-24-1.png" alt="TO DO" width="672" />
+<img src="05-inter2_files/figure-html/unnamed-chunk-24-1.png" alt="Monthly Water Levels of Lake Erie between 1921 and 1970" width="672" />
 <p class="caption">
-Figure 2.1: TO DO
+Figure 2.1: Monthly Water Levels of Lake Erie between 1921 and 1970
 </p>
 </div>
+<p>We can see how the time series appears to fluctuate hinting that it may not be stationary. Moreover, knowing that the time series represents a natural phenomenon observed over months, it could be reasonable to think that the weather (and consequent water cycle) has an impact on the water levels thereby entailing some form of seasonality. Indeed, when looking at ACF and PACF plots of this data, it can be seen how there is a sinusoidal wave with peaks at lags 12 and 24 (and possibly further) indicating that there appears to be high correlation between the same months.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corr_analysis</span>(Xt)</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-25"></span>
 <img src="05-inter2_files/figure-html/unnamed-chunk-25-1.png" alt="Empirical ACF (left) and PACF (right) of the Lake Erie time series data." width="768" />
@@ -291,28 +298,56 @@ Figure 2.1: TO DO
 Figure 2.2: Empirical ACF (left) and PACF (right) of the Lake Erie time series data.
 </p>
 </div>
+<p>Considering the possible non-stationarity in the data, would differencing the time series make it stationary? And if so, which kind of differencing? Let us consider the first-order difference as well as a seasonal difference with <span class="math inline">\(s = 12\)</span> (since that what appears in the ACF plot).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d_Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">diff</span>(Xt))
+d_s =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">diff</span>(Xt, <span class="dt">lag =</span> <span class="dv">12</span>))
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))
+<span class="kw">plot</span>(d_Xt)
+<span class="kw">plot</span>(d_s)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-26"></span>
+<img src="05-inter2_files/figure-html/unnamed-chunk-26-1.png" alt="First difference (top) and difference at lag 12 (bottom) of the Lake Erie time series data." width="768" />
+<p class="caption">
+Figure 2.3: First difference (top) and difference at lag 12 (bottom) of the Lake Erie time series data.
+</p>
+</div>
+<p>We can see how both differencing approaches appear to make the resulting time series (reasonably) stationary. If we take a look at the ACF and PACF plots of the seasonal differencing, we can see how the ACF does not show clear seasonality anymore while some residual seasonality can be observed in the PACF plot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corr_analysis</span>(d_s)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-27"></span>
+<img src="05-inter2_files/figure-html/unnamed-chunk-27-1.png" alt="Empirical ACF (left) and PACF (right) of the seasonal difference ($s = 12$) of the Lake Erie time series data." width="768" />
+<p class="caption">
+Figure 2.4: Empirical ACF (left) and PACF (right) of the seasonal difference (<span class="math inline">\(s = 12\)</span>) of the Lake Erie time series data.
+</p>
+</div>
+<p>Since both differencings appear to do a good job in making the time series stationary, let us consider a SARIMA model with <span class="math inline">\(d=1\)</span>, <span class="math inline">\(D=1\)</span> and <span class="math inline">\(s = 12\)</span>. Moreover, considering the structure of the ACF we could envisage using an AR(<span class="math inline">\(p\)</span>) component in additional to some seaonsal components to address the residual seasonality in the PACF. Hence, let us estimate a SARIMA model defined as <span class="math inline">\(ARIMA(2,1,0)\times(1,1,1)_{12}\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">SARIMA</span>(<span class="dt">ar =</span> <span class="dv">2</span>, <span class="dt">i =</span> <span class="dv">1</span>, <span class="dt">sar =</span> <span class="dv">1</span>, <span class="dt">sma =</span> <span class="dv">1</span>, <span class="dt">s =</span> <span class="dv">12</span>, <span class="dt">si =</span> <span class="dv">1</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>)
+<span class="kw">check</span>(mod)</code></pre></div>
+<p><img src="05-inter2_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>Based on the diagnostic plots, we can see that this model does a reasonably good job and could therefore be considered as a candidate model for explaining/predicting this time series. Supposing we were hydrologists who intend to plan the management of water resources over the next two years: we may therefore be interested in understanding/predicting the future behaviour of the lake’s water levels over the next 24 months. As for ARMA models, we can also predict using SARIMA models and, for this particular data and model, we obtain the following forecast.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(mod, <span class="dt">n.ahead =</span> <span class="dv">24</span>)</code></pre></div>
+<p><img src="05-inter2_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>As you can see, the forecasted values (and confidence intervals) appear to reasonably follow the pattern of the observed time series confirming that the fitted model could be a possible candidate to consider for the considered time series data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xt =<span class="st"> </span><span class="kw">gts</span>(<span class="kw">as.numeric</span>(<span class="kw">dmseries</span>(<span class="st">&quot;https://datamarket.com/data/set/235j/number-of-daily-births-in-quebec-jan-01-1977-to-dec-31-1990#!ds=235j&amp;display=line&quot;</span>)),
     <span class="dt">start =</span> <span class="dv">1977</span>, <span class="dt">freq =</span> <span class="dv">365</span>, <span class="dt">name_ts =</span> <span class="st">&quot;Number of Births&quot;</span>,
     <span class="dt">data_name =</span> <span class="st">&quot;Number of Births in Quebec&quot;</span>, <span class="dt">name_time =</span> <span class="st">&quot;&quot;</span>)
 <span class="kw">plot</span>(Xt)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-26"></span>
-<img src="05-inter2_files/figure-html/unnamed-chunk-26-1.png" alt="TO DO" width="672" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-30"></span>
+<img src="05-inter2_files/figure-html/unnamed-chunk-30-1.png" alt="TO DO" width="672" />
 <p class="caption">
-Figure 2.3: TO DO
+Figure 2.5: TO DO
 </p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corr_analysis</span>(Xt, <span class="dt">lag.max =</span> <span class="dv">50</span>)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-27"></span>
-<img src="05-inter2_files/figure-html/unnamed-chunk-27-1.png" alt="Empirical ACF (left) and PACF (right) of the Births time series data." width="768" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-31"></span>
+<img src="05-inter2_files/figure-html/unnamed-chunk-31-1.png" alt="Empirical ACF (left) and PACF (right) of the Births time series data." width="768" />
 <p class="caption">
-Figure 2.4: Empirical ACF (left) and PACF (right) of the Births time series data.
+Figure 2.6: Empirical ACF (left) and PACF (right) of the Births time series data.
 </p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod =<span class="st"> </span><span class="kw">estimate</span>(<span class="kw">SARIMA</span>(<span class="dt">ar =</span> <span class="dv">2</span>, <span class="dt">ma =</span> <span class="dv">1</span>, <span class="dt">sar =</span> <span class="dv">2</span>, <span class="dt">sma =</span> <span class="dv">1</span>, <span class="dt">s =</span> <span class="dv">7</span>, <span class="dt">si =</span> <span class="dv">1</span>), Xt, <span class="dt">method =</span> <span class="st">&quot;mle&quot;</span>)
 <span class="kw">check</span>(mod)</code></pre></div>
-<p><img src="05-inter2_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p><img src="05-inter2_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(mod, <span class="dt">n.ahead =</span> <span class="dv">30</span>)</code></pre></div>
-<p><img src="05-inter2_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p><img src="05-inter2_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 </div>
             </section>
 

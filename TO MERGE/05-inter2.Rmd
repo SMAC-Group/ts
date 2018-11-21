@@ -3,7 +3,7 @@ library(simts)
 library(rdatamarket)
 ```
 
-# ARIMA Models
+# ARIMA Models `r emo::ji("warning")`
 
 As we saw in the introduction to this book (and in various sections throughout it), a time series can be made of two components: a deterministic (non-stationary) component and a stochastic component. The latter component has been the main focus of this book where different classes of time series models have been studied assuming that this stochastic component respects certain properties (i.e. stationarity). For the former component (i.e. the deterministic component) we assume that we are able to explain non-stationary behaviours such as trends and seasonality via regression-type methods which include time-related covariates. 
 
@@ -249,13 +249,13 @@ $$\gamma \left( 2 \right) \left(1 -  {\Phi ^2}\right) = 0 \,\, \Rightarrow \,\, 
 In this example, the same would hold for:
 
 \begin{equation}
-\gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0,
+\gamma \left( 3 \right) = \gamma \left( 4 \right) = \cdots = \gamma \left( 10 \right) = 0.
 \end{equation}
 
-for all $h > 1$. Following these results, the general autocovariance of this model can be summarized as follows:
+Following these results, the general autocovariance of this model can be summarized as follows:
 \begin{align*}
-\gamma \left( {12h} \right) &= {\Phi ^h}\gamma \left( 0 \right) &h = 0, 1, 2, \ldots \\
-\gamma \left( {12h + 1} \right) &= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right) &h = 0, 1, 2, \ldots \\
+\gamma \left( {12h} \right) &= {\Phi ^h}\gamma \left( 0 \right) &h = 0, 1, 2, \ldots \\[0.2cm]
+\gamma \left( {12h + 1} \right) &= \gamma \left( {12h - 1} \right) = {\Phi ^h}\gamma \left( 1 \right) &h = 0, 1, 2, \ldots \\[0.2cm]
 \gamma \left( {h} \right) &= 0  &\text{otherwise}
 \end{align*}
 
@@ -276,53 +276,106 @@ Xt = gen_gts(10e4, model)
 plot(auto_corr(Xt, lag.max = 40))
 ```
 
-From the plot we can see how the autocorrelation is highly significant at each lag $12 \cdot h$ ($h=0,1,2,...$) as well as all adjacent lags $12 \cdot h \pm 1$. This corresponds to what is expected from the autocorrelation structure of the model whose autocovariance structure we derived above.
+From the plot we can see how the autocorrelation is highly significant at each lag $12 h$ as well as all adjacent lags $12 h \pm 1$. This corresponds to what is expected from the autocorrelation structure of the model whose autocovariance structure we derived above.
 
-Having provided a brief overview of how to derive and study the autocovariance (and autocorrelation) structure of these models, let us now verify how we can classify a time series model as a Seasonal ARMA. To better explain this, consider the following example.
+Having provided a brief overview of how to derive and study the autocovariance (and autocorrelation) structure of these models, let us now verify how we can classify a time series model as a Seasonal ARMA. To better explain this, let us again consider the model whose autocovariance we have just studied.
 
 ```{example, name = "Classifying a Seasonal ARMA"}
-Returning to our previous example, we can see that the time series follows an $ARMA(0,1)\times(1,0)_{12}$ process.
+Returning to our previous example, we can see that the time series follows an $ARMA(0,1)\times(1,0)_{12}$ process by rearranging the terms as follows.
 
 \begin{align*}
-  {X_t} &= \Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}} \hfill \\
-  \underbrace {\left( {{X_t} - \Phi {B^{12}}} \right)}_{{\Phi _1}\left( {{B^{12}}} \right)}\underbrace 1_{\phi \left( B \right)}{X_t} &= \underbrace 1_{{\theta _Q}\left( B \right)}\underbrace {\left( {1 - \theta B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\
+  {X_t} &= \Phi {X_{t - 12}} + {W_t} + \theta {W_{t - 1}} \hfill \\[0.2cm]
+{X_t} - \Phi {X_{t - 12}} &= {W_t} + \theta {W_{t - 1}} \hfill \\[0.2cm]
+  \underbrace {\left( {1 - \Phi {B^{12}}} \right)}_{{\Phi _1}\left( {{B^{12}}} \right)}\underbrace 1_{\phi \left( B \right)}{X_t} &= \underbrace 1_{{\Theta _Q}\left( B \right)}\underbrace {\left( {1 - \theta B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\
 \end{align*}
 ```
 
-```{definition, name = "Seasonal ARIMA Model Form"}
-The form of a Seasonal Autoregressive Integrated Moving Average models is denoted as $ARIMA(p, d, q)\times(P, D, Q)_S$:
+For this model we can see how the autoregressive operator ($\phi(B)$) and the seasonal moving average operator ($\Theta_Q(B)$) are included but, for this model, are simply equal to one. With the information provided, we can now finally define the most general class of models presented in this chapter.
 
-$$\Phi_p \left({B^S}\right) \phi\left(B\right) \nabla^D_S \nabla^d X_t = \delta + \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t$$
+```{definition, name = "Seasonal ARIMA Model"}
+The Seasonal Autoregressive Integrated Moving Average model is denoted as $ARIMA(p, d, q)\times(P, D, Q)_S$ and defined as:
 
-where $\nabla^d = \left({1-B}\right)^d$ and $\nabla^D_S = \left({1-B^S}\right)^D$.
+$$\Phi_P \left({B^S}\right) \phi\left(B\right) \, \delta^D_S \, \delta^d X_t = \Theta_Q \left({ B^S }\right) \theta \left({ B }\right) W_t$$
+
+where $\delta^d = \left({1-B}\right)^d$ and $\delta^D_S = \left({1-B^S}\right)^D$.
 ```
+
+You can notice that the definition of this model is quite complex but delivers an extremely flexible class of models that allows to describe (and predict) a wide range of time series with different forms of non-stationarity and seasonality. Indeed, aside from the previous forms of non-stationarity addressed by ARIMA models ($\delta^d$), these models also allow to address the same forms of non-stationarity within the seasons ($\delta^D_S$) in addition to the different dependence structures made available by SARMA models. However, the increased complexity of these models comes at a certain cost. For example, classifying a time series model as a SARIMA model becomes a slightly more lengthy procedure.
 
 ```{example, name = "Classifying a SARIMA"}
 Consider the following time series:
+  
+$${X_t} = {X_{t - 1}} + {X_{t - 12}} - {X_{t - 13}} + {W_t} + \theta {W_{t - 1}} + \Theta {W_{t - 12}} + \Theta \theta {W_{t - 13}}.$$
+  
+We can rearrange the terms of this model in order to classify it as a SARIMA model as follows:
+
 \begin{align}
-  {X_t} &= {X_{t - 1}} + {X_{t - 12}} - {X_{t - 13}} + {W_t} + \phi {W_{t - 1}} + \theta {W_{t - 12}} + \theta \phi {W_{t - 13}} \hfill \\
-  {X_t} - {X_{t - 1}} - {X_{t - 12}} + {X_{t - 13}} &= {W_t} + \phi {W_{t - 1}} + \theta {W_{t - 12}} + \theta \phi {W_{t - 13}} \hfill \\
-  \left( {1 - B - {B^{12}} + {B^{13}}} \right){X_t} &= \left( {1 + \phi B + \theta {B^{12}} + \phi \theta {B^{13}}} \right){W_t} \hfill \\
-  \underbrace {\left( {1 - {B^{12}}} \right)}_{{\nabla _{12}}}\underbrace {\left( {1 - B} \right)}_\nabla {X_t} &= \underbrace {\left( {1 + \theta {B^{12}}} \right)}_{{\theta _Q}\left( {{B^S}} \right)}\underbrace {\left( {1 + \phi B} \right)}_{\theta \left( B \right)}{W_t} \hfill \\
+  {X_t} - {X_{t - 1}} - {X_{t - 12}} + {X_{t - 13}} &= {W_t} + \theta {W_{t - 1}} + \Theta {W_{t - 12}} + \Theta \theta {W_{t - 13}} \hfill \\[0.2cm]
+  \left( {1 - B - {B^{12}} + {B^{13}}} \right){X_t} &= \left( {1 + \theta B + \Theta {B^{12}} + \theta \Theta {B^{13}}} \right){W_t}
 \end{align}
 
-The end result indicates that the SARIMA is given by: $ARIMA(0,1,1)\times(0,1,1)_{12}$.
+At this point the trick is to try and detect if the polynomials of the backshift operator $B$ can be factorized into simple differencing polynomials and/or seasonal and standard ARMA polynomials. In this case, it is possible to show this as follows:
+
+$$\underbrace {\left( {1 - {B^{12}}} \right)}_{{\delta_{12}^1}}\underbrace {\left( {1 - B} \right)}_{\delta^1} {X_t} = \underbrace {\left( {1 + \Theta {B^{12}}} \right)}_{{\Theta _Q}\left( {{B^S}} \right)}\underbrace {\left( {1 + \theta B} \right)}_{\theta \left( B \right)}{W_t}, $$
+
+Indeed, the polynomials for the observations $X_t$ do not depend on any parameters and are therefore simply differencing polynomials while those for the innovation noise both depend on parameters and therefore constitute the seasonal and standard moving average polynomials. Based on this final form, we can conclude that the initial time series model can be classified as a SARIMA model which can be denoted as $ARIMA(0,1,1)\times(0,1,1)_{12}$.
 ```
 
-In practice, identifying the parametrization of a SARIMA model is problematic.
-There is no easy way to find $p, d, q, P, D, Q, S$.
+Another additional problem due to the complexity of these models is identifying the order of the different terms $p, d, q, P, D, Q, s$. In fact, as we saw in the previous sections, this is already not straightforward for standard ARMA models and becomes even more challenging for SARIMA models. The first approach is to understand if the time series is stationary and, if not, try and visually assess whether a standard and/or seasonal differencing allows to make the time series stationary (thereby defining $d$ and/or $D$). Once this is done, one can use the ACF and PACF plots to check the behaviour of the autocovariance and eventually detect forms of stochastic seasonality with peaks at regular lagged intervals (thereby defining $s$). Finally, the definition of the terms $p, q, P, Q$ is usually done via prior knowledge of the phenomenon underlying the time series data or via model selection criteria for which one determines a (large) model within which to select among all possible candidates included within this model.
 
+The procedure to modelling data always has a subjective input and two (or more) different models can be equally effective in describing and/or predicting a given time series. Therefore, as for all applied examples in this book, we will now provide insight to one among many possible ways to fit a model to a given time series. For this reason, let us consider the monthly water levels of Lake Erie from 1921 to 1970.
 
-```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="TO DO", cache = TRUE}
+```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Monthly Water Levels of Lake Erie between 1921 and 1970", cache = TRUE}
 Xt = gts(as.numeric(dmseries("https://datamarket.com/data/set/22pw/monthly-lake-erie-levels-1921-1970#!ds=22pw&display=line")),
     start = 1921, freq = 12, name_ts = "Water Levels",
     data_name = "Monthly Lake Erie Levels", name_time = "")
 plot(Xt)
 ```
 
+We can see how the time series appears to fluctuate hinting that it may not be stationary. Moreover, knowing that the time series represents a natural phenomenon observed over months, it could be reasonable to think that the weather (and consequent water cycle) has an impact on the water levels thereby entailing some form of seasonality. Indeed, when looking at ACF and PACF plots of this data, it can be seen how there is a sinusoidal wave with peaks at lags 12 and 24 (and possibly further) indicating that there appears to be high correlation between the same months.
+
 ```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the Lake Erie time series data.", cache = TRUE}
 corr_analysis(Xt)
 ```
+
+Considering the possible non-stationarity in the data, would differencing the time series make it stationary? And if so, which kind of differencing? Let us consider the first-order difference as well as a seasonal difference with $s = 12$ (since that what appears in the ACF plot).
+
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="First difference (top) and difference at lag 12 (bottom) of the Lake Erie time series data.", cache = TRUE}
+d_Xt = gts(diff(Xt))
+d_s = gts(diff(Xt, lag = 12))
+par(mfrow = c(2,1))
+plot(d_Xt)
+plot(d_s)
+```
+
+We can see how both differencing approaches appear to make the resulting time series (reasonably) stationary. If we take a look at the ACF and PACF plots of the seasonal differencing, we can see how the ACF does not show clear seasonality anymore while some residual seasonality can be observed in the PACF plot.
+
+```{r, fig.asp = 0.45, fig.width = 8, fig.align='center', fig.cap="Empirical ACF (left) and PACF (right) of the seasonal difference ($s = 12$) of the Lake Erie time series data.", cache = TRUE}
+corr_analysis(d_s)
+```
+
+Since both differencings appear to do a good job in making the time series stationary, let us consider a SARIMA model with $d=1$, $D=1$ and $s = 12$. Moreover, considering the structure of the ACF we could envisage using an AR($p$) component in additional to some seaonsal components to address the residual seasonality in the PACF. Hence, let us estimate a SARIMA model defined as $ARIMA(2,1,0)\times(1,1,1)_{12}$.
+
+```{r, cache = TRUE}
+mod = estimate(SARIMA(ar = 2, i = 1, sar = 1, sma = 1, s = 12, si = 1), Xt, method = "mle")
+check(mod)
+```
+
+Based on the diagnostic plots, we can see that this model does a reasonably good job and could therefore be considered as a candidate model for explaining/predicting this time series. Supposing we were hydrologists who intend to plan the management of water resources over the next two years: we may therefore be interested in understanding/predicting the future behaviour of the lake's water levels over the next 24 months. As for ARMA models, we can also predict using SARIMA models and, for this particular data and model, we obtain the following forecast.
+
+```{r, cache = TRUE}
+predict(mod, n.ahead = 24)
+```
+
+As you can see, the forecasted values (and confidence intervals) appear to reasonably follow the pattern of the observed time series confirming that the fitted model could be a possible candidate to consider for the considered time series data.
+
+
+
+
+
+
+
+
 
 
 ```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="TO DO", cache = TRUE}

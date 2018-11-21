@@ -101,7 +101,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>1</b> ARIMA Models</a></li>
+<li class="chapter" data-level="1" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>1</b> ARIMA Models ⚠️</a></li>
 <li class="chapter" data-level="2" data-path="sarima-models.html"><a href="sarima-models.html"><i class="fa fa-check"></i><b>2</b> SARIMA Models ⚠️</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -126,7 +126,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <!--bookdown:title:end-->
 <!--bookdown:title:start-->
 <div id="arima-models" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> ARIMA Models</h1>
+<h1><span class="header-section-number">Chapter 1</span> ARIMA Models ⚠️</h1>
 <p>As we saw in the introduction to this book (and in various sections throughout it), a time series can be made of two components: a deterministic (non-stationary) component and a stochastic component. The latter component has been the main focus of this book where different classes of time series models have been studied assuming that this stochastic component respects certain properties (i.e. stationarity). For the former component (i.e. the deterministic component) we assume that we are able to explain non-stationary behaviours such as trends and seasonality via regression-type methods which include time-related covariates.</p>
 <p>However, there are non-stationary behaviours that can be addressed without the need for estimation procedures to make a time series stationary. In fact, estimating parameters to remove deterministic components in the data adds uncertainty when modelling the time-dependent stochastic component since the residuals from the previous fitting are only an approximation of the stochastic component and may be a biased representation of the time series if the model used to fit the deterministic component is misspecified. Considering the possible drawbacks when using regression techniques to explain the deterministic components, we have already seen a technique that can be used to remove non-stationary components without the need for regression and this was based on the use of the backshift operator <span class="math inline">\(B\)</span>. The latter consists in a <span class="math inline">\(d\)</span>-order differencing defined as:</p>
 <p><span class="math display">\[\delta^d X_t = (1 - B)^d X_t.\]</span> We have already seen some examples where a first-order difference of a non-stationary time series can make the time series stationary. Indeed, a time series with a linear drift and/or a random walk can be made stationary by taking a first difference.</p>
