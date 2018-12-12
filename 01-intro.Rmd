@@ -12,7 +12,7 @@ library(imudata)
 library(simts) 
 ```
 
-# Basic Elements of Time Series {#introtimeseries}
+# Basic Elements of Time Series {#introtimeseries} 
 
 >
 > "*Prévoir consiste à projeter dans l’avenir ce qu’on a perçu dans le passé.*" – Henri Bergson
