@@ -1,0 +1,17 @@
+base
+simts
+astsa
+nlme
+mgcv
+imudata
+timeDate
+robcor
+ggplot2
+bindrcpp
+tsdl
+zoo
+xts
+TTR
+quantmod
+MASS
+RColorBrewer

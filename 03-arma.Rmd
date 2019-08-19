@@ -2164,7 +2164,7 @@ However, we do not observe the innovation process $(W_t)$ directly and therefore
 
 ```{r, echo = FALSE}
 library(simts)
-suppressPackageStartupMessages(library(rdatamarket))
+suppressPackageStartupMessages(library(tsdl))
 ```
 
 The classes of time series models discussed this far (i.e. AR($p$) and MA($q$) models) are both classes that address different forms of dependence between observations over time. The class of AR($p$) models describes the direct (and indirect) linear dependence between observations over time while MA($q$) models describe the dependence in the innovation processes rather than the observations themselves. Separately, these classes of models therefore allow to take into account two extremely common dependence settings within time series. In this section however we present a class of models that combines the features of these two classes and are called ARMA($p$,$q$) models. These are defined as follows.
@@ -2305,11 +2305,14 @@ plot(theo_pacf(ar = c(1.2, -0.25), ma = c(-0.1, -0.75)), main = expression("Theo
 
 As can be seen from the ACF and PACF plots of these two models, it would be complicated to determine what type of model and what order would be more appropriate. For this reason, for ARMA($p$,$q$) models the ACF and PACF plots can only help to understand if the autocovariance has a reasonable behaviour (e.g. tails off as the lags increase) or, for example, if there appears to be some deterministic trends and/or seasonalities are left in the data. Therefore, a more reasonable (and simple) approach to understand if an ARMA($p$,$q$) is appropriate is via a model selection criterion or an estimator of the out-of-sample predicition error (e.g. MAPE). Once this is done, the selected model(s) can fit to the observed time series and a residual analysis can be performed in order to understand if the chosen model(s) appear to do a reasonable job.
 
-Let us illustrate the above procedure through another applied example. The time series shown in the figure below represents the annual copper prices from 1800 to 1997 (with the long-term trend removed) which can be downloaded in R via the `rdatamarket` library.
+Let us illustrate the above procedure through another applied example. The time series shown in the figure below represents the annual copper prices from 1800 to 1997 (with the long-term trend removed) which can be downloaded in R via the `tsdl` library.
 
 ```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Annual Prices of Copper from 1880-1997 with long-term trend removed."}
-Xt = gts(as.numeric(dmseries("https://datamarket.com/data/set/22y1/annual-copper-prices-1800-1997#!ds=22y1&display=line")),
-    start = 1921, freq = 12, name_ts = "Copper prices (minus the long-term trend)",
+copper_ts = as.numeric(subset(tsdl, description = "copper")[[3]])
+time = 1:length(copper_ts)
+detrend_copper_ts = lm(copper_ts ~ time)$residuals
+Xt = gts(detrend_copper_ts,
+    start = 1800, freq = 1, name_ts = "Copper prices (minus the long-term trend)",
     data_name = "Copper Price", name_time = "")
 plot(Xt)
 ```
@@ -2444,10 +2447,10 @@ select(ARIMA(3, 1, 3), Xt)
 suppressWarnings(simts::select(ARIMA(3, 1, 3), Xt))
 ```
 
-From the selection process we can see that all three criteria select the ARMA(2,1) model which is indeed the true model that generated the observed time series (i.e. more specifically an ARIMA(2,1,1) model). As in the previous sections, let us now consider also an example from some real data. The considered time series represents monthly sales of shampoo from 1901-1903 (available using the `rdatamarket` package) whose plot is shown below.
+From the selection process we can see that all three criteria select the ARMA(2,1) model which is indeed the true model that generated the observed time series (i.e. more specifically an ARIMA(2,1,1) model). As in the previous sections, let us now consider also an example from some real data. The considered time series represents monthly sales of shampoo from 1901-1903 (available using the `tsdl` package) whose plot is shown below.
 
 ```{r}
-Xt = gts(as.numeric(dmseries("https://datamarket.com/data/set/22r0/sales-of-shampoo-over-a-three-year-period#!ds=22r0&display=line")), start = 1901, freq = 12, name_ts = "Sales (Units)", data_name = "Monthly Shampoo Sales", name_time = "")
+Xt = gts(as.numeric(subset(tsdl, description = "shampoo")[[1]]), start = 1901, freq = 12, name_ts = "Sales (Units)", data_name = "Monthly Shampoo Sales", name_time = "")
 plot(Xt)
 ```
 
