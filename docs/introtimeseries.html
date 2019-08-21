@@ -729,8 +729,9 @@ delta =<span class="st"> </span><span class="fl">0.005</span>                   
 sigma2 =<span class="st"> </span><span class="dv">10</span>                             <span class="co"># variance parameter (white noise)</span>
 gamma2 =<span class="st"> </span><span class="fl">0.1</span>                            <span class="co"># innovation variance (random walk)</span>
 model =<span class="st"> </span><span class="kw">WN</span>(<span class="dt">sigma2 =</span> sigma2) <span class="op">+</span><span class="st"> </span><span class="kw">RW</span>(<span class="dt">gamma2 =</span> gamma2) <span class="op">+</span><span class="st"> </span><span class="kw">DR</span>(<span class="dt">omega =</span> delta)
-<span class="co">#Xt = gen_lts(n = n, model = model)</span>
-<span class="co">#plot(Xt)</span></code></pre></div>
+Xt =<span class="st"> </span><span class="kw">gen_lts</span>(<span class="dt">n =</span> n, <span class="dt">model =</span> model)
+<span class="kw">plot</span>(Xt)</code></pre></div>
+<p><img src="ts_files/figure-html/examplecomposite-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>In the above graph, the first three plots represent the latent (unobserved) processes (i.e. white noise, random walk, and drift) and the last one represents the sum of the three (i.e. <span class="math inline">\((X_t)\)</span>).</p>
 <p>Let us consider a real example where these latent processes are useful to describe (and predict) the behavior of economic variables such as Personal Saving Rates (PSR). A process that is used for these settings is the “random-walk-plus-noise” model, meaning that the data can be explained by a random walk process in addition to which we observe some other process (e.g. a white noise model, an autoregressive model such as an AR(1), etc.). The PSR taken from the Federal Reserve of St. Louis from January 1, 1959, to May 1, 2015, is presented in the following plot:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load savingrt dataset</span>

@@ -148,6 +148,7 @@ library(mgcv)
 library(simts)
 library(imudata)
 library(timeDate)
+library(tsdl)
 ```
 
 ```{r introduction_code, echo = FALSE, warning=FALSE, message=FALSE}
@@ -939,8 +940,8 @@ delta = 0.005                           # delta parameter (drift)
 sigma2 = 10                             # variance parameter (white noise)
 gamma2 = 0.1                            # innovation variance (random walk)
 model = WN(sigma2 = sigma2) + RW(gamma2 = gamma2) + DR(omega = delta)
-#Xt = gen_lts(n = n, model = model)
-#plot(Xt)
+Xt = gen_lts(n = n, model = model)
+plot(Xt)
 ```
 
 In the above graph, the first three plots represent the latent (unobserved)
@@ -2135,6 +2136,7 @@ A general overview of the concepts and advantages of robustness can be found in 
 library(simts)
 library(ggplot2)
 library(robcor)
+library(tsdl)
 ```
 
 In this chapter we introduce a class of time series models that is considerably flexible and among the most commonly used to describe stationary time series. This class is represented by the Seasonal AutoRegressive Integrated Moving Average (SARIMA) models which, among others, combine and include the autoregressive and moving average models seen in the previous chapter. To introduce this class of models, we start by describing a sub-class called AutoRegressive Moving Average (ARMA) models which represent the backbone on which the SARIMA class is built. The importance of ARMA models resides in their flexibility as well as their capacity of describing (or closely approximating) almost all the features of a stationary time series. The autoregressive parts of these models describe how consecutive observations in time influence each other while the moving average parts capture some possible unobserved shocks thereby allowing to model different phenomena which can be observed in various fields going from biology to finance.
@@ -4809,7 +4811,7 @@ Another additional problem due to the complexity of these models is identifying 
 The procedure to modelling data always has a subjective input and two (or more) different models can be equally effective in describing and/or predicting a given time series. Therefore, as for all applied examples in this book, we will now provide insight to one among many possible ways to fit a model to a given time series. For this reason, let us consider the monthly water levels of Lake Erie from 1921 to 1970.
 
 ```{r, fig.asp = 0.6, fig.width = 7, fig.align='center', fig.cap="Monthly Water Levels of Lake Erie between 1921 and 1970", cache = TRUE}
-Xt = gts(as.numeric(dmseries("https://datamarket.com/data/set/22pw/monthly-lake-erie-levels-1921-1970#!ds=22pw&display=line")),
+Xt = gts(as.numeric(subset(tsdl, description = "Erie")[[1]]),
     start = 1921, freq = 12, name_ts = "Water Levels",
     data_name = "Monthly Lake Erie Levels", name_time = "")
 plot(Xt)
